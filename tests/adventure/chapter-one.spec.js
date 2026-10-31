@@ -31,6 +31,14 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
         const preview=await page.screenshot({type:'jpeg',quality:65,fullPage:true});console.log(`CHAPTER_PREVIEW_${number}=${preview.toString('base64')}`);
       }
     }
+    if(number===1){
+      await page.locator('#return-home').click();
+      await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
+      await page.keyboard.press('ArrowRight');
+      await expect(page.locator('#moves')).toHaveText('0'); // House keyboard input must not move the hidden puzzle.
+      await page.locator('#play-next').click();
+      await expect(page.locator('#board')).toHaveAttribute('data-stage','1');
+    }
     const before=Number(await page.locator('#balance').textContent());
     // At stage 50 the first glove charge must be restored by Undo.
     if(number===50){

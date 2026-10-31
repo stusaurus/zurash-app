@@ -379,7 +379,7 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
 .scene-back{position:absolute;top:18%;left:15px;border:1px solid #e9e9cd;background:#fffcf0e8;border-radius:20px;padding:9px 13px;font-size:11px;box-shadow:0 3px 12px #4f57451a;min-height:44px}
 .scene-hotspot{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:48px;min-height:48px;border:0;background:none;padding:3px;color:#fffbe9;text-shadow:0 1px 4px #254e4e;z-index:1}
 .scene-hotspot>span{width:29px;height:29px;display:grid;place-items:center;border:1.5px solid #fff8db;border-radius:50%;background:#365d52df;box-shadow:0 3px 9px #243e4233;font-size:20px;line-height:1}
-.scene-hotspot b{font-size:10px;background:#315a50eb;border:1px solid #fcf5d343;border-radius:12px;padding:3px 8px;white-space:nowrap;font-weight:650;letter-spacing:.04em;margin-top:2px}
+.scene-hotspot b{font-size:11px;background:#315a50eb;border:1px solid #fcf5d343;border-radius:12px;padding:3px 8px;white-space:nowrap;font-weight:650;letter-spacing:.04em;margin-top:2px}
 .scene-hotspot:hover>span,.scene-hotspot:focus-visible>span{background:#bd9858;transform:translateY(-2px)}
 .scene-counter{position:absolute;bottom:14px;left:18px;background:#fdf9e8e0;backdrop-filter:blur(5px);padding:7px 11px;border-radius:20px;font-size:13px;font-weight:750;color:#5c6c55;pointer-events:none}
 .scene-counter small{font-size:10px;font-weight:500}
@@ -409,7 +409,7 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
 .swatches button{position:relative;min-width:0;min-height:102px;border:1px solid #e0dccb;border-radius:12px;background:#f1eee2;padding:7px 3px 9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#5c6c54}
 .swatches button svg{width:49px;height:44px;display:block}
 .swatches button b{font-size:10px;line-height:1.4;font-weight:650}
-.swatches button small{font-size:8px;margin:0;line-height:1.4;white-space:normal;color:#8a907b}
+.swatches button small{font-size:9px;margin:0;line-height:1.4;white-space:normal;color:#8a907b}
 .swatches button[aria-pressed=true]{background:#e8eedc;border-color:#849f7a;box-shadow:inset 0 0 0 1px #849f7a}
 .choice-tick{display:none;position:absolute;top:4px;right:5px;font-size:10px;color:#648565}
 [aria-pressed=true]>.choice-tick{display:block}
@@ -426,5 +426,5 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
 @keyframes scene-arrive{from{opacity:.45;transform:scale(1.025)}to{opacity:1;transform:none}}
 @keyframes repair-pulse{to{opacity:.45;transform:translateY(-3px)}}
 @media(min-width:720px){.home-screen{margin:20px 0;border-radius:26px;display:grid;grid-template-columns:1.1fr 1fr}.home-bar{width:52.4%;padding:20px}.house-world{grid-column:1;grid-row:1/4;align-self:start;position:sticky;top:0;aspect-ratio:480/540}.house-world>svg{object-fit:contain}.room-tabs{grid-column:2;grid-row:1;flex-wrap:wrap;padding:12px}.restoration-sheet{grid-column:2;grid-row:2;padding-top:20px}.home-bottom{grid-column:2;grid-row:3;align-self:end;flex-wrap:wrap}.home-bottom #play-next{flex:1}.scene-caption{top:21%}.scene-back{top:21%}.scene-counter{bottom:18px}}
-@media(max-width:360px){.home-bar{padding:16px 14px}.home-bar h1{font-size:20px}.home-bar strong{font-size:18px;padding:7px 12px}.home-bar .eyebrow{font-size:8px}.restoration-sheet{padding:19px 14px 0}.repair-heading h2{font-size:15px}.room-tabs{padding:7px}.room-tabs button{padding:7px 9px;font-size:10px}.home-bottom{padding-left:14px;padding-right:14px;gap:7px}.home-bottom #play-next{min-width:155px;font-size:13px}.home-copy{font-size:9px}.swatches{gap:5px}.swatches button b{font-size:9px}.swatches button small{font-size:7px}.scene-hotspot b{font-size:9px}.scene-caption{font-size:9px}.repair-line>button{min-width:86px;gap:7px}.repair b{font-size:12px}}
+@media(max-width:360px){.home-bar{padding:16px 14px}.home-bar h1{font-size:20px}.home-bar strong{font-size:18px;padding:7px 12px}.home-bar .eyebrow{font-size:8px}.restoration-sheet{padding:19px 14px 0}.repair-heading h2{font-size:15px}.room-tabs{padding:7px}.room-tabs button{padding:7px 9px;font-size:10px}.home-bottom{padding-left:14px;padding-right:14px;gap:7px}.home-bottom #play-next{min-width:155px;font-size:13px}.home-copy{font-size:9px}.swatches{gap:5px}.swatches button b{font-size:10px}.swatches button small{font-size:9px}.scene-hotspot b{font-size:10px}.scene-caption{font-size:9px}.repair-line>button{min-width:86px;gap:7px}.repair b{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.building-now,.scene-enter>.illustrated-scene{animation:none}.scene-hotspot:hover>span{transform:none}}

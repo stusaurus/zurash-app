@@ -35,5 +35,5 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  if(homeComplete(s)&&!s.home.completionSeen){const n=structuredClone(s);n.home.completionSeen=true;setSave(n);onComplete();}
  }
  function resume(){if(timer)clearTimeout(timer);if(getSave().home.pending)timer=setTimeout(()=>{try{setSave(finishRepair(getSave()));render();}catch(e){onError(e);}},matchMedia('(prefers-reduced-motion: reduce)').matches?0:1000);}
- return {render,resume};
+ return {render,resume,renderHome(){current='exterior';selected=null;render();}};
 }
