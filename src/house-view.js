@@ -18,10 +18,11 @@ const objectTargets={
 const detailCameras={exterior:[[156,235,113,173],[64,210,279,185],[244,246,72,103]],entry:[[181,191,112,178],[76,149,328,208],[94,180,79,109]]};
 function repairDetail(save,scene,task){
  if(!detailCameras[scene])return '';
- const prefix=`detail-${scene}-${task.id}-`,camera=detailCameras[scene][task.slot].join(' ');
+ const prefix=`detail-${scene}-${task.id}-`,rect=detailCameras[scene][task.slot],camera=rect.join(' '),ratio=rect[2]/rect[3];
  const art=renderHouseScene(save,scene)
+  .replace(/<g data-art-layer="triken">[\s\S]*?<\/g>/,'')
   .replace(/viewBox="[^"]*"/,`viewBox="${camera}"`)
-  .replace(/class="illustrated-scene"/,'class="repair-detail"')
+  .replace(/class="illustrated-scene"/,`class="repair-detail" style="--detail-ratio:${ratio}"`)
   .replace(/\sdata-[\w-]+="[^"]*"/g,'')
   .replace(/id="([^"]+)"/g,(_,id)=>`id="${prefix}${id}"`)
   .replace(/url\(#([^)]+)\)/g,(_,id)=>`url(#${prefix}${id})`)

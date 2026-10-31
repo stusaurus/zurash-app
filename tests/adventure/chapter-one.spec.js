@@ -24,6 +24,10 @@ test('scene controls, pending resume and designs',async({page})=>{
   await expect(page.locator('#home-repairs')).toBeVisible();
   await expect(page.locator('#preview-home-entry-0 figcaption')).toHaveText('修復前');
   const ids=await page.locator('[id]').evaluateAll(es=>es.map(e=>e.id));expect(new Set(ids).size).toBe(ids.length);
+  for(const preview of await page.locator('.repair-preview>svg').all()){
+    const error=await preview.evaluate(e=>{const box=e.getBoundingClientRect(),v=e.viewBox.baseVal;return Math.abs(box.width/box.height-v.width/v.height);});
+    expect(error).toBeLessThan(.02);
+  }
   await page.locator('#close-repairs').click();
   await expect(page.locator('#home-repairs')).toBeHidden();
   await page.getByRole('button',{name:'玄関へ',exact:true}).click();
