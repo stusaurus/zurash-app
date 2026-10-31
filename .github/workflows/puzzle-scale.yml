@@ -1,0 +1,38 @@
+name: Puzzle scalability research
+on:
+  pull_request:
+    paths: ['src/puzzle/**', 'scripts/puzzle-*.js', 'tests/puzzle.test.js', 'reports/puzzle-scale/**', '.github/workflows/puzzle-scale.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  certificates:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run check && npm test
+      - run: npm run puzzle:verify
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npm run puzzle:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: puzzle-browser-performance
+          path: reports/puzzle-scale/browser-performance.json
+  regenerate:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run puzzle:study && npm run puzzle:curate && npm run puzzle:verify
+      - uses: actions/upload-artifact@v4
+        with:
+          name: puzzle-scale-regenerated
+          path: reports/puzzle-scale/
