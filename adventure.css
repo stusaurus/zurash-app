@@ -371,7 +371,7 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
 .home-bar strong span{color:#4d5c45;font-variant-numeric:tabular-nums}
 #scene-heading:focus{outline:none}
 .house-world{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(#abcdd1,#e4e7d7);width:100%;aspect-ratio:480/540}
-.house-world svg{display:block;width:100%;height:100%;overflow:visible}
+.house-world>svg{display:block;width:100%;height:100%;overflow:visible}
 .house-world>.illustrated-scene{pointer-events:none}
 .house-world .scene-object{pointer-events:all;cursor:pointer}
 .house-world>svg:not(.illustrated-scene){padding:70px 10px 40px}

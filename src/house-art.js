@@ -7,11 +7,13 @@ export const HOUSE_ASSETS=Object.freeze({
  character:'./assets/triken-orange-80.png',
 });
 function tile(id,x,y,size=128,base='#cfbb94'){
- return `<pattern id="${id}" patternUnits="userSpaceOnUse" width="${size}" height="${size}"><rect width="${size}" height="${size}" fill="${base}"/><svg width="${size}" height="${size}" viewBox="${x} ${y} 128 128" overflow="hidden"><image href="${HOUSE_ASSETS.materials}" width="256" height="256"/></svg></pattern>`;
+ // Pattern viewBox crops the atlas directly. No nested svg: page CSS cannot
+ // resize texture viewports, and preserveAspectRatio=none avoids letterboxing.
+ return `<pattern id="${id}" patternUnits="userSpaceOnUse" width="${size}" height="${size}" viewBox="${x+.5} ${y+.5} 127 127" preserveAspectRatio="none" overflow="hidden"><rect x="${x}" y="${y}" width="128" height="128" fill="${base}"/><image href="${HOUSE_ASSETS.materials}" width="256" height="256"/></pattern>`;
 }
 export function artDefinitions(){return `
  ${tile('oak',0,0,140,'#bc8e57')}${tile('plaster',128,0,180,'#e9d4a8')}${tile('limestone',0,128,115,'#cfc2a5')}${tile('cedar',128,128,135,'#7c9e97')}
- <pattern id="hall-oak" x="0" y="359" patternUnits="userSpaceOnUse" width="240" height="400"><rect width="240" height="400" fill="#ac8052"/><svg width="240" height="400" viewBox="0 0 128 128" overflow="hidden"><image href="${HOUSE_ASSETS.materials}" width="256" height="256"/></svg></pattern>
+ <pattern id="hall-oak" x="0" y="359" patternUnits="userSpaceOnUse" width="240" height="400" viewBox=".5 .5 127 127" preserveAspectRatio="none" overflow="hidden"><rect width="128" height="128" fill="#ac8052"/><image href="${HOUSE_ASSETS.materials}" width="256" height="256"/></pattern>
  <clipPath id="hall-ceiling"><path d="M0 0h480v101l-74 47H74L0 101Z"/></clipPath>
  <linearGradient id="warm-glass" x1="0" y1="0" x2=".5" y2="1"><stop stop-color="#fff1b1"/><stop offset=".4" stop-color="#ecb365"/><stop offset="1" stop-color="#9d5e36"/></linearGradient>
  <linearGradient id="cold-glass" x2=".6" y2="1"><stop stop-color="#cee4e9"/><stop offset=".5" stop-color="#70989c"/><stop offset="1" stop-color="#345b69"/></linearGradient>
