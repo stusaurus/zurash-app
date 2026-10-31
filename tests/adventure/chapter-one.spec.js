@@ -59,6 +59,19 @@ test('scene controls, pending resume and designs',async({page})=>{
     expect(await choice.evaluate(e=>{const r=e.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return e===hit||e.contains(hit);})).toBeTruthy();
   }
   await page.locator('#close-repairs').click();await expect(page.locator('#home-repairs')).toBeHidden();
+  // Finishing the last repair can happen while a puzzle is open.
+  const nearComplete=structuredClone(fixture);
+  for(const t of TASKS.slice(0,-1)){nearComplete.home.done[t.id]=true;nearComplete.progress.town[t.id]=t.cost;}
+  await page.evaluate(({key,save})=>localStorage.setItem(key,JSON.stringify(save)),{key:HOME_KEY,save:nearComplete});
+  await page.reload();await page.locator('[data-area="garden"]').click();await openRepairs(page);
+  await page.locator(`[data-repair="${TASKS.at(-1).id}"]`).click();
+  await page.locator('#play-next').click();
+  await expect(page.locator('#notice-title')).toHaveText('トリケンの家が完成！');
+  await page.locator('#notice-primary').click();
+  await expect(page.locator('#home-screen')).toBeVisible();
+  await expect(page.locator('.game-panel')).toBeHidden();
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
+  await expect(page.locator('#home-balance')).toHaveText('10');
 });
 test('art comparisons at the same camera',async({page},info)=>{
  await page.setViewportSize({width:390,height:844});

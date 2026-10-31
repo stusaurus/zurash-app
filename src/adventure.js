@@ -156,7 +156,7 @@ try{
   houseView=createHouseView({element:$('home-screen'),getSave:()=>homeSave,setSave:n=>{saveHome(localStorage,n);homeSave=n;progress=n.progress;},onPlay:()=>{
     $('home-screen').hidden=true;document.querySelector('.game-panel').hidden=false;
     const first=chapter.stageIds.findIndex(id=>!Object.hasOwn(progress.completed,id));openStage(first<0?50:first+1);
-  },onComplete:()=>showNotice('CHAPTER COMPLETE','トリケンの家が完成！','50の冒険と、あなたが選んだ家具。ここがトリケンの大切な居場所になりました。次はご近所へ！','家を眺める',()=>{houseView.renderHome();$('scene-heading')?.focus({preventScroll:true});$('home-screen').scrollIntoView({block:'start',behavior:'instant'});}),onError:e=>showNotice('お知らせ','修復を確認してください',e.message,'閉じる')});
+  },onComplete:()=>showNotice('CHAPTER COMPLETE','トリケンの家が完成！','50の冒険と、あなたが選んだ家具。ここがトリケンの大切な居場所になりました。次はご近所へ！','家を眺める',()=>{showHome();$('scene-heading')?.focus({preventScroll:true});$('home-screen').scrollIntoView({block:'start',behavior:'instant'});}),onError:e=>showNotice('お知らせ','修復を確認してください',e.message,'閉じる')});
   $('return-home').onclick=showHome;showHome();houseView.resume();
 
 }catch(error){$('stage-title').textContent='読み込みを確認してください';tell(error.message,true);console.error(error);}
