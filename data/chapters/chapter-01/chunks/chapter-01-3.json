@@ -1,0 +1,681 @@
+[
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100021",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 9
+    },
+    "start": 6,
+    "walls": [
+      8
+    ],
+    "stars": [
+      10
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 1,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 149,
+      "shape": "tall",
+      "profile": "glove"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 21,
+      "title": "荷物を動かす力",
+      "focus": "グローブで新しい経路を作ろう",
+      "hint": "グローブで新しい経路を作ろう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100022",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 6,
+      "height": 6,
+      "playableCells": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35
+      ]
+    },
+    "start": 8,
+    "walls": [
+      35
+    ],
+    "stars": [
+      0,
+      19
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 1,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 693,
+      "shape": "square",
+      "profile": "glove"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 22,
+      "title": "遠くの壁を動かそう",
+      "focus": "2マス動かした先を考えよう",
+      "hint": "2マス動かした先を考えよう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100023",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 9,
+      "height": 5,
+      "playableCells": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        44
+      ]
+    },
+    "start": 27,
+    "walls": [
+      19
+    ],
+    "stars": [
+      33
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 1,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 757,
+      "shape": "wide",
+      "profile": "glove"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 23,
+      "title": "力持ちの回り道",
+      "focus": "滑る前に壁の位置を整えよう",
+      "hint": "滑る前に壁の位置を整えよう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100024",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 5,
+      "height": 9,
+      "playableCells": [
+        0,
+        1,
+        2,
+        5,
+        6,
+        7,
+        10,
+        11,
+        12,
+        15,
+        16,
+        17,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ]
+    },
+    "start": 39,
+    "walls": [
+      42
+    ],
+    "stars": [
+      15
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 1,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 829,
+      "shape": "L",
+      "profile": "glove"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 24,
+      "title": "ふたつの力加減",
+      "focus": "普通の壁ずらしとグローブを使い分けよう",
+      "hint": "普通の壁ずらしとグローブを使い分けよう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100025",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 8,
+      "height": 4,
+      "playableCells": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ]
+    },
+    "start": 3,
+    "walls": [
+      10,
+      1,
+      24
+    ],
+    "stars": [
+      8,
+      15
+    ],
+    "fixed": [],
+    "iceSockets": [
+      23,
+      20,
+      6
+    ],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 1,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 652,
+      "shape": "wide",
+      "profile": "ice"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 25,
+      "title": "氷細工のおさらい",
+      "focus": "氷を置くタイミングを思い出そう",
+      "hint": "氷を置くタイミングを思い出そう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100026",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 8,
+      "height": 4,
+      "playableCells": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        19,
+        20,
+        27,
+        28
+      ]
+    },
+    "start": 20,
+    "walls": [
+      7
+    ],
+    "stars": [
+      13,
+      28,
+      8
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 11,
+      "shape": "T",
+      "profile": "base"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 26,
+      "title": "街角の散歩道",
+      "focus": "道具を使わない壁ずらし問題",
+      "hint": "道具を使わない壁ずらし問題。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100027",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 4,
+      "playableCells": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    "start": 14,
+    "walls": [
+      7
+    ],
+    "stars": [
+      9,
+      3,
+      2
+    ],
+    "fixed": [],
+    "iceSockets": [
+      13,
+      12,
+      1
+    ],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 1,
+      "powerGlove": 1,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 119,
+      "shape": "square",
+      "profile": "mixed"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 27,
+      "title": "氷とグローブ",
+      "focus": "氷とグローブを別の手で使ってみよう",
+      "hint": "氷とグローブを別の手で使ってみよう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100028",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 5,
+      "playableCells": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        8,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    "start": 19,
+    "walls": [
+      16,
+      13
+    ],
+    "stars": [
+      8,
+      15
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 1,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 229,
+      "shape": "ring",
+      "profile": "glove"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 28,
+      "title": "ちからを使う順番",
+      "focus": "グローブを使う手を見極めよう",
+      "hint": "グローブを使う手を見極めよう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100029",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 6,
+      "playableCells": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        13,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ]
+    },
+    "start": 18,
+    "walls": [
+      9
+    ],
+    "stars": [
+      23,
+      21,
+      7
+    ],
+    "fixed": [],
+    "iceSockets": [
+      3,
+      20,
+      13
+    ],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 1,
+      "powerGlove": 1,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 783,
+      "shape": "notched",
+      "profile": "mixed"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 29,
+      "title": "転送門の工事現場",
+      "focus": "氷とグローブを組み合わせよう",
+      "hint": "氷とグローブを組み合わせよう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "start": 0,
+    "walls": [],
+    "stars": [
+      13
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [
+      [
+        3,
+        5
+      ]
+    ],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 0,
+      "warpCrystal": 1
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "id": "pz-100030",
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 30,
+      "title": "門の向こうへ！",
+      "focus": "ポータルから別の列へ移動できる！",
+      "tutorialItem": "warpCrystal",
+      "hint": "まず右のポータルへ。ワープした先から下へ滑ろう。"
+    }
+  }
+]

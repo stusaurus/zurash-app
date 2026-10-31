@@ -1,0 +1,2208 @@
+{
+  "version": 1,
+  "rulesVersion": "solo-v1",
+  "stages": [
+    {
+      "number": 1,
+      "id": "pz-100001",
+      "sourceId": null,
+      "stageHash": "4fbce0ac4dc53419f927a12ac0d63a41fe1bb873477a7a1a9c4b6fa7e6fcc6a8",
+      "symmetryHash": "23657c21db4cc61ce0e355fe0a9ef2d707d54039314e68accf5ac4a276e6c97f",
+      "optimalTurns": 1,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 1
+    },
+    {
+      "number": 2,
+      "id": "pz-100002",
+      "sourceId": "pz-000506",
+      "stageHash": "e47f6b339ecbb03407315925a16e9e31b6b2c4a5a2c7a4ee986dc4ceef7f2ea4",
+      "symmetryHash": "a59de5baaa0d0592060ac1ad12a3c9b90fa9fc6567d48a26adcefd2d8bbf0012",
+      "optimalTurns": 3,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 3
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 3,
+            "to": 10
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 10,
+            "to": 17
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 52
+    },
+    {
+      "number": 3,
+      "id": "pz-100003",
+      "sourceId": "pz-000627",
+      "stageHash": "73e0f242f0f2e58c46cc71d41ae69f93e9a67ffc471e44e129b4a33efcab5c07",
+      "symmetryHash": "764e0e20e35c2a0b5333c92b72ae93a9cafbddf8bf0f3542e29a25ff31d193be",
+      "optimalTurns": 3,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 5,
+            "to": 4
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 25,
+            "to": 21
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 21,
+            "to": 17
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 51
+    },
+    {
+      "number": 4,
+      "id": "pz-100004",
+      "sourceId": "pz-000283",
+      "stageHash": "39e8590d2dcdb35add5b81b8e73ba1d9e45ffbfe7f634322dd9439a07d2f9bbf",
+      "symmetryHash": "a4e029790b04c519ad2ee9b47a7caabc57ee37481eb00bb293cbf8d1695f8f90",
+      "optimalTurns": 3,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 20,
+            "to": 21
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 46
+    },
+    {
+      "number": 5,
+      "id": "pz-100005",
+      "sourceId": "pz-000329",
+      "stageHash": "2efdd96c5dfe5eb7c7fc1a1adead6adfc8ce9f72dc7434fe6953593811aa643f",
+      "symmetryHash": "204b79cb4caa0b4ce8c55a5f8aad1d4efa8ac37619c807015b069b10bb5d7c21",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 15
+    },
+    {
+      "number": 6,
+      "id": "pz-100006",
+      "sourceId": "pz-002339",
+      "stageHash": "b5685f253a03104430924ca8cb4cabc9810278ee757857fdb0478bd905d00c59",
+      "symmetryHash": "4296e0aa09aeb61c92407ee7456f8208763bc28aaeb19bd8954653cea8c28794",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 40
+    },
+    {
+      "number": 7,
+      "id": "pz-100007",
+      "sourceId": "pz-000355",
+      "stageHash": "fbc59585bcd925f7d3d675131966b2fb72680511ecbcf039325a6825ecdd7220",
+      "symmetryHash": "b1c33e6098fe9c23359a58c59eb799cbf3cb1121249419db369cccd94de95fa1",
+      "optimalTurns": 3,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 3,
+            "to": 2
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 1
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 112
+    },
+    {
+      "number": 8,
+      "id": "pz-100008",
+      "sourceId": "pz-000489",
+      "stageHash": "55ae91d5670d19630c879a5e8091dbae13e90adba62e0e0369244d9309659828",
+      "symmetryHash": "9d9b8ccd84df7041a8705f6ac922bbc6a94e7520d0adc8eac3389c5d2e6d97fe",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 9
+    },
+    {
+      "number": 9,
+      "id": "pz-100009",
+      "sourceId": "pz-000457",
+      "stageHash": "dfe572a5e36bf911c7385d0b21c785113ea9fe3d41588bb9a670edfe761f08a0",
+      "symmetryHash": "03a3fd41d33fdfc324ed630b5f07f5c5ae905fc808da32ddc952fe2a91422c48",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 14,
+            "to": 7
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 7,
+            "to": 0
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 0,
+            "to": 1
+          },
+          "dir": 0
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 63
+    },
+    {
+      "number": 10,
+      "id": "pz-100010",
+      "sourceId": null,
+      "stageHash": "811a36dbca91ff816cf30353c200b37875ef7afc36b876ece104508e58bae9ce",
+      "symmetryHash": "b30b52d0baabe99d54de17e3569ccf7fc0c01016982ef6fced38a6003a67a665",
+      "optimalTurns": 1,
+      "actions": [
+        {
+          "prep": {
+            "type": "ice",
+            "to": 3
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "unsolvable",
+        "optimalTurns": null
+      },
+      "expanded": 1
+    },
+    {
+      "number": 11,
+      "id": "pz-100011",
+      "sourceId": "pz-000117",
+      "stageHash": "a0b46dbdf232b30ada044e311a18ba10df473dcbd6dd5b0704175cdcc45f96ce",
+      "symmetryHash": "4500bea6acf106e32b86ea2eadad623bf9faf5218fb37c4dc682688955ab5869",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 9,
+            "to": 13
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 25
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "expanded": 98
+    },
+    {
+      "number": 12,
+      "id": "pz-100012",
+      "sourceId": "pz-000413",
+      "stageHash": "a2d2fbe0b2bf9061dcf6406b14114c27c4966847be466eebf238b96e16f0df85",
+      "symmetryHash": "3c5df3cff466841e2944ade302e047e3ecf4ca01df88d02ce3ac7352a3dc3b63",
+      "optimalTurns": 2,
+      "actions": [
+        {
+          "prep": {
+            "type": "ice",
+            "to": 12
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 3
+      },
+      "expanded": 31
+    },
+    {
+      "number": 13,
+      "id": "pz-100013",
+      "sourceId": "pz-000533",
+      "stageHash": "a040385cb799910ad66dda749146cdc583293a6839dcf3b602f47898a24ca06a",
+      "symmetryHash": "bbfcbc97f5e02656e84096a378134d4b56ae70227809f519d11d8ab8aff8f456",
+      "optimalTurns": 3,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 10,
+            "to": 15
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 0
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 4
+      },
+      "expanded": 82
+    },
+    {
+      "number": 14,
+      "id": "pz-100014",
+      "sourceId": "pz-001221",
+      "stageHash": "9e6c02977bb57690391c266571eaa507ff3fb6f60263dd3f992a544098f0045a",
+      "symmetryHash": "c5bfb2b60ce2d59951ecc263e9de62a3c2bab066fdce3419aad095c9c3ac99ff",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "ice",
+            "to": 17
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 3,
+            "to": 7
+          },
+          "dir": 0
+        }
+      ],
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "expanded": 227
+    },
+    {
+      "number": 15,
+      "id": "pz-100015",
+      "sourceId": "pz-000011",
+      "stageHash": "0e2a3b7bc0742b85f51ba26351b64130c0a2fed9b770746e1a9c15708ec01e03",
+      "symmetryHash": "05e64b415a98914cee41503e4868f678de3e569a6fb64f7ba544956e56a5a31b",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 27,
+            "to": 33
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 33,
+            "to": 32
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 32,
+            "to": 38
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 149
+    },
+    {
+      "number": 16,
+      "id": "pz-100016",
+      "sourceId": "pz-001749",
+      "stageHash": "54663d8ac57d5bd7e5778683732c64e1e21496d58028e755cce49fb2e07a159b",
+      "symmetryHash": "74916e0f6d175bea82dd3b460df203fea69ee7665c590167016420776cd898ad",
+      "optimalTurns": 5,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 31
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 7
+      },
+      "expanded": 655
+    },
+    {
+      "number": 17,
+      "id": "pz-100017",
+      "sourceId": "pz-002589",
+      "stageHash": "7d2d3114c7e652ac43aa02125619da41be4e64b4871974755da40cf8c3d2d208",
+      "symmetryHash": "c328cfc5944a1360dc49fb0c88f8ccf47db6077be2d79e90361893c69662f042",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 12,
+            "to": 16
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 16,
+            "to": 20
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 27
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "expanded": 119
+    },
+    {
+      "number": 18,
+      "id": "pz-100018",
+      "sourceId": "pz-000229",
+      "stageHash": "158d02fb77810a87e05380d494d35d2c0bc33ff6383ae832121224027f5ee174",
+      "symmetryHash": "fc04fa9fa3f11d71870dc9ef83297065756e1d605064746cd50a092c8c08473f",
+      "optimalTurns": 6,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 5
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 7
+      },
+      "expanded": 325
+    },
+    {
+      "number": 19,
+      "id": "pz-100019",
+      "sourceId": "pz-000469",
+      "stageHash": "bc85acd27faad2bcc50c3d7534af66480176f20218cae009f5258a4252d8cb8a",
+      "symmetryHash": "1d9aeff71e587da74ec47c8efd3a17cd6e25846bf59e76124dbe581b76f867c1",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "ice",
+            "to": 25
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 28,
+            "to": 22
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 22,
+            "to": 21
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "expanded": 421
+    },
+    {
+      "number": 20,
+      "id": "pz-100020",
+      "sourceId": null,
+      "stageHash": "ee1fb3c7a2da90ec35f03b50286c2b5de3716879cf245e811ab8c3ce3d635e4e",
+      "symmetryHash": "51d16c26e7a6371c1787567f7457b5fa28fc910d7e670597a32f50373d8ddac1",
+      "optimalTurns": 1,
+      "actions": [
+        {
+          "prep": {
+            "type": "glove",
+            "from": 11,
+            "to": 3
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 3
+      },
+      "expanded": 1
+    },
+    {
+      "number": 21,
+      "id": "pz-100021",
+      "sourceId": "pz-000150",
+      "stageHash": "19d097d00faae3b3ee63e2a4b7ae05eb73091428454f00627649052c7ab39227",
+      "symmetryHash": "a7d5ce3dffb92897931924bd2f82d19a0e7807e11af0f0aa748a62ceff786186",
+      "optimalTurns": 2,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 8,
+            "to": 4
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 4,
+            "to": 6
+          },
+          "dir": 0
+        }
+      ],
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 3
+      },
+      "expanded": 8
+    },
+    {
+      "number": 22,
+      "id": "pz-100022",
+      "sourceId": "pz-000694",
+      "stageHash": "2b8df5ba588c737ecb1bfd246421852ada08c5f44031ef9ded6309d0f22e2b5f",
+      "symmetryHash": "2982afbb7090735d2da8784961107f055011fa5b09eec88641ba0e116561fd18",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 35,
+            "to": 29
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 29,
+            "to": 23
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 23,
+            "to": 22
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 22,
+            "to": 20
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "expanded": 194
+    },
+    {
+      "number": 23,
+      "id": "pz-100023",
+      "sourceId": "pz-000758",
+      "stageHash": "68e6213bb8fc9071f7afe1c7e62c3ae0381bf62fdb5bd1c9da629c6b0be3fef7",
+      "symmetryHash": "3bbbed0d4f9c2ff6a4a17969d9ed259912de2019af485699a7750d80d5309709",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 19,
+            "to": 20
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 20,
+            "to": 21
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 21,
+            "to": 23
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 23,
+            "to": 32
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "expanded": 419
+    },
+    {
+      "number": 24,
+      "id": "pz-100024",
+      "sourceId": "pz-000830",
+      "stageHash": "db7e0a2694533614ebdda12ad24e8cde21bc312e7f416bfee931909051c07a5e",
+      "symmetryHash": "ff14915e6fe83b165ba3f7c3e40efe69866826808e7c8992545c2764172badae",
+      "optimalTurns": 5,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 42,
+            "to": 37
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 37,
+            "to": 32
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 32,
+            "to": 31
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 31,
+            "to": 21
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 21,
+            "to": 20
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "expanded": 460
+    },
+    {
+      "number": 25,
+      "id": "pz-100025",
+      "sourceId": "pz-000653",
+      "stageHash": "4b745d43a0adbb75a08341ffb0a6c913ffbcb39ded9ecf592df674543a19ce11",
+      "symmetryHash": "afd12396883652e14f3e934e6262f3719893b09e3edc326033d9c6b14b7dca97",
+      "optimalTurns": 3,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 23
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 10,
+            "to": 2
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 4
+      },
+      "expanded": 50
+    },
+    {
+      "number": 26,
+      "id": "pz-100026",
+      "sourceId": "pz-000012",
+      "stageHash": "8218df9239505665eabfbb4a955dcae44be0dadcfce912cad14592d0620e3265",
+      "symmetryHash": "6f0abe617ebaac432aa24215495d3976dace5e1d465ee33c4a1b3f74081ceebf",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 7,
+            "to": 15
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 15,
+            "to": 14
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 65
+    },
+    {
+      "number": 27,
+      "id": "pz-100027",
+      "sourceId": "pz-000120",
+      "stageHash": "a4773ea9a61a36fb5aff59ecdcecf810e4d6f92f413e9fcea0ae73b9ac5a7326",
+      "symmetryHash": "b9ee17a960f9f63f11885f2a188dcc7b1a3c590a6cf5c599be2de6f5db9c510d",
+      "optimalTurns": 5,
+      "actions": [
+        {
+          "prep": {
+            "type": "ice",
+            "to": 12
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 7,
+            "to": 5
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 5,
+            "to": 6
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 6,
+            "to": 5
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 5,
+            "to": 1
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 7
+      },
+      "expanded": 358
+    },
+    {
+      "number": 28,
+      "id": "pz-100028",
+      "sourceId": "pz-000230",
+      "stageHash": "5b0445dc8ec82d380b144ccabd666e994603a97844295e0d25e94245c9bf9685",
+      "symmetryHash": "33010695ad23df7790901b3b882ac177ab623514600debf32674b924ba932d8f",
+      "optimalTurns": 5,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 16,
+            "to": 17
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 17,
+            "to": 19
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 13,
+            "to": 17
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 17,
+            "to": 13
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 13,
+            "to": 12
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "expanded": 336
+    },
+    {
+      "number": 29,
+      "id": "pz-100029",
+      "sourceId": "pz-000784",
+      "stageHash": "13c83ad226cc23013f8795d8f60b4e3a419afe5f73083cc3ce28753d722b5992",
+      "symmetryHash": "8b314b0ba0ed97d4d7dbc1c9aba93bd8456f2cf7d0c6691ca792b3638a6c258e",
+      "optimalTurns": 6,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 20
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 9,
+            "to": 10
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 10,
+            "to": 2
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 3
+          },
+          "dir": 0
+        }
+      ],
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 10
+      },
+      "expanded": 1237
+    },
+    {
+      "number": 30,
+      "id": "pz-100030",
+      "sourceId": null,
+      "stageHash": "c32a11e736190ee4ed09671f132591e865d37acd061fc3ae133c204bc2938ee4",
+      "symmetryHash": "301a91ac68bc159ab08ac0469cea5bc4d9e6a01d41d83ff0fb49e14e197eff1e",
+      "optimalTurns": 2,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 5
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "unsolvable",
+        "optimalTurns": null
+      },
+      "expanded": 2
+    },
+    {
+      "number": 31,
+      "id": "pz-100031",
+      "sourceId": "pz-000479",
+      "stageHash": "82860bd03f4a6f2ac75296abbb3b589edc07b04515e69bb4932f5ffc45d6619f",
+      "symmetryHash": "3705a0fec095c9afdf9f81f69ac3d8e258d260640d9871b181bbdc30975a72c6",
+      "optimalTurns": 3,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 25,
+            "to": 26
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 9
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "expanded": 53
+    },
+    {
+      "number": 32,
+      "id": "pz-100032",
+      "sourceId": "pz-002615",
+      "stageHash": "276108dcdcee5c7f1bee2f4463b6ca653fe27ebdea012e726a308edbaf1b7418",
+      "symmetryHash": "ddf1147ff677c96abedc51b86c350455754737b34b94649cec3c869222fcab92",
+      "optimalTurns": 5,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 1
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "expanded": 50
+    },
+    {
+      "number": 33,
+      "id": "pz-100033",
+      "sourceId": "pz-001559",
+      "stageHash": "e871a26eb1000df424bbbbc1b71b15c76be1419a8b9c9a26913d0c316b23b8ab",
+      "symmetryHash": "b243ff0d995f93e014bbb6a73430b6ac00ef2244347b1f1d0dfa5d16d17caead",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 14,
+            "to": 18
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 17
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 18,
+            "to": 22
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 22,
+            "to": 21
+          },
+          "dir": 0
+        }
+      ],
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 8
+      },
+      "expanded": 86
+    },
+    {
+      "number": 34,
+      "id": "pz-100034",
+      "sourceId": "pz-002159",
+      "stageHash": "2ef49947e1968dc4259924e0635cdb35b699415305fe75e098e49f0089def809",
+      "symmetryHash": "3714889b0789e616a03e9ded38178d5881db8b3630a3e4b51502888e62f170db",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 19,
+            "to": 18
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 18,
+            "to": 17
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 25
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 17,
+            "to": 16
+          },
+          "dir": 0
+        }
+      ],
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "expanded": 208
+    },
+    {
+      "number": 35,
+      "id": "pz-100035",
+      "sourceId": "pz-000034",
+      "stageHash": "c7feb7c662d56975024dadea5a68f3fc077df22a6299c87eac208be7f2eed0c8",
+      "symmetryHash": "46c841b211155cafda860b5c64f82ec62e3bd3eee8a587bd53a55b5940ca7112",
+      "optimalTurns": 5,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 0,
+            "to": 4
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 4,
+            "to": 8
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 8,
+            "to": 12
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 12,
+            "to": 16
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [],
+      "withoutItems": null,
+      "expanded": 95
+    },
+    {
+      "number": 36,
+      "id": "pz-100036",
+      "sourceId": "pz-002576",
+      "stageHash": "a96347c1e7677e9740bab343cd41f3d61a3b2eb0a128e2e54dc44f6922db43dc",
+      "symmetryHash": "c55f80d0d5cad9c73f16d217cd02c7b5c5e642b5cc3b3796ebfbaa0d2116b979",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 13
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 1
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [
+        "ice",
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "unsolvable",
+        "optimalTurns": null
+      },
+      "expanded": 67
+    },
+    {
+      "number": 37,
+      "id": "pz-100037",
+      "sourceId": "pz-004239",
+      "stageHash": "32eaca5a2c302d5f63ba9c9f06162f2c2576c6d4ed4d9d0f6ebcd80a3590d555",
+      "symmetryHash": "f55c92f6d22104d34b3ef6b561a0cf26dde4d289d4b3ce3c4d2ea8a1f4676599",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 12,
+            "to": 6
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 6,
+            "to": 7
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 19
+          },
+          "dir": 0
+        }
+      ],
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "expanded": 63
+    },
+    {
+      "number": 38,
+      "id": "pz-100038",
+      "sourceId": "pz-003088",
+      "stageHash": "21694369027e7d904c7097a3c5817189cae8b41352e26aa8e2172acfd0c43e67",
+      "symmetryHash": "483b5921859820a57af768962b69d4be7cbf4fd91771a3a0981c2261bc2c2eb0",
+      "optimalTurns": 5,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 10
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 11
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [
+        "warp",
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "expanded": 299
+    },
+    {
+      "number": 39,
+      "id": "pz-100039",
+      "sourceId": "pz-004559",
+      "stageHash": "c72b67c3d291fa812d9566d9ed4b6d25b8ebdf40aecc3f6b7f024f1032b38523",
+      "symmetryHash": "0d1cb1323c65d2adaa0249a19cb989e8c21ac8650898829fc352179c4fd466d0",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 23,
+            "to": 14
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 20
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 14,
+            "to": 15
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 15,
+            "to": 24
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "expanded": 164
+    },
+    {
+      "number": 40,
+      "id": "pz-100040",
+      "sourceId": "pz-001720",
+      "stageHash": "2025a858044f4ec595d773de2a85d1baa9c13c59a2916888725f242e63cfebec",
+      "symmetryHash": "9087c064777e0a1eea6ef4252d55fb11b3b2501ce4e962171638302743946c52",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 3
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 17
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [
+        "ice",
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 8
+      },
+      "expanded": 93
+    },
+    {
+      "number": 41,
+      "id": "pz-100041",
+      "sourceId": "pz-002512",
+      "stageHash": "e707ecb3d388c2959a4b1bf0ef460fe3a02ca9b32b485d37447ead495d2ca3c5",
+      "symmetryHash": "627934da3767e0242d34d7336084af90e3015fd581b64078a96755027161828b",
+      "optimalTurns": 5,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 26,
+            "to": 24
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 22
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [
+        "glove",
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "expanded": 699
+    },
+    {
+      "number": 42,
+      "id": "pz-100042",
+      "sourceId": "pz-002720",
+      "stageHash": "d7dd81f1b1fcd8c251c2dc0380462445a3fa17365e50d613ae51ab8532481b92",
+      "symmetryHash": "9c96a0a8145e0d95f0b4a1af50617d415bf4e76fcd6b976a93f576b3c3986acb",
+      "optimalTurns": 5,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 12
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 21
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [
+        "ice",
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "unsolvable",
+        "optimalTurns": null
+      },
+      "expanded": 85
+    },
+    {
+      "number": 43,
+      "id": "pz-100043",
+      "sourceId": "pz-004376",
+      "stageHash": "2213d1d908b1b7dcd636e5e9e9b504e24a52139f8c4fdb8dc1f745c0efdf0b8f",
+      "symmetryHash": "8a9c238934a14e5fd0582b65e81c90074c5b4545d4e0b32e3ed80bac3a38aa42",
+      "optimalTurns": 5,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 8,
+            "to": 4
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 4,
+            "to": 12
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 1
+          },
+          "dir": 0
+        }
+      ],
+      "itemTypes": [
+        "glove",
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "expanded": 277
+    },
+    {
+      "number": 44,
+      "id": "pz-100044",
+      "sourceId": "pz-004424",
+      "stageHash": "394ce3f8dd0485d5d449e3f4b69b252e85e6d28883dbc375283759680803d774",
+      "symmetryHash": "2350d4f996ecf0f71b96b5f2658bbed8573e3df4c6c2a83f0c71cd1f3812cd64",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 2,
+            "to": 0
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 17
+          },
+          "dir": 1
+        }
+      ],
+      "itemTypes": [
+        "glove",
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "expanded": 224
+    },
+    {
+      "number": 45,
+      "id": "pz-100045",
+      "sourceId": "pz-005280",
+      "stageHash": "5d5b7505e0c145094661c584e8ec711674aed83a03192edb5858c60647858718",
+      "symmetryHash": "8852b52ceb46f34d2855a5aeee38ff7089a5ce926026e5c93465550a6ecab353",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 8,
+            "to": 1
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 1,
+            "to": 2
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 24
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 2,
+            "to": 4
+          },
+          "dir": 0
+        }
+      ],
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "expanded": 287
+    },
+    {
+      "number": 46,
+      "id": "pz-100046",
+      "sourceId": "pz-005736",
+      "stageHash": "99ed36fd8dcbeaed9108cb49e1e9f0bf700b604573f57516d7fa36ff209b86c6",
+      "symmetryHash": "b654492dc4903f7ae0e57eb52efead20c829bbc32a614a4573a01d7300dbd184",
+      "optimalTurns": 3,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 11
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 13,
+            "to": 5
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 4
+      },
+      "expanded": 66
+    },
+    {
+      "number": 47,
+      "id": "pz-100047",
+      "sourceId": "pz-003576",
+      "stageHash": "bb17b5a55bce2246bded0ec93190df961ad1dcf29be833a15d194c0fb04cf582",
+      "symmetryHash": "958552c2bee44c32a4e7afe2ac1d20a88fd3b51521adf511652e5eb2e994afa0",
+      "optimalTurns": 5,
+      "actions": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 15
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 0,
+            "to": 4
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 7
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [
+        "ice",
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "unsolvable",
+        "optimalTurns": null
+      },
+      "expanded": 215
+    },
+    {
+      "number": 48,
+      "id": "pz-100048",
+      "sourceId": "pz-005616",
+      "stageHash": "c5f12fd73921e02cb6b44a6ecc0874eaeee3af74c317e71e1f756a02564a1be2",
+      "symmetryHash": "bc9687ec6f850079f281306d7ed0b26beb227ae99a7209bfda93833d5cf058fa",
+      "optimalTurns": 3,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 5,
+            "to": 14
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 40
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 14,
+            "to": 12
+          },
+          "dir": 0
+        }
+      ],
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 4
+      },
+      "expanded": 236
+    },
+    {
+      "number": 49,
+      "id": "pz-100049",
+      "sourceId": "pz-006136",
+      "stageHash": "952b29f6249ad4180deaccc54e4a63040227013019b36715b0f182b7ef4296d8",
+      "symmetryHash": "56aca04f734f98375e1ac5f94ead9671690f2a364beb0b10d1d07ea0450202ba",
+      "optimalTurns": 4,
+      "actions": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 1
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 29
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 1,
+            "to": 6
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 6,
+            "to": 16
+          },
+          "dir": 3
+        }
+      ],
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "expanded": 326
+    },
+    {
+      "number": 50,
+      "id": "pz-100050",
+      "sourceId": "pz-006296",
+      "stageHash": "68c0bc80b59e549e2becbc21fbb93166698acac8eb3117aee323fddaecd60156",
+      "symmetryHash": "b548a4ae55918eb2ccb89fe4b7c71c9e0ac95c2b0531cd5a9ce764e237eb0477",
+      "optimalTurns": 3,
+      "actions": [
+        {
+          "prep": {
+            "type": "glove",
+            "from": 38,
+            "to": 28
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 12
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 8
+          },
+          "dir": 2
+        }
+      ],
+      "itemTypes": [
+        "glove",
+        "ice",
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "expanded": 106
+    }
+  ]
+}

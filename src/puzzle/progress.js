@@ -11,17 +11,17 @@ export function validateProgress(s) {
   return s;
 }
 export const balance=s=>Object.values(s.completed).reduce((n,r)=>n+r.reward,0)-Object.values(s.town).reduce((n,c)=>n+c,0);
-export function recordClear(s,stage,turns) {
+export function recordClear(s,stage,turns,{allowCandidates=false}={}) {
   validateProgress(s);
-  if(stage.status!=='approved'||!Number.isInteger(turns)||turns<1)throw Error('Clear not eligible for rewards');
+  if((stage.status!=='approved'&&!(allowCandidates&&stage.status==='candidate'))||!Number.isInteger(turns)||turns<1)throw Error('Clear not eligible for rewards');
   const n=structuredClone(s),old=n.completed[stage.id];
   if(old&&stage.revision<old.revision)throw Error('Outdated stage revision');
   n.completed[stage.id]={reward:1,bestTurns:old?.revision===stage.revision?Math.min(old.bestTurns,turns):turns,revision:stage.revision};
   return validateProgress(n);
 }
-export function completePuzzle(s,stage,actions) {
+export function completePuzzle(s,stage,actions,options) {
   if(!replay(stage,actions).cleared)throw Error('Puzzle not cleared');
-  return recordClear(s,stage,actions.length);
+  return recordClear(s,stage,actions.length,options);
 }
 export function buildTown(s,projectId,cost) {
   validateProgress(s);
@@ -30,11 +30,11 @@ export function buildTown(s,projectId,cost) {
   if(balance(s)<cost)throw Error('Not enough stars');
   const n=structuredClone(s);n.town[projectId]=cost;return validateProgress(n);
 }
-export function saveProgress(storage,s) {
+export function saveProgress(storage,s,key=SAVE_KEY) {
   const text=JSON.stringify(validateProgress(s));
-  storage.setItem(SAVE_KEY,text);return text.length;
+  storage.setItem(key,text);return text.length;
 }
-export function loadProgress(storage) {
-  const text=storage.getItem(SAVE_KEY);
+export function loadProgress(storage,key=SAVE_KEY) {
+  const text=storage.getItem(key);
   return text===null?newProgress():validateProgress(JSON.parse(text));
 }

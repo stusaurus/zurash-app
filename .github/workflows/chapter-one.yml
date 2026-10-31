@@ -1,0 +1,28 @@
+name: Chapter one playthrough
+on:
+  pull_request:
+    paths: ['adventure.*', 'src/adventure.js', 'src/puzzle/**', 'data/**', 'scripts/chapter-one-*.js', 'tests/chapter-one.test.js', 'tests/browser/chapter-one.spec.js', 'playwright.chapter.config.js', 'reports/chapter-01/**', '.github/workflows/chapter-one.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  chapter:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run check && npm test && npm run chapter:verify && npm run puzzle:verify
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npx playwright test -c playwright.chapter.config.js
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chapter-one-playthrough
+          path: |
+            test-results/
+            playwright-chapter-report/
+            reports/chapter-01/verification.json
+          retention-days: 14

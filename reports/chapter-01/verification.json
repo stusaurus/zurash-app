@@ -1,0 +1,1183 @@
+{
+  "version": 1,
+  "chapterId": "ice-town-01",
+  "total": 50,
+  "solved": 50,
+  "replayed": 50,
+  "unresolved": 0,
+  "unsolvable": 0,
+  "symmetryDuplicates": 0,
+  "normalizedPatterns": 49,
+  "maxPerPattern": 2,
+  "mixedItemStages40To50": 11,
+  "finalStageUsesAllThree": true,
+  "earnedStars": 50,
+  "townStarsSpent": 9,
+  "finalStarBalance": 41,
+  "unlockEvents": [
+    10,
+    20,
+    30
+  ],
+  "status": "draft",
+  "humanPlaytest": false,
+  "verificationMs": 324.76847399999997,
+  "records": [
+    {
+      "number": 1,
+      "id": "pz-100001",
+      "title": "はじめての滑走",
+      "shape": "square",
+      "width": 4,
+      "height": 4,
+      "stars": 1,
+      "walls": 0,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 1,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 0.17227899999998897
+    },
+    {
+      "number": 2,
+      "id": "pz-100002",
+      "title": "壁をずらしてみよう",
+      "shape": "wide",
+      "width": 7,
+      "height": 4,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 3,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 2.949004000000002
+    },
+    {
+      "number": 3,
+      "id": "pz-100003",
+      "title": "曲がり角の向こう",
+      "shape": "L",
+      "width": 4,
+      "height": 7,
+      "stars": 2,
+      "walls": 2,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 3,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 3.247494000000003
+    },
+    {
+      "number": 4,
+      "id": "pz-100004",
+      "title": "たてながの小道",
+      "shape": "tall",
+      "width": 4,
+      "height": 7,
+      "stars": 2,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 3,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 1.3792679999999962
+    },
+    {
+      "number": 5,
+      "id": "pz-100005",
+      "title": "かけた氷の岸",
+      "shape": "notched",
+      "width": 4,
+      "height": 6,
+      "stars": 2,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 0.18816400000000044
+    },
+    {
+      "number": 6,
+      "id": "pz-100006",
+      "title": "ふたつの星",
+      "shape": "square",
+      "width": 4,
+      "height": 4,
+      "stars": 2,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 0.7666550000000001
+    },
+    {
+      "number": 7,
+      "id": "pz-100007",
+      "title": "T字の分かれ道",
+      "shape": "T",
+      "width": 4,
+      "height": 5,
+      "stars": 2,
+      "walls": 2,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 3,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 3.2670030000000025
+    },
+    {
+      "number": 8,
+      "id": "pz-100008",
+      "title": "氷の中庭",
+      "shape": "ring",
+      "width": 4,
+      "height": 4,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 0.31613699999999767
+    },
+    {
+      "number": 9,
+      "id": "pz-100009",
+      "title": "工房への道",
+      "shape": "wide",
+      "width": 7,
+      "height": 5,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 0.8577630000000056
+    },
+    {
+      "number": 10,
+      "id": "pz-100010",
+      "title": "氷を置いてストップ！",
+      "shape": "square",
+      "width": 4,
+      "height": 4,
+      "stars": 1,
+      "walls": 0,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 1,
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "unsolvable",
+        "optimalTurns": null
+      },
+      "solverMs": 0.07738700000000165
+    },
+    {
+      "number": 11,
+      "id": "pz-100011",
+      "title": "もうひとつの停留所",
+      "shape": "T",
+      "width": 4,
+      "height": 8,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "solverMs": 2.3272369999999967
+    },
+    {
+      "number": 12,
+      "id": "pz-100012",
+      "title": "短い氷の橋",
+      "shape": "notched",
+      "width": 6,
+      "height": 8,
+      "stars": 1,
+      "walls": 3,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 2,
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 3
+      },
+      "solverMs": 3.0500459999999947
+    },
+    {
+      "number": 13,
+      "id": "pz-100013",
+      "title": "工房の裏道",
+      "shape": "square",
+      "width": 5,
+      "height": 5,
+      "stars": 2,
+      "walls": 2,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 3,
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 4
+      },
+      "solverMs": 2.393968000000001
+    },
+    {
+      "number": 14,
+      "id": "pz-100014",
+      "title": "氷と動く壁",
+      "shape": "tall",
+      "width": 4,
+      "height": 9,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "solverMs": 5.70026
+    },
+    {
+      "number": 15,
+      "id": "pz-100015",
+      "title": "ひと休みの散歩",
+      "shape": "L",
+      "width": 6,
+      "height": 8,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 3.568166000000005
+    },
+    {
+      "number": 16,
+      "id": "pz-100016",
+      "title": "折り返しの氷道",
+      "shape": "ring",
+      "width": 6,
+      "height": 7,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 5,
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 7
+      },
+      "solverMs": 21.210392
+    },
+    {
+      "number": 17,
+      "id": "pz-100017",
+      "title": "中庭の停留所",
+      "shape": "ring",
+      "width": 4,
+      "height": 8,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "solverMs": 2.919790000000006
+    },
+    {
+      "number": 18,
+      "id": "pz-100018",
+      "title": "星をめぐる小道",
+      "shape": "T",
+      "width": 4,
+      "height": 6,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 6,
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 7
+      },
+      "solverMs": 4.8063020000000165
+    },
+    {
+      "number": 19,
+      "id": "pz-100019",
+      "title": "荷揚げ場を目指して",
+      "shape": "notched",
+      "width": 6,
+      "height": 5,
+      "stars": 2,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "solverMs": 9.166622999999987
+    },
+    {
+      "number": 20,
+      "id": "pz-100020",
+      "title": "ぐいっと2マス！",
+      "shape": "square",
+      "width": 4,
+      "height": 4,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 1,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 1,
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 3
+      },
+      "solverMs": 0.06961499999999887
+    },
+    {
+      "number": 21,
+      "id": "pz-100021",
+      "title": "荷物を動かす力",
+      "shape": "tall",
+      "width": 4,
+      "height": 9,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 1,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 2,
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 3
+      },
+      "solverMs": 0.17840899999998783
+    },
+    {
+      "number": 22,
+      "id": "pz-100022",
+      "title": "遠くの壁を動かそう",
+      "shape": "square",
+      "width": 6,
+      "height": 6,
+      "stars": 2,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 1,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "solverMs": 5.114587
+    },
+    {
+      "number": 23,
+      "id": "pz-100023",
+      "title": "力持ちの回り道",
+      "shape": "wide",
+      "width": 9,
+      "height": 5,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 1,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "solverMs": 11.90348800000001
+    },
+    {
+      "number": 24,
+      "id": "pz-100024",
+      "title": "ふたつの力加減",
+      "shape": "L",
+      "width": 5,
+      "height": 9,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 1,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 5,
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "solverMs": 15.38762699999998
+    },
+    {
+      "number": 25,
+      "id": "pz-100025",
+      "title": "氷細工のおさらい",
+      "shape": "wide",
+      "width": 8,
+      "height": 4,
+      "stars": 2,
+      "walls": 3,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 3,
+      "itemTypes": [
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 4
+      },
+      "solverMs": 2.247127000000006
+    },
+    {
+      "number": 26,
+      "id": "pz-100026",
+      "title": "街角の散歩道",
+      "shape": "T",
+      "width": 8,
+      "height": 4,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 4,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 0.5392229999999927
+    },
+    {
+      "number": 27,
+      "id": "pz-100027",
+      "title": "氷とグローブ",
+      "shape": "square",
+      "width": 4,
+      "height": 4,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 5,
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 7
+      },
+      "solverMs": 3.8990359999999953
+    },
+    {
+      "number": 28,
+      "id": "pz-100028",
+      "title": "ちからを使う順番",
+      "shape": "ring",
+      "width": 4,
+      "height": 5,
+      "stars": 2,
+      "walls": 2,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 1,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 5,
+      "itemTypes": [
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "solverMs": 6.328581000000014
+    },
+    {
+      "number": 29,
+      "id": "pz-100029",
+      "title": "転送門の工事現場",
+      "shape": "notched",
+      "width": 4,
+      "height": 6,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 6,
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 10
+      },
+      "solverMs": 17.424380999999983
+    },
+    {
+      "number": 30,
+      "id": "pz-100030",
+      "title": "門の向こうへ！",
+      "shape": "square",
+      "width": 4,
+      "height": 4,
+      "stars": 1,
+      "walls": 0,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 2,
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "unsolvable",
+        "optimalTurns": null
+      },
+      "solverMs": 0.15110700000002453
+    },
+    {
+      "number": 31,
+      "id": "pz-100031",
+      "title": "クリスタルの小道",
+      "shape": "tall",
+      "width": 5,
+      "height": 8,
+      "stars": 2,
+      "walls": 2,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 3,
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "solverMs": 1.3725480000000516
+    },
+    {
+      "number": 32,
+      "id": "pz-100032",
+      "title": "向こう岸の星",
+      "shape": "L",
+      "width": 4,
+      "height": 4,
+      "stars": 2,
+      "walls": 2,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 5,
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "solverMs": 0.4433580000000461
+    },
+    {
+      "number": 33,
+      "id": "pz-100033",
+      "title": "回廊の転送門",
+      "shape": "T",
+      "width": 4,
+      "height": 9,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 8
+      },
+      "solverMs": 1.1294320000000084
+    },
+    {
+      "number": 34,
+      "id": "pz-100034",
+      "title": "街を横切る近道",
+      "shape": "tall",
+      "width": 4,
+      "height": 8,
+      "stars": 2,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "solverMs": 2.787821000000008
+    },
+    {
+      "number": 35,
+      "id": "pz-100035",
+      "title": "広場でひと休み",
+      "shape": "ring",
+      "width": 4,
+      "height": 7,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "optimalTurns": 5,
+      "itemTypes": [],
+      "withoutItems": null,
+      "solverMs": 0.9224100000000135
+    },
+    {
+      "number": 36,
+      "id": "pz-100036",
+      "title": "氷の停留所と門",
+      "shape": "notched",
+      "width": 4,
+      "height": 6,
+      "stars": 2,
+      "walls": 2,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "ice",
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "unsolvable",
+        "optimalTurns": null
+      },
+      "solverMs": 1.0296409999999696
+    },
+    {
+      "number": 37,
+      "id": "pz-100037",
+      "title": "クリスタルの回遊路",
+      "shape": "L",
+      "width": 6,
+      "height": 4,
+      "stars": 2,
+      "walls": 2,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "solverMs": 1.049081000000001
+    },
+    {
+      "number": 38,
+      "id": "pz-100038",
+      "title": "工房から転送門へ",
+      "shape": "square",
+      "width": 4,
+      "height": 4,
+      "stars": 2,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 5,
+      "itemTypes": [
+        "warp",
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "solverMs": 3.5337450000000104
+    },
+    {
+      "number": 39,
+      "id": "pz-100039",
+      "title": "星あつめの配達便",
+      "shape": "wide",
+      "width": 9,
+      "height": 4,
+      "stars": 2,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "solverMs": 3.025209000000018
+    },
+    {
+      "number": 40,
+      "id": "pz-100040",
+      "title": "三つの道具の広場",
+      "shape": "T",
+      "width": 4,
+      "height": 5,
+      "stars": 2,
+      "walls": 2,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "ice",
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 8
+      },
+      "solverMs": 1.4992889999999761
+    },
+    {
+      "number": 41,
+      "id": "pz-100041",
+      "title": "氷の街の回り道",
+      "shape": "ring",
+      "width": 4,
+      "height": 7,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 5,
+      "itemTypes": [
+        "glove",
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "solverMs": 8.644255999999984
+    },
+    {
+      "number": 42,
+      "id": "pz-100042",
+      "title": "荷揚げ場の配達",
+      "shape": "L",
+      "width": 4,
+      "height": 6,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 5,
+      "itemTypes": [
+        "ice",
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "unsolvable",
+        "optimalTurns": null
+      },
+      "solverMs": 0.8933760000000461
+    },
+    {
+      "number": 43,
+      "id": "pz-100043",
+      "title": "転送門の星めぐり",
+      "shape": "square",
+      "width": 4,
+      "height": 4,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 5,
+      "itemTypes": [
+        "glove",
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "solverMs": 3.296437000000026
+    },
+    {
+      "number": 44,
+      "id": "pz-100044",
+      "title": "工房の知恵",
+      "shape": "notched",
+      "width": 5,
+      "height": 4,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "glove",
+        "ice"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "solverMs": 2.7070700000000443
+    },
+    {
+      "number": 45,
+      "id": "pz-100045",
+      "title": "街をつなぐ氷道",
+      "shape": "wide",
+      "width": 7,
+      "height": 4,
+      "stars": 2,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "solverMs": 8.089199999999948
+    },
+    {
+      "number": 46,
+      "id": "pz-100046",
+      "title": "星あかりの運搬路",
+      "shape": "tall",
+      "width": 4,
+      "height": 9,
+      "stars": 1,
+      "walls": 3,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 3,
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 4
+      },
+      "solverMs": 3.3546650000000113
+    },
+    {
+      "number": 47,
+      "id": "pz-100047",
+      "title": "クリスタルの往復便",
+      "shape": "ring",
+      "width": 4,
+      "height": 4,
+      "stars": 3,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 5,
+      "itemTypes": [
+        "ice",
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "unsolvable",
+        "optimalTurns": null
+      },
+      "solverMs": 1.6787099999999668
+    },
+    {
+      "number": 48,
+      "id": "pz-100048",
+      "title": "氷の街の仕上げ",
+      "shape": "wide",
+      "width": 9,
+      "height": 5,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 3,
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 4
+      },
+      "solverMs": 6.03955099999996
+    },
+    {
+      "number": 49,
+      "id": "pz-100049",
+      "title": "お祭りの準備",
+      "shape": "L",
+      "width": 5,
+      "height": 6,
+      "stars": 2,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 4,
+      "itemTypes": [
+        "ice",
+        "glove"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 6
+      },
+      "solverMs": 5.320738000000006
+    },
+    {
+      "number": 50,
+      "id": "pz-100050",
+      "title": "氷の街に星あかりを",
+      "shape": "tall",
+      "width": 5,
+      "height": 8,
+      "stars": 1,
+      "walls": 1,
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "optimalTurns": 3,
+      "itemTypes": [
+        "glove",
+        "ice",
+        "warp"
+      ],
+      "withoutItems": {
+        "status": "solved",
+        "optimalTurns": 5
+      },
+      "solverMs": 2.1268049999999903
+    }
+  ]
+}

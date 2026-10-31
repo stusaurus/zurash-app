@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#183c63"><title>ズラッシュ！｜第1章 氷の街に星あかりを</title>
+  <link rel="stylesheet" href="./adventure.css"><script type="module" src="./src/adventure.js"></script>
+</head>
+<body>
+  <main class="adventure">
+    <header class="masthead"><img src="./assets/zurash-approved-logo.webp" alt="ズラッシュ！" class="logo"><div><span class="eyebrow">第1章・試作</span><h1>氷の街に星あかりを</h1></div></header>
+    <section class="game-panel" aria-labelledby="stage-title">
+      <div class="stage-heading"><div><span id="stage-number" class="eyebrow">読み込み中</span><h2 id="stage-title">氷の街へようこそ</h2></div><button id="stage-list" class="quiet" disabled>ステージ</button></div>
+      <p id="focus" class="focus">滑って、壁をずらして、星を集めよう。</p>
+      <div class="score-strip"><span>手数 <b id="moves">0</b></span><span>のこりの星 <b id="remaining">—</b></span><span class="town-stars">街の星 <b id="balance">0</b></span></div>
+      <div id="board" class="board" aria-label="パズル盤面"></div>
+      <div class="legend"><span><i class="sample wall-sample"></i>動く壁</span><span id="ice-legend" hidden><i class="sample socket-sample"></i>氷のソケット</span><span id="warp-legend" hidden><i class="sample portal-sample"></i>ポータル</span></div>
+      <div class="controls">
+        <div class="preparation"><span class="eyebrow">① 準備を選ぶ</span><div id="modes" class="modes"></div><p id="instruction" class="instruction">壁移動は省略できます。</p></div>
+        <div class="direction"><span class="eyebrow">② 滑る方向</span><div class="dpad"><button data-dir="0" aria-label="上へ滑る">▲</button><button data-dir="3" aria-label="左へ滑る">◀</button><span class="dpad-center" aria-hidden="true">❄</span><button data-dir="1" aria-label="右へ滑る">▶</button><button data-dir="2" aria-label="下へ滑る">▼</button></div></div>
+      </div>
+      <div class="utilities"><button id="undo" class="quiet" disabled>1手もどる</button><button id="retry" class="quiet" disabled>やり直す</button><button id="hint" class="quiet" disabled>ヒント</button></div>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </section>
+    <section class="town-panel" aria-labelledby="town-title"><div class="town-heading"><div><span class="eyebrow">星で育つ氷の街</span><h2 id="town-title">街のようす</h2></div><span id="completion">0 / 50 クリア</span></div><div id="town" class="town"></div><p>初回クリアで星を1個。10・20・30面の入口では、星3個で街の施設が完成します。</p></section>
+    <footer>第1章は全50ステージ。盤面の星は止まったマスで取れます。</footer>
+  </main>
+  <dialog id="stage-dialog"><div class="dialog-head"><h2>第1章のステージ</h2><button data-close-stages class="quiet">閉じる</button></div><div id="stage-grid" class="stage-grid"></div></dialog>
+  <dialog id="notice"><span id="notice-kicker" class="eyebrow"></span><h2 id="notice-title"></h2><p id="notice-text"></p><div class="notice-actions"><button id="notice-primary" class="primary">つづける</button><button id="notice-secondary" class="quiet" hidden>もう一度</button></div></dialog>
+</body>
+</html>
