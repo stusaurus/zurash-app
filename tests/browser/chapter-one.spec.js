@@ -37,7 +37,11 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
       await page.locator('#undo').click();await expect(page.locator('#moves')).toHaveText('0');
       await expect(page.locator('[data-mode="glove"]')).toContainText('あと 1 回');
     }
-    for(let i=0;i<proof.actions.length;i++){await perform(page,proof.actions[i]);await expect(page.locator('#moves')).toHaveText(String(i+1));}
+    for(let i=0;i<proof.actions.length;i++){
+      if(number===1)await page.locator('#board .cell.arrival:has(.star)').click();
+      else await perform(page,proof.actions[i]);
+      await expect(page.locator('#moves')).toHaveText(String(i+1));
+    }
     await expect(page.locator('#notice')).toBeVisible();await expect(page.locator('#remaining')).toHaveText('0');await expect(page.locator('#balance')).toHaveText(String(before+1));
     if(number<50)await page.locator('#notice-primary').click();
   }

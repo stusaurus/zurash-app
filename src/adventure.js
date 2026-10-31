@@ -102,6 +102,8 @@ function selectMode(nextMode){
 function selectCell(cell){
   if(solved(state))return;
   const options=currentOptions(),preps=options.map(o=>o.action.prep).filter(p=>p.type===mode);
+  const arrival=selectedPrep&&options.find(o=>same(o.action.prep,selectedPrep)&&o.state.position===cell);
+  if(arrival){move(arrival.action.dir);return;}
   const chosen=preps.find(p=>p.to===cell&&((mode==='wall'||mode==='glove')?p.from===selectedWall:true));
   if(chosen){selectedPrep=chosen;render();tell('準備を選びました。滑る方向を決めよう。');return;}
   if((mode==='wall'||mode==='glove')&&preps.some(p=>p.from===cell)){selectedWall=cell;selectedPrep=null;render();tell('光る移動先を選ぼう。');return;}
