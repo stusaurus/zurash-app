@@ -1,0 +1,25 @@
+{
+  "baseCommit": "25de244ca3c232b5231305a5c16c608c38571079",
+  "files": {
+    "src/puzzle/house.js": "90326651b0e482ae031818b595cb547f00ecf313",
+    "src/puzzle/engine.js": "1816f730cf6da3608a86cb2c388cac0ef970ab11",
+    "src/puzzle/progress.js": "d22f997b20bf2c58a30d7b2a3fce85a64ab2c72a",
+    "src/puzzle/schema.js": "7ad3b4ef5e3337c632f3b5172c59fd950be65912",
+    "src/puzzle/campaign.js": "c0af7e2a64a66a36e39169abb86aa0c85358f0d0",
+    "src/house-room-legacy.js": "2e5a7a2b5004b5dc075c2c2e0d59c80c18a17a14",
+    "reports/chapter-01/solutions.json": "ab087b2541ab58968aa32e93377ab0ed9daab48e",
+    "assets/triken-orange-80.png": "024eeb517aab743fb51246294c5f9e543ec81042",
+    "assets/zurash-approved-logo.webp": "40f4ee15620d1bc9affc6f7120cbf1469365e554",
+    "data/campaign.json": "30a77e13fa5ad34eac849d963d3c6a7477c9f00c",
+    "data/chapters/chapter-01/chapter.json": "1aa850ad6399df803b9f6b6b3cd2d91ce3b40517",
+    "data/chapters/chapter-01/manifest.json": "8cda8ddb29da6aaa15d54298ba33329d9da0515b",
+    "data/chapters/chapter-01/chunks/chapter-01-1.json": "d73e761f605210d38c67b0cb9676be672bf11d75",
+    "data/chapters/chapter-01/chunks/chapter-01-2.json": "10991d0625339f5ebb3fff1765c93f1c995b3a11",
+    "data/chapters/chapter-01/chunks/chapter-01-3.json": "2e0a95ff58ffa6ae09de6a00a12be49059b1dda8",
+    "data/chapters/chapter-01/chunks/chapter-01-4.json": "ce8d19003fadafeb99203de8d42b6f619c3bae31",
+    "data/chapters/chapter-01/chunks/chapter-01-5.json": "cd08b8e37da2745af7debb041e9551343a0c62c0"
+  },
+  "uiFlowChanges": [
+    "src/adventure.js: completion notice returns to exterior; puzzle logic unchanged"
+  ]
+}
