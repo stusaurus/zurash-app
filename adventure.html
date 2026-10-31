@@ -2,12 +2,12 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#183c63"><title>ズラッシュ！｜第1章 トリケンの家</title>
+  <meta name="theme-color" content="#dce9dd"><title>ズラッシュ！｜第1章 トリケンの家</title>
   <link rel="stylesheet" href="./adventure.css"><script type="module" src="./src/adventure.js"></script>
 </head>
 <body>
   <main class="adventure">
-    <header class="masthead"><img src="./assets/zurash-approved-logo.webp" alt="ズラッシュ！" class="logo"><div><span class="eyebrow">第1章・試作</span><h1>トリケンの家</h1></div></header>
+    <header class="masthead"><img src="./assets/zurash-approved-logo.webp" alt="ズラッシュ！" class="logo"><div><span class="eyebrow">第1章</span><h1>トリケンの家</h1></div></header>
     <section id="home-screen" class="home-screen"></section>
     <section hidden class="game-panel" aria-labelledby="stage-title">
       <div class="stage-heading"><div><span id="stage-number" class="eyebrow">読み込み中</span><h2 id="stage-title">トリケンの家へようこそ</h2></div><button id="return-home" class="quiet">家へ</button><button id="stage-list" class="quiet" disabled>ステージ</button></div>
@@ -22,7 +22,7 @@
       <div class="utilities"><button id="undo" class="quiet" disabled>1手もどる</button><button id="retry" class="quiet" disabled>やり直す</button><button id="hint" class="quiet" disabled>ヒント</button></div>
       <p id="message" class="message" role="status" aria-live="polite"></p>
     </section>
-    <section hidden class="town-panel" aria-labelledby="town-title"><div class="town-heading"><div><span class="eyebrow">星で育つ家</span><h2 id="town-title">家のようす</h2></div><span id="completion">0 / 50 クリア</span></div><div id="town" class="town"></div><p>初回クリアで星を1個。10・20・30面の入口では、星3個で街の施設が完成します。</p></section>
+    <section hidden class="town-panel" aria-labelledby="town-title"><div class="town-heading"><div><span class="eyebrow">星で育つ家</span><h2 id="town-title">家のようす</h2></div><span id="completion">0 / 50 クリア</span></div><div id="town" class="town"></div><p>初回クリアで星を1個。10・20・30面の入口では、道具が無料で解放されます。</p></section>
     <footer>第1章は全50ステージ。盤面の星は止まったマスで取れます。</footer>
   </main>
   <dialog id="stage-dialog"><div class="dialog-head"><h2>第1章のステージ</h2><button data-close-stages class="quiet">閉じる</button></div><div id="stage-grid" class="stage-grid"></div></dialog>

@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
-import {TASKS} from '../../src/puzzle/house.js';
+import {TASKS,newHome,HOME_KEY} from '../../src/puzzle/house.js';
 const proofs=JSON.parse(fs.readFileSync(new URL('../../reports/chapter-01/solutions.json',import.meta.url))).stages;
 async function perform(page,action){
   await page.locator(`[data-mode="${action.prep.type}"]`).click();
@@ -8,6 +8,35 @@ async function perform(page,action){
   if(['wall','glove','ice'].includes(action.prep.type))await page.locator(`[data-cell="${action.prep.to}"]`).click();
   await page.locator(`[data-dir="${action.dir}"]`).click();
 }
+// An isolated earned-star fixture lets UI failures surface before the long playthrough.
+// The full six-condition test below earns every star through the actual puzzles.
+test('scene controls, pending resume and designs',async({page})=>{
+  await page.setViewportSize({width:390,height:844});
+  const fixture=newHome();fixture.home.reached=50;
+  for(let n=1;n<=50;n++)fixture.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+  await page.addInitScript(({key,save})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(save));},{key:HOME_KEY,save:fixture});
+  await page.goto('/adventure.html');
+  await page.getByRole('button',{name:'玄関へ',exact:true}).click();
+  await page.getByRole('button',{name:'キッチンへ',exact:true}).click();
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','kitchen');
+  await page.locator('[data-area="entry"]').click();
+  for(const t of TASKS.slice(0,3)){
+    await page.locator(`[data-repair="${t.id}"]`).click();
+    await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','building');
+    if(t===TASKS[0]){await page.reload();await page.locator('[data-area="entry"]').click();}
+    await expect(page.locator(`[data-style="${t.id}"][data-choice="0"]`)).toBeVisible();
+  }
+  for(let i=0;i<3;i++){
+    for(const t of TASKS.slice(0,3))await page.locator(`[data-style="${t.id}"][data-choice="${i}"]`).click();
+    await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design',['arch','glass','porthole'][i]);
+    await page.getByRole('button',{name:'外観に戻る',exact:true}).click();
+    await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design',['arch','glass','porthole'][i]);
+    await expect(page.locator('#home-balance')).toHaveText('42');
+    await page.locator('[data-area="entry"]').click();
+  }
+  await page.reload();await page.locator('[data-area="entry"]').click();
+  await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design','porthole');
+});
 for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload at ${width}px`,async({page},info)=>{
   await page.setViewportSize({width,height:900});const errors=[],httpErrors=[];
   page.on('pageerror',e=>errors.push(String(e)));
@@ -31,6 +60,14 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
         const preview=await page.screenshot({type:'jpeg',quality:65,fullPage:true});console.log(`CHAPTER_PREVIEW_${number}=${preview.toString('base64')}`);
       }
     }
+    if(number===1){
+      await page.locator('#return-home').click();
+      await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
+      await page.keyboard.press('ArrowRight');
+      await expect(page.locator('#moves')).toHaveText('0'); // House keyboard input must not move the hidden puzzle.
+      await page.locator('#play-next').click();
+      await expect(page.locator('#board')).toHaveAttribute('data-stage','1');
+    }
     const before=Number(await page.locator('#balance').textContent());
     // At stage 50 the first glove charge must be restored by Undo.
     if(number===50){
@@ -48,13 +85,57 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   }
   await page.locator('#notice-primary').click();
   await expect(page.locator('#home-balance')).toHaveText('50');
+  // The new exterior is the home; entering a room changes the actual artwork.
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
+  await expect(page.locator('[data-scene-art="exterior"]')).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+  for(const b of await page.locator('.scene-hotspot').all()){
+    const box=await b.boundingBox();expect(box.width).toBeGreaterThanOrEqual(44);expect(box.height).toBeGreaterThanOrEqual(44);
+  }
+  await page.getByRole('button',{name:'玄関へ',exact:true}).click();
+  await expect(page.locator('[data-scene-art="entry"]')).toBeVisible();
+  await page.getByRole('button',{name:'キッチンへ',exact:true}).click();
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','kitchen');
+  await page.locator('[data-area="entry"]').click();
+  if(info.project.name==='chromium'&&width===390){
+    await page.screenshot({path:info.outputPath('entry-before-390.png'),fullPage:true});
+    console.log('SCENE_BEFORE_ENTRY='+ (await page.screenshot({type:'jpeg',quality:75,fullPage:true})).toString('base64'));
+  }
   for(const t of TASKS){
     await page.locator(`[data-area="${t.area}"]`).click();await page.locator(`[data-repair="${t.id}"]`).click();
+    if(t===TASKS[0]){
+      await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','building');
+      await expect(page.locator('#home-balance')).toHaveText('47');
+      await page.reload(); // Paid construction resumes without a second debit.
+      await page.locator('[data-area="entry"]').click();
+    }
     await expect(page.locator(`[data-style="${t.id}"][data-choice="2"]`)).toBeVisible();
     if(t!==TASKS.at(-1))await page.locator(`[data-style="${t.id}"][data-choice="2"]`).click();
   }
   await expect(page.locator('#notice-title')).toHaveText('トリケンの家が完成！');await page.locator('#notice-primary').click();
   await expect(page.locator('#home-balance')).toHaveText('10');
+  // Every entry design has different geometry/materials and is shared by both views.
+  const motifs=[['arch','timber','lantern'],['glass','clapboard','bell'],['porthole','masonry','globe']];
+  for(let choice=0;choice<3;choice++){
+    await page.locator('[data-area="entry"]').click();
+    for(const t of TASKS.slice(0,3))await page.locator(`[data-style="${t.id}"][data-choice="${choice}"]`).click();
+    for(const scene of ['entry','exterior']){
+      if(scene==='exterior')await page.getByRole('button',{name:'外観に戻る',exact:true}).click();
+      await expect(page.locator(`[data-scene-art="${scene}"] [data-door-design]`)).toHaveAttribute('data-door-design',motifs[choice][0]);
+      await expect(page.locator(`[data-scene-art="${scene}"]`)).toHaveAttribute('data-wall-design',motifs[choice][1]);
+      await expect(page.locator(`[data-scene-art="${scene}"] [data-light-design]`)).toHaveAttribute('data-light-design',motifs[choice][2]);
+      await expect(page.locator('#home-balance')).toHaveText('10');
+      expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+      if(info.project.name==='chromium'&&width===390){
+        await page.screenshot({path:info.outputPath(`${scene}-design-${choice}-390.png`),fullPage:true});
+        console.log(`SCENE_${scene.toUpperCase()}_${choice}=`+(await page.screenshot({type:'jpeg',quality:75,fullPage:true})).toString('base64'));
+      }
+    }
+  }
+  await page.reload();
+  await page.locator('[data-area="entry"]').click();
+  for(const t of TASKS.slice(0,3))await expect(page.locator(`[data-style="${t.id}"][data-choice="2"]`)).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design','porthole');
   await page.screenshot({path:info.outputPath(`completed-house-${width}.png`),fullPage:true});
   if(info.project.name==='chromium'&&width===390)console.log('HOME_PREVIEW='+ (await page.screenshot({type:'jpeg',quality:65,fullPage:true})).toString('base64'));
   await page.reload();await expect(page.locator('#home-balance')).toHaveText('10');

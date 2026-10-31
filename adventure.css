@@ -358,4 +358,73 @@ to{box-shadow:none}
 }
 }
 
-.home-screen{background:#edf7f6f2;border-radius:24px;padding:22px;box-shadow:0 20px 60px #0d294566}.home-bar,.home-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px}.home-bar strong{background:#fff4c4;padding:10px 18px;border-radius:20px;color:#80631b}.home-copy{font-size:13px;color:#607e88;margin:12px 0}.house-world{background:linear-gradient(#cce9f2,#edf7fa);border-radius:20px;overflow:hidden;margin:12px -12px}.house-world svg{width:100%;display:block;filter:drop-shadow(0 12px 5px #486d8540)}[data-room],[data-object]{cursor:pointer}.room-tabs{display:flex;gap:6px;overflow:auto;padding-bottom:12px}.room-tabs button{white-space:nowrap;background:#fff;border:1px solid #a9c8cb;border-radius:16px;padding:10px 13px;font-size:12px}.room-tabs button[aria-pressed=true]{background:#276e7c;color:white}.repair{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:14px 0;border-bottom:1px solid #c9dcdb}.repair b{font-size:14px}.repair small{display:block;font-size:11px;margin-top:5px;color:#68827e}.repair>button{background:#f7d77c;border:1px solid #d3b15a;border-radius:12px;padding:12px;white-space:nowrap}.swatches{display:flex;gap:6px}.swatches button{width:32px;height:38px;border:2px solid white;border-radius:9px}.swatches button[aria-pressed=true]{outline:2px solid #385b60}.home-bottom{margin-top:20px;font-size:12px}.building-now{animation:repair-pulse .35s infinite alternate}@keyframes repair-pulse{to{opacity:.3;transform:translateY(-5px)}}@media(max-width:360px){.home-screen{padding:14px}.home-bottom{flex-wrap:wrap}.repair b{font-size:12px}.swatches button{width:28px}.stage-heading{flex-wrap:wrap}}@media(prefers-reduced-motion:reduce){.building-now{animation:none}}
+/* House scenes: scoped to the home so puzzle geometry is untouched. */
+body:has(#home-screen:not([hidden])){background:#e6eddf;color:#3c5147}
+body:has(#home-screen:not([hidden])) .adventure{width:min(100%,860px);padding:0 0 24px}
+body:has(#home-screen:not([hidden])) .masthead{display:none}
+body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
+.home-screen{position:relative;background:#f7f3e8;overflow:clip;box-shadow:0 12px 50px #34574b22}
+.home-bar{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:18px 18px 13px;background:linear-gradient(#edf6e9e8,#edf6e900);pointer-events:none}
+.home-bar h1{font-size:23px;font-weight:850;letter-spacing:.04em;color:#304f49;text-shadow:0 1px #fff9}
+.home-bar .eyebrow{font-size:9px;letter-spacing:.11em;margin-bottom:5px;color:#526f60;opacity:1}
+.home-bar strong{display:flex;align-items:center;gap:8px;background:#fffbeb;border:1px solid #f7eccf;border-radius:24px;padding:8px 15px;box-shadow:0 3px 12px #41615a1a;color:#a77e2f;font-size:20px}
+.home-bar strong span{color:#4d5c45;font-variant-numeric:tabular-nums}
+#scene-heading:focus{outline:none}
+.house-world{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(#abcdd1,#e4e7d7);width:100%;aspect-ratio:480/540}
+.house-world svg{display:block;width:100%;height:100%;overflow:visible}
+.house-world>.illustrated-scene{pointer-events:none}
+.house-world .scene-object{pointer-events:all;cursor:pointer}
+.house-world>svg:not(.illustrated-scene){padding:70px 10px 40px}
+.scene-caption{position:absolute;left:0;right:0;text-align:center;top:19%;color:#557d78;font-size:10px;letter-spacing:.08em;pointer-events:none}
+.scene-back{position:absolute;top:18%;left:15px;border:1px solid #e9e9cd;background:#fffcf0e8;border-radius:20px;padding:9px 13px;font-size:11px;box-shadow:0 3px 12px #4f57451a;min-height:44px}
+.scene-hotspot{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:48px;min-height:48px;border:0;background:none;padding:3px;color:#fffbe9;text-shadow:0 1px 4px #254e4e;z-index:1}
+.scene-hotspot>span{width:29px;height:29px;display:grid;place-items:center;border:1.5px solid #fff8db;border-radius:50%;background:#365d52df;box-shadow:0 3px 9px #243e4233;font-size:20px;line-height:1}
+.scene-hotspot b{font-size:11px;background:#315a50eb;border:1px solid #fcf5d343;border-radius:12px;padding:3px 8px;white-space:nowrap;font-weight:650;letter-spacing:.04em;margin-top:2px}
+.scene-hotspot:hover>span,.scene-hotspot:focus-visible>span{background:#bd9858;transform:translateY(-2px)}
+.scene-counter{position:absolute;bottom:14px;left:18px;background:#fdf9e8e0;backdrop-filter:blur(5px);padding:7px 11px;border-radius:20px;font-size:13px;font-weight:750;color:#5c6c55;pointer-events:none}
+.scene-counter small{font-size:10px;font-weight:500}
+.repair-status{position:absolute;bottom:14px;right:14px;background:#fff6d9;color:#806634;border-radius:18px;padding:9px 13px;font-size:11px;box-shadow:0 2px 8px #34574b1a;z-index:2}
+.repair-status i{display:inline-block;width:7px;height:7px;background:#c69740;border-radius:50%;margin-right:6px}
+.room-tabs{display:flex;overflow-x:auto;gap:2px;background:#faf7ed;padding:10px 10px 8px;scrollbar-width:none;border-bottom:1px solid #e4dfce}
+.room-tabs::-webkit-scrollbar{display:none}
+.room-tabs button{border:0;background:none;padding:8px 11px;min-height:44px;white-space:nowrap;display:flex;align-items:center;gap:5px;border-radius:14px;font-size:11px;color:#71816c}
+.room-tabs button>span{font-size:18px;line-height:1}
+.room-tabs button[aria-pressed=true]{background:#e5e9d7;color:#426553;font-weight:750;box-shadow:inset 0 0 0 1px #d0d6bf}
+.restoration-sheet{padding:22px 18px 0;background:#faf7ed}
+.repair-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.repair-heading .eyebrow{font-size:8px;letter-spacing:.13em;color:#819079;opacity:1;margin-bottom:5px}
+.repair-heading h2{font-size:17px;color:#445840;font-weight:750}
+.repair-heading>span{font-size:11px;color:#7c8b70;white-space:nowrap}
+.home-copy{font-size:10px;line-height:1.8;color:#8a8d78;margin:9px 0 5px}
+.repair{padding:15px 0;border-bottom:1px solid #e4e1d2;scroll-margin:12px}
+.repair.selected{background:linear-gradient(90deg,#f2ebd1,#f2ebd100);border-radius:10px}
+.repair-line{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.repair b{font-size:13px;font-weight:700;color:#4e5f48}
+.repair small{display:block;color:#8a927d;font-size:10px;line-height:1.5;margin-top:5px}
+.repair-check{color:#64896b}
+.repair-line>button{display:flex;align-items:center;gap:10px;min-width:96px;justify-content:center;min-height:46px;padding:9px 12px;border-radius:15px;background:linear-gradient(#efce80,#dfb55c);border:1px solid #cda45b;box-shadow:0 3px 0 #bd9b5d;color:#685229;font-size:13px;font-weight:750;white-space:nowrap}
+.repair-line>button span{font-size:11px}
+.repair-line>button:disabled{background:#ebe7d9;box-shadow:none;border-color:#dbd7c9;color:#8b8d79;opacity:.7}
+.swatches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:13px}
+.swatches button{position:relative;min-width:0;min-height:102px;border:1px solid #e0dccb;border-radius:12px;background:#f1eee2;padding:7px 3px 9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#5c6c54}
+.swatches button svg{width:49px;height:44px;display:block}
+.swatches button b{font-size:10px;line-height:1.4;font-weight:650}
+.swatches button small{font-size:9px;margin:0;line-height:1.4;white-space:normal;color:#8a907b}
+.swatches button[aria-pressed=true]{background:#e8eedc;border-color:#849f7a;box-shadow:inset 0 0 0 1px #849f7a}
+.choice-tick{display:none;position:absolute;top:4px;right:5px;font-size:10px;color:#648565}
+[aria-pressed=true]>.choice-tick{display:block}
+.material-chip{display:block;width:38px;height:32px;background:linear-gradient(115deg,#e0c094,#b18960);border-radius:6px;box-shadow:0 2px 2px #53684a1c}
+.chip-1{background:linear-gradient(115deg,#cae1ce,#88b3a3)}.chip-2{background:linear-gradient(115deg,#dbcbe2,#b099c2)}
+.home-bottom{position:sticky;bottom:0;z-index:3;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 18px max(14px,env(safe-area-inset-bottom));background:#faf7edf5;backdrop-filter:blur(12px);box-shadow:0 -8px 20px #5063470d;border-top:1px solid #e4dfcd;color:#8a927b;font-size:10px}
+.home-bottom>span{white-space:nowrap}.home-bottom>span b{font-size:15px;color:#617456}
+.home-bottom #play-next{position:relative;background:linear-gradient(#86a981,#597e63);border:1px solid #52785b;box-shadow:0 3px 0 #41644a;border-radius:17px;padding:9px 33px 10px 20px;color:#fffbe8;min-height:54px;font-size:14px;letter-spacing:.02em;font-weight:750;min-width:165px;line-height:1.5}
+#play-next small{display:block;font-size:8px;letter-spacing:.09em;color:#e4edc9;font-weight:500}
+#play-next>span{position:absolute;right:15px;top:17px;font-size:23px;line-height:1}
+.building-now{animation:repair-pulse .45s infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+.construction-art{pointer-events:none}
+.scene-enter>.illustrated-scene{animation:scene-arrive .4s ease-out}
+@keyframes scene-arrive{from{opacity:.45;transform:scale(1.025)}to{opacity:1;transform:none}}
+@keyframes repair-pulse{to{opacity:.45;transform:translateY(-3px)}}
+@media(min-width:720px){.home-screen{margin:20px 0;border-radius:26px;display:grid;grid-template-columns:1.1fr 1fr}.home-bar{width:52.4%;padding:20px}.house-world{grid-column:1;grid-row:1/4;align-self:start;position:sticky;top:0;aspect-ratio:480/540}.house-world>svg{object-fit:contain}.room-tabs{grid-column:2;grid-row:1;flex-wrap:wrap;padding:12px}.restoration-sheet{grid-column:2;grid-row:2;padding-top:20px}.home-bottom{grid-column:2;grid-row:3;align-self:end;flex-wrap:wrap}.home-bottom #play-next{flex:1}.scene-caption{top:21%}.scene-back{top:21%}.scene-counter{bottom:18px}}
+@media(max-width:360px){.home-bar{padding:16px 14px}.home-bar h1{font-size:20px}.home-bar strong{font-size:18px;padding:7px 12px}.home-bar .eyebrow{font-size:8px}.restoration-sheet{padding:19px 14px 0}.repair-heading h2{font-size:15px}.room-tabs{padding:7px}.room-tabs button{padding:7px 9px;font-size:10px}.home-bottom{padding-left:14px;padding-right:14px;gap:7px}.home-bottom #play-next{min-width:155px;font-size:13px}.home-copy{font-size:9px}.swatches{gap:5px}.swatches button b{font-size:10px}.swatches button small{font-size:9px}.scene-hotspot b{font-size:10px}.scene-caption{font-size:9px}.repair-line>button{min-width:86px;gap:7px}.repair b{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.building-now,.scene-enter>.illustrated-scene{animation:none}.scene-hotspot:hover>span{transform:none}}

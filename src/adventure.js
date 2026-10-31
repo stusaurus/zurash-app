@@ -44,7 +44,7 @@ async function openStage(number) {
   }catch(error){tell('ステージを開けませんでした。通信を確認して、もう一度選んでください。',true);console.error(error);}
   finally{busy=false;}
 }
-function showHome(){document.querySelector('.game-panel').hidden=true;$('home-screen').hidden=false;houseView.render();}
+function showHome(){document.querySelector('.game-panel').hidden=true;$('home-screen').hidden=false;houseView.renderHome();}
 function currentOptions(){return solved(state)?[]:successors(stage,state);}
 function renderModes(options) {
   const unlocked=itemsAvailableAt(campaign,homeSave.home.reached);
@@ -144,7 +144,7 @@ $('stage-list').addEventListener('click',()=>{
 $('stage-grid').addEventListener('click',e=>{const button=e.target.closest('[data-go]');if(button&&!button.disabled){$('stage-dialog').close();openStage(Number(button.dataset.go));}});
 document.querySelector('[data-close-stages]').addEventListener('click',()=>$('stage-dialog').close());
 document.addEventListener('keydown',e=>{
-  if($('notice').open||$('stage-dialog').open||!state)return;
+  if(document.querySelector('.game-panel').hidden||$('notice').open||$('stage-dialog').open||!state)return;
   const dir={ArrowUp:0,ArrowRight:1,ArrowDown:2,ArrowLeft:3}[e.key];if(dir!==undefined){e.preventDefault();move(dir);}
 });
 try{
