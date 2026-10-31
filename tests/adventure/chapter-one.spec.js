@@ -22,6 +22,8 @@ test('scene controls, pending resume and designs',async({page})=>{
   await expect(page.locator('#home-repairs')).toBeHidden();
   await page.locator('[data-edit-object="home-entry-0"]').click();
   await expect(page.locator('#home-repairs')).toBeVisible();
+  await expect(page.locator('#preview-home-entry-0 figcaption')).toHaveText('修復前');
+  const ids=await page.locator('[id]').evaluateAll(es=>es.map(e=>e.id));expect(new Set(ids).size).toBe(ids.length);
   await page.locator('#close-repairs').click();
   await expect(page.locator('#home-repairs')).toBeHidden();
   await page.getByRole('button',{name:'玄関へ',exact:true}).click();
@@ -31,6 +33,7 @@ test('scene controls, pending resume and designs',async({page})=>{
   for(const t of TASKS.slice(0,3)){
     await page.locator(`[data-repair="${t.id}"]`).click();
     await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','building');
+    await expect(page.locator(`#preview-${t.id} figcaption`)).toHaveText('修復中…');
     if(t===TASKS[0]){await page.reload();await page.locator('[data-area="entry"]').click();await openRepairs(page);}
     await expect(page.locator(`[data-style="${t.id}"][data-choice="0"]`)).toBeVisible();
   }
@@ -44,6 +47,7 @@ test('scene controls, pending resume and designs',async({page})=>{
   }
   await page.reload();await page.locator('[data-area="entry"]').click();await openRepairs(page);
   await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design','porthole');
+  await expect(page.locator('#preview-home-entry-0 figcaption')).toHaveText('船の丸窓');
   expect(await page.locator('.home-bottom').evaluate(e=>getComputedStyle(e).position)).not.toBe('fixed');
   expect(await page.locator('.home-bottom').evaluate(e=>getComputedStyle(e).position)).not.toBe('sticky');
   for(const choice of await page.locator('[data-style]').all()){
@@ -143,6 +147,8 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
     if(t!==TASKS.at(-1))await page.locator(`[data-style="${t.id}"][data-choice="2"]`).click();
   }
   await expect(page.locator('#notice-title')).toHaveText('トリケンの家が完成！');await page.locator('#notice-primary').click();
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
+  await expect(page.locator('#home-repairs')).toBeHidden();
   await expect(page.locator('#home-balance')).toHaveText('10');
   // Every entry design has different geometry/materials and is shared by both views.
   const motifs=[['arch','timber','lantern'],['glass','clapboard','bell'],['porthole','masonry','globe']];

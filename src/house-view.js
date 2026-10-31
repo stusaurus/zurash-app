@@ -13,11 +13,27 @@ const objectTargets={
  exterior:[{id:'home-entry-0',x:44,y:52},{id:'home-entry-1',x:67,y:64},{id:'home-entry-2',x:59,y:50}],
  entry:[{id:'home-entry-0',x:51,y:43},{id:'home-entry-1',x:61,y:29},{id:'home-entry-2',x:28,y:42}],
 };
+// Reuse the actual scene renderer for close-ups, with isolated SVG definitions.
+// No saved state is introduced, and these images carry no interactive data attrs.
+const detailCameras={exterior:[[156,235,113,173],[64,210,279,185],[244,246,72,103]],entry:[[181,191,112,178],[76,149,328,208],[94,180,79,109]]};
+function repairDetail(save,scene,task){
+ if(!detailCameras[scene])return '';
+ const prefix=`detail-${scene}-${task.id}-`,camera=detailCameras[scene][task.slot].join(' ');
+ const art=renderHouseScene(save,scene)
+  .replace(/viewBox="[^"]*"/,`viewBox="${camera}"`)
+  .replace(/class="illustrated-scene"/,'class="repair-detail"')
+  .replace(/\sdata-[\w-]+="[^"]*"/g,'')
+  .replace(/id="([^"]+)"/g,(_,id)=>`id="${prefix}${id}"`)
+  .replace(/url\(#([^)]+)\)/g,(_,id)=>`url(#${prefix}${id})`)
+  .replace(/aria-label="[^"]*"/,`aria-label="${task.label}の現在の見た目"`);
+ const caption=save.home.pending===task.id?'修復中…':save.home.done[task.id]?designOptions(task)[save.home.styles[task.id]??0].name:'修復前';
+ return `<figure class="repair-preview" id="preview-${task.id}">${art}<figcaption>${caption}</figcaption></figure>`;
+}
 export function createHouseView({element,getSave,setSave,onPlay,onComplete,onError}){
  let current='exterior',timer,selected=null,lastScene=null,menuOpen=false;
  const area=()=>current==='exterior'?'entry':current;
  function navigate(id){if(!SCENES.some(([key])=>key===id))return;current=id;selected=null;menuOpen=false;render();element.querySelector('#scene-heading')?.focus({preventScroll:true});element.scrollIntoView({block:'start',behavior:'instant'});}
- function openMenu(id=null){selected=id;menuOpen=true;render();const target=element.querySelector(id?`#repair-${id}`:'.restoration-sheet');target?.scrollIntoView({block:'nearest',behavior:'instant'});element.querySelector(id?`[data-repair="${id}"], [data-style="${id}"]`:'#close-repairs')?.focus({preventScroll:true});}
+ function openMenu(id=null){selected=id;menuOpen=true;render();const target=element.querySelector(id?`#repair-${id}`:'.restoration-sheet');target?.scrollIntoView({block:'nearest',behavior:'instant'});(element.querySelector(id?`[data-repair="${id}"]:not(:disabled), [data-style="${id}"]`:'#close-repairs')??element.querySelector('#close-repairs'))?.focus({preventScroll:true});}
  function render(){
  const s=getSave(),done=s.home.done,count=clears(s),sceneName=SCENES.find(([id])=>id===current)[1],tasks=TASKS.filter(t=>t.area===area()),entered=lastScene!==current;lastScene=current;
  element.dataset.scene=current;element.dataset.repairMenu=String(menuOpen);
@@ -32,7 +48,7 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  <div class="home-bottom"><button id="repair-menu" aria-expanded="${menuOpen}" aria-controls="home-repairs"><span aria-hidden="true">✧</span> 修復・もよう替え<small>${count} / 50 クリア · ${tasks.filter(t=>done[t.id]).length}/3 修復</small></button><button class="primary" id="play-next"><small>★ 星を集めに</small>${count===50?'もう一度パズルへ':'ステージ '+Math.min(50,count+1)+' へ'} <span aria-hidden="true">›</span></button></div>
  <section id="home-repairs" class="restoration-sheet" aria-labelledby="repair-title" ${menuOpen?'':'hidden'}><div class="repair-heading"><div><span class="eyebrow">${current==='exterior'?'WELCOME HOME':'MAKE YOURSELF AT HOME'}</span><h2 id="repair-title">${current==='exterior'?'玄関から、家をあたたかく。':`${sceneName}を整えよう`}</h2></div><button id="close-repairs" aria-label="修復メニューを閉じて家を眺める">家を眺める ×</button></div>
  <p class="home-copy">${area()==='entry'?'扉・外壁・玄関灯の修復は、家の外と中に反映されます。': 'ひとつ直すたび、ここが好きになる。'} 完成後の模様替えは無料です。</p>
- <div id="repair-tasks">${tasks.map(t=>`<article class="repair ${done[t.id]?'finished':''} ${selected===t.id?'selected':''}" id="repair-${t.id}"><div class="repair-line"><div><b>${done[t.id]?'<span class="repair-check">✓</span> ':''}${t.label}</b><small>${done[t.id]?'完成 · デザインをタップして変更':s.home.pending===t.id?'建設中…':available(s,t)?balance(s.progress)<t.cost?'パズルで星を集めよう':'星を使って修復できます':`${t.at}面クリア後${t.requires.length?'・前の修復が必要':''}`}</small></div>${!done[t.id]?`<button data-repair="${t.id}" ${!available(s,t)||s.home.pending||balance(s.progress)<t.cost?'disabled':''}>★ ${t.cost}<span>直す</span></button>`:''}</div>${done[t.id]?`<div class="swatches" aria-label="${t.label}のデザイン">${designOptions(t).map((choice,i)=>`<button data-style="${t.id}" data-choice="${i}" aria-label="${choice.name}：${choice.material}" aria-pressed="${(s.home.styles[t.id]??0)===i}">${thumbnail(t,i)}<b>${choice.name}</b><small>${choice.material}</small><span class="choice-tick" aria-hidden="true">✓</span></button>`).join('')}</div>`:''}</article>`).join('')}</div></section>`;
+ <div id="repair-tasks">${tasks.map(t=>`<article class="repair ${done[t.id]?'finished':''} ${selected===t.id?'selected':''}" id="repair-${t.id}"><div class="repair-line"><div><b>${done[t.id]?'<span class="repair-check">✓</span> ':''}${t.label}</b><small>${done[t.id]?'完成 · デザインをタップして変更':s.home.pending===t.id?'建設中…':available(s,t)?balance(s.progress)<t.cost?'パズルで星を集めよう':'星を使って修復できます':`${t.at}面クリア後${t.requires.length?'・前の修復が必要':''}`}</small></div>${!done[t.id]?`<button data-repair="${t.id}" ${!available(s,t)||s.home.pending||balance(s.progress)<t.cost?'disabled':''}>★ ${t.cost}<span>直す</span></button>`:''}</div>${menuOpen?repairDetail(s,current,t):''}${done[t.id]?`<div class="swatches" aria-label="${t.label}のデザイン">${designOptions(t).map((choice,i)=>`<button data-style="${t.id}" data-choice="${i}" aria-label="${choice.name}：${choice.material}" aria-pressed="${(s.home.styles[t.id]??0)===i}">${thumbnail(t,i)}<b>${choice.name}</b><small>${choice.material}</small><span class="choice-tick" aria-hidden="true">✓</span></button>`).join('')}</div>`:''}</article>`).join('')}</div></section>`;
  element.querySelector('#play-next').onclick=onPlay;
  element.querySelector('#repair-menu').onclick=()=>{if(menuOpen){menuOpen=false;render();element.querySelector('#repair-menu').focus();}else openMenu();};
  element.querySelector('#close-repairs').onclick=()=>{menuOpen=false;render();element.querySelector('#repair-menu').focus({preventScroll:true});element.scrollIntoView({block:'start',behavior:'instant'});};
