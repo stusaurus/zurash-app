@@ -1,17 +1,24 @@
-# 玄関ドア — 修復前 + 3デザイン (試作品管理)
+# トリケンの家｜玄関ドア4種類 v0.3
 
-- 第1章 / 家の外観と玄関の **共通オブジェクト**
-- アート方向: 氷×木のファンタジー、木の暖かさと結晶装飾
-- 状態: **prototype-cutout**。正式採用ではない。
-- 4画像すべて320×400 RGBA、アンカー(0.5, 0.94)
-- 元のチャット生成物: `zurash_front_doors_prototype_v01.zip`
-- 画像本体: **未登録**。manifestに記載されたパスは配置予定。
+**状態：改良試作品。正式採用・ゲームへの差し替えは未実施。**
 
-| 状態 | 予定ファイル | 扱い |
-|---|---|---|
-| 修復前 | prototypes/door_before_01.png | 別パースからの切り出し。再調整必須 |
-| ナチュラルウッド | prototypes/door_natural_01.png | 仮切り抜き |
-| アイスブルー | prototypes/door_iceblue_01.png | 仮切り抜き |
-| クリスタル | prototypes/door_crystal_01.png | 仮切り抜き |
+修復前1枚、修復後3枚。すべて同じ原画から切り抜いた正面画角、320×400 RGBA PNG。足元 y=370、中央 x=160 に統一。
 
-当面は PR #5 の既存 SVG のドアをそのまま使う。pngの品質が合格し、ゲーム画面内で差し替えと保存が検証された後に変更する。
+| 種類 | 予定ファイル | GitHub画像本体 |
+| --- | --- | --- |
+| before | prototypes/door_before_03.png | 未登録 |
+| natural | prototypes/door_natural_03.png | 未登録 |
+| iceblue | prototypes/door_iceblue_03.png | 未登録 |
+| crystal | prototypes/door_crystal_03.png | 未登録 |
+
+元のZIP：zurash_front_doors_refined_v03.zip（ChatGPT会話で生成した素材）。このPRには台帳と取込プログラムのみ登録済みで、PNG本体はまだ含まれない。
+
+## バイナリ取込方法
+WorkなどZIPにアクセスできる環境で、リポジトリのルートからコマンドを実行する。
+
+1. python scripts/import_door_prototypes.py /path/to/zurash_front_doors_refined_v03.zip --dry-run
+2. 4ファイルのSHA256とサイズが一致することを確認。
+3. --dry-run を外して実行、画像とmanifestの更新をこの専用ブランチにコミット。
+
+正式採用する前に、現在の外観と玄関の両側で位置・パース・透過境界・解像度をチェックする。
+PR #5の正式SVGドアは採用承認までそのまま残す。

@@ -1,10 +1,10 @@
 {
-  "version": 1,
+  "version": 2,
   "scene": "house/exterior",
   "slot": "front_door",
   "visual_direction": "ice-and-wood-fantasy",
   "design_direction_approved": true,
-  "artwork_status": "prototype-cutout",
+  "artwork_status": "prototype-revised-awaiting-approval",
   "production_approved": false,
   "deployment": "not-integrated",
   "canvas": {
@@ -14,84 +14,83 @@
     "channels": "RGBA",
     "anchor": {
       "x": 0.5,
-      "y": 0.94
-    }
+      "y": 0.925
+    },
+    "baseline_y": 370
   },
   "source_bundle": {
-    "name": "zurash_front_doors_prototype_v01.zip",
+    "name": "zurash_front_doors_refined_v03.zip",
     "contained_in_git": false,
-    "origin": "ChatGPT conversation generated cutouts",
-    "note": "The local source ZIP must be transferred by an authorized binary file upload; the registry is not evidence that image bytes are in Git."
+    "origin": "ChatGPT conversation cutouts from a common art sheet",
+    "source_sheet": "a_clean_polished_game_asset_sheet_ui_design_pre.png"
   },
   "variants": [
     {
+      "id": "door_before_03",
       "key": "before",
-      "id": "door_before_01",
       "name": "修復前",
-      "path": "assets/house/exterior/door/prototypes/door_before_01.png",
+      "path": "assets/house/exterior/door/prototypes/door_before_03.png",
       "present_in_git": false,
-      "sha256": "b763be247cb36767e0b0fc1b3c11a9db74b3bdf08bbf1c98c55d98f6149f5e80",
-      "bytes": 173149,
+      "sha256": "08e6ae0edbab90dd80c7896d4a057adf56c120c0cbdfba7978db04e6a36931fa",
+      "bytes": 186193,
       "alpha_bbox": [
-        30,
-        31,
-        290,
-        375
-      ],
-      "notes": "別のパースで作られた原画を切り抜き。サイズと角度の修正が必要"
+        21,
+        38,
+        299,
+        370
+      ]
     },
     {
+      "id": "door_natural_03",
       "key": "natural",
-      "id": "door_natural_01",
       "name": "ナチュラルウッド",
-      "path": "assets/house/exterior/door/prototypes/door_natural_01.png",
+      "path": "assets/house/exterior/door/prototypes/door_natural_03.png",
       "present_in_git": false,
-      "sha256": "629cc8a7fe6f5b86837e8ac3f6f6eb09ff22d3aa3bdfc87d491cf8fe8eef491b",
-      "bytes": 145579,
+      "sha256": "4c4170372c1d3705d083bc72daf4f049a4546ba14daa478077c3816e707f7ac6",
+      "bytes": 180017,
       "alpha_bbox": [
-        19,
-        70,
-        301,
-        375
+        22,
+        30,
+        297,
+        370
       ]
     },
     {
+      "id": "door_iceblue_03",
       "key": "iceblue",
-      "id": "door_iceblue_01",
       "name": "アイスブルー",
-      "path": "assets/house/exterior/door/prototypes/door_iceblue_01.png",
+      "path": "assets/house/exterior/door/prototypes/door_iceblue_03.png",
       "present_in_git": false,
-      "sha256": "5b4c8f9f4d315b9023ccfcf4698702e6b82ae8874b9f350c0d2c4ab44fd1ac67",
-      "bytes": 147837,
+      "sha256": "fe8f186ac6b227b6b7b28692d2f56c782d64539cf054fe0e9b9883b53f5f053e",
+      "bytes": 188115,
       "alpha_bbox": [
-        20,
-        62,
-        301,
-        375
+        21,
+        30,
+        298,
+        370
       ]
     },
     {
+      "id": "door_crystal_03",
       "key": "crystal",
-      "id": "door_crystal_01",
       "name": "クリスタル",
-      "path": "assets/house/exterior/door/prototypes/door_crystal_01.png",
+      "path": "assets/house/exterior/door/prototypes/door_crystal_03.png",
       "present_in_git": false,
-      "sha256": "385737c573769d911a2b9b5a58ad42a2cb8e4e348a53d06083edc7600aaa65bf",
-      "bytes": 147883,
+      "sha256": "05e6645938cb43b302a481fd6f0914dddd0c526c7074d4b4ecb6f764c9806f02",
+      "bytes": 196434,
       "alpha_bbox": [
-        19,
-        69,
-        301,
-        375
+        21,
+        30,
+        299,
+        370
       ]
     }
   ],
   "quality_gate": [
-    "Same view/perspective and outer frame across 4 variants",
-    "No labels/UI/background/characters embedded",
-    "Alpha edges clean without halo",
-    "Exterior and entry scenes can swap using same anchor",
-    "Before-door can be repaired into any of 3 after variants without changing wall cutout",
-    "iPhone 320 and 390 visual QA"
+    "Same front-facing camera, 320x400 RGBA, and bottom y=370",
+    "No UI, labels, or characters baked into PNG",
+    "Check snow-edge alpha and masonry footprint",
+    "Mount test on PR5 exterior and entry scenes",
+    "User visual approval before production adoption"
   ]
 }
