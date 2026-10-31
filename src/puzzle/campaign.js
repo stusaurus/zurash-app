@@ -34,11 +34,12 @@ export function canEnterChapterStage(chapter,progress,number) {
   const ordinal=number-chapter.firstStage;
   return [...(chapter.requires??[]),...chapter.stageIds.slice(0,ordinal)].every(id=>Object.hasOwn(progress.completed,id));
 }
-export function enterChapterStage(campaign,chapter,stage,progress,{preview=false}={}) {
+export function enterChapterStage(campaign,chapter,stage,progress,{preview=false,houseMode=false}={}) {
   validateCampaign(campaign);validateProgress(progress);validateChapterStage(campaign,chapter,stage);
   if(chapter.release==='draft'&&!preview)throw Error('Draft chapter requires preview mode');
   if(stage.status!=='approved'&&!preview)throw Error('Candidate stage requires preview mode');
   if(!canEnterChapterStage(chapter,progress,stage.chapter.number))throw Error('Stage locked');
+  if(houseMode)return {progress:structuredClone(progress),events:[]};
   let next=structuredClone(progress);const events=[];
   // Entering the introductory stage rebuilds its town facility, before the
   // player uses the item. A replay or reload never spends stars twice.
