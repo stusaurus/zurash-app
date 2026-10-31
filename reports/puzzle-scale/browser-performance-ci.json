@@ -1,0 +1,83 @@
+{
+  "environment": "Headless browsers on Linux; localhost HTTP; 390px viewport. Not real iPhone or mobile-network performance.",
+  "date": "2026-10-31T10:26:19.502Z",
+  "results": [
+    {
+      "name": "chromium",
+      "status": "passed",
+      "errors": [],
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+      "viewport": [
+        390,
+        844
+      ],
+      "manifestMs": 5,
+      "firstChunkMs": 6.7000000000116415,
+      "random1000": {
+        "p50": 2.6999999999825377,
+        "p95": 4.2999999999883585,
+        "totalMs": 2935.8000000000175
+      },
+      "requests": 1101,
+      "bytes": 50949600,
+      "replayed": 5202,
+      "replayMs": 496.0999999999767,
+      "syntheticCompletions": 10000,
+      "saveBytes": 520037,
+      "saveUtf16Bytes": 1040074,
+      "saveMs": {
+        "p50": 11.5,
+        "p95": 11.700000000011642
+      },
+      "restoreMs": {
+        "p50": 8.800000000017462,
+        "p95": 9.800000000017462
+      },
+      "repeatClearAndSaveMs": {
+        "p50": 27.70000000001164,
+        "p95": 35.60000000000582
+      }
+    },
+    {
+      "name": "webkit",
+      "status": "passed",
+      "errors": [],
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15",
+      "viewport": [
+        390,
+        844
+      ],
+      "manifestMs": 2,
+      "firstChunkMs": 10,
+      "random1000": {
+        "p50": 3,
+        "p95": 4,
+        "totalMs": 2769
+      },
+      "requests": 1101,
+      "bytes": 50949600,
+      "replayed": 5202,
+      "replayMs": 574,
+      "syntheticCompletions": 10000,
+      "saveBytes": 520037,
+      "saveUtf16Bytes": 1040074,
+      "saveMs": {
+        "p50": 2,
+        "p95": 4.000000000000455
+      },
+      "restoreMs": {
+        "p50": 4,
+        "p95": 5
+      },
+      "repeatClearAndSaveMs": {
+        "p50": 12.999999999999545,
+        "p95": 16
+      }
+    }
+  ],
+  "ci": {
+    "run": "https://github.com/stusaurus/zurash-app/actions/runs/41192666817",
+    "jobId": 124512446370,
+    "sourceCommit": "53d2c34fff837ab40b8385e83d7a1cbaf7fd77b2"
+  }
+}

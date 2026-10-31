@@ -1,0 +1,575 @@
+{
+  "metadata": {
+    "baseCommit": "040bb3fbeb95684c7d7c9edba45e8b8845a85a8d",
+    "seed": 731031,
+    "generator": "random-v1",
+    "rulesVersion": "solo-v1",
+    "maxNodes": 1500,
+    "maxMs": 1000,
+    "node": "v24.22.1",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "cpuCount": 9,
+    "date": "2026-10-31T10:13:45.960Z",
+    "ledgerSha256": "b9e2e39479c6eb5487ec7bd77dedec6781911fa070caa5f0ede1b184a8ad9364"
+  },
+  "milestones": [
+    {
+      "count": 50,
+      "validatedPlacements": 50,
+      "invalidPlacements": 0,
+      "exactDuplicates": 0,
+      "symmetryDuplicates": 0,
+      "status": {
+        "solved": 28,
+        "budget": 21,
+        "unsolvable": 1
+      },
+      "replayedCertificates": 28,
+      "notVerifiedAsSolvable": 22,
+      "solvedRate": 0.56,
+      "generationMs": 8.432023000000136,
+      "solverTotalMs": 348.92845700000004,
+      "solverMs": {
+        "p50": 4.803977999999972,
+        "p95": 17.659760000000006,
+        "max": 28.617220000000003
+      },
+      "nodeCounts": {
+        "p50": 140,
+        "p95": 905
+      },
+      "optimalTurns": {
+        "1": 5,
+        "2": 5,
+        "3": 7,
+        "4": 5,
+        "5": 5,
+        "6": 1
+      },
+      "shapes": {
+        "square": 8,
+        "wide": 7,
+        "tall": 7,
+        "L": 7,
+        "T": 7,
+        "ring": 7,
+        "notched": 7
+      },
+      "profiles": {
+        "base": 26,
+        "ice": 6,
+        "glove": 6,
+        "warp": 6,
+        "mixed": 6
+      },
+      "byShape": {
+        "square": {
+          "solved": 5,
+          "budget": 3
+        },
+        "wide": {
+          "solved": 4,
+          "budget": 3
+        },
+        "tall": {
+          "solved": 4,
+          "budget": 3
+        },
+        "L": {
+          "solved": 4,
+          "budget": 3
+        },
+        "T": {
+          "budget": 3,
+          "solved": 4
+        },
+        "ring": {
+          "solved": 4,
+          "budget": 3
+        },
+        "notched": {
+          "solved": 3,
+          "budget": 3,
+          "unsolvable": 1
+        }
+      },
+      "byProfile": {
+        "base": {
+          "solved": 16,
+          "budget": 10
+        },
+        "ice": {
+          "budget": 2,
+          "unsolvable": 1,
+          "solved": 3
+        },
+        "glove": {
+          "solved": 2,
+          "budget": 4
+        },
+        "warp": {
+          "solved": 6
+        },
+        "mixed": {
+          "budget": 5,
+          "solved": 1
+        }
+      },
+      "patterns": {
+        "orientationNormalized": 21,
+        "withDistanceAndScoring": 27,
+        "top10": [
+          [
+            "none:0",
+            4
+          ],
+          [
+            "wall:0|none:1",
+            2
+          ],
+          [
+            "wall:0|wall:2|wall:0",
+            2
+          ],
+          [
+            "wall:0|wall:2",
+            2
+          ],
+          [
+            "none:0|wall:1|wall:2",
+            2
+          ],
+          [
+            "wall:0",
+            1
+          ],
+          [
+            "none:0|none:1|none:2|none:3|none:0|wall:1",
+            1
+          ],
+          [
+            "none:0|none:1",
+            1
+          ],
+          [
+            "none:0|none:2|wall:0|none:1",
+            1
+          ],
+          [
+            "wall:0|wall:2|wall:2|none:1",
+            1
+          ]
+        ],
+        "top10Share": 0.6071428571428571,
+        "entropyBits": 4.235926350629033
+      },
+      "actions": {
+        "wall": 53,
+        "none": 34
+      },
+      "oneTurnShare": 0.17857142857142858
+    },
+    {
+      "count": 500,
+      "validatedPlacements": 500,
+      "invalidPlacements": 0,
+      "exactDuplicates": 0,
+      "symmetryDuplicates": 0,
+      "status": {
+        "solved": 270,
+        "budget": 225,
+        "unsolvable": 5
+      },
+      "replayedCertificates": 270,
+      "notVerifiedAsSolvable": 230,
+      "solvedRate": 0.54,
+      "generationMs": 42.30238100000049,
+      "solverTotalMs": 3096.1580389999986,
+      "solverMs": {
+        "p50": 5.768020999999862,
+        "p95": 15.475014000000101,
+        "max": 28.617220000000003
+      },
+      "nodeCounts": {
+        "p50": 217,
+        "p95": 938
+      },
+      "optimalTurns": {
+        "1": 25,
+        "2": 58,
+        "3": 72,
+        "4": 44,
+        "5": 34,
+        "6": 14,
+        "7": 10,
+        "8": 8,
+        "9": 2,
+        "10": 3
+      },
+      "shapes": {
+        "square": 72,
+        "wide": 72,
+        "tall": 72,
+        "L": 71,
+        "T": 71,
+        "ring": 71,
+        "notched": 71
+      },
+      "profiles": {
+        "base": 252,
+        "ice": 62,
+        "glove": 62,
+        "warp": 62,
+        "mixed": 62
+      },
+      "byShape": {
+        "square": {
+          "solved": 36,
+          "budget": 36
+        },
+        "wide": {
+          "solved": 37,
+          "budget": 35
+        },
+        "tall": {
+          "solved": 35,
+          "budget": 37
+        },
+        "L": {
+          "solved": 43,
+          "budget": 28
+        },
+        "T": {
+          "budget": 20,
+          "solved": 48,
+          "unsolvable": 3
+        },
+        "ring": {
+          "solved": 36,
+          "budget": 34,
+          "unsolvable": 1
+        },
+        "notched": {
+          "solved": 35,
+          "budget": 35,
+          "unsolvable": 1
+        }
+      },
+      "byProfile": {
+        "base": {
+          "solved": 148,
+          "budget": 102,
+          "unsolvable": 2
+        },
+        "ice": {
+          "budget": 29,
+          "unsolvable": 2,
+          "solved": 31
+        },
+        "glove": {
+          "solved": 28,
+          "budget": 34
+        },
+        "warp": {
+          "solved": 38,
+          "budget": 24
+        },
+        "mixed": {
+          "budget": 36,
+          "solved": 25,
+          "unsolvable": 1
+        }
+      },
+      "patterns": {
+        "orientationNormalized": 153,
+        "withDistanceAndScoring": 250,
+        "top10": [
+          [
+            "none:0|none:1",
+            19
+          ],
+          [
+            "none:0",
+            16
+          ],
+          [
+            "wall:0|none:1",
+            11
+          ],
+          [
+            "wall:0|wall:2",
+            10
+          ],
+          [
+            "none:0|wall:1|wall:2",
+            8
+          ],
+          [
+            "wall:0",
+            6
+          ],
+          [
+            "wall:0|wall:2|wall:0",
+            6
+          ],
+          [
+            "none:0|none:1|none:2",
+            6
+          ],
+          [
+            "none:0|wall:1|none:2",
+            5
+          ],
+          [
+            "wall:0|wall:1",
+            5
+          ]
+        ],
+        "top10Share": 0.34074074074074073,
+        "entropyBits": 6.642441032262686
+      },
+      "actions": {
+        "wall": 538,
+        "none": 394,
+        "ice": 14,
+        "glove": 19,
+        "warp": 4
+      },
+      "oneTurnShare": 0.09259259259259259
+    },
+    {
+      "count": 10000,
+      "validatedPlacements": 10000,
+      "invalidPlacements": 0,
+      "exactDuplicates": 0,
+      "symmetryDuplicates": 0,
+      "status": {
+        "solved": 5202,
+        "budget": 4709,
+        "unsolvable": 89
+      },
+      "replayedCertificates": 5202,
+      "notVerifiedAsSolvable": 4798,
+      "solvedRate": 0.5202,
+      "generationMs": 626.656226999738,
+      "solverTotalMs": 57786.55269700019,
+      "solverMs": {
+        "p50": 5.446343000003253,
+        "p95": 14.779661000000488,
+        "max": 37.549543999997695
+      },
+      "nodeCounts": {
+        "p50": 202,
+        "p95": 879
+      },
+      "optimalTurns": {
+        "1": 451,
+        "2": 1141,
+        "3": 1379,
+        "4": 931,
+        "5": 525,
+        "6": 323,
+        "7": 220,
+        "8": 128,
+        "9": 45,
+        "10": 45,
+        "11": 5,
+        "12": 1,
+        "13": 5,
+        "14": 1,
+        "15": 1,
+        "17": 1
+      },
+      "shapes": {
+        "square": 1429,
+        "wide": 1429,
+        "tall": 1429,
+        "L": 1429,
+        "T": 1428,
+        "ring": 1428,
+        "notched": 1428
+      },
+      "profiles": {
+        "base": 5000,
+        "ice": 1250,
+        "glove": 1250,
+        "warp": 1250,
+        "mixed": 1250
+      },
+      "byShape": {
+        "square": {
+          "solved": 700,
+          "budget": 728,
+          "unsolvable": 1
+        },
+        "wide": {
+          "solved": 646,
+          "budget": 783
+        },
+        "tall": {
+          "solved": 640,
+          "budget": 789
+        },
+        "L": {
+          "solved": 810,
+          "budget": 611,
+          "unsolvable": 8
+        },
+        "T": {
+          "budget": 363,
+          "solved": 1030,
+          "unsolvable": 35
+        },
+        "ring": {
+          "solved": 674,
+          "budget": 716,
+          "unsolvable": 38
+        },
+        "notched": {
+          "solved": 702,
+          "budget": 719,
+          "unsolvable": 7
+        }
+      },
+      "byProfile": {
+        "base": {
+          "solved": 2879,
+          "budget": 2077,
+          "unsolvable": 44
+        },
+        "ice": {
+          "budget": 654,
+          "unsolvable": 9,
+          "solved": 587
+        },
+        "glove": {
+          "solved": 584,
+          "budget": 656,
+          "unsolvable": 10
+        },
+        "warp": {
+          "solved": 676,
+          "budget": 555,
+          "unsolvable": 19
+        },
+        "mixed": {
+          "budget": 767,
+          "solved": 476,
+          "unsolvable": 7
+        }
+      },
+      "patterns": {
+        "orientationNormalized": 1531,
+        "withDistanceAndScoring": 3803,
+        "top10": [
+          [
+            "none:0|none:1",
+            399
+          ],
+          [
+            "none:0",
+            310
+          ],
+          [
+            "none:0|none:1|none:2",
+            157
+          ],
+          [
+            "wall:0|wall:1",
+            148
+          ],
+          [
+            "wall:0|none:1",
+            137
+          ],
+          [
+            "wall:0|wall:2",
+            129
+          ],
+          [
+            "wall:0",
+            116
+          ],
+          [
+            "none:0|wall:1",
+            115
+          ],
+          [
+            "none:0|wall:1|wall:2",
+            89
+          ],
+          [
+            "none:0|wall:1|none:2",
+            77
+          ]
+        ],
+        "top10Share": 0.3223760092272203,
+        "entropyBits": 8.262809842251768
+      },
+      "actions": {
+        "wall": 10500,
+        "none": 7507,
+        "ice": 231,
+        "glove": 396,
+        "warp": 120
+      },
+      "oneTurnShare": 0.08669742406766628
+    }
+  ],
+  "packaging": {
+    "ms": 119.42265200000111,
+    "allRawBytes": 4627189,
+    "allGzipBytes": 300864,
+    "manifestBytes": 24391,
+    "chunkBytes": {
+      "p50": 46270,
+      "max": 47383
+    },
+    "chunkGzipBytes": {
+      "p50": 3716,
+      "max": 3866
+    }
+  },
+  "loading": {
+    "environment": "Node filesystem + JSON + Web Crypto; not HTTP or iPhone",
+    "monolithicParseMs": 23.095413000002736,
+    "firstChunkMs": 2.359444000001531,
+    "random1000": {
+      "p50": 0.736628999999084,
+      "p95": 1.017160999996122,
+      "totalMs": 777.5266769998416,
+      "reads": 1001,
+      "readBytes": 46322212,
+      "cacheChunks": 3
+    },
+    "fullSaveMs": 12.4353689999989,
+    "fullRestoreMs": 9.145402999994985,
+    "repeatClearAndSaveMs": 30.451452000001154,
+    "saveBytes": 520037
+  },
+  "ablation": {
+    "iceBlock:reduces-turns": 22,
+    "iceBlock:same-optimum": 12,
+    "iceBlock:unknown": 4,
+    "iceBlock:required-proven": 2,
+    "powerGlove:reduces-turns": 20,
+    "powerGlove:same-optimum": 18,
+    "powerGlove:unknown": 2,
+    "warpCrystal:same-optimum": 13,
+    "warpCrystal:required-proven": 3,
+    "warpCrystal:reduces-turns": 21,
+    "warpCrystal:unknown": 3
+  },
+  "stress": {
+    "count": 28,
+    "status": {
+      "budget": 28
+    },
+    "totalMs": 3121.7298030000165
+  },
+  "totalWallMs": 63584.796319,
+  "maxRssKiB": 319472,
+  "productionApproved": 0
+}

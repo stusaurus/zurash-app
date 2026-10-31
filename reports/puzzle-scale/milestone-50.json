@@ -1,0 +1,156 @@
+{
+  "count": 50,
+  "validatedPlacements": 50,
+  "invalidPlacements": 0,
+  "exactDuplicates": 0,
+  "symmetryDuplicates": 0,
+  "status": {
+    "solved": 28,
+    "budget": 21,
+    "unsolvable": 1
+  },
+  "replayedCertificates": 28,
+  "notVerifiedAsSolvable": 22,
+  "solvedRate": 0.56,
+  "generationMs": 8.432023000000136,
+  "solverTotalMs": 348.92845700000004,
+  "solverMs": {
+    "p50": 4.803977999999972,
+    "p95": 17.659760000000006,
+    "max": 28.617220000000003
+  },
+  "nodeCounts": {
+    "p50": 140,
+    "p95": 905
+  },
+  "optimalTurns": {
+    "1": 5,
+    "2": 5,
+    "3": 7,
+    "4": 5,
+    "5": 5,
+    "6": 1
+  },
+  "shapes": {
+    "square": 8,
+    "wide": 7,
+    "tall": 7,
+    "L": 7,
+    "T": 7,
+    "ring": 7,
+    "notched": 7
+  },
+  "profiles": {
+    "base": 26,
+    "ice": 6,
+    "glove": 6,
+    "warp": 6,
+    "mixed": 6
+  },
+  "byShape": {
+    "square": {
+      "solved": 5,
+      "budget": 3
+    },
+    "wide": {
+      "solved": 4,
+      "budget": 3
+    },
+    "tall": {
+      "solved": 4,
+      "budget": 3
+    },
+    "L": {
+      "solved": 4,
+      "budget": 3
+    },
+    "T": {
+      "budget": 3,
+      "solved": 4
+    },
+    "ring": {
+      "solved": 4,
+      "budget": 3
+    },
+    "notched": {
+      "solved": 3,
+      "budget": 3,
+      "unsolvable": 1
+    }
+  },
+  "byProfile": {
+    "base": {
+      "solved": 16,
+      "budget": 10
+    },
+    "ice": {
+      "budget": 2,
+      "unsolvable": 1,
+      "solved": 3
+    },
+    "glove": {
+      "solved": 2,
+      "budget": 4
+    },
+    "warp": {
+      "solved": 6
+    },
+    "mixed": {
+      "budget": 5,
+      "solved": 1
+    }
+  },
+  "patterns": {
+    "orientationNormalized": 21,
+    "withDistanceAndScoring": 27,
+    "top10": [
+      [
+        "none:0",
+        4
+      ],
+      [
+        "wall:0|none:1",
+        2
+      ],
+      [
+        "wall:0|wall:2|wall:0",
+        2
+      ],
+      [
+        "wall:0|wall:2",
+        2
+      ],
+      [
+        "none:0|wall:1|wall:2",
+        2
+      ],
+      [
+        "wall:0",
+        1
+      ],
+      [
+        "none:0|none:1|none:2|none:3|none:0|wall:1",
+        1
+      ],
+      [
+        "none:0|none:1",
+        1
+      ],
+      [
+        "none:0|none:2|wall:0|none:1",
+        1
+      ],
+      [
+        "wall:0|wall:2|wall:2|none:1",
+        1
+      ]
+    ],
+    "top10Share": 0.6071428571428571,
+    "entropyBits": 4.235926350629033
+  },
+  "actions": {
+    "wall": 53,
+    "none": 34
+  },
+  "oneTurnShare": 0.17857142857142858
+}

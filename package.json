@@ -11,7 +11,11 @@
     "quality:audit": "node scripts/quality-audit.js",
     "quality:layouts": "node scripts/layout-lab.js",
     "quality:study": "node scripts/strategy-study.js",
-    "quality:replay": "node scripts/verify-study.js"
+    "quality:replay": "node scripts/verify-study.js",
+    "puzzle:study": "node scripts/puzzle-scale-study.js",
+    "puzzle:verify": "node scripts/puzzle-verify-catalog.js",
+    "puzzle:curate": "node scripts/puzzle-curation-study.js",
+    "puzzle:browser": "node scripts/puzzle-browser-study.js"
   },
   "devDependencies": {
     "@playwright/test": "1.56.1"
