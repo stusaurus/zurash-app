@@ -1,5 +1,6 @@
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
+import {TASKS} from '../../src/puzzle/house.js';
 const proofs=JSON.parse(fs.readFileSync(new URL('../../reports/chapter-01/solutions.json',import.meta.url))).stages;
 async function perform(page,action){
   await page.locator(`[data-mode="${action.prep.type}"]`).click();
@@ -11,7 +12,7 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   await page.setViewportSize({width,height:900});const errors=[],httpErrors=[];
   page.on('pageerror',e=>errors.push(String(e)));
   page.on('response',r=>{if(r.status()>=400&&/\.(js|json|webp|png|css)(\?|$)/.test(r.url()))httpErrors.push(`${r.status()} ${r.url()}`);});
-  await page.goto('/adventure.html');
+  await page.goto('/adventure.html');await page.locator('#play-next').click();
   for(const proof of proofs){
     const number=proof.number;
     await expect(page.locator('#board')).toHaveAttribute('data-stage',String(number));
@@ -43,12 +44,22 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
       await expect(page.locator('#moves')).toHaveText(String(i+1));
     }
     await expect(page.locator('#notice')).toBeVisible();await expect(page.locator('#remaining')).toHaveText('0');await expect(page.locator('#balance')).toHaveText(String(before+1));
-    if(number<50)await page.locator('#notice-primary').click();
+    if(number<50){await page.locator('#notice-primary').click();await page.locator('#play-next').click();}
   }
-  await expect(page.locator('#completion')).toHaveText('50 / 50 クリア');await expect(page.locator('#balance')).toHaveText('41');
-  await expect(page.locator('[data-built="true"]')).toHaveCount(3);await page.locator('#notice-primary').click();
-  await page.reload();await expect(page.locator('#board')).toHaveAttribute('data-stage','50');await expect(page.locator('#balance')).toHaveText('41');
+  await page.locator('#notice-primary').click();
+  await expect(page.locator('#home-balance')).toHaveText('50');
+  for(const t of TASKS){
+    await page.locator(`[data-area="${t.area}"]`).click();await page.locator(`[data-repair="${t.id}"]`).click();
+    await expect(page.locator(`[data-style="${t.id}"][data-choice="2"]`)).toBeVisible();
+    if(t!==TASKS.at(-1))await page.locator(`[data-style="${t.id}"][data-choice="2"]`).click();
+  }
+  await expect(page.locator('#notice-title')).toHaveText('トリケンの家が完成！');await page.locator('#notice-primary').click();
+  await expect(page.locator('#home-balance')).toHaveText('10');
+  await page.screenshot({path:info.outputPath(`completed-house-${width}.png`),fullPage:true});
+  if(info.project.name==='chromium'&&width===390)console.log('HOME_PREVIEW='+ (await page.screenshot({type:'jpeg',quality:65,fullPage:true})).toString('base64'));
+  await page.reload();await expect(page.locator('#home-balance')).toHaveText('10');
+  await page.locator('#play-next').click();await expect(page.locator('#board')).toHaveAttribute('data-stage','50');
   for(const action of proofs[49].actions)await perform(page,action);
-  await expect(page.locator('#balance')).toHaveText('41');await expect(page.locator('#notice-text')).toContainText('獲得済み');
+  await expect(page.locator('#balance')).toHaveText('10');await expect(page.locator('#notice-text')).toContainText('獲得済み');
   expect(errors).toEqual([]);expect(httpErrors).toEqual([]);
 });

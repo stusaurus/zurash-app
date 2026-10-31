@@ -1,3 +1,6 @@
+import {loadHome,saveHome} from './puzzle/house.js';
+import {createHouseView} from './house-view.js';
+import {itemsAvailableAt} from './puzzle/campaign.js';
 import {createCatalog} from './puzzle/catalog.js';
 import {initialPuzzle} from './puzzle/schema.js';
 import {applyPuzzle,replay,solved,successors} from './puzzle/engine.js';
@@ -9,11 +12,12 @@ const $=id=>document.getElementById(id);
 const itemModes={ice:'iceBlock',glove:'powerGlove',warp:'warpCrystal'};
 const itemNames={iceBlock:'アイスブロック',powerGlove:'パワーグローブ',warpCrystal:'ワープクリスタル'};
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+let homeSave,houseView;
 let campaign,chapter,catalog,stage,state,progress,trace=[],mode='none',selectedPrep={type:'none'},selectedWall=null,busy=false,saveError=false;
 const json=async url=>{const r=await fetch(url);if(!r.ok)throw Error(`HTTP ${r.status}`);return r.json();};
 function tell(message,error=false){$('message').textContent=message;$('message').classList.toggle('saving-error',error);}
 function persist(){
-  try{saveProgress(localStorage,progress,chapterSaveKey(chapter,preview));saveError=false;}
+  try{homeSave.progress=progress;saveHome(localStorage,homeSave);saveError=false;}
   catch{saveError=true;tell('この端末に保存できませんでした。画面を閉じる前に保存容量を確認してください。',true);}
 }
 function showNotice(kicker,title,text,label,action,secondary=null) {
@@ -27,19 +31,23 @@ async function openStage(number) {
   if(busy)return;busy=true;
   try{
     const next=await catalog.get(number-chapter.firstStage+1);validateChapterStage(campaign,chapter,next);
-    const entered=enterChapterStage(campaign,chapter,next,progress,{preview});
+    const oldReached=homeSave.home.reached;
+    const entered=enterChapterStage(campaign,chapter,next,progress,{preview,houseMode:true});
+    homeSave.home.reached=Math.max(oldReached,number);
+    entered.events=campaign.unlocks.filter(e=>e.stageNumber===number&&oldReached<number);
     stage=next;progress=entered.progress;state=initialPuzzle(stage);trace=[];mode='none';selectedPrep={type:'none'};selectedWall=null;
     persist();render();if(!saveError)tell(stage.chapter.tutorialItem?'新しい道具を使ってみよう。':'準備を選んで、方向ボタンで滑ろう。');
     if(entered.events.length) {
       const event=entered.events.at(-1);
-      showNotice(`STAGE ${number} ・ 新しい道具`,event.title,`${event.story} 街の星を${event.cost}個使いました。`, '使ってみる');
+      showNotice(`STAGE ${number} ・ 新しい道具`,'新しい道具を見つけた！',`${{iceBlock:'玄関の道具箱に、氷を置く道具が見つかった！',powerGlove:'家の古い作業台から、力持ちのグローブを見つけた！',warpCrystal:'寝室の窓に、クリスタルの光が差しこんだ！'}[event.item]} 星は使いません。`, '使ってみる');
     }
   }catch(error){tell('ステージを開けませんでした。通信を確認して、もう一度選んでください。',true);console.error(error);}
   finally{busy=false;}
 }
+function showHome(){document.querySelector('.game-panel').hidden=true;$('home-screen').hidden=false;houseView.render();}
 function currentOptions(){return solved(state)?[]:successors(stage,state);}
 function renderModes(options) {
-  const unlocked=unlockedItems(campaign,progress);
+  const unlocked=itemsAvailableAt(campaign,homeSave.home.reached);
   const entries=[['none','そのまま滑る','壁移動を省略'],['wall','壁ずらし','1マス'],['ice','氷を置く',''],['glove','グローブ',''],['warp','ワープ','']];
   $('modes').innerHTML=entries.map(([key,label,sub])=>{
     let disabled=solved(state),note=sub;
@@ -116,9 +124,9 @@ function move(dir){
   state=applyPuzzle(stage,state,action);trace.push(action);mode='none';selectedPrep={type:'none'};selectedWall=null;render();
   if(solved(state)) {
     const already=Object.hasOwn(progress.completed,stage.id);
-    progress=clearChapterStage(campaign,chapter,stage,progress,trace,{preview}).progress;persist();render();
+    progress=clearChapterStage(campaign,chapter,stage,progress,trace,{preview,houseMode:true}).progress;persist();render();
     const last=stage.chapter.number===chapter.firstStage+chapter.count-1;
-    showNotice(last?'CHAPTER CLEAR':'STAGE CLEAR',last?'氷の街に星あかりがともった！':'クリア！',`${trace.length}手で星を全部集めた！ ${already?'このステージの街の星は獲得済みです。':'街の星を1個獲得しました。'}${saveError?' 今回の記録は端末に保存できていません。':''}`,last?'街を眺める':'つぎのステージ',last?()=>{}:()=>openStage(stage.chapter.number+1),()=>openStage(stage.chapter.number));
+    showNotice(last?'CHAPTER CLEAR':'STAGE CLEAR',last?'50ステージクリア！':'クリア！',`${trace.length}手で星を全部集めた！ ${already?'このステージの家づくりの星は獲得済みです。':'家づくりの星を1個獲得しました。'}${saveError?' 今回の記録は端末に保存できていません。':''}`,'家に帰る',()=>showHome(),()=>openStage(stage.chapter.number));
   }else if(!saveError)tell('次の準備と、滑る方向を選ぼう。');
 }
 $('modes').addEventListener('click',e=>{const button=e.target.closest('[data-mode]');if(button&&!button.disabled)selectMode(button.dataset.mode);});
@@ -143,8 +151,12 @@ try{
   [campaign,chapter]=await Promise.all([json(new URL('data/campaign.json',root)),json(new URL('chapter.json',chapterRoot))]);validateCampaign(campaign);
   const manifest=await json(new URL(chapter.catalog,chapterRoot));
   catalog=createCatalog(manifest,async path=>{const r=await fetch(new URL(path,chapterRoot));if(!r.ok)throw Error('Stage request failed');return r.text();},{allowCandidates:preview});
-  try{progress=loadProgress(localStorage,chapterSaveKey(chapter,preview));}
+  try{homeSave=loadHome(localStorage);progress=homeSave.progress;}
   catch{throw Error('この章の記録を読み込めません。別のブラウザでお試しください。既存の記録は消去していません。');}
-  const firstUncleared=chapter.stageIds.findIndex(id=>!Object.hasOwn(progress.completed,id));
-  await openStage(chapter.firstStage+(firstUncleared===-1?chapter.count-1:firstUncleared));
+  houseView=createHouseView({element:$('home-screen'),getSave:()=>homeSave,setSave:n=>{saveHome(localStorage,n);homeSave=n;progress=n.progress;},onPlay:()=>{
+    $('home-screen').hidden=true;document.querySelector('.game-panel').hidden=false;
+    const first=chapter.stageIds.findIndex(id=>!Object.hasOwn(progress.completed,id));openStage(first<0?50:first+1);
+  },onComplete:()=>showNotice('CHAPTER COMPLETE','トリケンの家が完成！','50の冒険と、あなたが選んだ家具。ここがトリケンの大切な居場所になりました。次はご近所へ！','家を眺める'),onError:e=>showNotice('お知らせ','修復を確認してください',e.message,'閉じる')});
+  $('return-home').onclick=showHome;showHome();houseView.resume();
+
 }catch(error){$('stage-title').textContent='読み込みを確認してください';tell(error.message,true);console.error(error);}
