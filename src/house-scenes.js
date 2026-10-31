@@ -75,7 +75,7 @@ function exterior(s){
  // Porch props and the garden are on the same east side in every view.
  art+=`<g filter="url(#small-shadow)">${R(80,363,49,31,'#ae865a',5)}${R(76,359,57,9,'#d8bc85',3)}${P('M84 357q-6-32 10-28 0-20 15-19 14 5 7 24 20-2 10 23Z','#678e6a')}${C(101,336,6,'#e7c7b1')}${C(119,349,5,'#f2dfba')}</g>`;
  art+=P('M0 464q75-42 145-23l74-22 45 10-68 27-47 84H53Z','#c9d1b9')+P('M105 493l31-38 30 4-25 40Zm48-46 30-17 31 4-24 18Z','#f1ebd7');
- art+=`<g data-room="garden">${P('M351 403l93-44v35l-93 45Z','#a5bba0')}${P('M354 403v34m18-42v33m18-42v33m18-42v33m18-42v33','none','stroke="#fbedd0" stroke-width="7"')}${P('M350 414l97-46','none','stroke="#d9d9bb" stroke-width="5"')}</g>`;
+ art+=`<g>${P('M351 403l93-44v35l-93 45Z','#a5bba0')}${P('M354 403v34m18-42v33m18-42v33m18-42v33m18-42v33','none','stroke="#fbedd0" stroke-width="7"')}${P('M350 414l97-46','none','stroke="#d9d9bb" stroke-width="5"')}</g>`;
  if(s.home.pending?.startsWith('home-entry'))art+=scaffold();
  if(!done['home-entry-0'])art+=P('M139 434l11-8 25 8-7 6Zm-22-5 4-9 10 6-1 8Z','#9e967c');
  art+=`<ellipse cx="299" cy="436" rx="29" ry="8" fill="#6c887c" opacity=".2"/><image href="./assets/triken-orange-80.png" x="264" y="370" width="70" height="70"/>`;
@@ -96,8 +96,8 @@ function entry(s){
  art+=windowArt(326,200,50,65);
  art+=P('M330 266l-70 90 133 56-3-119Z','#fff1be','opacity=".18"');
  // East passage (kitchen) on screen left, west passage (living) on right.
- art+=`<g data-room="kitchen" role="button" tabindex="0" aria-label="キッチンへ">${P('M0 198l47 27v132L0 418Z','#65766c')}${P('M0 206l37 22v127L0 403Z','#b9c4a5')}${P('M0 350l37-14v19L0 403Z','#9a805a')}${P('M42 224v133L0 419','none','stroke="#8b6f4f" stroke-width="9"')}</g>`;
- art+=`<g data-room="living" role="button" tabindex="0" aria-label="リビングへ">${P('M480 198l-47 27v132l47 61Z','#65766c')}${P('M480 206l-37 22v127l37 48Z','#e1d5b2')}${P('M480 350l-37-14v19l37 48Z','#a38b60')}${P('M438 224v133l42 62','none','stroke="#8b6f4f" stroke-width="9"')}</g>`;
+ art+=`<g>${P('M0 198l47 27v132L0 418Z','#65766c')}${P('M0 206l37 22v127L0 403Z','#b9c4a5')}${P('M0 350l37-14v19L0 403Z','#9a805a')}${P('M42 224v133L0 419','none','stroke="#8b6f4f" stroke-width="9"')}</g>`;
+ art+=`<g>${P('M480 198l-47 27v132l47 61Z','#65766c')}${P('M480 206l-37 22v127l37 48Z','#e1d5b2')}${P('M480 350l-37-14v19l37 48Z','#a38b60')}${P('M438 224v133l42 62','none','stroke="#8b6f4f" stroke-width="9"')}</g>`;
  art+=stateGroup(s,'home-entry-2',`<g transform="translate(133 205)">${lampArt(style('home-entry-2'),done['home-entry-2'])}</g>`);
  // Permanent entrance belongings; no new paid tasks or extra budget.
  art+=`<g filter="url(#small-shadow)">${P('M83 341l75 3 13 20-92-2Z','#cda46b')}${R(79,361,92,14,'#a77a47',3)}${P('M85 373v28m77-26v28','none','stroke="#785b3b" stroke-width="7"')}${R(90,330,22,12,'#f0e5c8',4)}${P('M118 348q-10-13 1-14l19 5 1 13Z','#9c7861')}${P('M142 351q-8-14 1-14l19 5-1 11Z','#577e77')}</g>`;

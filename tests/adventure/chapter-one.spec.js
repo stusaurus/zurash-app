@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
-import {TASKS} from '../../src/puzzle/house.js';
+import {TASKS,newHome,HOME_KEY} from '../../src/puzzle/house.js';
 const proofs=JSON.parse(fs.readFileSync(new URL('../../reports/chapter-01/solutions.json',import.meta.url))).stages;
 async function perform(page,action){
   await page.locator(`[data-mode="${action.prep.type}"]`).click();
@@ -8,6 +8,35 @@ async function perform(page,action){
   if(['wall','glove','ice'].includes(action.prep.type))await page.locator(`[data-cell="${action.prep.to}"]`).click();
   await page.locator(`[data-dir="${action.dir}"]`).click();
 }
+// An isolated earned-star fixture lets UI failures surface before the long playthrough.
+// The full six-condition test below earns every star through the actual puzzles.
+test('scene controls, pending resume and designs',async({page})=>{
+  await page.setViewportSize({width:390,height:844});
+  const fixture=newHome();fixture.home.reached=50;
+  for(let n=1;n<=50;n++)fixture.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+  await page.addInitScript(({key,save})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(save));},{key:HOME_KEY,save:fixture});
+  await page.goto('/adventure.html');
+  await page.getByRole('button',{name:'玄関へ',exact:true}).click();
+  await page.getByRole('button',{name:'キッチンへ',exact:true}).click();
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','kitchen');
+  await page.locator('[data-area="entry"]').click();
+  for(const t of TASKS.slice(0,3)){
+    await page.locator(`[data-repair="${t.id}"]`).click();
+    await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','building');
+    if(t===TASKS[0]){await page.reload();await page.locator('[data-area="entry"]').click();}
+    await expect(page.locator(`[data-style="${t.id}"][data-choice="0"]`)).toBeVisible();
+  }
+  for(let i=0;i<3;i++){
+    for(const t of TASKS.slice(0,3))await page.locator(`[data-style="${t.id}"][data-choice="${i}"]`).click();
+    await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design',['arch','glass','porthole'][i]);
+    await page.getByRole('button',{name:'外観に戻る',exact:true}).click();
+    await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design',['arch','glass','porthole'][i]);
+    await expect(page.locator('#home-balance')).toHaveText('42');
+    await page.locator('[data-area="entry"]').click();
+  }
+  await page.reload();await page.locator('[data-area="entry"]').click();
+  await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design','porthole');
+});
 for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload at ${width}px`,async({page},info)=>{
   await page.setViewportSize({width,height:900});const errors=[],httpErrors=[];
   page.on('pageerror',e=>errors.push(String(e)));
