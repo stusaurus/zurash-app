@@ -5,9 +5,14 @@ export async function sha256(text) {
 export function createCatalog(manifest,loadText,{maxCachedChunks=3,allowCandidates=false}={}) {
   if(manifest.version!==1||!Array.isArray(manifest.chunks)||!Number.isInteger(maxCachedChunks)||maxCachedChunks<1)throw Error('Invalid catalog');
   let previous=0;
+  const indexedIds=new Set();
   for(const c of manifest.chunks) {
     if(c.first!==previous+1||c.last<c.first||c.count!==c.last-c.first+1||!Number.isInteger(c.last)||!/^chunks\/[a-z0-9-]+\.json$/.test(c.path)||!/^[a-f0-9]{64}$/.test(c.sha256))throw Error('Invalid chunk index');
     previous=c.last;
+    if(c.ids!==undefined) {
+      if(!Array.isArray(c.ids)||c.ids.length!==c.count||c.ids.some(id=>typeof id!=='string'||!/^pz-\d{6}$/.test(id)||indexedIds.has(id)))throw Error('Invalid stable id index');
+      for(const id of c.ids){if(indexedIds.has(id))throw Error('Duplicate stable id');indexedIds.add(id);}
+    }
   }
   if(previous!==manifest.count)throw Error('Invalid catalog count');
   const cache=new Map(),pending=new Map();
@@ -33,7 +38,8 @@ export function createCatalog(manifest,loadText,{maxCachedChunks=3,allowCandidat
       if(!Number.isInteger(ordinal)||ordinal<1||ordinal>manifest.count)throw Error('Stage outside catalog');
       const entry=manifest.chunks.find(c=>ordinal>=c.first&&ordinal<=c.last);
       const stage=(await chunk(entry))[ordinal-entry.first];
-      if(stage.id!==`pz-${String(ordinal).padStart(6,'0')}`)throw Error('Stage id mismatch');
+      const expectedId=entry.ids?.[ordinal-entry.first]??`pz-${String(ordinal).padStart(6,'0')}`;
+      if(stage.id!==expectedId)throw Error('Stage id mismatch');
       if(!allowCandidates&&stage.status!=='approved')throw Error('Candidate is not playable in production');
       return structuredClone(stage);
     },

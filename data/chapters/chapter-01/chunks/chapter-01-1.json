@@ -1,0 +1,502 @@
+[
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "start": 0,
+    "walls": [],
+    "stars": [
+      3
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "id": "pz-100001",
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 1,
+      "title": "はじめての滑走",
+      "focus": "止まったマスの星を取ろう",
+      "hint": "止まったマスの星を取ろう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100002",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 7,
+      "height": 4
+    },
+    "start": 19,
+    "walls": [
+      2
+    ],
+    "stars": [
+      18
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 505,
+      "shape": "wide",
+      "profile": "base"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 2,
+      "title": "壁をずらしてみよう",
+      "focus": "壁を1マス動かして停止位置を変えよう",
+      "hint": "壁を1マス動かして停止位置を変えよう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100003",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 7,
+      "playableCells": [
+        0,
+        1,
+        4,
+        5,
+        8,
+        9,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    "start": 8,
+    "walls": [
+      5,
+      25
+    ],
+    "stars": [
+      1,
+      13
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 626,
+      "shape": "L",
+      "profile": "base"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 3,
+      "title": "曲がり角の向こう",
+      "focus": "L字の曲がり角から道を探そう",
+      "hint": "L字の曲がり角から道を探そう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100004",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 7
+    },
+    "start": 13,
+    "walls": [
+      20
+    ],
+    "stars": [
+      17,
+      24
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 282,
+      "shape": "tall",
+      "profile": "base"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 4,
+      "title": "たてながの小道",
+      "focus": "縦長の盤面を上下に滑ろう",
+      "hint": "縦長の盤面を上下に滑ろう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100005",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 6,
+      "playableCells": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ]
+    },
+    "start": 7,
+    "walls": [
+      23
+    ],
+    "stars": [
+      22,
+      18
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 328,
+      "shape": "notched",
+      "profile": "base"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 5,
+      "title": "かけた氷の岸",
+      "focus": "切欠きの手前でも止まれるよ",
+      "hint": "切欠きの手前でも止まれるよ。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100006",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "start": 10,
+    "walls": [
+      12
+    ],
+    "stars": [
+      14,
+      8
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 2338,
+      "shape": "square",
+      "profile": "base"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 6,
+      "title": "ふたつの星",
+      "focus": "星を取る順番を考えよう",
+      "hint": "星を取る順番を考えよう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100007",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 5,
+      "playableCells": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        13,
+        14,
+        17,
+        18
+      ]
+    },
+    "start": 9,
+    "walls": [
+      10,
+      3
+    ],
+    "stars": [
+      17,
+      4
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 354,
+      "shape": "T",
+      "profile": "base"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 7,
+      "title": "T字の分かれ道",
+      "focus": "分かれ道で壁を役立てよう",
+      "hint": "分かれ道で壁を役立てよう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100008",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 4,
+      "playableCells": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        7,
+        8,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    "start": 7,
+    "walls": [
+      15
+    ],
+    "stars": [
+      14
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 488,
+      "shape": "ring",
+      "profile": "base"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 8,
+      "title": "氷の中庭",
+      "focus": "穴の周りを回って進もう",
+      "hint": "穴の周りを回って進もう。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "id": "pz-100009",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 7,
+      "height": 5
+    },
+    "start": 30,
+    "walls": [
+      14
+    ],
+    "stars": [
+      8
+    ],
+    "fixed": [],
+    "iceSockets": [],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 0,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "provenance": {
+      "generator": "random-v1",
+      "seed": 731031,
+      "index": 456,
+      "shape": "wide",
+      "profile": "base"
+    },
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 9,
+      "title": "工房への道",
+      "focus": "基本の滑走と壁ずらしのまとめ",
+      "hint": "基本の滑走と壁ずらしのまとめ。壁を動かさずに滑る手も使えるよ。"
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "rulesVersion": "solo-v1",
+    "revision": 1,
+    "status": "candidate",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "start": 0,
+    "walls": [],
+    "stars": [
+      2
+    ],
+    "fixed": [],
+    "iceSockets": [
+      3
+    ],
+    "portals": [],
+    "inventory": {
+      "iceBlock": 1,
+      "powerGlove": 0,
+      "warpCrystal": 0
+    },
+    "goal": {
+      "type": "collect-all"
+    },
+    "id": "pz-100010",
+    "chapter": {
+      "id": "ice-town-01",
+      "number": 10,
+      "title": "氷を置いてストップ！",
+      "focus": "氷を置くと星のマスで止まれる！",
+      "tutorialItem": "iceBlock",
+      "hint": "光るソケットに氷を置いて、右へ滑ろう。"
+    }
+  }
+]

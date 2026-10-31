@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "rulesVersion": "solo-v1",
+  "count": 50,
+  "chunks": [
+    {
+      "first": 1,
+      "last": 10,
+      "count": 10,
+      "path": "chunks/chapter-01-1.json",
+      "ids": [
+        "pz-100001",
+        "pz-100002",
+        "pz-100003",
+        "pz-100004",
+        "pz-100005",
+        "pz-100006",
+        "pz-100007",
+        "pz-100008",
+        "pz-100009",
+        "pz-100010"
+      ],
+      "sha256": "27e371453ac5b28de9bc57bb25b854668075e09b25f094e37cdc2e729b4b6afc",
+      "bytes": 9599
+    },
+    {
+      "first": 11,
+      "last": 20,
+      "count": 10,
+      "path": "chunks/chapter-01-2.json",
+      "ids": [
+        "pz-100011",
+        "pz-100012",
+        "pz-100013",
+        "pz-100014",
+        "pz-100015",
+        "pz-100016",
+        "pz-100017",
+        "pz-100018",
+        "pz-100019",
+        "pz-100020"
+      ],
+      "sha256": "c1495e2325ed0c8b3b7f1edab839ddbc9035437f5e4b731af557128589060934",
+      "bytes": 12511
+    },
+    {
+      "first": 21,
+      "last": 30,
+      "count": 10,
+      "path": "chunks/chapter-01-3.json",
+      "ids": [
+        "pz-100021",
+        "pz-100022",
+        "pz-100023",
+        "pz-100024",
+        "pz-100025",
+        "pz-100026",
+        "pz-100027",
+        "pz-100028",
+        "pz-100029",
+        "pz-100030"
+      ],
+      "sha256": "c8dbbc5385e76c87c804b06ca2a0e186c4fba6b26b7fbeb4bbe340d2c2f007cd",
+      "bytes": 11883
+    },
+    {
+      "first": 31,
+      "last": 40,
+      "count": 10,
+      "path": "chunks/chapter-01-4.json",
+      "ids": [
+        "pz-100031",
+        "pz-100032",
+        "pz-100033",
+        "pz-100034",
+        "pz-100035",
+        "pz-100036",
+        "pz-100037",
+        "pz-100038",
+        "pz-100039",
+        "pz-100040"
+      ],
+      "sha256": "8737dd062c7b8b930b5464a5dc50c0957dbad9733153693fa19dfc1d585fe236",
+      "bytes": 11625
+    },
+    {
+      "first": 41,
+      "last": 50,
+      "count": 10,
+      "path": "chunks/chapter-01-5.json",
+      "ids": [
+        "pz-100041",
+        "pz-100042",
+        "pz-100043",
+        "pz-100044",
+        "pz-100045",
+        "pz-100046",
+        "pz-100047",
+        "pz-100048",
+        "pz-100049",
+        "pz-100050"
+      ],
+      "sha256": "d3d6195dd75b8316bb35dbbca84d7a681adc1e867a829d557264a4f58aebaeff",
+      "bytes": 12259
+    }
+  ]
+}
