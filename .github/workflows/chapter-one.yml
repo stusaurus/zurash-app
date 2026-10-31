@@ -1,7 +1,7 @@
 name: Chapter one playthrough
 on:
   pull_request:
-    paths: ['adventure.*', 'src/adventure.js', 'src/house*.js', 'src/puzzle/**', 'data/**', 'scripts/chapter-one-*.js', 'tests/chapter-one.test.js', 'tests/adventure/chapter-one.spec.js', 'playwright.chapter.config.js', 'reports/chapter-01/**', '.github/workflows/chapter-one.yml']
+    paths: ['adventure.*', 'src/adventure.js', 'src/house*.js', 'assets/house/**', 'tests/fixtures/**', 'src/puzzle/**', 'data/**', 'scripts/chapter-one-*.js', 'tests/chapter-one.test.js', 'tests/adventure/chapter-one.spec.js', 'playwright.chapter.config.js', 'reports/chapter-01/**', '.github/workflows/chapter-one.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -16,7 +16,7 @@ jobs:
       - run: npm ci
       - run: npm run check && npm test && npm run chapter:verify && npm run puzzle:verify
       - run: npx playwright install --with-deps chromium webkit
-      - run: npx playwright test -c playwright.chapter.config.js -g "scene controls"
+      - run: npx playwright test -c playwright.chapter.config.js -g "scene controls|art comparisons"
       - run: npx playwright test -c playwright.chapter.config.js -g "all 50"
       - uses: actions/upload-artifact@v4
         if: always()

@@ -1,0 +1,20 @@
+{
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "key": "snow",
+      "prompt": "Use case: stylized-concept. Asset type: environment background layer for an actual mobile puzzle renovation game, portrait 8:9 composition. A beautifully art directed premium 2.5D storybook winter landscape, no buildings at all. Fixed elevated camera looking toward a tiny snowy clearing. Soft blue spruce trees frame only extreme left and right edges, distant layered glacier mountains in the upper third, misty blue twilight sky, tiny ice crystals, fine powdery snow, rounded snowdrifts, crisp snow with blue-violet soft shadows, detailed branches carrying heavy pillowy snow, golden sunset rim light from upper left. The central 75 percent is a quiet unobstructed snowy clearing where a separate programmable chalet will be composited; foreground snow clear and gently sloping. Background mountains soft, sharp beautifully shaded peripheral trees and foreground. Cozy adventurous high-end casual mobile game environment, rich painterly 3D rendering with tactile surfaces, subtle depth of field, cinematic ambient occlusion, beautiful cyan vs warm peach light, sophisticated lively colors. No UI, no text, no people, no characters, no house, no doors, no furniture, no paths. Full bleed vertical background only.",
+      "transparent_background": false
+    },
+    {
+      "key": "materials",
+      "prompt": "Use case: stylized-concept. Asset type: square game material texture atlas, exactly four equal square quadrants covering the entire image, no gaps or borders and no labels. These are flat orthographic surface textures, not objects. Top left quadrant: richly detailed honey oak wood, vertical long flowing grain, warm walnut knots, subtle pores, hand finished satiny timber. Top right: aged ivory lime plaster with delicate trowel texture, fine mottled warm cream mineral surface, subtle patina, no large cracks. Bottom left: irregular chiseled pale sandstone block masonry, deeply recessed thin mortar joints, several sizes of warm grey limestone stones, beveled edges and tactile rough surfaces. Bottom right: blue green weathered painted cedar planks in horizontal rows, softly worn edges, fine cedar grain through matte paint, slight variance between boards. Each quadrant seamless-looking at its own edges, even diffuse studio lighting no perspective, no strong directional lighting or cast shadows. High-end 2.5D casual adventure game painterly material rendering, convincing natural tactile depth. No text, no icons, no framing, no objects, no architecture, no characters.",
+      "transparent_background": false
+    },
+    {
+      "key": "props",
+      "prompt": "Use case: stylized-concept. Asset type: transparent game prop cluster, a lovingly rendered cozy entryway vignette for a premium 2.5D mobile puzzle adventure, portrait 3:4. ONLY these objects isolated together on actual transparent background: a small antique honey oak shoe bench seen from slightly above front-right, woven cream cushion at the left end, a pair of teal ankle snow boots placed on the floor under the bench, a soft wicker basket with folded chunky wool scarf tucked under the right side, above it a simple horizontal oak wall peg rail with exactly three little pegs, a mustard yellow padded winter coat and a teal scarf hanging on the pegs; a small brass key ring. The hanging rail is centered above the bench. Bench has four shaped legs, visible joinery, slightly rounded weathered wood, tactile fine grain, subtle bevels. Detailed knitted fabric, burnished metal, worn boot leather. Warm soft diffuse amber light from upper right and cool blue ambient bounce, gentle local contact shadows on the props themselves. Painterly finely detailed 3D casual adventure game asset with pleasing organic shapes, inviting and polished. NO wall, NO floor, NO room, NO doors, NO windows, NO labels, NO letters, NO dinosaur, NO characters. Entire vignette fits within the image with transparent margin on all sides. Real alpha background, not a checkerboard.",
+      "transparent_background": true
+    }
+  ]
+}
