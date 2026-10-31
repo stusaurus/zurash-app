@@ -1,0 +1,13 @@
+scene,slot,asset_id,variant,status,expected_path,source
+exterior,front_door,door_before_01,before,prototype-cutout,assets/house/exterior/door/prototypes/door_before_01.png,zurash_front_doors_prototype_v01.zip
+exterior,front_door,door_natural_01,natural,prototype-cutout,assets/house/exterior/door/prototypes/door_natural_01.png,zurash_front_doors_prototype_v01.zip
+exterior,front_door,door_iceblue_01,iceblue,prototype-cutout,assets/house/exterior/door/prototypes/door_iceblue_01.png,zurash_front_doors_prototype_v01.zip
+exterior,front_door,door_crystal_01,crystal,prototype-cutout,assets/house/exterior/door/prototypes/door_crystal_01.png,zurash_front_doors_prototype_v01.zip
+exterior,outer_wall,wall_before,before,planned,,
+exterior,outer_wall,wall_a,natural,planned,,
+exterior,outer_wall,wall_b,iceblue,planned,,
+exterior,outer_wall,wall_c,crystal,planned,,
+exterior,porch_lamp,lamp_before,before,planned,,
+exterior,porch_lamp,lamp_a,natural,planned,,
+exterior,porch_lamp,lamp_b,iceblue,planned,,
+exterior,porch_lamp,lamp_c,crystal,planned,,

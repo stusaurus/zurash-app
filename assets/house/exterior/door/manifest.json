@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "scene": "house/exterior",
+  "slot": "front_door",
+  "visual_direction": "ice-and-wood-fantasy",
+  "design_direction_approved": true,
+  "artwork_status": "prototype-cutout",
+  "production_approved": false,
+  "deployment": "not-integrated",
+  "canvas": {
+    "width": 320,
+    "height": 400,
+    "format": "PNG",
+    "channels": "RGBA",
+    "anchor": {
+      "x": 0.5,
+      "y": 0.94
+    }
+  },
+  "source_bundle": {
+    "name": "zurash_front_doors_prototype_v01.zip",
+    "contained_in_git": false,
+    "origin": "ChatGPT conversation generated cutouts",
+    "note": "The local source ZIP must be transferred by an authorized binary file upload; the registry is not evidence that image bytes are in Git."
+  },
+  "variants": [
+    {
+      "key": "before",
+      "id": "door_before_01",
+      "name": "修復前",
+      "path": "assets/house/exterior/door/prototypes/door_before_01.png",
+      "present_in_git": false,
+      "sha256": "b763be247cb36767e0b0fc1b3c11a9db74b3bdf08bbf1c98c55d98f6149f5e80",
+      "bytes": 173149,
+      "alpha_bbox": [
+        30,
+        31,
+        290,
+        375
+      ],
+      "notes": "別のパースで作られた原画を切り抜き。サイズと角度の修正が必要"
+    },
+    {
+      "key": "natural",
+      "id": "door_natural_01",
+      "name": "ナチュラルウッド",
+      "path": "assets/house/exterior/door/prototypes/door_natural_01.png",
+      "present_in_git": false,
+      "sha256": "629cc8a7fe6f5b86837e8ac3f6f6eb09ff22d3aa3bdfc87d491cf8fe8eef491b",
+      "bytes": 145579,
+      "alpha_bbox": [
+        19,
+        70,
+        301,
+        375
+      ]
+    },
+    {
+      "key": "iceblue",
+      "id": "door_iceblue_01",
+      "name": "アイスブルー",
+      "path": "assets/house/exterior/door/prototypes/door_iceblue_01.png",
+      "present_in_git": false,
+      "sha256": "5b4c8f9f4d315b9023ccfcf4698702e6b82ae8874b9f350c0d2c4ab44fd1ac67",
+      "bytes": 147837,
+      "alpha_bbox": [
+        20,
+        62,
+        301,
+        375
+      ]
+    },
+    {
+      "key": "crystal",
+      "id": "door_crystal_01",
+      "name": "クリスタル",
+      "path": "assets/house/exterior/door/prototypes/door_crystal_01.png",
+      "present_in_git": false,
+      "sha256": "385737c573769d911a2b9b5a58ad42a2cb8e4e348a53d06083edc7600aaa65bf",
+      "bytes": 147883,
+      "alpha_bbox": [
+        19,
+        69,
+        301,
+        375
+      ]
+    }
+  ],
+  "quality_gate": [
+    "Same view/perspective and outer frame across 4 variants",
+    "No labels/UI/background/characters embedded",
+    "Alpha edges clean without halo",
+    "Exterior and entry scenes can swap using same anchor",
+    "Before-door can be repaired into any of 3 after variants without changing wall cutout",
+    "iPhone 320 and 390 visual QA"
+  ]
+}
