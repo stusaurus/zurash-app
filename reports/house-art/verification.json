@@ -1,7 +1,7 @@
 {
-  "runtimeCommit": "f4338757c1d3be91f2644ab7c075cfe4e0b95ef6",
+  "runtimeCommit": "a6ff1d4677be192b42d7a8236e47bb8150f9271e",
   "baseCommit": "25de244ca3c232b5231305a5c16c608c38571079",
-  "ci": "https://github.com/stusaurus/zurash-app/actions/runs/41211423748",
+  "ci": "https://github.com/stusaurus/zurash-app/actions/runs/41213760901",
   "unitTests": {
     "passed": 70
   },
@@ -40,15 +40,25 @@
     "pendingReload": true,
     "oldMigrationUnchanged": true
   },
-  "protectedFiles": 18,
+  "protectedFiles": 17,
   "comparisonsSaved": 18,
-  "uiImagesSaved": 2,
+  "uiImagesSaved": 4,
   "assetsAddedBytes": 755102,
-  "previewSource": "9c7ff5c23e1c986367ea822381a06754fb4f5da9",
+  "previewSource": "855b14651b773d917bda0edcc45e400fd70cffef",
   "preview": "https://zurash-triken-home-playtest.jyoker.chatgpt.site",
-  "previewDeployment": "appgdep_6ae5ff369db48191967193f0a58fdf36",
+  "previewDeployment": "appgdep_6ae606a416bc8191b26f1aa348ac7fc0",
   "previewStatus": "succeeded",
   "runtimeFilesCompared": 28,
   "iphoneHardwareVerified": false,
-  "authenticatedLivePageOperated": false
+  "authenticatedLivePageOperated": false,
+  "livePartPreviews": true,
+  "isolatedSvgDefinitions": true,
+  "previewAspectVerified": true,
+  "completionReturnsToVisibleExterior": true,
+  "pendingCompletionDuringPuzzle": true,
+  "disabledRepairFocusFallback": true,
+  "latestUiImages": [
+    "repair-closeups-390.jpg",
+    "house-after-repair-390.jpg"
+  ]
 }

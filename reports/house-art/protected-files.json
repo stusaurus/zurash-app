@@ -6,7 +6,6 @@
     "src/puzzle/progress.js": "d22f997b20bf2c58a30d7b2a3fce85a64ab2c72a",
     "src/puzzle/schema.js": "7ad3b4ef5e3337c632f3b5172c59fd950be65912",
     "src/puzzle/campaign.js": "c0af7e2a64a66a36e39169abb86aa0c85358f0d0",
-    "src/adventure.js": "e9973da7fb9e9a700d31051e1e7c2dd381e26e77",
     "src/house-room-legacy.js": "2e5a7a2b5004b5dc075c2c2e0d59c80c18a17a14",
     "reports/chapter-01/solutions.json": "ab087b2541ab58968aa32e93377ab0ed9daab48e",
     "assets/triken-orange-80.png": "024eeb517aab743fb51246294c5f9e543ec81042",
@@ -19,5 +18,8 @@
     "data/chapters/chapter-01/chunks/chapter-01-3.json": "2e0a95ff58ffa6ae09de6a00a12be49059b1dda8",
     "data/chapters/chapter-01/chunks/chapter-01-4.json": "ce8d19003fadafeb99203de8d42b6f619c3bae31",
     "data/chapters/chapter-01/chunks/chapter-01-5.json": "cd08b8e37da2745af7debb041e9551343a0c62c0"
-  }
+  },
+  "uiFlowChanges": [
+    "src/adventure.js: completion notice returns to exterior; puzzle logic unchanged"
+  ]
 }
