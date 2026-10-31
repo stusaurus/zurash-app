@@ -49,3 +49,43 @@ iPhone実機での直接検証は未実施。HTTPの内部プレビューでは�
 ### 比較撮影で修正した描画不具合
 
 床材を非正方形に敷く際、素材内のSVGが縦横比を保持して帯状の余白を生んでいた。また実画面の子孫SVGへのCSSが、素材用の入れ子SVGにも作用していた。素材は直接patternのviewBoxで切り出し、非正方形にも隙間なく敷く。CSSはシーン直下のSVGだけに限定した。比較ページも実際のadventure.cssとhouse-worldコンテナを利用し、単独の描画と実画面の差を防ぐ。
+
+## 配信と検証範囲
+
+非公開試遊URLは https://zurash-triken-home-playtest.jyoker.chatgpt.site 。同じChatGPTアカウントでログインしてSafariで開く。配信ファイル28件とGitHub側の実行ソースの一致を確認。比較fixtureは試遊用の配信物に含めない。
+
+追加画像3点の合計は755,102 bytes。外観はそのうち背景と素材の466,116 bytesを使い、小物画像は玄関で使う。通信時間・iPhone実機のFPSは未測定。正式トリケンは既存80px素材であり、PC拡大表示の解像度には元画像の限界がある。高解像度版への差し替えや別キャラクターの生成はしていない。
+
+認証後の配信ページをこの環境で直接操作した検証、およびiPhone実機の操作検証は未実施。同じ実行コードをCIのChromium/WebKitで検証する。本番・main・元のzurash-game・既存PRは変更しない。
+
+`chapter:verify` が表示する旧町モードの支出9・残高41は、パズル証明の回帰検査の一部である。今回の家モードは70単体テストと6条件の実操作で支出40・残高10を別途検証する。美術比較の描画fixtureを攻略済みステージ数に加算しない。
+
+## 同画角の比較画像
+
+390px・カメラ480×540で撮影。画像の修復状態は比較用で、星やセーブを変更しない。両ブラウザで同じ18画面の比較撮影を行った。このフォルダにはChromiumの18画像を収録する。通し検証の実画面と実行ログはCI artifactでも確認できる。
+
+| 状態 | 外観 PR #4 | 外観 第5段階 | 玄関 PR #4 | 玄関 第5段階 |
+| --- | --- | --- | --- | --- |
+| 修復前 | [画像](pr4-exterior-before-0.jpg) | [画像](new-exterior-before-0.jpg) | [画像](pr4-entry-before-0.jpg) | [画像](new-entry-before-0.jpg) |
+| 完成・オーク／漆喰／ランタン | [画像](pr4-exterior-complete-0.jpg) | [画像](new-exterior-complete-0.jpg) | [画像](pr4-entry-complete-0.jpg) | [画像](new-entry-complete-0.jpg) |
+| 完成・格子ガラス／板張り／銅 | [画像](pr4-exterior-complete-1.jpg) | [画像](new-exterior-complete-1.jpg) | [画像](pr4-entry-complete-1.jpg) | [画像](new-entry-complete-1.jpg) |
+| 完成・丸窓／石積み／球形灯 | [画像](pr4-exterior-complete-2.jpg) | [画像](new-exterior-complete-2.jpg) | [画像](pr4-entry-complete-2.jpg) | [画像](new-entry-complete-2.jpg) |
+| 建設中 | — | [画像](new-exterior-building-0.jpg) | — | [画像](new-entry-building-0.jpg) |
+
+実操作で全50面・15修復を終えたUI：[外観](exterior_0-ui.jpg)・[玄関](entry_0-ui.jpg)。この2枚は比較用のfixtureではなく、初期状態から実操作した通し検証のもの。
+
+## 最終結果
+
+[修正後の検証CI](https://github.com/stusaurus/zurash-app/actions/runs/41211423748) は成功。実行コードは `f4338757c1d3be91f2644ab7c075cfe4e0b95ef6`。
+
+| 検査 | 成功数 | 内容 |
+| --- | ---: | --- |
+| 単体 | 70 | 保存移行・星・エンジンなど |
+| 章の証明 | 50面 | 探索と攻略手順の再生、未検証0、再生成なし |
+| 家の操作 | 2 | Chromium / WebKit。獲得済み星のfixtureでメニュー・修復・保存・無料変更 |
+| 美術比較 | 2 | Chromium / WebKit。描画fixtureで新旧・状態・3デザイン、各18画面 |
+| 全50面通し | 6 | Chromium / WebKit × 320 / 390 / 1440px。初期状態から星50獲得、15修復で40消費、残高10。装飾・再開・再クリア重複なし |
+
+修正後の18比較画像と2実操作UI画像を保存。JavaScript例外・画像等のHTTPエラーは通し検証で0。詳細は `verification.json`。
+
+修正後の試遊配信は成功。配信ソース `9c7ff5c23e1c986367ea822381a06754fb4f5da9`。実行ファイル28件の一致を確認し、同じ非公開URLを更新。これ以降のGitHub追記は検証記録と画像のみで、実行コードは検証時のまま。

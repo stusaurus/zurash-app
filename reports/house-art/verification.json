@@ -1,0 +1,54 @@
+{
+  "runtimeCommit": "f4338757c1d3be91f2644ab7c075cfe4e0b95ef6",
+  "baseCommit": "25de244ca3c232b5231305a5c16c608c38571079",
+  "ci": "https://github.com/stusaurus/zurash-app/actions/runs/41211423748",
+  "unitTests": {
+    "passed": 70
+  },
+  "chapter": {
+    "verifiedStages": 50,
+    "replayedStages": 50,
+    "unverifiedStages": 0,
+    "regenerated": false,
+    "unlocks": [
+      10,
+      20,
+      30
+    ]
+  },
+  "browser": {
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "viewports": [
+      320,
+      390,
+      1440
+    ],
+    "fullPlaythroughs": 6,
+    "controlTestsWithFixture": 2,
+    "artComparisonTestsWithFixture": 2,
+    "passed": 10
+  },
+  "house": {
+    "repairs": 15,
+    "earned": 50,
+    "spent": 40,
+    "remaining": 10,
+    "freeRedecoration": true,
+    "pendingReload": true,
+    "oldMigrationUnchanged": true
+  },
+  "protectedFiles": 18,
+  "comparisonsSaved": 18,
+  "uiImagesSaved": 2,
+  "assetsAddedBytes": 755102,
+  "previewSource": "9c7ff5c23e1c986367ea822381a06754fb4f5da9",
+  "preview": "https://zurash-triken-home-playtest.jyoker.chatgpt.site",
+  "previewDeployment": "appgdep_6ae5ff369db48191967193f0a58fdf36",
+  "previewStatus": "succeeded",
+  "runtimeFilesCompared": 28,
+  "iphoneHardwareVerified": false,
+  "authenticatedLivePageOperated": false
+}
