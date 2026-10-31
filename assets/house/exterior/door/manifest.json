@@ -1,0 +1,96 @@
+{
+  "version": 2,
+  "scene": "house/exterior",
+  "slot": "front_door",
+  "visual_direction": "ice-and-wood-fantasy",
+  "design_direction_approved": true,
+  "artwork_status": "prototype-revised-awaiting-approval",
+  "production_approved": false,
+  "deployment": "not-integrated",
+  "canvas": {
+    "width": 320,
+    "height": 400,
+    "format": "PNG",
+    "channels": "RGBA",
+    "anchor": {
+      "x": 0.5,
+      "y": 0.925
+    },
+    "baseline_y": 370
+  },
+  "source_bundle": {
+    "name": "zurash_front_doors_refined_v03.zip",
+    "contained_in_git": false,
+    "origin": "ChatGPT conversation cutouts from a common art sheet",
+    "source_sheet": "a_clean_polished_game_asset_sheet_ui_design_pre.png"
+  },
+  "variants": [
+    {
+      "id": "door_before_03",
+      "key": "before",
+      "name": "修復前",
+      "path": "assets/house/exterior/door/prototypes/door_before_03.png",
+      "present_in_git": false,
+      "sha256": "08e6ae0edbab90dd80c7896d4a057adf56c120c0cbdfba7978db04e6a36931fa",
+      "bytes": 186193,
+      "alpha_bbox": [
+        21,
+        38,
+        299,
+        370
+      ]
+    },
+    {
+      "id": "door_natural_03",
+      "key": "natural",
+      "name": "ナチュラルウッド",
+      "path": "assets/house/exterior/door/prototypes/door_natural_03.png",
+      "present_in_git": false,
+      "sha256": "4c4170372c1d3705d083bc72daf4f049a4546ba14daa478077c3816e707f7ac6",
+      "bytes": 180017,
+      "alpha_bbox": [
+        22,
+        30,
+        297,
+        370
+      ]
+    },
+    {
+      "id": "door_iceblue_03",
+      "key": "iceblue",
+      "name": "アイスブルー",
+      "path": "assets/house/exterior/door/prototypes/door_iceblue_03.png",
+      "present_in_git": false,
+      "sha256": "fe8f186ac6b227b6b7b28692d2f56c782d64539cf054fe0e9b9883b53f5f053e",
+      "bytes": 188115,
+      "alpha_bbox": [
+        21,
+        30,
+        298,
+        370
+      ]
+    },
+    {
+      "id": "door_crystal_03",
+      "key": "crystal",
+      "name": "クリスタル",
+      "path": "assets/house/exterior/door/prototypes/door_crystal_03.png",
+      "present_in_git": false,
+      "sha256": "05e6645938cb43b302a481fd6f0914dddd0c526c7074d4b4ecb6f764c9806f02",
+      "bytes": 196434,
+      "alpha_bbox": [
+        21,
+        30,
+        299,
+        370
+      ]
+    }
+  ],
+  "quality_gate": [
+    "Same front-facing camera, 320x400 RGBA, and bottom y=370",
+    "No UI, labels, or characters baked into PNG",
+    "Check snow-edge alpha and masonry footprint",
+    "Mount test on PR5 exterior and entry scenes",
+    "User visual approval before production adoption"
+  ]
+}
