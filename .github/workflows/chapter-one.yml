@@ -1,7 +1,7 @@
 name: Chapter one playthrough
 on:
   pull_request:
-    paths: ['adventure.*', 'src/adventure.js', 'src/puzzle/**', 'data/**', 'scripts/chapter-one-*.js', 'tests/chapter-one.test.js', 'tests/adventure/chapter-one.spec.js', 'playwright.chapter.config.js', 'reports/chapter-01/**', '.github/workflows/chapter-one.yml']
+    paths: ['adventure.*', 'src/adventure.js', 'src/house*.js', 'src/puzzle/**', 'data/**', 'scripts/chapter-one-*.js', 'tests/chapter-one.test.js', 'tests/adventure/chapter-one.spec.js', 'playwright.chapter.config.js', 'reports/chapter-01/**', '.github/workflows/chapter-one.yml']
   workflow_dispatch:
 permissions:
   contents: read

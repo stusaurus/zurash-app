@@ -48,13 +48,57 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   }
   await page.locator('#notice-primary').click();
   await expect(page.locator('#home-balance')).toHaveText('50');
+  // The new exterior is the home; entering a room changes the actual artwork.
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
+  await expect(page.locator('[data-scene-art="exterior"]')).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+  for(const b of await page.locator('.scene-hotspot').all()){
+    const box=await b.boundingBox();expect(box.width).toBeGreaterThanOrEqual(44);expect(box.height).toBeGreaterThanOrEqual(44);
+  }
+  await page.getByRole('button',{name:'玄関へ',exact:true}).click();
+  await expect(page.locator('[data-scene-art="entry"]')).toBeVisible();
+  await page.getByRole('button',{name:'キッチンへ',exact:true}).click();
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','kitchen');
+  await page.locator('[data-area="entry"]').click();
+  if(info.project.name==='chromium'&&width===390){
+    await page.screenshot({path:info.outputPath('entry-before-390.png'),fullPage:true});
+    console.log('SCENE_BEFORE_ENTRY='+ (await page.screenshot({type:'jpeg',quality:75,fullPage:true})).toString('base64'));
+  }
   for(const t of TASKS){
     await page.locator(`[data-area="${t.area}"]`).click();await page.locator(`[data-repair="${t.id}"]`).click();
+    if(t===TASKS[0]){
+      await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','building');
+      await expect(page.locator('#home-balance')).toHaveText('47');
+      await page.reload(); // Paid construction resumes without a second debit.
+      await page.locator('[data-area="entry"]').click();
+    }
     await expect(page.locator(`[data-style="${t.id}"][data-choice="2"]`)).toBeVisible();
     if(t!==TASKS.at(-1))await page.locator(`[data-style="${t.id}"][data-choice="2"]`).click();
   }
   await expect(page.locator('#notice-title')).toHaveText('トリケンの家が完成！');await page.locator('#notice-primary').click();
   await expect(page.locator('#home-balance')).toHaveText('10');
+  // Every entry design has different geometry/materials and is shared by both views.
+  const motifs=[['arch','timber','lantern'],['glass','clapboard','bell'],['porthole','masonry','globe']];
+  for(let choice=0;choice<3;choice++){
+    await page.locator('[data-area="entry"]').click();
+    for(const t of TASKS.slice(0,3))await page.locator(`[data-style="${t.id}"][data-choice="${choice}"]`).click();
+    for(const scene of ['entry','exterior']){
+      if(scene==='exterior')await page.getByRole('button',{name:'外観に戻る',exact:true}).click();
+      await expect(page.locator(`[data-scene-art="${scene}"] [data-door-design]`)).toHaveAttribute('data-door-design',motifs[choice][0]);
+      await expect(page.locator(`[data-scene-art="${scene}"]`)).toHaveAttribute('data-wall-design',motifs[choice][1]);
+      await expect(page.locator(`[data-scene-art="${scene}"] [data-light-design]`)).toHaveAttribute('data-light-design',motifs[choice][2]);
+      await expect(page.locator('#home-balance')).toHaveText('10');
+      expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+      if(info.project.name==='chromium'&&width===390){
+        await page.screenshot({path:info.outputPath(`${scene}-design-${choice}-390.png`),fullPage:true});
+        console.log(`SCENE_${scene.toUpperCase()}_${choice}=`+(await page.screenshot({type:'jpeg',quality:75,fullPage:true})).toString('base64'));
+      }
+    }
+  }
+  await page.reload();
+  await page.locator('[data-area="entry"]').click();
+  for(const t of TASKS.slice(0,3))await expect(page.locator(`[data-style="${t.id}"][data-choice="2"]`)).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design','porthole');
   await page.screenshot({path:info.outputPath(`completed-house-${width}.png`),fullPage:true});
   if(info.project.name==='chromium'&&width===390)console.log('HOME_PREVIEW='+ (await page.screenshot({type:'jpeg',quality:65,fullPage:true})).toString('base64'));
   await page.reload();await expect(page.locator('#home-balance')).toHaveText('10');
