@@ -1,0 +1,158 @@
+/* Art comparison only: opt in with adventure.html?art=approved.
+ * Reuses the already approved ice-world background, logo, and Triken assets.
+ * No rule-engine, progression, item, or house-art modifications.
+ * Never style the home screen or the board game on index.html.
+ */
+html.art-review-approved body:has(.game-panel:not([hidden])){
+ background-color:#4a93c0;
+ background-image:linear-gradient(180deg,#073a75a1 0%,#15467936 32%,#183861bd 100%),url('./assets/ice-world-mobile.webp');
+ background-position:center top;background-size:cover;background-attachment:scroll;
+ color:#174878;
+}
+html.art-review-approved body:has(.game-panel:not([hidden])) .adventure{
+ width:min(calc(100% - 12px),760px);padding:8px 0 28px;
+}
+html.art-review-approved body:has(.game-panel:not([hidden])) .masthead{
+ margin:0 auto 7px;min-height:112px;justify-content:center;position:relative;
+}
+html.art-review-approved body:has(.game-panel:not([hidden])) .masthead .logo{
+ width:min(92vw,360px);height:clamp(112px,29vw,150px);
+ object-fit:contain;filter:drop-shadow(0 7px 8px #0a3158af);
+}
+html.art-review-approved body:has(.game-panel:not([hidden])) .masthead>div{
+ position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+ clip-path:inset(50%);white-space:nowrap;
+}
+html.art-review-approved .game-panel{
+ background:linear-gradient(180deg,#e1f5ffdd,#acd9f2e8 55%,#d9f1ffef);
+ border:2px solid #e9fbff;border-radius:22px;
+ padding:clamp(10px,3vw,20px);
+ box-shadow:inset 0 2px 0 #fff9,0 5px 0 #6aa7d2,0 15px 30px #06316b88;
+}
+html.art-review-approved .game-panel .stage-heading{
+ border-radius:16px;gap:8px;padding:10px 11px;
+ background:linear-gradient(165deg,#f5fcfff5,#d8eeffeb);
+ border:1px solid #c4e8ff;box-shadow:0 3px 0 #8dbdd7;
+}
+html.art-review-approved .game-panel .stage-heading h2{
+ color:#164a87;font-size:clamp(15px,4vw,20px);text-shadow:0 1px 0 white;
+}
+html.art-review-approved .game-panel .stage-heading .eyebrow{
+ color:#4879a3;font-size:10px;opacity:1;
+}
+html.art-review-approved .game-panel .stage-heading button{
+ background:linear-gradient(#fcfeff,#cde8ff);color:#11508c;
+ border:1px solid #88c6e9;border-radius:12px;box-shadow:0 2px 0 #6aa9d0;
+ min-height:44px;
+}
+html.art-review-approved .game-panel .focus{
+ color:#234e79;font-weight:750;font-size:12px;line-height:1.55;
+ padding:8px 11px;margin:9px 0;
+ background:#eaf8ffca;border:1px solid #b5e5ff;border-radius:13px;
+}
+html.art-review-approved .game-panel .score-strip{
+ background:linear-gradient(#fef6db,#f9e2ae);
+ border:1px solid #f8d680;border-radius:13px;
+ box-shadow:0 3px 0 #d2b276;
+ color:#6a4b20;padding:9px 11px;margin-bottom:13px;
+}
+html.art-review-approved .game-panel .score-strip b{color:#9a5500;font-weight:900}
+html.art-review-approved .game-panel .town-stars{color:#7b450e}
+html.art-review-approved .game-panel .board{
+ width:min(100%,470px);gap:clamp(2px,.72vw,4px);
+ padding:clamp(8px,2vw,12px);
+ background:linear-gradient(145deg,#c2f0ff 0%,#77b5dc 45%,#3c83bb 100%);
+ border:5px solid #a9dff4;border-top-color:#efffff;border-left-color:#dbf8ff;
+ border-right-color:#398ac0;border-bottom-color:#2879b1;border-radius:18px;
+ box-shadow:inset 0 3px 0 #efffff,0 5px 0 #22689d,0 10px 0 #154a78,
+ 0 18px 28px #0a477f80;
+}
+html.art-review-approved .game-panel .cell{
+ border:1px solid #d9faff;border-bottom:3px solid #7dbbd7;border-right:2px solid #9cdaec;
+ border-radius:12%;position:relative;overflow:visible;
+ background:linear-gradient(135deg,#faffff 0%,#e2f9ff 30%,#add9ee 72%,#91c5e4);
+ box-shadow:inset 2px 2px 0 #fff9,inset -1px -2px 0 #7db5d54d;
+}
+html.art-review-approved .game-panel .hole{
+ background:radial-gradient(ellipse at 50% 10%,#4d9ac2,#245d8e 68%,#133e70);
+ border:1px solid #82cce3;box-shadow:inset 0 5px 9px #123d6b96;
+}
+html.art-review-approved .game-panel .cell.wall:before{
+ content:"";inset:10%;border-radius:16%;
+ background:linear-gradient(138deg,#e7ffff 0%,#82cce9 29%,#247ab5 72%,#145b97 100%);
+ border:2px solid #c9f5ff;box-shadow:inset 3px 3px 0 #fff9,
+  inset -3px -3px 0 #21639488,0 4px 0 #194c82,0 7px 9px #164b7288;
+}
+html.art-review-approved .game-panel .cell.wall:after{
+ content:"❄";font-size:clamp(13px,3.8vw,25px);color:#edffff;
+ text-shadow:0 1px 3px #286b99;filter:drop-shadow(0 1px 1px #114977);
+}
+html.art-review-approved .game-panel .cell.ice:before{
+ background:linear-gradient(133deg,#fff 0%,#bbf7ff 35%,#45bee5);
+ border:2px solid #eaffff;box-shadow:inset 2px 2px 0 white,0 4px 0 #208eaf,0 7px 8px #19567b99;
+}
+html.art-review-approved .game-panel .cell .star{
+ font-size:1.05em;color:#ffd34e;
+ -webkit-text-stroke:1px #f59f1c;
+ text-shadow:0 1px 0 #fffae2,0 0 10px #ffd455,0 3px 3px #936420;
+ filter:drop-shadow(0 3px 2px #a86a288a);
+}
+html.art-review-approved .game-panel .cell img{
+ width:112%;max-width:none;z-index:6;
+ filter:drop-shadow(0 4px 2px #21598788);
+}
+html.art-review-approved .game-panel .cell.hot,
+html.art-review-approved .game-panel .cell.arrival{
+ background:linear-gradient(140deg,#fff7d3,#ffda83);
+ outline:2px solid #f8a825;outline-offset:-3px;
+ box-shadow:0 0 11px #ffc743b5,inset 2px 2px 0 #fff;
+}
+html.art-review-approved .game-panel .cell.selected{
+ outline:3px solid #fd9d25;outline-offset:-3px;
+ box-shadow:inset 0 0 0 2px #fff0bd,0 0 10px #ffb44e7a;
+}
+html.art-review-approved .game-panel .cell.arrival:before{
+ color:#c4770c;text-shadow:0 0 5px #fff8cc;
+}
+html.art-review-approved .game-panel .legend{color:#285f8d;font-weight:700;margin:16px 0 13px}
+html.art-review-approved .game-panel .controls{border-color:#88b6d4;padding-top:12px}
+html.art-review-approved .game-panel .mode{
+ border:1px solid #77b7e1;background:linear-gradient(#fff,#d9edff);
+ color:#18528e;border-bottom:3px solid #6badd2;
+ box-shadow:inset 0 1px 0 white;min-height:44px;border-radius:12px;
+}
+html.art-review-approved .game-panel .mode.active{
+ background:linear-gradient(#339ce5,#1163ad);color:#fff;
+ border-color:#0d599d;border-bottom-color:#164b88;
+ box-shadow:inset 0 2px #74caff;
+}
+html.art-review-approved .game-panel .mode small{color:inherit}
+html.art-review-approved .game-panel .dpad button{
+ min-width:0;min-height:40px;border:1px solid #9cdcf5;
+ border-bottom:4px solid #135b99;border-radius:12px;
+ background:linear-gradient(#47a8ee,#1170c6);color:#fff;
+ text-shadow:0 1px 0 #0b4889;box-shadow:inset 0 1px #d3f5ff,0 3px 9px #175b9477;
+}
+html.art-review-approved .game-panel .dpad button:disabled{opacity:.35;box-shadow:none}
+html.art-review-approved .game-panel .dpad-center{color:#1976b4;text-shadow:0 1px white}
+html.art-review-approved .game-panel .primary{
+ background:linear-gradient(#ffa744,#e56b20);
+ border:1px solid #e07126;border-bottom:4px solid #ae4d19;color:white;
+ box-shadow:inset 0 2px #ffde94;
+}
+html.art-review-approved .game-panel .quiet{
+ background:linear-gradient(#fff,#d7ecfb);border:1px solid #a5cde5;color:#235688;
+}
+html.art-review-approved .game-panel .message{color:#185d93;font-weight:750}
+html.art-review-approved .game-panel dialog{border:3px solid #b1e2f4}
+@media(max-width:390px){
+ html.art-review-approved .game-panel .stage-heading{padding:8px 7px}
+ html.art-review-approved .game-panel .stage-heading button{padding:6px 7px}
+ html.art-review-approved .game-panel .controls{grid-template-columns:minmax(0,1fr) 108px;gap:8px}
+ html.art-review-approved .game-panel .dpad{grid-template-columns:repeat(3,32px);grid-template-rows:repeat(3,39px);gap:3px}
+ html.art-review-approved .game-panel .mode{padding:7px 2px}
+ html.art-review-approved .game-panel .score-strip{gap:7px}
+}
+@media(prefers-reduced-motion:reduce){
+ html.art-review-approved .game-panel .cell img{transition:none}
+}
