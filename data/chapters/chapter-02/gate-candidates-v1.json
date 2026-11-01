@@ -76,7 +76,7 @@
         "minimumTurns": 11,
         "aThrough": 13,
         "passThrough": 14,
-        "verifiedBy": "complete-bfs-solo-v1"
+        "verifiedBy": "complete-bfs-gate-v2"
       },
       "proof": [
         {
