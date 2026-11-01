@@ -69,6 +69,13 @@ function renderBoard(options) {
   const hotspots=preps.filter(p=>mode==='ice'||mode==='warp'||p.from===selectedWall).map(p=>p.to);
   const width=stage.board.width,height=stage.board.height,playable=new Set(stage.board.playableCells??Array.from({length:width*height},(_,i)=>i));
   $('board').style.gridTemplateColumns=`repeat(${width},minmax(0,1fr))`;
+  // The comparison view fits tall boards into a phone viewport; normal gameplay stays unchanged.
+  // Cells remain tappable (approximately >=44 CSS px on common phone viewports).
+  if(document.documentElement.classList.contains('art-review-approved')&&window.innerWidth<=600){
+    const maxHeight=Math.min(500,window.innerHeight*.55);
+    const fittedWidth=Math.min(470,Math.floor((maxHeight-24)*width/height)+24);
+    $('board').style.maxWidth=`${Math.max(175,fittedWidth)}px`;
+  }else $('board').style.removeProperty('max-width');
   $('board').setAttribute('data-stage',stage.chapter.number);$('board').setAttribute('aria-label',`ステージ${stage.chapter.number}、横${width}マス、縦${height}マス`);
   const selectedOptions=options.filter(o=>same(o.action.prep,selectedPrep));
   const arrivals=new Set(selectedOptions.map(o=>o.state.position));
@@ -121,7 +128,30 @@ function selectCell(cell){
 function move(dir){
   if(busy||!selectedPrep||solved(state))return;
   const action={prep:selectedPrep,dir},legal=currentOptions().some(o=>same(o.action,action));if(!legal)return;
+  const approved=document.documentElement.classList.contains('art-review-approved');
+  const fromSprite=approved?$('board').querySelector('.cell img'):null;
+  const startRect=fromSprite?.getBoundingClientRect();
+  const oldStarCount=state.stars.length;
   state=applyPuzzle(stage,state,action);trace.push(action);mode='none';selectedPrep={type:'none'};selectedWall=null;render();
+  // Visual-only FLIP: move the approved Triken image along the validated slide path.
+  // Do not change game timing, rules, score, undo or saved progress.
+  if(approved&&startRect&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const sprite=$('board').querySelector('.cell img');
+    const cell=sprite?.closest('.cell'),finishRect=sprite?.getBoundingClientRect();
+    if(sprite&&finishRect&&typeof sprite.animate==='function'){
+      const dx=startRect.left+startRect.width/2-finishRect.left-finishRect.width/2;
+      const dy=startRect.top+startRect.height/2-finishRect.top-finishRect.height/2;
+      const travel=Math.hypot(dx,dy);
+      sprite.animate([
+        {transform:`translate(${dx}px, ${dy}px) scale(.92)`,opacity:.92},
+        {transform:'translate(0px, 0px) scale(1)',opacity:1},
+      ],{duration:Math.min(400,210+travel*.35),easing:'cubic-bezier(.2,.7,.2,1)'});
+    }
+    if(oldStarCount>state.stars.length&&cell){
+      cell.classList.add('star-landing');
+      setTimeout(()=>{if(cell.isConnected)cell.classList.remove('star-landing');},650);
+    }
+  }
   if(solved(state)) {
     const already=Object.hasOwn(progress.completed,stage.id);
     progress=clearChapterStage(campaign,chapter,stage,progress,trace,{preview,houseMode:true}).progress;persist();render();
