@@ -425,6 +425,12 @@ test('16 and 19-turn experimental puzzles are playable with iPhone controls and 
   }
   await expect(page.locator('#fun-result')).toBeVisible();
   await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+  // iPhone must actually reveal the rank and retry action, not only add offscreen DOM.
+  await expect(page.locator('#fun-rank')).toBeFocused();
+  await expect.poll(async()=>page.locator('#fun-result').evaluate(el=>{
+   const rect=el.getBoundingClientRect();
+   return rect.top>=0 && rect.bottom <= window.innerHeight-16;
+  }),{timeout:5000}).toBe(true);
   await expect(page.locator('#fun-benchmark')).toContainText('最短 '+candidate.challenge.minimumTurns+'手');
   await expect(page.locator('#fun-benchmark')).toContainText('合格 '+candidate.challenge.passThrough+'手以内');
   await expect(page.locator('#fun-again')).toBeVisible();
