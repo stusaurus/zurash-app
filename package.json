@@ -18,7 +18,8 @@
     "puzzle:browser": "node scripts/puzzle-browser-study.js",
     "chapter:author": "node scripts/chapter-one-author.js",
     "chapter:verify": "node scripts/chapter-one-verify.js",
-    "chapter:browser": "playwright test -c playwright.chapter.config.js"
+    "chapter:browser": "playwright test -c playwright.chapter.config.js",
+    "challenge:certify": "node scripts/challenge-certify.js"
   },
   "devDependencies": {
     "@playwright/test": "1.56.1"

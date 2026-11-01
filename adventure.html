@@ -3,7 +3,11 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#dce9dd"><title>ズラッシュ！｜第1章 トリケンの家</title>
-  <link rel="stylesheet" href="./adventure.css"><script type="module" src="./src/adventure.js"></script>
+  <link rel="stylesheet" href="./adventure.css">
+  <!-- Explicit A/B preview only: approved asset palette; original view is untouched. -->
+  <script>if(new URLSearchParams(location.search).get('art')==='approved')document.documentElement.classList.add('art-review-approved');</script>
+  <link rel="stylesheet" href="./adventure-ice-visual.css">
+  <script type="module" src="./src/adventure.js"></script>
 </head>
 <body>
   <main class="adventure">
@@ -12,6 +16,7 @@
     <section hidden class="game-panel" aria-labelledby="stage-title">
       <div class="stage-heading"><div><span id="stage-number" class="eyebrow">読み込み中</span><h2 id="stage-title">トリケンの家へようこそ</h2></div><button id="return-home" class="quiet">家へ</button><button id="stage-list" class="quiet" disabled>ステージ</button></div>
       <p id="focus" class="focus">滑って、壁をずらして、星を集めよう。</p>
+      <p class="tap-hint">黄色く光るマスをタップして滑ろう。壁を動かすときは壁をタップ！</p>
       <div class="score-strip"><span>手数 <b id="moves">0</b></span><span>のこりの星 <b id="remaining">—</b></span><span class="town-stars">家づくりの星 <b id="balance">0</b></span></div>
       <div id="board" class="board" aria-label="パズル盤面"></div>
       <div class="legend"><span>● 止まれるマス</span><span><i class="sample wall-sample"></i>動く壁</span><span id="ice-legend" hidden><i class="sample socket-sample"></i>氷のソケット</span><span id="warp-legend" hidden><i class="sample portal-sample"></i>ポータル</span></div>

@@ -1,0 +1,756 @@
+{
+  "version": 1,
+  "versionLabel": "10-stage experimental playtest pack; NO production replacement",
+  "rulesVersion": "solo-v1",
+  "sourceBranch": "art/chapter1-v7-recovery",
+  "saveWrites": false,
+  "stages": [
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-01-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 4,
+        "height": 4
+      },
+      "start": 0,
+      "walls": [],
+      "stars": [
+        3
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "provenance": {
+        "source": "2026-11-01-quality-research",
+        "status": "unapproved-playtest-candidate",
+        "oldChapterStage": 1
+      },
+      "chapter": {
+        "id": "ice-town-01",
+        "number": 1,
+        "title": "すべってみよう",
+        "focus": "端まで滑って、止まったマスの星を取ろう。",
+        "hint": "右へ滑ろう。"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-02-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 4,
+        "height": 4
+      },
+      "start": 9,
+      "walls": [
+        5
+      ],
+      "stars": [
+        10
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "provenance": {
+        "source": "2026-11-01-quality-research",
+        "status": "unapproved-playtest-candidate",
+        "oldChapterStage": 2
+      },
+      "chapter": {
+        "id": "ice-town-01",
+        "number": 2,
+        "title": "壁はストッパー",
+        "focus": "壁を1マス動かすと、星で止まれる場所ができる。",
+        "hint": "先に右へ滑り、壁を手前へ動かしてみよう。"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 5,
+            "to": 9
+          },
+          "dir": 3
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-03-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 4,
+        "height": 5
+      },
+      "start": 14,
+      "walls": [
+        6
+      ],
+      "stars": [
+        9
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "provenance": {
+        "source": "2026-11-01-quality-research",
+        "status": "unapproved-playtest-candidate",
+        "oldChapterStage": 3
+      },
+      "chapter": {
+        "id": "ice-town-01",
+        "number": 3,
+        "title": "1マスのひらめき",
+        "focus": "通り過ぎる星。どこに壁を置けば止まれる？",
+        "hint": "壁を星の右側へ移すと、停止位置が変わる。"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 6,
+            "to": 10
+          },
+          "dir": 1
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-04-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 5,
+        "height": 4
+      },
+      "start": 8,
+      "walls": [
+        12
+      ],
+      "stars": [
+        0,
+        6
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "provenance": {
+        "source": "2026-11-01-quality-research",
+        "status": "unapproved-playtest-candidate",
+        "oldChapterStage": 4
+      },
+      "chapter": {
+        "id": "ice-town-01",
+        "number": 4,
+        "title": "星を取る順番",
+        "focus": "2つの星を集めるには、壁の使い方と順番が大切。",
+        "hint": "いったん左へ。壁を上へ動かすと道ができる。"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 12,
+            "to": 7
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-05-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 5,
+        "height": 5
+      },
+      "start": 13,
+      "walls": [
+        0,
+        3
+      ],
+      "stars": [
+        6,
+        20
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "provenance": {
+        "source": "2026-11-01-quality-research",
+        "status": "unapproved-playtest-candidate",
+        "oldChapterStage": 5
+      },
+      "chapter": {
+        "id": "ice-town-01",
+        "number": 5,
+        "title": "遠くの星",
+        "focus": "中央と端の星をつなぐ、壁のひと工夫。",
+        "hint": "まず上へ。左上の壁を1マス動かす方法を考えよう。"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 0,
+            "to": 5
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-06-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 5,
+        "height": 5
+      },
+      "start": 16,
+      "walls": [
+        4,
+        22
+      ],
+      "stars": [
+        3,
+        12
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "provenance": {
+        "source": "2026-11-01-quality-research",
+        "status": "unapproved-playtest-candidate",
+        "oldChapterStage": 6
+      },
+      "chapter": {
+        "id": "ice-town-01",
+        "number": 6,
+        "title": "2つの壁の役割",
+        "focus": "2つの壁は、別々の星へ届くための道具。",
+        "hint": "最初は上へ滑り、右側の壁の位置を利用しよう。"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 4,
+            "to": 3
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 22,
+            "to": 17
+          },
+          "dir": 2
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-07-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 5,
+        "height": 6,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          25,
+          26,
+          27,
+          28
+        ]
+      },
+      "start": 13,
+      "walls": [
+        5,
+        21
+      ],
+      "stars": [
+        17,
+        22
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "provenance": {
+        "source": "2026-11-01-quality-research",
+        "status": "unapproved-playtest-candidate",
+        "oldChapterStage": 7
+      },
+      "chapter": {
+        "id": "ice-town-01",
+        "number": 7,
+        "title": "欠けた氷の道",
+        "focus": "欠けた足場も、止まる位置を決める大事な手がかり。",
+        "hint": "右へ滑ってから下へ。壁の高さを合わせよう。"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 21,
+            "to": 16
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 16,
+            "to": 17
+          },
+          "dir": 0
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-08-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 5,
+        "height": 5,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ]
+      },
+      "start": 6,
+      "walls": [
+        17,
+        23
+      ],
+      "stars": [
+        0,
+        13
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "provenance": {
+        "source": "2026-11-01-quality-research",
+        "status": "unapproved-playtest-candidate",
+        "oldChapterStage": 8
+      },
+      "chapter": {
+        "id": "ice-town-01",
+        "number": 8,
+        "title": "中庭の秘密",
+        "focus": "穴のある盤面で、壁を少しずつ移して星に近づこう。",
+        "hint": "上、左の順に進み、下の壁を右へ動かそう。"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 17,
+            "to": 18
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 18,
+            "to": 19
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-09-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 6,
+        "height": 5
+      },
+      "start": 21,
+      "walls": [
+        4,
+        23
+      ],
+      "stars": [
+        8,
+        14,
+        26
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "provenance": {
+        "source": "2026-11-01-quality-research",
+        "status": "unapproved-playtest-candidate",
+        "oldChapterStage": 9
+      },
+      "chapter": {
+        "id": "ice-town-01",
+        "number": 9,
+        "title": "3つの星をつなぐ",
+        "focus": "1つの壁が何度も役に立つ。移動した壁の次の使い道は？",
+        "hint": "上の壁を左へ動かし、上へ滑るところから始めよう。"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 4,
+            "to": 3
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 3,
+            "to": 9
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 9,
+            "to": 8
+          },
+          "dir": 0
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-10-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 4,
+        "height": 4
+      },
+      "start": 4,
+      "walls": [],
+      "stars": [
+        3,
+        6
+      ],
+      "fixed": [],
+      "iceSockets": [
+        7
+      ],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "provenance": {
+        "source": "2026-11-01-quality-research",
+        "status": "unapproved-playtest-candidate",
+        "oldChapterStage": 10
+      },
+      "chapter": {
+        "id": "ice-town-01",
+        "number": 10,
+        "title": "氷で止まる！",
+        "focus": "アイスブロックを置けば、星の上で止まれる。",
+        "hint": "右端のソケットに氷を置き、右へ滑ろう。",
+        "tutorialItem": "iceBlock"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "ice",
+            "to": 7
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        }
+      ]
+    }
+  ]
+}
