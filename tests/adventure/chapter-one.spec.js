@@ -383,3 +383,41 @@ test('independent ten-stage puzzle lab can be completed on mobile without writin
  expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(initial);
  expect(failed).toEqual([]);
 });
+
+
+test('16 and 19-turn experimental puzzles are playable with iPhone controls and no save writes',async({page},info)=>{
+ await page.setViewportSize({width:390,height:844});
+ const bundle=JSON.parse(fs.readFileSync(new URL('../../data/chapters/chapter-01/long-candidates-v1.json',import.meta.url)));
+ const pageErrors=[];
+ page.on('pageerror',error=>pageErrors.push(String(error)));
+ page.on('response',r=>{if(r.status()>=400)pageErrors.push(r.status()+' '+r.url());});
+ await page.goto('/long-lab.html');
+ await expect(page.locator('#fun-board')).toHaveAttribute('data-stage','1');
+ const initial=await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)));
+ for(const candidate of bundle.stages){
+  await expect(page.locator('#fun-title')).toHaveText(candidate.chapter.title);
+  for(let i=0;i<candidate.proof.length;i++){
+   const a=candidate.proof[i],kind=a.prep.type;
+   await page.locator('[data-fun-mode="'+kind+'"]').click();
+   if(kind==='wall'){
+    await page.locator('#fun-board [data-cell="'+a.prep.from+'"]').click();
+    await page.locator('#fun-board [data-cell="'+a.prep.to+'"]').click();
+   }
+   await page.locator('[data-fun-dir="'+a.dir+'"]').click();
+   await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+   await expect(page.locator('#fun-retry')).toBeEnabled();
+  }
+  await expect(page.locator('#fun-result')).toBeVisible();
+  await expect(page.locator('#fun-stars')).toHaveText('0');
+  const board=await page.locator('#fun-board').boundingBox();
+  expect(board.height).toBeLessThanOrEqual(430);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  if(candidate.chapter.number===1){
+   await page.screenshot({path:info.outputPath('long-puzzle-stage1-390.png'),animations:'disabled',fullPage:true});
+  }
+  await page.locator('#fun-next').click();
+ }
+ await expect(page.locator('#fun-board')).toHaveAttribute('data-stage','1');
+ expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(initial);
+ expect(pageErrors).toEqual([]);
+});
