@@ -6,6 +6,8 @@ import {buildProgressiveHints} from './puzzle/progressive-hints.js';
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く'};
 const longMode=location.pathname.endsWith('/long-lab.html');
+const itemMode=location.pathname.endsWith('/item-lab.html');
+const challengeMode=longMode||itemMode;
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
 let activeMs=0,activeSince=null,hintUses=0,undoUses=0,hintLevel=0;
 // Session-only personal bests; never write to the real chapter save.
@@ -34,8 +36,8 @@ function showSelection(){
   button.textContent=String(n);
   button.setAttribute('data-stage-choice',String(n));
   button.setAttribute('aria-current',n===number?'step':'false');
-  let label='候補ステージ'+n+(longMode?' '+candidate.chapter.title:'');
-  if(longMode&&best!==undefined){
+  let label='候補ステージ'+n+(challengeMode?' '+candidate.chapter.title:'');
+  if(challengeMode&&best!==undefined){
    const rank=evaluateChallenge(candidate,best).rank;
    const badge=document.createElement('span');
    badge.className='fun-rank-mark';
@@ -64,7 +66,7 @@ function setStage(n){
  history.replaceState(null,'',query.pathname+query.search);
  $('fun-result').hidden=true;$('fun-feedback').hidden=true;
  $('fun-feedback').replaceChildren();
- if(longMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
+ if(challengeMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
  showSelection();render();
  say(number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
 }
@@ -80,21 +82,24 @@ function paintBoard(options){
  board.setAttribute('aria-label',w+'列'+h+'段の候補パズル');
  const playable=new Set(stage.board.playableCells??Array.from({length:w*h},(_,i)=>i));
  const visual={position:state.position,walls:[...state.walls],ice:[...state.ice]};
- if(selectedPrep?.type==='wall')visual.walls=visual.walls.map(c=>c===selectedPrep.from?selectedPrep.to:c);
+ if(['wall','glove'].includes(selectedPrep?.type))visual.walls=visual.walls.map(c=>c===selectedPrep.from?selectedPrep.to:c);
+ if(selectedPrep?.type==='warp')visual.position=selectedPrep.to;
  if(selectedPrep?.type==='ice')visual.ice.push(selectedPrep.to);
  const optionsOfMode=options.filter(o=>o.action.prep.type===mode).map(o=>o.action.prep);
- const hotspots=new Set(optionsOfMode.filter(p=>mode!=='wall'||p.from===selectedWall).map(p=>p.to));
+ const hotspots=new Set(optionsOfMode.filter(p=>!['wall','glove'].includes(mode)||p.from===selectedWall).map(p=>p.to));
  const matches=options.filter(o=>same(o.action.prep,selectedPrep));
  const arrivals=new Set(matches.map(o=>o.state.position));
  let cells='';
  for(let c=0;c<w*h;c++){
   if(!playable.has(c)){cells+='<span class="hole" aria-hidden="true"></span>';continue;}
-  const wall=visual.walls.includes(c),ice=visual.ice.includes(c),star=state.stars.includes(c),player=visual.position===c,arrive=arrivals.has(c)&&!player;
+  const wall=visual.walls.includes(c),fixed=stage.fixed.includes(c),portal=stage.portals.some(pair=>pair.includes(c)),ice=visual.ice.includes(c),star=state.stars.includes(c),player=visual.position===c,arrive=arrivals.has(c)&&!player;
   const socket=stage.iceSockets.includes(c)&&!ice;
-  const klass=['cell',wall?'wall':'',ice?'ice':'',socket?'socket':'',hotspots.has(c)?'hot':'',selectedWall===c?'selected':'',arrive?'arrival':''].filter(Boolean).join(' ');
-  const label=['左から'+(c%w+1)+'、上から'+(Math.floor(c/w)+1),wall?'動く壁':'',player?'トリケン':'',star?'星':'',socket?'氷を置ける':'',hotspots.has(c)?'準備の移動先':'',arrive?'ここへ滑る':''].filter(Boolean).join('・');
+  const klass=['cell',wall?'wall':'',fixed?'wall fixed-wall':'',portal?'portal-cell':'',ice?'ice':'',socket?'socket':'',hotspots.has(c)?'hot':'',selectedWall===c?'selected':'',arrive?'arrival':''].filter(Boolean).join(' ');
+  const label=['左から'+(c%w+1)+'、上から'+(Math.floor(c/w)+1),wall?'動く壁':'',fixed?'動かせない壁':'',portal?'転送門':'',player?'トリケン':'',star?'星':'',socket?'氷を置ける':'',hotspots.has(c)?'準備の移動先':'',arrive?'ここへ滑る':''].filter(Boolean).join('・');
   cells+='<button type="button" class="'+klass+'" data-cell="'+c+'" aria-label="'+label+'" '+(busy?'disabled':'')+'>'+
    (star?'<span class="star" aria-hidden="true">★</span>':'')+
+   (portal?'<span class="portal-indicator" aria-hidden="true">✧</span>':'')+
+   (ice?'<span class="ice-indicator" aria-hidden="true">◆</span>':'')+
    (player?'<img src="./assets/triken-orange-80.png" alt="" draggable="false">':'')+
    '</button>';
  }
@@ -125,7 +130,7 @@ function render(){
  paintBoard(options);
  for(const button of document.querySelectorAll('[data-fun-mode]')){
   const key=button.dataset.funMode;
-  button.hidden=key==='ice'&&!stage.inventory.iceBlock;
+  button.hidden=['ice','glove','warp'].includes(key)&&!stage.inventory[{ice:'iceBlock',glove:'powerGlove',warp:'warpCrystal'}[key]];
   button.disabled=busy||solved(state)||(key!=='none'&&!options.some(o=>o.action.prep.type===key));
   button.setAttribute('aria-pressed',String(mode===key));
  }
@@ -135,13 +140,13 @@ function render(){
  }
  $('fun-undo').disabled=busy||trace.length===0;
  $('fun-retry').disabled=busy;
- if(longMode)$('fun-hint').disabled=busy||solved(state);
+ if(challengeMode)$('fun-hint').disabled=busy||solved(state);
 }
 function changeMode(next){
  if(busy||solved(state))return;
  mode=next;selectedWall=null;selectedPrep=next==='none'?{type:'none'}:null;
  render();
- say(next==='wall'?'動かす壁をタップ → 光る移動先をタップ → 滑る方向を選ぼう。':next==='ice'?'氷を置く光るソケットをタップしよう。':'停止先の光るマスをタップして滑ろう。');
+ say(['wall','glove'].includes(next)?'動かす壁 → 光る移動先 → 滑る方向を選ぼう。':next==='ice'?'氷を置く光るソケットをタップしよう。':next==='warp'?'移動先のポータルをタップ → 滑る方向を選ぼう。':'停止先の光るマスをタップして滑ろう。');
 }
 function selectCell(cell){
  if(busy||solved(state))return;
@@ -151,19 +156,20 @@ function selectCell(cell){
   if(arrival){takeStep(arrival.action);return;}
  }
  const preps=options.map(o=>o.action.prep).filter(p=>p.type===mode);
- if(mode==='wall'){
+ if(mode==='wall'||mode==='glove'){
   if(selectedWall!==null){
    const prep=preps.find(p=>p.from===selectedWall&&p.to===cell);
    if(prep){selectedPrep=prep;render();say('壁をずらす準備ができた！ 光る停止マスか方向を選ぼう。');return;}
   }
   if(preps.some(p=>p.from===cell)){selectedWall=cell;selectedPrep=null;render();say('光る移動先をタップしよう。');return;}
  }
- if(mode==='ice'){
+ if(mode==='ice'||mode==='warp'){
   const prep=preps.find(p=>p.to===cell);
   if(prep){selectedPrep=prep;render();say('氷を置く準備ができた！ 滑る方向を決めよう。');return;}
  }
  if(mode==='none'&&state.walls.includes(cell)){changeMode('wall');selectCell(cell);return;}
- if(mode==='none'&&stage.iceSockets.includes(cell)){changeMode('ice');selectCell(cell);return;}
+ if(mode==='none'&&stage.iceSockets.includes(cell)&&stage.inventory.iceBlock){changeMode('ice');selectCell(cell);return;}
+ if(mode==='none'&&stage.portals.some(pair=>pair.includes(cell))&&stage.inventory.warpCrystal){changeMode('warp');selectCell(cell);return;}
  say('光るマスを選ぶか、右の十字キーで滑ろう。');
 }
 async function takeStep(action){
@@ -259,7 +265,7 @@ $('fun-retry').addEventListener('click',()=>setStage(number));
 $('fun-hint').addEventListener('click',()=>{
  if(!stage||busy||(longMode&&solved(state)))return;
  const panel=$('fun-feedback');
- if(!longMode){hintUses++;panel.hidden=false;panel.textContent=stage.chapter.hint;return;}
+ if(!challengeMode){hintUses++;panel.hidden=false;panel.textContent=stage.chapter.hint;return;}
  const hints=buildProgressiveHints(stage);
  if(hintLevel<hints.length){hintLevel++;hintUses++;}
  const hint=hints[hintLevel-1];
@@ -295,14 +301,14 @@ document.addEventListener('keydown',e=>{
  if(dir!==undefined&&selectedPrep&&!e.target.closest('button')){e.preventDefault();takeStep({prep:selectedPrep,dir});}
 });
 try{
- const res=await fetch(new URL('data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
+ const res=await fetch(new URL(itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
  if(!res.ok)throw Error('HTTP '+res.status);
  const bundle=await res.json();
- if(bundle.version!==1||bundle.stages?.length!==(longMode?4:10))throw Error('候補データが不完全です');
+ if(bundle.version!==1||bundle.stages?.length!==(itemMode?3:longMode?4:10))throw Error('候補データが不完全です');
  entries=bundle.stages;
  for(const s of entries){
   validateStage(s);
-  if(longMode&&!validateChallenge(s))throw Error('最短手数と合格手数の検証情報がありません');
+  if(challengeMode&&!validateChallenge(s))throw Error('最短手数と合格手数の検証情報がありません');
  }
  const selected=Number(new URLSearchParams(location.search).get('stage'));
  setStage(Number.isInteger(selected)&&selected>=1&&selected<=entries.length?selected:1);
