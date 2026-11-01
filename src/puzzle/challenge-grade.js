@@ -8,7 +8,7 @@ export function validateChallenge(stage) {
   if (!Number.isSafeInteger(minimumTurns) || minimumTurns < 1 ||
       !Number.isSafeInteger(aThrough) || !Number.isSafeInteger(passThrough) ||
       !(minimumTurns <= aThrough && aThrough <= passThrough) ||
-      verifiedBy !== 'complete-bfs-solo-v1') {
+      !['complete-bfs-solo-v1','complete-bfs-gate-v2'].includes(verifiedBy)) {
     throw Error('Invalid certified challenge thresholds');
   }
   return {minimumTurns,aThrough,passThrough};
