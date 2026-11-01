@@ -727,7 +727,7 @@
       },
       "provenance": {
         "generatedFor": "2026-11-01 post S-rank user feedback",
-        "algorithm": "random mask full BFS C++ with independent Python engine-route replay",
+        "algorithm": "complete BFS shortest path plus constrained BFS (maximum 4 consecutive wall moves), independently replayed",
         "status": "unapproved",
         "shortestReported": 19,
         "wallActionsOnProof": 12,
@@ -784,7 +784,9 @@
         },
         {
           "prep": {
-            "type": "none"
+            "type": "wall",
+            "from": 31,
+            "to": 30
           },
           "dir": 3
         },
@@ -798,9 +800,7 @@
         },
         {
           "prep": {
-            "type": "wall",
-            "from": 31,
-            "to": 30
+            "type": "none"
           },
           "dir": 3
         },
