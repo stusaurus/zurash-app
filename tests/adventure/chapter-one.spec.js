@@ -378,17 +378,8 @@ test('independent ten-stage puzzle lab can be completed on mobile without writin
    await page.screenshot({animations:'disabled',path:info.outputPath('fun-lab-stage6-390.png'),fullPage:true});
   }
   await page.locator('#fun-next').click();
-  if(candidate.chapter.number===1){
-   await expect(page.locator('#fun-pass-target')).toHaveText('24手以内');
-   await expect(page.locator('#fun-benchmark')).toBeHidden();
-  }
-  if(candidate.chapter.number===2){
-   await expect(page.locator('#fun-pass-target')).toHaveText('20手以内');
-   await expect(page.locator('#fun-title')).toHaveText('氷壁のバトン');
-  }
  }
  await expect(page.locator('#fun-board')).toHaveAttribute('data-stage','1');
- await expect(page.locator('#fun-pass-target')).toHaveText('20手以内');
  expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(initial);
  expect(failed).toEqual([]);
 });
@@ -450,8 +441,61 @@ test('16 and 19-turn experimental puzzles are playable with iPhone controls and 
    await page.screenshot({path:info.outputPath('long-puzzle-stage1-390.png'),animations:'disabled',fullPage:true});
   }
   await page.locator('#fun-next').click();
+  if(candidate.chapter.number===1){
+   await expect(page.locator('#fun-pass-target')).toHaveText('24手以内');
+   await expect(page.locator('#fun-benchmark')).toBeHidden();
+  }
+  if(candidate.chapter.number===2){
+   await expect(page.locator('#fun-pass-target')).toHaveText('20手以内');
+   await expect(page.locator('#fun-title')).toHaveText('氷壁のバトン');
+  }
  }
  await expect(page.locator('#fun-board')).toHaveAttribute('data-stage','1');
  expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(initial);
  expect(pageErrors).toEqual([]);
+});
+
+test('four-tier hints on iPhone reveal only requested steps and do not change S scoring or saves',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ const pack=JSON.parse(fs.readFileSync(new URL('../../data/chapters/chapter-01/long-candidates-v1.json',import.meta.url)));
+ const stage=pack.stages.find(s=>s.id==='fun-long-03-v1');
+ await page.goto('/long-lab.html?stage=3');
+ await expect(page.locator('#fun-title')).toHaveText('氷壁のバトン');
+ const original=await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)));
+ await expect(page.locator('#fun-feedback')).toBeHidden();
+ await expect(page.locator('#fun-hint')).toHaveText('ヒント 1/4');
+ await page.locator('#fun-hint').click();
+ await expect(page.locator('#fun-hint')).toHaveAttribute('data-hint-step','1');
+ await expect(page.locator('#fun-feedback')).toContainText('ヒント① 考え方');
+ await expect(page.locator('#fun-feedback ol li')).toHaveCount(0);
+ await page.locator('#fun-hint').click();
+ await expect(page.locator('#fun-hint')).toHaveAttribute('data-hint-step','2');
+ await expect(page.locator('#fun-feedback')).toContainText('5手目、D1');
+ await expect(page.locator('#fun-feedback ol li')).toHaveCount(0);
+ await page.locator('#fun-hint').click();
+ await expect(page.locator('#fun-feedback')).toContainText('ヒント③ 出発の手順');
+ await expect(page.locator('#fun-feedback ol li')).toHaveCount(5);
+ await expect(page.locator('#fun-feedback ol li').last()).toContainText('D1 ⭐星取得');
+ await page.locator('#fun-hint').click();
+ await expect(page.locator('#fun-feedback')).toContainText('答え 最短16手');
+ await expect(page.locator('#fun-feedback ol li')).toHaveCount(16);
+ await expect(page.locator('#fun-hint')).toHaveAttribute('data-hint-step','4');
+ await page.locator('#fun-hint').click();
+ await expect(page.locator('#fun-hint')).toHaveAttribute('data-hint-step','4');
+ for(const a of stage.proof){
+  await page.locator('[data-fun-mode="'+a.prep.type+'"]').click();
+  if(a.prep.type==='wall'){
+   await page.locator('#fun-board [data-cell="'+a.prep.from+'"]').click();
+   await page.locator('#fun-board [data-cell="'+a.prep.to+'"]').click();
+  }
+  await page.locator('[data-fun-dir="'+a.dir+'"]').click();
+  await expect(page.locator('#fun-retry')).toBeEnabled();
+ }
+ await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+ await expect(page.locator('#fun-finish')).toContainText('ヒント 4回');
+ await page.locator('#fun-again').click();
+ await expect(page.locator('#fun-hint')).toHaveText('ヒント 1/4');
+ await expect(page.locator('#fun-hint')).toHaveAttribute('data-hint-step','0');
+ await expect(page.locator('#fun-feedback')).toBeHidden();
+ expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(original);
 });
