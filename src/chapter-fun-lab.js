@@ -3,6 +3,7 @@ import {successors,applyPuzzle,solved,replay} from './puzzle/engine.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く'};
+const longMode=location.pathname.endsWith('/long-lab.html');
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const currentOptions=()=>solved(state)?[]:successors(stage,state);
@@ -69,7 +70,7 @@ function paintBoard(options){
 function render(){
  const options=currentOptions();
  $('fun-title').textContent=stage.chapter.title;
- $('fun-count').textContent=number+' / 10';
+ $('fun-count').textContent=number+' / '+entries.length;
  $('fun-focus').textContent=stage.chapter.focus;
  $('fun-moves').textContent=trace.length;
  $('fun-stars').textContent=state.stars.length;
@@ -148,7 +149,7 @@ async function takeStep(action){
   if(solved(state)){
    $('fun-result').hidden=false;
    $('fun-finish').textContent=trace.length+'手でクリア！ 壁を'+trace.filter(a=>a.prep.type==='wall').length+'回ずらしました。';
-   $('fun-next').textContent=number<10?'次のステージへ':'最初からもう一度';
+   $('fun-next').textContent=number<entries.length?'次のステージへ':'最初からもう一度';
    say('すべての星をゲット！');
   }else say('次の1手を考えよう。');
  }catch(e){console.error(e);say('操作を続けられませんでした。最初からやり直してみてください。',true);}
@@ -173,7 +174,7 @@ $('fun-dpad').addEventListener('click',e=>{
 $('fun-undo').addEventListener('click',undo);
 $('fun-retry').addEventListener('click',()=>setStage(number));
 $('fun-hint').addEventListener('click',()=>{$('fun-feedback').hidden=false;$('fun-feedback').textContent=stage.chapter.hint;});
-$('fun-next').addEventListener('click',()=>setStage(number===10?1:number+1));
+$('fun-next').addEventListener('click',()=>setStage(number===entries.length?1:number+1));
 window.addEventListener('resize',()=>{if(stage)render();});
 document.addEventListener('keydown',e=>{
  if(!stage||busy)return;
@@ -181,14 +182,14 @@ document.addEventListener('keydown',e=>{
  if(dir!==undefined&&selectedPrep&&!e.target.closest('button')){e.preventDefault();takeStep({prep:selectedPrep,dir});}
 });
 try{
- const res=await fetch(new URL('data/chapters/chapter-01/fun-candidates-v1.json',root));
+ const res=await fetch(new URL('data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
  if(!res.ok)throw Error('HTTP '+res.status);
  const bundle=await res.json();
- if(bundle.version!==1||bundle.stages?.length!==10)throw Error('候補データが不完全です');
+ if(bundle.version!==1||bundle.stages?.length!==(longMode?2:10))throw Error('候補データが不完全です');
  entries=bundle.stages;
  for(const s of entries)validateStage(s);
  const selected=Number(new URLSearchParams(location.search).get('stage'));
- setStage(Number.isInteger(selected)&&selected>=1&&selected<=10?selected:1);
+ setStage(Number.isInteger(selected)&&selected>=1&&selected<=entries.length?selected:1);
 }catch(error){
  console.error(error);
  $('fun-title').textContent='候補を表示できませんでした';
