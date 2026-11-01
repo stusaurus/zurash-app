@@ -26,14 +26,33 @@ function say(message,error=false){
 }
 function showSelection(){
  $('stage-choices').replaceChildren();
+ let completed=0,fullRank=0;
  for(let n=1;n<=entries.length;n++){
+  const candidate=entries[n-1],best=sessionBestTurns.get(candidate.id);
   const button=document.createElement('button');
-  button.type='button';button.textContent=String(n);
+  button.type='button';
+  button.textContent=String(n);
+  button.setAttribute('data-stage-choice',String(n));
   button.setAttribute('aria-current',n===number?'step':'false');
-  button.setAttribute('aria-label','候補ステージ'+n);
+  let label='候補ステージ'+n+(longMode?' '+candidate.chapter.title:'');
+  if(longMode&&best!==undefined){
+   const rank=evaluateChallenge(candidate,best).rank;
+   const badge=document.createElement('span');
+   badge.className='fun-rank-mark';
+   badge.dataset.rank=rank;
+   badge.textContent=rank==='unqualified'?'☆':rank;
+   badge.setAttribute('aria-hidden','true');
+   button.append(badge);
+   label+=' 自己ベスト'+best+'手 '+(rank==='unqualified'?'合格前':rank+'ランク');
+   completed++;
+   if(rank==='S')fullRank++;
+  }
+  button.setAttribute('aria-label',label);
   button.addEventListener('click',()=>setStage(n));
   $('stage-choices').append(button);
  }
+ const progress=$('fun-progress');
+ if(progress)progress.textContent='この試遊中の記録：クリア '+completed+'/'+entries.length+'面 ／ Sランク '+fullRank+'/'+entries.length+'面';
 }
 function setStage(n){
  if(busy||!entries[n-1])return;
@@ -182,6 +201,7 @@ async function takeStep(action){
    if(grade){
     const previousBest=sessionBestTurns.get(stage.id);
     if(previousBest===undefined||trace.length<previousBest)sessionBestTurns.set(stage.id,trace.length);
+    showSelection();
     $('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！ 合格は次の挑戦';
     $('fun-rank').dataset.rank=grade.rank;
     $('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';
