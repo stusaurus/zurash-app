@@ -449,6 +449,10 @@ test('16 and 19-turn experimental puzzles are playable with iPhone controls and 
    await expect(page.locator('#fun-pass-target')).toHaveText('20手以内');
    await expect(page.locator('#fun-title')).toHaveText('氷壁のバトン');
   }
+  if(candidate.chapter.number===3){
+   await expect(page.locator('#fun-pass-target')).toHaveText('24手以内');
+   await expect(page.locator('#fun-title')).toHaveText('氷壁の三重奏');
+  }
  }
  await expect(page.locator('#fun-board')).toHaveAttribute('data-stage','1');
  expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(initial);
