@@ -1,0 +1,450 @@
+[
+  {
+    "id": "home-entry-1",
+    "scene": "exterior",
+    "slot": "wall",
+    "state": "before",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Flat seamless architectural MATERIAL TILE only, straight frontal, full-bleed square texture, no objects, no scene, no shadows around tile. To be clipped to existing house walls. Subject/design: aged cracked ochre plaster with exposed brick patches and peeling limewash. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-entry-1",
+    "scene": "exterior",
+    "slot": "wall",
+    "state": "a",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Flat seamless architectural MATERIAL TILE only, straight frontal, full-bleed square texture, no objects, no scene, no shadows around tile. To be clipped to existing house walls. Subject/design: warm cream plaster with honey oak framing across panel edges and a diagonal oak brace. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-entry-1",
+    "scene": "exterior",
+    "slot": "wall",
+    "state": "b",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Flat seamless architectural MATERIAL TILE only, straight frontal, full-bleed square texture, no objects, no scene, no shadows around tile. To be clipped to existing house walls. Subject/design: ice-blue horizontal timber planks with carved snowflake inlays and icy bevels. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-entry-1",
+    "scene": "exterior",
+    "slot": "wall",
+    "state": "c",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Flat seamless architectural MATERIAL TILE only, straight frontal, full-bleed square texture, no objects, no scene, no shadows around tile. To be clipped to existing house walls. Subject/design: rounded pale amethyst stone blocks with glowing cyan crystal seams and small diamond inlays. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-entry-2",
+    "scene": "exterior",
+    "slot": "lamp",
+    "state": "before",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single wall-mounted fixture, straight frontal view, full object including mounting plate, centered occupying 75% canvas width and 84%height, base at90%, actual transparent background, no wall, no snow on indoor side, generous transparent margins. Subject/design: broken crooked rusted lantern with cracked dark glass and cobweb, not lit. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-entry-2",
+    "scene": "exterior",
+    "slot": "lamp",
+    "state": "a",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single wall-mounted fixture, straight frontal view, full object including mounting plate, centered occupying 75% canvas width and 84%height, base at90%, actual transparent background, no wall, no snow on indoor side, generous transparent margins. Subject/design: brass classic hanging lantern on curled bracket, faceted amber glowing glass, carved oak mounting plate. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-entry-2",
+    "scene": "exterior",
+    "slot": "lamp",
+    "state": "b",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single wall-mounted fixture, straight frontal view, full object including mounting plate, centered occupying 75% canvas width and 84%height, base at90%, actual transparent background, no wall, no snow on indoor side, generous transparent margins. Subject/design: copper bell-shaped wall light on curled dark iron bracket, rounded frosted warm bulb. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-entry-2",
+    "scene": "exterior",
+    "slot": "lamp",
+    "state": "c",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single wall-mounted fixture, straight frontal view, full object including mounting plate, centered occupying 75% canvas width and 84%height, base at90%, actual transparent background, no wall, no snow on indoor side, generous transparent margins. Subject/design: cut cyan crystal lantern in filigree brass cage, pointed diamond finial, luminous blue facets with warm amber core. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "ice-crane",
+    "scene": "living",
+    "slot": "floor",
+    "state": "before",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Floor surface tile with correct room-wide perspective, rectangular floor wedge covering lower foreground, high vanishing point at center far top, no furniture, full-bleed texture for clipping. Visible warm upper-left light. Subject/design: broken dusty dark wood boards with scuffed grain and gaps. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "ice-crane",
+    "scene": "living",
+    "slot": "floor",
+    "state": "a",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Floor surface tile with correct room-wide perspective, rectangular floor wedge covering lower foreground, high vanishing point at center far top, no furniture, full-bleed texture for clipping. Visible warm upper-left light. Subject/design: wide honey oak planks, hand-pegged joints, lively polished grain. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "ice-crane",
+    "scene": "living",
+    "slot": "floor",
+    "state": "b",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Floor surface tile with correct room-wide perspective, rectangular floor wedge covering lower foreground, high vanishing point at center far top, no furniture, full-bleed texture for clipping. Visible warm upper-left light. Subject/design: herringbone parquet in warm walnut and pale ash with diamond border. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "ice-crane",
+    "scene": "living",
+    "slot": "floor",
+    "state": "c",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Floor surface tile with correct room-wide perspective, rectangular floor wedge covering lower foreground, high vanishing point at center far top, no furniture, full-bleed texture for clipping. Visible warm upper-left light. Subject/design: warm cream limestone slabs with blue crystal mosaic inlaid border. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-living-1",
+    "scene": "living",
+    "slot": "sofa",
+    "state": "before",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single sofa furniture group with low matching coffee table directly in front and small rug beneath. Camera slightly above eye level at front-right so top cushions and RIGHT side visible. Object centered, occupies85%canvas, feet at90%, isolated genuine transparent background. Subject/design: sagging torn dusty two-seat sofa, collapsed cushion, scratched empty low table and frayed rug. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-living-1",
+    "scene": "living",
+    "slot": "sofa",
+    "state": "a",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single sofa furniture group with low matching coffee table directly in front and small rug beneath. Camera slightly above eye level at front-right so top cushions and RIGHT side visible. Object centered, occupies85%canvas, feet at90%, isolated genuine transparent background. Subject/design: rounded honey-oak framed sofa with warm cream wool cushions, blue knitted throw, oval oak coffee table with tea tray, braided rug. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-living-1",
+    "scene": "living",
+    "slot": "sofa",
+    "state": "b",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single sofa furniture group with low matching coffee table directly in front and small rug beneath. Camera slightly above eye level at front-right so top cushions and RIGHT side visible. Object centered, occupies85%canvas, feet at90%, isolated genuine transparent background. Subject/design: curved pale birch daybed sofa with turquoise tufted velvet and snowflake pillows, round pedestal table and woven oval rug. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-living-1",
+    "scene": "living",
+    "slot": "sofa",
+    "state": "c",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single sofa furniture group with low matching coffee table directly in front and small rug beneath. Camera slightly above eye level at front-right so top cushions and RIGHT side visible. Object centered, occupies85%canvas, feet at90%, isolated genuine transparent background. Subject/design: sculpted crystal-inlaid walnut sofa with lavender quilted cushions, faceted stone coffee table and star patterned rug. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-living-2",
+    "scene": "living",
+    "slot": "bookshelf",
+    "state": "before",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single tall bookshelf, camera front-right slightly above eye level, visible RIGHT side, vertically framed, centered object occupies80%canvas, feet90%, genuine transparent background. Subject/design: crooked old shelf with broken plank, dusty books and tilted empty basket. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-living-2",
+    "scene": "living",
+    "slot": "bookshelf",
+    "state": "a",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single tall bookshelf, camera front-right slightly above eye level, visible RIGHT side, vertically framed, centered object occupies80%canvas, feet90%, genuine transparent background. Subject/design: arched oak bookshelf with rounded shelves, colorful books, pine sprig and ceramic keepsake. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-living-2",
+    "scene": "living",
+    "slot": "bookshelf",
+    "state": "b",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single tall bookshelf, camera front-right slightly above eye level, visible RIGHT side, vertically framed, centered object occupies80%canvas, feet90%, genuine transparent background. Subject/design: stepped birch modular bookcase with open cubbies, woven drawers and blue snowflake bookends. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-living-2",
+    "scene": "living",
+    "slot": "bookshelf",
+    "state": "c",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single tall bookshelf, camera front-right slightly above eye level, visible RIGHT side, vertically framed, centered object occupies80%canvas, feet90%, genuine transparent background. Subject/design: tall carved walnut cabinet with glass-front upper arch, crystal finials, rolled maps and reading books. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "ice-workshop",
+    "scene": "kitchen",
+    "slot": "counter",
+    "state": "before",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single kitchen counter and storage unit, wide horizontal, camera front-left slightly above eye level, visible LEFT side and top. Centered occupies85%canvas, feet90%, genuine transparent background, no surroundings. Subject/design: damaged crooked wooden worktop, broken cabinet door, cracked empty sink basin, dusty empty shelves. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "ice-workshop",
+    "scene": "kitchen",
+    "slot": "counter",
+    "state": "a",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single kitchen counter and storage unit, wide horizontal, camera front-left slightly above eye level, visible LEFT side and top. Centered occupies85%canvas, feet90%, genuine transparent background, no surroundings. Subject/design: oak butcherblock worktop, cream paneled cupboards, copper sink and tap, chopping board and ceramic crock. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "ice-workshop",
+    "scene": "kitchen",
+    "slot": "counter",
+    "state": "b",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single kitchen counter and storage unit, wide horizontal, camera front-left slightly above eye level, visible LEFT side and top. Centered occupies85%canvas, feet90%, genuine transparent background, no surroundings. Subject/design: rounded pale birch cabinets, ice-blue ceramic tiled worktop, white sink, herb pots and hanging cloth. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "ice-workshop",
+    "scene": "kitchen",
+    "slot": "counter",
+    "state": "c",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single kitchen counter and storage unit, wide horizontal, camera front-left slightly above eye level, visible LEFT side and top. Centered occupies85%canvas, feet90%, genuine transparent background, no surroundings. Subject/design: warm walnut drawers with crystal handles, pale stone worktop and faceted backsplash edging, brass tap and ceramic bowl. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-kitchen-1",
+    "scene": "kitchen",
+    "slot": "dining",
+    "state": "before",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Dining table and two matching chairs, centered isolated genuine transparent background. Camera front-left slightly elevated, tabletop visible, occupies85%canvas, feet90%, no surroundings. Subject/design: wobbly scarred bare square table and two damaged mismatched chairs, dusty chipped cup. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-kitchen-1",
+    "scene": "kitchen",
+    "slot": "dining",
+    "state": "a",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Dining table and two matching chairs, centered isolated genuine transparent background. Camera front-left slightly elevated, tabletop visible, occupies85%canvas, feet90%, no surroundings. Subject/design: round honey oak pedestal table, two spindle chairs with cream cushions, folded linen runner, two bowls and bread basket. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-kitchen-1",
+    "scene": "kitchen",
+    "slot": "dining",
+    "state": "b",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Dining table and two matching chairs, centered isolated genuine transparent background. Camera front-left slightly elevated, tabletop visible, occupies85%canvas, feet90%, no surroundings. Subject/design: oval birch trestle table, two curved ice-blue upholstered chairs, woven placemats and stoneware tea set. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-kitchen-1",
+    "scene": "kitchen",
+    "slot": "dining",
+    "state": "c",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Dining table and two matching chairs, centered isolated genuine transparent background. Camera front-left slightly elevated, tabletop visible, occupies85%canvas, feet90%, no surroundings. Subject/design: octagonal walnut table with crystal inlay, two carved lavender chairs, embroidered cloth and warm ceramic dinner set. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-kitchen-2",
+    "scene": "kitchen",
+    "slot": "stove",
+    "state": "before",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single compact cooker stove with short capped flue and kettle, isolated genuine transparent background. Front-left slightly elevated camera, visible LEFT side and top, centered80%canvas feet90%. Subject/design: rusty unlit old iron stove with cracked door, bent stovepipe, broken knobs. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-kitchen-2",
+    "scene": "kitchen",
+    "slot": "stove",
+    "state": "a",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single compact cooker stove with short capped flue and kettle, isolated genuine transparent background. Front-left slightly elevated camera, visible LEFT side and top, centered80%canvas feet90%. Subject/design: rounded cream enamel range with brass handles, glowing oven window, copper kettle, short copper hood. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-kitchen-2",
+    "scene": "kitchen",
+    "slot": "stove",
+    "state": "b",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single compact cooker stove with short capped flue and kettle, isolated genuine transparent background. Front-left slightly elevated camera, visible LEFT side and top, centered80%canvas feet90%. Subject/design: cast iron teal wood-fired cooker with chunky rounded feet, brass rails, ceramic kettle and small warming shelf. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-kitchen-2",
+    "scene": "kitchen",
+    "slot": "stove",
+    "state": "c",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single compact cooker stove with short capped flue and kettle, isolated genuine transparent background. Front-left slightly elevated camera, visible LEFT side and top, centered80%canvas feet90%. Subject/design: pale carved soapstone cooker with cyan crystal heat inlays, brass oven door and rounded purple kettle. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-0",
+    "scene": "bedroom",
+    "slot": "bed",
+    "state": "before",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single cozy bed, camera front-right slightly elevated, headboard at back/top, footboard at front/bottom, visible RIGHT side. Centered85%canvas, feet90%, isolated genuine transparent background. Subject/design: old wooden bed with cracked low headboard, sagging bare mattress, torn blanket, dusty pillow. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-0",
+    "scene": "bedroom",
+    "slot": "bed",
+    "state": "a",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single cozy bed, camera front-right slightly elevated, headboard at back/top, footboard at front/bottom, visible RIGHT side. Centered85%canvas, feet90%, isolated genuine transparent background. Subject/design: rounded honey oak sleigh bed with cream quilt and blue snowflake blanket, two plump pillows, carved snowflake headboard. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-0",
+    "scene": "bedroom",
+    "slot": "bed",
+    "state": "b",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single cozy bed, camera front-right slightly elevated, headboard at back/top, footboard at front/bottom, visible RIGHT side. Centered85%canvas, feet90%, isolated genuine transparent background. Subject/design: pale birch canopy-free spindle bed, teal knitted duvet, cream wool throw, star cushions and woven storage basket at foot. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-0",
+    "scene": "bedroom",
+    "slot": "bed",
+    "state": "c",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single cozy bed, camera front-right slightly elevated, headboard at back/top, footboard at front/bottom, visible RIGHT side. Centered85%canvas, feet90%, isolated genuine transparent background. Subject/design: arched walnut bed with crystal-inlaid headboard, lavender patchwork quilt, plush ivory pillows and faceted blue finials. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-1",
+    "scene": "bedroom",
+    "slot": "wallpaper",
+    "state": "before",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Flat seamless interior WALL MATERIAL tile only. Full-bleed square, no room, no frames, no windows, no objects, no outside shadows. Fine tactile painted material for clipping onto same existing wall. Subject/design: torn faded gray wallpaper with small peeling edges and old damp stains. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-1",
+    "scene": "bedroom",
+    "slot": "wallpaper",
+    "state": "a",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Flat seamless interior WALL MATERIAL tile only. Full-bleed square, no room, no frames, no windows, no objects, no outside shadows. Fine tactile painted material for clipping onto same existing wall. Subject/design: warm ivory linen wallpaper with delicate sparse golden pine sprig print. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-1",
+    "scene": "bedroom",
+    "slot": "wallpaper",
+    "state": "b",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Flat seamless interior WALL MATERIAL tile only. Full-bleed square, no room, no frames, no windows, no objects, no outside shadows. Fine tactile painted material for clipping onto same existing wall. Subject/design: soft pale blue painted wood paneling with white snowflake inlay and rounded molding. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-1",
+    "scene": "bedroom",
+    "slot": "wallpaper",
+    "state": "c",
+    "transparent": false,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Flat seamless interior WALL MATERIAL tile only. Full-bleed square, no room, no frames, no windows, no objects, no outside shadows. Fine tactile painted material for clipping onto same existing wall. Subject/design: cream and lavender woven wallpaper with tiny embroidered stars and delicate crystalline diamond pattern. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-2",
+    "scene": "bedroom",
+    "slot": "reading-lamp",
+    "state": "before",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single bedside reading light on a small matching bedside table, isolated genuine transparent background. Front-right slightly elevated camera, centered80%canvas feet90%, no surroundings. Subject/design: broken crooked bedside lamp with torn shade, rusty dark stem, scratched empty table. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-2",
+    "scene": "bedroom",
+    "slot": "reading-lamp",
+    "state": "a",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single bedside reading light on a small matching bedside table, isolated genuine transparent background. Front-right slightly elevated camera, centered80%canvas feet90%, no surroundings. Subject/design: brass reading lamp with pleated ivory linen shade, round oak nightstand, closed book and small teacup, warm amber glow. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-2",
+    "scene": "bedroom",
+    "slot": "reading-lamp",
+    "state": "b",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single bedside reading light on a small matching bedside table, isolated genuine transparent background. Front-right slightly elevated camera, centered80%canvas feet90%, no surroundings. Subject/design: curved pale birch floor-standing reading light with frosted bell shade integrated into small rounded side shelf, knitted basket and book. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-bedroom-2",
+    "scene": "bedroom",
+    "slot": "reading-lamp",
+    "state": "c",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single bedside reading light on a small matching bedside table, isolated genuine transparent background. Front-right slightly elevated camera, centered80%canvas feet90%, no surroundings. Subject/design: faceted cyan crystal bedside lantern on carved walnut nightstand, violet glass detail, open book and soft warm glow. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "crystal-gate",
+    "scene": "garden",
+    "slot": "path",
+    "state": "before",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single isolated snow garden PATH strip, perspective from foreground bottom center to background top center, trapezoid narrowing to top, subtle snow margins. No background scenery, no house or furniture. True transparent background. Centered85%canvas. Subject/design: buried broken stepping stones with deep snow, weeds poking through, dark icy patches. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "crystal-gate",
+    "scene": "garden",
+    "slot": "path",
+    "state": "a",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single isolated snow garden PATH strip, perspective from foreground bottom center to background top center, trapezoid narrowing to top, subtle snow margins. No background scenery, no house or furniture. True transparent background. Centered85%canvas. Subject/design: rounded honey sandstone stepping stones with softly shoveled snowy edges and tiny amber ground lights. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "crystal-gate",
+    "scene": "garden",
+    "slot": "path",
+    "state": "b",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single isolated snow garden PATH strip, perspective from foreground bottom center to background top center, trapezoid narrowing to top, subtle snow margins. No background scenery, no house or furniture. True transparent background. Centered85%canvas. Subject/design: curved pale slate stepping stones with blue crystal mosaic edge, gentle snow and small brass markers. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "crystal-gate",
+    "scene": "garden",
+    "slot": "path",
+    "state": "c",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single isolated snow garden PATH strip, perspective from foreground bottom center to background top center, trapezoid narrowing to top, subtle snow margins. No background scenery, no house or furniture. True transparent background. Centered85%canvas. Subject/design: faceted amethyst paving stones bordered by translucent cyan crystals, clear safe path and soft amber inlaid lights. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-garden-1",
+    "scene": "garden",
+    "slot": "flowerbed",
+    "state": "before",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single raised garden planter with winter-hardy plants, wide horizontal group, front-right slightly elevated camera, centered85%canvas base90%, true transparent background, no scenery. Subject/design: splintered half-buried wooden flowerbed, bent dried stems, heavy snow, broken small edging. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-garden-1",
+    "scene": "garden",
+    "slot": "flowerbed",
+    "state": "a",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single raised garden planter with winter-hardy plants, wide horizontal group, front-right slightly elevated camera, centered85%canvas base90%, true transparent background, no scenery. Subject/design: rounded honey oak raised flowerbed, winter roses and evergreen sprigs, pink blooms, soft snow caps and tiny warm lantern. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-garden-1",
+    "scene": "garden",
+    "slot": "flowerbed",
+    "state": "b",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single raised garden planter with winter-hardy plants, wide horizontal group, front-right slightly elevated camera, centered85%canvas base90%, true transparent background, no scenery. Subject/design: curved pale stone planter with blue crystal edging, white snowdrops and lavender winter flowers, tidy evergreens. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-garden-1",
+    "scene": "garden",
+    "slot": "flowerbed",
+    "state": "c",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single raised garden planter with winter-hardy plants, wide horizontal group, front-right slightly elevated camera, centered85%canvas base90%, true transparent background, no scenery. Subject/design: scalloped walnut and amethyst planter, glowing cyan crystal blossoms among real white winter flowers, moss and delicate warm lights. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-garden-2",
+    "scene": "garden",
+    "slot": "garden-seat",
+    "state": "before",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single garden seating group, bench plus tiny side table and freestanding lantern, front-right slightly elevated camera, centered85%canvas base90%, true transparent background, no scenery. Subject/design: broken snow-covered wooden bench with cracked seat, overturned empty side stool and unlit rusty lantern. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-garden-2",
+    "scene": "garden",
+    "slot": "garden-seat",
+    "state": "a",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single garden seating group, bench plus tiny side table and freestanding lantern, front-right slightly elevated camera, centered85%canvas base90%, true transparent background, no scenery. Subject/design: arched honey oak garden bench with blue wool cushion, round side table and warm brass floor lantern, light snow on top edges. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-garden-2",
+    "scene": "garden",
+    "slot": "garden-seat",
+    "state": "b",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single garden seating group, bench plus tiny side table and freestanding lantern, front-right slightly elevated camera, centered85%canvas base90%, true transparent background, no scenery. Subject/design: curved pale birch bench with woven seat and cream cushions, oval side table and copper bell lantern, delicate frost edging. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  },
+  {
+    "id": "home-garden-2",
+    "scene": "garden",
+    "slot": "garden-seat",
+    "state": "c",
+    "transparent": true,
+    "prompt": "Use the supplied image ONLY as a style reference. ONE independent game asset, no sheet, no labels, no text, no UI, no characters. Exact coherent ice-and-wood fantasy art: richly painted polished 2.5D casual puzzle adventure, cute rounded/bevelled construction, fine oak grain and warm stone, translucent cyan crystals, soft amber upper-left light and cool blue-violet shadows, detailed tactile surfaces, no photographic realism, no simple flat vector art. Single garden seating group, bench plus tiny side table and freestanding lantern, front-right slightly elevated camera, centered85%canvas base90%, true transparent background, no scenery. Subject/design: carved walnut bench with crystal-inlaid backrest, lavender cushions, faceted stone side table and cyan crystal lantern with warm core. Consistent camera and silhouette within same furniture footprint. High quality game-ready single independent asset. Do not include UI or lettering."
+  }
+]

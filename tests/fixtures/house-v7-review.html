@@ -1,0 +1,11 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><link rel="stylesheet" href="/adventure.css"><title>第7段階 美術検証専用</title><style>body{margin:0;background:#172b4e}#art{width:min(100vw,560px);margin:auto;aspect-ratio:480/540}#art>svg{display:block;width:100%;height:100%}</style><main id="art"></main><script type="module">
+import {renderHouseScene} from '/src/house-scenes.js';
+import {newHome,TASKS,validateHome} from '/src/puzzle/house.js';
+const q=new URLSearchParams(location.search),scene=q.get('scene')??'exterior',state=q.get('state')??'before',style=Number(q.get('style')??0),s=newHome();
+for(let n=1;n<=50;n++)s.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};s.home.reached=50;
+if(state!=='before')for(const t of TASKS){s.home.done[t.id]=true;s.progress.town[t.id]=t.cost;s.home.styles[t.id]=style;}
+if(state==='building'){const task=TASKS.find(t=>t.area===(scene==='exterior'?'entry':scene));delete s.home.done[task.id];s.home.pending=task.id;}
+validateHome(s);document.querySelector('#art').innerHTML=renderHouseScene(s,scene);
+await Promise.all([...document.querySelectorAll('image')].map(e=>new Promise((resolve,reject)=>{const i=new Image();i.onload=resolve;i.onerror=()=>reject(Error(e.getAttribute('href')));i.src=e.getAttribute('href');if(i.complete&&i.naturalWidth)resolve();})));
+await new Promise(requestAnimationFrame);document.body.dataset.ready='true';
+</script></html>

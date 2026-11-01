@@ -1,3 +1,4 @@
+import {renderLayeredScene,layeredDesignOptions} from './house-layered-art.js';
 // Presentation only: all spending, completion and styles remain in puzzle/house.js.
 import {HOUSE_ASSETS,artDefinitions,exteriorBackground,roofFinish,exteriorFinish,hallAtmosphere,doorHardware} from './house-art.js';
 import {legacyRoomScene} from './house-room-legacy.js';
@@ -10,8 +11,7 @@ export const ENTRY_DESIGNS=[
  [{name:'山小屋の漆喰',material:'白い漆喰・オーク梁',motif:'timber'},{name:'湖畔の板張り',material:'横張りのシダー材',motif:'clapboard'},{name:'石積みの家',material:'石灰岩・砂岩',motif:'masonry'}],
  [{name:'小さなランタン',material:'真鍮・型ガラス',motif:'lantern'},{name:'銅のベルライト',material:'銅の傘・陶器',motif:'bell'},{name:'まあるい灯り',material:'乳白ガラス・鉄',motif:'globe'}],
 ];
-export const designOptions=t=>t.area==='entry'?ENTRY_DESIGNS[t.slot]:[
- {name:'ナチュラル',material:'木のぬくもり'},{name:'ミント',material:'やわらかな色合い'},{name:'ラベンダー',material:'落ち着いた色合い'}];
+export const designOptions=layeredDesignOptions;
 const R=(x,y,w,h,fill,rx=0,extra='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" ${extra}/>`;
 const P=(d,fill,extra='')=>`<path d="${d}" fill="${fill}" ${extra}/>`;
 const C=(x,y,r,fill,extra='')=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" ${extra}/>`;
@@ -130,12 +130,12 @@ function entry(s){
  art+=P('M0 520q237-45 480 0v20H0Z','#c8b08b','opacity=".3"');
  return art;
 }
-export function renderHouseScene(s,id){
- if(!['exterior','entry'].includes(id))return legacyRoomScene(s,id);
- const title=id==='exterior'?'雪に包まれたトリケンの家。南の玄関、東の庭とキッチン':'玄関の内側。正面が南の扉、右が西のリビング、左が東のキッチン';
- return `<svg class="illustrated-scene" viewBox="0 0 480 540" role="img" aria-label="${title}" data-scene-art="${id}" data-wall-design="${s.home.done['home-entry-1']?ENTRY_DESIGNS[1][s.home.styles['home-entry-1']??0].motif:'unrepaired'}">${defs}${id==='exterior'?exterior(s):entry(s)}</svg>`;
-}
+export const renderHouseScene=renderLayeredScene;
 export const SCENE_LINKS={
- exterior:[{to:'entry',x:44,y:65,label:'玄関へ'},{to:'living',x:23,y:46,label:'リビング'},{to:'kitchen',x:79,y:39,label:'キッチン'},{to:'bedroom',x:46,y:21,label:'寝室'},{to:'garden',x:82,y:76,label:'庭へ'}],
+ living:[{to:'entry',x:94,y:52,label:'玄関へ'}],
+ kitchen:[{to:'entry',x:7,y:52,label:'玄関へ'}],
+ bedroom:[{to:'entry',x:7,y:52,label:'玄関へ'}],
+ garden:[{to:'exterior',x:20,y:30,label:'家へ'}],
+ exterior:[{to:'entry',x:44,y:81,label:'玄関へ'},{to:'living',x:23,y:56,label:'リビング'},{to:'kitchen',x:84,y:59,label:'キッチン'},{to:'garden',x:82,y:76,label:'庭へ'}],
  entry:[{to:'exterior',x:50,y:61,label:'外へ'},{to:'kitchen',x:12,y:53,label:'キッチンへ'},{to:'living',x:88,y:53,label:'リビングへ'},{to:'bedroom',x:50,y:94,label:'奥の寝室へ'}],
 };

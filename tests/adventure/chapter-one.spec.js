@@ -43,15 +43,15 @@ test('scene controls, pending resume and designs',async({page})=>{
   }
   for(let i=0;i<3;i++){
     for(const t of TASKS.slice(0,3))await page.locator(`[data-style="${t.id}"][data-choice="${i}"]`).click();
-    await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design',['arch','glass','porthole'][i]);
+    await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design',['arch','glass','crystal'][i]);
     await page.getByRole('button',{name:'外観に戻る',exact:true}).click();
-    await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design',['arch','glass','porthole'][i]);
+    await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design',['arch','glass','crystal'][i]);
     await expect(page.locator('#home-balance')).toHaveText('42');
     await page.locator('[data-area="entry"]').click();await openRepairs(page);
   }
   await page.reload();await page.locator('[data-area="entry"]').click();await openRepairs(page);
-  await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design','porthole');
-  await expect(page.locator('#preview-home-entry-0 figcaption')).toHaveText('船の丸窓');
+  await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design','crystal');
+  await expect(page.locator('#preview-home-entry-0 figcaption')).toHaveText('クリスタル');
   expect(await page.locator('.home-bottom').evaluate(e=>getComputedStyle(e).position)).not.toBe('fixed');
   expect(await page.locator('.home-bottom').evaluate(e=>getComputedStyle(e).position)).not.toBe('sticky');
   for(const choice of await page.locator('[data-style]').all()){
@@ -168,7 +168,7 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   await expect(page.locator('#home-repairs')).toBeHidden();
   await expect(page.locator('#home-balance')).toHaveText('10');
   // Every entry design has different geometry/materials and is shared by both views.
-  const motifs=[['arch','timber','lantern'],['glass','clapboard','bell'],['porthole','masonry','globe']];
+  const motifs=[['arch','timber','lantern'],['glass','clapboard','bell'],['crystal','masonry','crystal']];
   for(let choice=0;choice<3;choice++){
     await page.locator('[data-area="entry"]').click();await openRepairs(page);
     for(const t of TASKS.slice(0,3))await page.locator(`[data-style="${t.id}"][data-choice="${choice}"]`).click();
@@ -188,7 +188,7 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   await page.reload();
   await page.locator('[data-area="entry"]').click();await openRepairs(page);
   for(const t of TASKS.slice(0,3))await expect(page.locator(`[data-style="${t.id}"][data-choice="2"]`)).toHaveAttribute('aria-pressed','true');
-  await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design','porthole');
+  await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design','crystal');
   for(const choice of await page.locator('[data-style]').all()){
     await choice.scrollIntoViewIfNeeded();
     expect(await choice.evaluate(e=>{const r=e.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return e===hit||e.contains(hit);})).toBeTruthy();
@@ -200,4 +200,51 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   for(const action of proofs[49].actions)await perform(page,action);
   await expect(page.locator('#balance')).toHaveText('10');await expect(page.locator('#notice-text')).toContainText('獲得済み');
   expect(errors).toEqual([]);expect(httpErrors).toEqual([]);
+});
+
+for(const width of [320,390,1440])test(`v7 all scenes and all designs at ${width}px`,async({page},info)=>{
+ const errors=[],http=[];page.on('pageerror',e=>errors.push(String(e)));page.on('response',r=>{if(r.status()>=400)http.push(r.url());});
+ await page.setViewportSize({width,height:844});const timings=[];
+ for(const scene of ['exterior','entry','living','kitchen','bedroom','garden']){
+  const hashes=[];
+  for(const [state,style]of [['before',0],['complete',0],['complete',1],['complete',2],['building',0]]){
+   const start=Date.now();await page.goto(`/tests/fixtures/house-v7-review.html?scene=${scene}&state=${state}&style=${style}`);
+   await expect(page.locator('body')).toHaveAttribute('data-ready','true');
+   timings.push({scene,state,style,readyMs:Date.now()-start});
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+   const paths=await page.locator('[data-object] image').evaluateAll(es=>es.map(e=>e.getAttribute('href')).join('|'));hashes.push(paths);
+   const ids=await page.locator('[id]').evaluateAll(es=>es.map(e=>e.id));expect(new Set(ids).size).toBe(ids.length);
+   if(state==='building')await expect(page.locator('[data-state="building"]')).toHaveCount(1);
+   if(width===390){const pic=await page.locator('#art').screenshot({animations:'disabled',type:'jpeg',quality:82,path:info.outputPath(`v7-${scene}-${state}-${style}.jpg`)});if(info.project.name==='chromium')console.log(`V7_SCREEN_${scene}_${state}_${style}=`+pic.toString('base64'));}
+  }
+  expect(new Set(hashes.slice(0,4)).size).toBe(4);
+ }
+ expect(errors).toEqual([]);expect(http).toEqual([]);
+ console.log('V7_RENDER_METRICS='+JSON.stringify({browser:info.project.name,width,timings}));
+});
+
+test('v7 every repair has three persistent independent designs and bounded loading',async({page},info)=>{
+ await page.setViewportSize({width:390,height:844});const fixture=newHome();fixture.home.reached=50;
+ for(let n=1;n<=50;n++)fixture.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+ for(const t of TASKS){fixture.progress.town[t.id]=t.cost;fixture.home.done[t.id]=true;}
+ fixture.home.completionSeen=true;
+ await page.addInitScript(({key,save})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(save));},{key:HOME_KEY,save:fixture});
+ const started=Date.now();await page.goto('/adventure.html');await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','true');const initialMs=Date.now()-started;
+ const initialImages=await page.locator('.house-world image').count();expect(initialImages).toBeLessThan(12);
+ const switching=[];
+ for(const area of ['entry','living','kitchen','bedroom','garden']){
+  const start=Date.now();await page.locator(`[data-area="${area}"]`).click();await expect(page.locator('#home-screen')).toHaveAttribute('data-scene',area);await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','true');switching.push({area,ms:Date.now()-start});
+  await openRepairs(page);
+  for(const task of TASKS.filter(t=>t.area===area))for(let i=0;i<3;i++){
+   await page.locator(`[data-style="${task.id}"][data-choice="${i}"]`).click();
+   await expect(page.locator(`[data-object="${task.id}"]`)).toHaveAttribute('data-variant',['a','b','c'][i]);
+   await expect(page.locator('#home-balance')).toHaveText('10');
+  }
+  await page.locator('#close-repairs').click();
+ }
+ await page.reload();await expect(page.locator('#home-balance')).toHaveText('10');
+ const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),HOME_KEY);for(const t of TASKS)expect(saved.home.styles[t.id]).toBe(2);
+ const resources=await page.evaluate(()=>performance.getEntriesByType('resource').filter(e=>/assets\/house\//.test(e.name)).map(e=>({name:e.name.split('/assets/')[1],bytes:e.transferSize,duration:e.duration})));
+ let heap=null;if(info.project.name==='chromium'){const cdp=await page.context().newCDPSession(page);const usage=await cdp.send('Runtime.getHeapUsage');heap={usedSize:usage.usedSize,totalSize:usage.totalSize};}
+ console.log('V7_APP_METRICS='+JSON.stringify({browser:info.project.name,initialMs,initialImages,switching,resources,jsHeapBytes:heap,device:'GitHub Actions desktop browser; not iPhone hardware',network:'local HTTP, no throttling'}));
 });
