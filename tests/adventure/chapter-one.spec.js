@@ -83,7 +83,6 @@ test('art comparisons at the same camera',async({page},info)=>{
    await page.evaluate(async()=>{const urls=[...new Set([...document.querySelectorAll('#art image')].map(e=>e.href.baseVal))];await Promise.all(urls.map(src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=resolve;im.onerror=()=>reject(Error('Art image failed: '+src));im.src=src;})));});
    const label=`${version}-${scene}-${state}-${style}`;
    const shot=await page.locator('#art').screenshot({animations:'disabled',type:'jpeg',quality:82,path:info.outputPath(label+'.jpg')});
-   if(info.project.name==='chromium')console.log(`ART_COMPARE_${label}=`+shot.toString('base64'));
   }
  }
  expect(errors).toEqual([]);
@@ -108,7 +107,6 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
     if([1,10,20,23,30,40,50].includes(number)){
       await page.screenshot({animations:'disabled',path:info.outputPath(`chapter-stage-${number}-${width}.png`),fullPage:true});
       if(info.project.name==='chromium'&&width===390&&[10,23,50].includes(number)){
-        const preview=await page.screenshot({animations:'disabled',type:'jpeg',quality:65,fullPage:true});console.log(`CHAPTER_PREVIEW_${number}=${preview.toString('base64')}`);
       }
     }
     if(number===1){
@@ -150,10 +148,9 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   await page.locator('[data-area="entry"]').click();await openRepairs(page);
   if(info.project.name==='chromium'&&width===390){
     await page.screenshot({animations:'disabled',path:info.outputPath('entry-before-390.png'),fullPage:true});
-    console.log('SCENE_BEFORE_ENTRY='+ (await page.screenshot({animations:'disabled',type:'jpeg',quality:75,fullPage:true})).toString('base64'));
   }
   for(const t of TASKS){
-    await page.locator(`[data-area="${t.area}"]`).click();await openRepairs(page);await page.locator(`[data-repair="${t.id}"]`).click();
+    await page.locator(`[data-area="${t.area}"]`).click();await expect(page.locator('#home-screen')).toHaveAttribute('data-scene',t.area);await openRepairs(page);await page.locator(`[data-repair="${t.id}"]`).click();
     if(t===TASKS[0]){
       await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','building');
       await expect(page.locator('#home-balance')).toHaveText('47');
@@ -181,7 +178,6 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
       expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
       if(info.project.name==='chromium'&&width===390){
         await page.screenshot({animations:'disabled',path:info.outputPath(`${scene}-design-${choice}-390.png`),fullPage:true});
-        console.log(`SCENE_${scene.toUpperCase()}_${choice}=`+(await page.screenshot({animations:'disabled',type:'jpeg',quality:75,fullPage:true})).toString('base64'));
       }
     }
   }
@@ -194,7 +190,6 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
     expect(await choice.evaluate(e=>{const r=e.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return e===hit||e.contains(hit);})).toBeTruthy();
   }
   await page.screenshot({animations:'disabled',path:info.outputPath(`completed-house-${width}.png`),fullPage:true});
-  if(info.project.name==='chromium'&&width===390)console.log('HOME_PREVIEW='+ (await page.screenshot({animations:'disabled',type:'jpeg',quality:65,fullPage:true})).toString('base64'));
   await page.reload();await expect(page.locator('#home-balance')).toHaveText('10');
   await page.locator('#play-next').click();await expect(page.locator('#board')).toHaveAttribute('data-stage','50');
   for(const action of proofs[49].actions)await perform(page,action);
@@ -215,7 +210,6 @@ for(const width of [320,390,1440])test(`v7 all scenes and all designs at ${width
    const paths=await page.locator('[data-object] image').evaluateAll(es=>es.map(e=>e.getAttribute('href')).join('|'));hashes.push(paths);
    const ids=await page.locator('[id]').evaluateAll(es=>es.map(e=>e.id));expect(new Set(ids).size).toBe(ids.length);
    if(state==='building')await expect(page.locator('[data-state="building"]')).toHaveCount(1);
-   if(width===390){const pic=await page.locator('#art').screenshot({animations:'disabled',type:'jpeg',quality:82,path:info.outputPath(`v7-${scene}-${state}-${style}.jpg`)});if(info.project.name==='chromium')console.log(`V7_SCREEN_${scene}_${state}_${style}=`+pic.toString('base64'));}
   }
   expect(new Set(hashes.slice(0,4)).size).toBe(4);
  }

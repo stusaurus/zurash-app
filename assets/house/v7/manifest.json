@@ -217,7 +217,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-entry-0-a-v1",
@@ -259,7 +259,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-entry-0-b-v1",
@@ -301,7 +301,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-entry-0-c-v1",
@@ -343,7 +343,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-entry-1-before-v1",
@@ -385,7 +385,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-entry-1-a-v1",
@@ -427,7 +427,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-entry-1-b-v1",
@@ -469,7 +469,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-entry-1-c-v1",
@@ -511,7 +511,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-entry-2-before-v1",
@@ -553,7 +553,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-entry-2-a-v1",
@@ -595,7 +595,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-entry-2-b-v1",
@@ -637,7 +637,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-entry-2-c-v1",
@@ -679,7 +679,7 @@
       },
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "ice-crane-before-v1",
@@ -707,7 +707,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "ice-crane-a-v1",
@@ -735,7 +735,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "ice-crane-b-v1",
@@ -763,7 +763,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "ice-crane-c-v1",
@@ -791,7 +791,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-living-1-before-v1",
@@ -819,7 +819,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-living-1-a-v1",
@@ -847,7 +847,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-living-1-b-v1",
@@ -875,7 +875,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-living-1-c-v1",
@@ -903,7 +903,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-living-2-before-v1",
@@ -931,7 +931,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-living-2-a-v1",
@@ -959,7 +959,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-living-2-b-v1",
@@ -987,7 +987,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-living-2-c-v1",
@@ -1015,7 +1015,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "ice-workshop-before-v1",
@@ -1043,7 +1043,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "ice-workshop-a-v1",
@@ -1071,7 +1071,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "ice-workshop-b-v1",
@@ -1099,7 +1099,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "ice-workshop-c-v1",
@@ -1127,7 +1127,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-kitchen-1-before-v1",
@@ -1155,7 +1155,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-kitchen-1-a-v1",
@@ -1183,7 +1183,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-kitchen-1-b-v1",
@@ -1211,7 +1211,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-kitchen-1-c-v1",
@@ -1239,7 +1239,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-kitchen-2-before-v1",
@@ -1267,7 +1267,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-kitchen-2-a-v1",
@@ -1295,7 +1295,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-kitchen-2-b-v1",
@@ -1323,7 +1323,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-kitchen-2-c-v1",
@@ -1351,7 +1351,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-0-before-v1",
@@ -1379,7 +1379,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-0-a-v1",
@@ -1407,7 +1407,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-0-b-v1",
@@ -1435,7 +1435,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-0-c-v1",
@@ -1463,7 +1463,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-1-before-v1",
@@ -1491,7 +1491,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-1-a-v1",
@@ -1519,7 +1519,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-1-b-v1",
@@ -1547,7 +1547,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-1-c-v1",
@@ -1575,7 +1575,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-2-before-v1",
@@ -1603,7 +1603,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-2-a-v1",
@@ -1631,7 +1631,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-2-b-v1",
@@ -1659,7 +1659,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-bedroom-2-c-v1",
@@ -1687,7 +1687,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "crystal-gate-before-v1",
@@ -1715,7 +1715,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "crystal-gate-a-v1",
@@ -1743,7 +1743,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "crystal-gate-b-v1",
@@ -1771,7 +1771,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "crystal-gate-c-v1",
@@ -1799,7 +1799,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-garden-1-before-v1",
@@ -1827,7 +1827,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-garden-1-a-v1",
@@ -1855,7 +1855,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-garden-1-b-v1",
@@ -1883,7 +1883,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-garden-1-c-v1",
@@ -1911,7 +1911,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-garden-2-before-v1",
@@ -1939,7 +1939,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-garden-2-a-v1",
@@ -1967,7 +1967,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-garden-2-b-v1",
@@ -1995,7 +1995,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "home-garden-2-c-v1",
@@ -2023,7 +2023,7 @@
       "gardenBuildingTransform": null,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     }
   ],
   "alternateViewAssets": [
@@ -2044,7 +2044,7 @@
       "version": 1,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false,
+      "presentInGit": true,
       "selection": "same task style as exterior; interior surface has no snow"
     },
     {
@@ -2064,7 +2064,7 @@
       "version": 1,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false,
+      "presentInGit": true,
       "selection": "same task style as exterior; interior surface has no snow"
     },
     {
@@ -2084,7 +2084,7 @@
       "version": 1,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false,
+      "presentInGit": true,
       "selection": "same task style as exterior; interior surface has no snow"
     },
     {
@@ -2104,7 +2104,7 @@
       "version": 1,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false,
+      "presentInGit": true,
       "selection": "same task style as exterior; interior surface has no snow"
     }
   ],
@@ -2126,7 +2126,7 @@
       "version": 1,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "entry-shell-fixed-v1",
@@ -2145,7 +2145,7 @@
       "version": 1,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "living-shell-fixed-v1",
@@ -2164,7 +2164,7 @@
       "version": 1,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "kitchen-shell-fixed-v1",
@@ -2183,7 +2183,7 @@
       "version": 1,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "bedroom-shell-fixed-v1",
@@ -2202,7 +2202,7 @@
       "version": 1,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "house-shell-fixed-v1",
@@ -2226,7 +2226,7 @@
       "version": 1,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     },
     {
       "assetId": "garden-shell-fixed-v1",
@@ -2245,7 +2245,7 @@
       "version": 1,
       "status": "draft-integrated-awaiting-visual-approval",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     }
   ],
   "unusedCandidates": [
@@ -2266,7 +2266,7 @@
       "version": 1,
       "status": "not-adopted-checkerboard-padding",
       "productionApproved": false,
-      "presentInGit": false
+      "presentInGit": true
     }
   ],
   "construction": {

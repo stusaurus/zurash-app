@@ -1,0 +1,15 @@
+{
+  "runtimeImages": 71,
+  "webp": 67,
+  "doorPng": 4,
+  "generatedSourcesExpected": 67,
+  "generatedSourcesRecovered": 67,
+  "additionalPngCandidates": [
+    "exec-465df319-65d6-4eeb-ba3e-56461be9f167.png",
+    "exec-530d9c1f-be51-4cfe-be6c-6875912a69fe.png",
+    "exec-706cad91-7414-4214-a705-154d4b17def1.png",
+    "exec-f605b718-476a-4f77-9044-f47c4bab0045.png"
+  ],
+  "unrecovered": [],
+  "note": "Original bytes recovered from previous Work filesystem. Additional candidates retained without claiming source equivalence."
+}
