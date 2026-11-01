@@ -70,3 +70,28 @@ for(const stage of bundle.stages){
   assert.ok(maxWallStreak<=4,'Avoid long repetitive wall pushing');
  });
 }
+
+
+test('ice wall trio really uses three distinct starting walls in its certified route',()=>{
+ const stage=bundle.stages.find(s=>s.id==='fun-long-04-v1');
+ assert.ok(stage,'The new fourth long stage must be present');
+ assert.equal(stage.challenge.minimumTurns,19);
+ assert.equal(stage.challenge.passThrough,24);
+ const tracked=[...stage.walls],moved=new Set();
+ let consecutiveSlideOnly=0,maxSlideOnly=0,wallActions=0;
+ for(const move of stage.proof){
+  if(move.prep.type==='wall'){
+   const wallIndex=tracked.indexOf(move.prep.from);
+   assert.notEqual(wallIndex,-1,'every wall move must refer to an existing tracked wall');
+   moved.add(wallIndex);tracked[wallIndex]=move.prep.to;
+   wallActions++;consecutiveSlideOnly=0;
+  }else{
+   consecutiveSlideOnly++;
+   maxSlideOnly=Math.max(maxSlideOnly,consecutiveSlideOnly);
+  }
+ }
+ assert.equal(moved.size,3,'The puzzle must involve all three original walls');
+ assert.equal(wallActions,12,'The puzzle needs a mixture of walls and slides, not idle padding');
+ assert.ok(maxSlideOnly<=3,'Avoid long runs of automatic glides without a tactical wall decision');
+ assert.deepEqual(stage.provenance.starPickupTurns,[6,10,15,17,19]);
+});
