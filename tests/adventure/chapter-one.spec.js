@@ -253,25 +253,31 @@ test('v7 missing runtime image shows a load error, never a false ready state',as
 });
 
 
-test('v7 mobile art gallery loads six scenes and repair variants without changing saves',async({page})=>{
+test('v7 mobile art gallery loads all 30 views from root without changing saves',async({page})=>{
  await page.setViewportSize({width:390,height:844});
+ const httpErrors=[];
+ page.on('response',response=>{
+  if(response.status()>=400&&/\.(webp|png)(\?|$)/.test(response.url()))httpErrors.push(response.status()+' '+response.url());
+ });
  await page.goto('/tests/fixtures/house-v7-gallery.html');
  await expect(page.locator('body')).toHaveAttribute('data-ready','true');
  const initialStore=await page.evaluate(()=>({...localStorage}));
  for(const area of ['exterior','entry','living','kitchen','bedroom','garden']){
   await page.locator('[data-scene="'+area+'"]').click();
   await expect(page.locator('body')).toHaveAttribute('data-ready','true');
-  for(const state of ['before','c']){
+  for(const state of ['before','building','a','b','c']){
    await page.locator('[data-state="'+state+'"]').click();
    await expect(page.locator('body')).toHaveAttribute('data-ready','true');
    await expect(page.locator('#status')).toContainText('読み込み済み');
-   expect(await page.locator('#preview image').count()).toBeGreaterThan(0);
+   const urlCheck=await page.locator('#preview image').evaluateAll(images=>({
+    count:images.length,
+    paths:images.map(image=>new URL(image.getAttribute('href'),document.baseURI).pathname),
+   }));
+   expect(urlCheck.count).toBeGreaterThan(0);
+   expect(urlCheck.paths.every(path=>path.startsWith('/assets/'))).toBe(true);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
   }
  }
- for(const state of ['building','a','b']){
-  await page.locator('[data-state="'+state+'"]').click();
-  await expect(page.locator('body')).toHaveAttribute('data-ready','true');
- }
+ expect(httpErrors).toEqual([]);
  expect(await page.evaluate(()=>({...localStorage}))).toEqual(initialStore);
 });
