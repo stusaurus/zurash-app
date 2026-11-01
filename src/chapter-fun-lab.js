@@ -2,12 +2,15 @@ import {initialPuzzle,validateStage} from './puzzle/schema.js';
 import {successors,applyPuzzle,solved,replay} from './puzzle/engine.js';
 import {validateChallenge,evaluateChallenge} from './puzzle/challenge-grade.js';
 import {buildProgressiveHints} from './puzzle/progressive-hints.js';
+import {initialGate,validateGateStage,gateSuccessors,applyGate,replayGate} from './puzzle/gate-v2.js';
+import {buildGateHints} from './puzzle/gate-hints.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く'};
 const longMode=location.pathname.endsWith('/long-lab.html');
 const itemMode=location.pathname.endsWith('/item-lab.html');
-const challengeMode=longMode||itemMode;
+const gateMode=location.pathname.endsWith('/gate-lab.html');
+const challengeMode=longMode||itemMode||gateMode;
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
 let activeMs=0,activeSince=null,hintUses=0,undoUses=0,hintLevel=0;
 // Session-only personal bests; never write to the real chapter save.
@@ -19,7 +22,7 @@ document.addEventListener('visibilitychange',()=>{
  else if(stage&&!solved(state)&&activeSince===null)activeSince=performance.now();
 });
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
-const currentOptions=()=>solved(state)?[]:successors(stage,state);
+const currentOptions=()=>solved(state)?[]:(gateMode?gateSuccessors(stage,state):successors(stage,state));
 const root=new URL('../',import.meta.url);
 
 function say(message,error=false){
@@ -58,7 +61,7 @@ function showSelection(){
 }
 function setStage(n){
  if(busy||!entries[n-1])return;
- number=n;stage=entries[n-1];state=initialPuzzle(stage);trace=[];
+ number=n;stage=entries[n-1];state=gateMode?initialGate(stage):initialPuzzle(stage);trace=[];
  activeMs=0;activeSince=document.hidden?null:performance.now();hintUses=0;undoUses=0;hintLevel=0;
  mode='none';selectedWall=null;selectedPrep={type:'none'};busy=false;
  const query=new URL(location.href);
@@ -92,13 +95,15 @@ function paintBoard(options){
  let cells='';
  for(let c=0;c<w*h;c++){
   if(!playable.has(c)){cells+='<span class="hole" aria-hidden="true"></span>';continue;}
-  const wall=visual.walls.includes(c),fixed=stage.fixed.includes(c),portal=stage.portals.some(pair=>pair.includes(c)),ice=visual.ice.includes(c),star=state.stars.includes(c),player=visual.position===c,arrive=arrivals.has(c)&&!player;
+  const wall=visual.walls.includes(c),fixed=stage.fixed.includes(c),portal=stage.portals.some(pair=>pair.includes(c)),gate=gateMode&&c===stage.gate.tile,switchTile=gateMode&&c===stage.gate.switch,ice=visual.ice.includes(c),star=state.stars.includes(c),player=visual.position===c,arrive=arrivals.has(c)&&!player;
   const socket=stage.iceSockets.includes(c)&&!ice;
-  const klass=['cell',wall?'wall':'',fixed?'wall fixed-wall':'',portal?'portal-cell':'',ice?'ice':'',socket?'socket':'',hotspots.has(c)?'hot':'',selectedWall===c?'selected':'',arrive?'arrival':''].filter(Boolean).join(' ');
-  const label=['左から'+(c%w+1)+'、上から'+(Math.floor(c/w)+1),wall?'動く壁':'',fixed?'動かせない壁':'',portal?'転送門':'',player?'トリケン':'',star?'星':'',socket?'氷を置ける':'',hotspots.has(c)?'準備の移動先':'',arrive?'ここへ滑る':''].filter(Boolean).join('・');
+  const klass=['cell',wall?'wall':'',fixed?'wall fixed-wall':'',portal?'portal-cell':'',gate?'gate-tile':'',gate&&!state.gateOpen?'gate-closed':'',switchTile?'switch-tile':'',ice?'ice':'',socket?'socket':'',hotspots.has(c)?'hot':'',selectedWall===c?'selected':'',arrive?'arrival':''].filter(Boolean).join(' ');
+  const label=['左から'+(c%w+1)+'、上から'+(Math.floor(c/w)+1),wall?'動く壁':'',fixed?'動かせない壁':'',portal?'転送門':'',gate?(state.gateOpen?'開いた氷扉':'閉じた氷扉'):'',switchTile?'扉を切り替えるスイッチ':'',player?'トリケン':'',star?'星':'',socket?'氷を置ける':'',hotspots.has(c)?'準備の移動先':'',arrive?'ここへ滑る':''].filter(Boolean).join('・');
   cells+='<button type="button" class="'+klass+'" data-cell="'+c+'" aria-label="'+label+'" '+(busy?'disabled':'')+'>'+
    (star?'<span class="star" aria-hidden="true">★</span>':'')+
    (portal?'<span class="portal-indicator" aria-hidden="true">✧</span>':'')+
+   (gate?'<span class="gate-indicator" aria-hidden="true">'+(state.gateOpen?'◇':'▦')+'</span>':'')+
+   (switchTile?'<span class="switch-indicator" aria-hidden="true">✦</span>':'')+
    (ice?'<span class="ice-indicator" aria-hidden="true">◆</span>':'')+
    (player?'<img src="./assets/triken-orange-80.png" alt="" draggable="false">':'')+
    '</button>';
@@ -127,6 +132,8 @@ function render(){
  $('fun-moves').textContent=trace.length;
  $('fun-stars').textContent=state.stars.length;
  $('fun-shifts').textContent=trace.filter(a=>a.prep.type==='wall').length;
+ const gateStatus=$('fun-gate-status');
+ if(gateStatus)gateStatus.textContent='氷の扉：'+(state.gateOpen?'開いている ◇':'閉じている ▦')+' ／ ✦スイッチで開閉';
  paintBoard(options);
  for(const button of document.querySelectorAll('[data-fun-mode]')){
   const key=button.dataset.funMode;
@@ -180,7 +187,7 @@ async function takeStep(action){
  const startRect=beforeSprite?.getBoundingClientRect();
  const oldStarCount=state.stars.length;
  try{
-  state=applyPuzzle(stage,state,action);trace.push(action);
+  state=gateMode?applyGate(stage,state,action):applyPuzzle(stage,state,action);trace.push(action);
   mode='none';selectedWall=null;selectedPrep={type:'none'};
   render();
   const afterSprite=$('fun-board').querySelector('.cell img');
@@ -245,7 +252,7 @@ async function takeStep(action){
 function undo(){
  if(busy||!trace.length)return;
  const wasSolved=solved(state);
- trace.pop();undoUses++;state=replay(stage,trace).state;mode='none';selectedWall=null;selectedPrep={type:'none'};
+ trace.pop();undoUses++;state=(gateMode?replayGate(stage,trace):replay(stage,trace)).state;mode='none';selectedWall=null;selectedPrep={type:'none'};
  if(wasSolved&&!document.hidden&&activeSince===null)activeSince=performance.now();
  $('fun-result').hidden=true;render();say('1手戻しました。');
 }
@@ -266,7 +273,7 @@ $('fun-hint').addEventListener('click',()=>{
  if(!stage||busy||(longMode&&solved(state)))return;
  const panel=$('fun-feedback');
  if(!challengeMode){hintUses++;panel.hidden=false;panel.textContent=stage.chapter.hint;return;}
- const hints=buildProgressiveHints(stage);
+ const hints=gateMode?buildGateHints(stage):buildProgressiveHints(stage);
  if(hintLevel<hints.length){hintLevel++;hintUses++;}
  const hint=hints[hintLevel-1];
  const heading=document.createElement('strong');
@@ -301,13 +308,13 @@ document.addEventListener('keydown',e=>{
  if(dir!==undefined&&selectedPrep&&!e.target.closest('button')){e.preventDefault();takeStep({prep:selectedPrep,dir});}
 });
 try{
- const res=await fetch(new URL(itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
+ const res=await fetch(new URL(gateMode?'data/chapters/chapter-02/gate-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
  if(!res.ok)throw Error('HTTP '+res.status);
  const bundle=await res.json();
- if(bundle.version!==1||bundle.stages?.length!==(itemMode?3:longMode?4:10))throw Error('候補データが不完全です');
+ if(bundle.version!==1||bundle.stages?.length!==(gateMode?1:itemMode?3:longMode?4:10))throw Error('候補データが不完全です');
  entries=bundle.stages;
  for(const s of entries){
-  validateStage(s);
+  if(gateMode)validateGateStage(s);else validateStage(s);
   if(challengeMode&&!validateChallenge(s))throw Error('最短手数と合格手数の検証情報がありません');
  }
  const selected=Number(new URLSearchParams(location.search).get('stage'));
