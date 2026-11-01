@@ -1,11 +1,14 @@
 import {initialPuzzle,validateStage} from './puzzle/schema.js';
 import {successors,applyPuzzle,solved,replay} from './puzzle/engine.js';
+import {validateChallenge,evaluateChallenge} from './puzzle/challenge-grade.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く'};
 const longMode=location.pathname.endsWith('/long-lab.html');
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
 let activeMs=0,activeSince=null,hintUses=0,undoUses=0;
+// Session-only personal bests; never write to the real chapter save.
+const sessionBestTurns=new Map();
 const activeTime=()=>activeMs+(activeSince===null?0:performance.now()-activeSince);
 const formattedTime=ms=>{const seconds=Math.floor(ms/1000);return Math.floor(seconds/60)+'分'+String(seconds%60).padStart(2,'0')+'秒';};
 document.addEventListener('visibilitychange',()=>{
@@ -77,6 +80,20 @@ function paintBoard(options){
 }
 function render(){
  const options=currentOptions();
+ const goal=validateChallenge(stage);
+ const target=$('fun-goal');
+ if(target){
+  target.hidden=!goal;
+  if(goal){
+   $('fun-pass-target').textContent=goal.passThrough+'手以内';
+   const rest=goal.passThrough-trace.length;
+   $('fun-remaining').textContent=rest>=0?'合格ラインまで残り '+rest+'手':'合格ラインを '+Math.abs(rest)+'手超過';
+   $('fun-remaining').dataset.over=String(rest<0);
+   const best=sessionBestTurns.get(stage.id);
+   $('fun-best').textContent=best===undefined?'':'今回の試遊での自己ベスト '+best+'手';
+  }
+ }
+
  $('fun-title').textContent=stage.chapter.title;
  $('fun-count').textContent=number+' / '+entries.length;
  $('fun-focus').textContent=stage.chapter.focus;
@@ -157,9 +174,20 @@ async function takeStep(action){
   if(solved(state)){
    $('fun-result').hidden=false;
    const elapsed=activeTime();activeMs=elapsed;activeSince=null;
+   const grade=evaluateChallenge(stage,trace.length);
+   if(grade){
+    const previousBest=sessionBestTurns.get(stage.id);
+    if(previousBest===undefined||trace.length<previousBest)sessionBestTurns.set(stage.id,trace.length);
+    $('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！ 合格は次の挑戦';
+    $('fun-rank').dataset.rank=grade.rank;
+    $('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';
+    $('fun-again').hidden=false;
+    say(grade.passed?'合格！ 次はSランクを目指そう。':'すべての星を獲得！ 合格手数を目指して再挑戦しよう。');
+   }else{
+    say('すべての星をゲット！');
+   }
    $('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>a.prep.type==='wall').length+'回 ／ 考える＋操作する時間 '+formattedTime(elapsed)+' ／ Undo '+undoUses+'回 ／ ヒント '+hintUses+'回';
    $('fun-next').textContent=number<entries.length?'次のステージへ':'最初からもう一度';
-   say('すべての星をゲット！');
   }else say('次の1手を考えよう。');
  }catch(e){console.error(e);say('操作を続けられませんでした。最初からやり直してみてください。',true);}
  finally{busy=false;render();}
@@ -184,6 +212,7 @@ $('fun-undo').addEventListener('click',undo);
 $('fun-retry').addEventListener('click',()=>setStage(number));
 $('fun-hint').addEventListener('click',()=>{if(!stage)return;hintUses++;$('fun-feedback').hidden=false;$('fun-feedback').textContent=stage.chapter.hint;});
 $('fun-next').addEventListener('click',()=>setStage(number===entries.length?1:number+1));
+$('fun-again')?.addEventListener('click',()=>setStage(number));
 window.addEventListener('resize',()=>{if(stage)render();});
 document.addEventListener('keydown',e=>{
  if(!stage||busy)return;
@@ -196,7 +225,10 @@ try{
  const bundle=await res.json();
  if(bundle.version!==1||bundle.stages?.length!==(longMode?2:10))throw Error('候補データが不完全です');
  entries=bundle.stages;
- for(const s of entries)validateStage(s);
+ for(const s of entries){
+  validateStage(s);
+  if(longMode&&!validateChallenge(s))throw Error('最短手数と合格手数の検証情報がありません');
+ }
  const selected=Number(new URLSearchParams(location.search).get('stage'));
  setStage(Number.isInteger(selected)&&selected>=1&&selected<=entries.length?selected:1);
 }catch(error){
