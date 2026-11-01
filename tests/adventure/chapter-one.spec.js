@@ -420,6 +420,9 @@ test('16 and 19-turn experimental puzzles are playable with iPhone controls and 
   }
   await expect(page.locator('#fun-result')).toBeVisible();
   await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+  await expect(page.locator('[data-stage-choice="'+candidate.chapter.number+'"] .fun-rank-mark')).toHaveText('S');
+  await expect(page.locator('#fun-progress')).toContainText('クリア '+candidate.chapter.number+'/'+bundle.stages.length+'面');
+  await expect(page.locator('#fun-progress')).toContainText('Sランク '+candidate.chapter.number+'/'+bundle.stages.length+'面');
   // iPhone must actually reveal the rank and retry action, not only add offscreen DOM.
   await expect(page.locator('#fun-rank')).toBeFocused();
   await expect.poll(async()=>page.locator('#fun-result').evaluate(el=>{
