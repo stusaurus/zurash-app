@@ -382,6 +382,10 @@ test('independent ten-stage puzzle lab can be completed on mobile without writin
    await expect(page.locator('#fun-pass-target')).toHaveText('24手以内');
    await expect(page.locator('#fun-benchmark')).toBeHidden();
   }
+  if(candidate.chapter.number===2){
+   await expect(page.locator('#fun-pass-target')).toHaveText('20手以内');
+   await expect(page.locator('#fun-title')).toHaveText('氷壁のバトン');
+  }
  }
  await expect(page.locator('#fun-board')).toHaveAttribute('data-stage','1');
  await expect(page.locator('#fun-pass-target')).toHaveText('20手以内');
