@@ -190,7 +190,23 @@ async function takeStep(action){
    $('fun-next').textContent=number<entries.length?'次のステージへ':'最初からもう一度';
   }else say('次の1手を考えよう。');
  }catch(e){console.error(e);say('操作を続けられませんでした。最初からやり直してみてください。',true);}
- finally{busy=false;render();}
+ finally{
+  busy=false;render();
+  // Show the result in the visible iPhone viewport instead of leaving it under
+  // the game controls and Netlify's preview toolbar.
+  if(solved(state)){
+   requestAnimationFrame(()=>{
+    const result=$('fun-result');
+    if(!result.hidden){
+     result.scrollIntoView({
+      behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',
+      block:'center'
+     });
+     $('fun-rank')?.focus({preventScroll:true});
+    }
+   });
+  }
+ }
 }
 function undo(){
  if(busy||!trace.length)return;
