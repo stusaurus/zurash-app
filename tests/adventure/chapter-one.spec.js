@@ -515,3 +515,52 @@ test('four-tier hints on iPhone reveal only requested steps and do not change S 
  await expect(page.locator('#fun-feedback')).toBeHidden();
  expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(original);
 });
+
+
+test('chapter-two item laboratory proves ice glove and warp are playable, indispensable and save-safe',async({page},info)=>{
+ await page.setViewportSize({width:390,height:844});
+ const bundle=JSON.parse(fs.readFileSync(new URL('../../data/chapters/chapter-02/item-required-candidates-v1.json',import.meta.url)));
+ const errors=[];
+ page.on('pageerror',e=>errors.push(String(e)));
+ page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});
+ await page.goto('/item-lab.html');
+ await expect(page.locator('#fun-title')).toHaveText('アイスで止まれ！');
+ const stored=await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)));
+ const itemModes={iceBlock:'ice',powerGlove:'glove',warpCrystal:'warp'};
+ for(let j=0;j<bundle.stages.length;j++){
+  const stage=bundle.stages[j];
+  await expect(page.locator('#fun-board')).toHaveAttribute('data-stage',String(j+1));
+  await expect(page.locator('#fun-title')).toHaveText(stage.chapter.title);
+  await expect(page.locator('#fun-pass-target')).toHaveText(stage.challenge.passThrough+'手以内');
+  const key=itemModes[stage.requiredItem];
+  await expect(page.locator('[data-fun-mode="'+key+'"]')).toBeVisible();
+  for(const irrelevant of ['ice','glove','warp'].filter(k=>k!==key))
+   await expect(page.locator('[data-fun-mode="'+irrelevant+'"]')).toBeHidden();
+  let itemUsed=0;
+  for(let i=0;i<stage.proof.length;i++){
+   const a=stage.proof[i];
+   await page.locator('[data-fun-mode="'+a.prep.type+'"]').click();
+   if(['wall','glove'].includes(a.prep.type)){
+    await page.locator('#fun-board [data-cell="'+a.prep.from+'"]').click();
+    await page.locator('#fun-board [data-cell="'+a.prep.to+'"]').click();
+   }else if(['ice','warp'].includes(a.prep.type)){
+    await page.locator('#fun-board [data-cell="'+a.prep.to+'"]').click();
+   }
+   if(a.prep.type===key)itemUsed++;
+   await page.locator('[data-fun-dir="'+a.dir+'"]').click();
+   await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+  }
+  expect(itemUsed).toBe(1);
+  await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+  await expect(page.locator('#fun-benchmark')).toContainText('最短 '+stage.challenge.minimumTurns+'手');
+  await expect(page.locator('#fun-stars')).toHaveText('0');
+  await expect(page.locator('[data-stage-choice="'+(j+1)+'"] .fun-rank-mark')).toHaveText('S');
+  await expect(page.locator('#fun-progress')).toContainText('Sランク '+(j+1)+'/3面');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  if(j===1)await page.screenshot({path:info.outputPath('item-glove-s-rank-390.png'),fullPage:true,animations:'disabled'});
+  await page.locator('#fun-next').click();
+ }
+ await expect(page.locator('#fun-title')).toHaveText('アイスで止まれ！');
+ expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(stored);
+ expect(errors).toEqual([]);
+});
