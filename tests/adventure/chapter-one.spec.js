@@ -594,3 +594,53 @@ test('standalone CPU rival boss uses real board-game actions and never touches c
  expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(original);
  expect(errors).toEqual([]);
 });
+
+
+test('stage-56 switch gate opens on landing, undo restores closure and 11-turn S is real',async({page},info)=>{
+ await page.setViewportSize({width:390,height:844});
+ const data=JSON.parse(fs.readFileSync(new URL('../../data/chapters/chapter-02/gate-candidates-v1.json',import.meta.url)));
+ const stage=data.stages[0],errors=[];
+ page.on('pageerror',error=>errors.push(String(error)));
+ page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});
+ await page.goto('/gate-lab.html');
+ await expect(page.locator('#fun-title')).toHaveText('スイッチの氷扉');
+ await expect(page.locator('#fun-board')).toHaveAttribute('data-stage','1');
+ const original=await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)));
+ await expect(page.locator('#fun-gate-status')).toContainText('閉じている');
+ await expect(page.locator('#fun-pass-target')).toHaveText('14手以内');
+ await expect(page.locator('#fun-board [data-cell="12"]')).toHaveClass(/gate-closed/);
+ for(let i=0;i<stage.proof.length;i++){
+  const action=stage.proof[i];
+  await page.locator('[data-fun-mode="'+action.prep.type+'"]').click();
+  if(action.prep.type==='wall'){
+   await page.locator('#fun-board [data-cell="'+action.prep.from+'"]').click();
+   await page.locator('#fun-board [data-cell="'+action.prep.to+'"]').click();
+  }
+  await page.locator('[data-fun-dir="'+action.dir+'"]').click();
+  await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+  if(i===4){
+   await expect(page.locator('#fun-gate-status')).toContainText('開いている');
+   await expect(page.locator('#fun-board [data-cell="12"]')).not.toHaveClass(/gate-closed/);
+   await page.locator('#fun-undo').click();
+   await expect(page.locator('#fun-gate-status')).toContainText('閉じている');
+   await expect(page.locator('#fun-moves')).toHaveText('4');
+   await page.locator('[data-fun-mode="wall"]').click();
+   await page.locator('#fun-board [data-cell="5"]').click();
+   await page.locator('#fun-board [data-cell="6"]').click();
+   await page.locator('[data-fun-dir="0"]').click();
+   await expect(page.locator('#fun-moves')).toHaveText('5');
+   await expect(page.locator('#fun-gate-status')).toContainText('開いている');
+  }
+ }
+ await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+ await expect(page.locator('#fun-benchmark')).toContainText('最短 11手');
+ await expect(page.locator('#fun-stars')).toHaveText('0');
+ await expect(page.locator('#fun-finish')).toContainText('Undo 1回');
+ await expect(page.locator('#fun-progress')).toContainText('Sランク 1/1面');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.screenshot({path:info.outputPath('gate-switch-stage-56-s-390.png'),animations:'disabled',fullPage:true});
+ await page.locator('#fun-again').click();
+ await expect(page.locator('#fun-gate-status')).toContainText('閉じている');
+ expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(original);
+ expect(errors).toEqual([]);
+});
