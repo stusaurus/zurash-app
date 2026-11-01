@@ -242,3 +242,12 @@ test('v7 every repair has three persistent independent designs and bounded loadi
  let heap=null;if(info.project.name==='chromium'){const cdp=await page.context().newCDPSession(page);const usage=await cdp.send('Runtime.getHeapUsage');heap={usedSize:usage.usedSize,totalSize:usage.totalSize};}
  console.log('V7_APP_METRICS='+JSON.stringify({browser:info.project.name,initialMs,initialImages,switching,resources,jsHeapBytes:heap,device:'GitHub Actions desktop browser; not iPhone hardware',network:'local HTTP, no throttling'}));
 });
+
+test('v7 missing runtime image shows a load error, never a false ready state',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.route('**/assets/house/v7/backgrounds/forest-fixed-v1.webp',route=>route.fulfill({status:404,body:'unavailable'}));
+ await page.goto('/adventure.html');
+ await expect(page.locator('#home-screen')).toBeVisible();
+ await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','error');
+ await expect(page.locator('.house-world')).not.toHaveAttribute('data-art-ready','true');
+});
