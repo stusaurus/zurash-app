@@ -14,7 +14,7 @@ export function buildGateHints(stage){
   if(!firstSwitch&&state.gateOpen!==before.gateOpen)firstSwitch=i+1;
   rows.push((i+1)+'手目：'+formatHintAction(stage.proof[i],stage.board.width)+' → '+
    cellName(state.position,stage.board.width)+(state.stars.length<before.stars.length?' ⭐星取得':'')+
-   (state.gateOpen!==before.gateOpen?' ✧ゲートが開いた！':''));
+   (state.gateOpen!==before.gateOpen?(state.gateOpen?' ✧ゲートが開いた！':' ▦ゲートが閉じた！'):''));
  }
  if(!firstStar||!firstSwitch)throw Error('Missing gate or first star');
  return [
