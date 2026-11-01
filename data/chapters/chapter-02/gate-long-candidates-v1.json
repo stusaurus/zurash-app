@@ -1,0 +1,219 @@
+{
+  "version": 1,
+  "collection": "gate-long-research",
+  "release": "experimental-unapproved",
+  "rulesVersion": "solo-v2-gate",
+  "saveWrites": false,
+  "note": "従来11手のゲート入門を残して、16手・6星の長編56面代替候補を別ページで研究する。正式キャンペーン未採用。",
+  "stages": [
+    {
+      "schemaVersion": 2,
+      "rulesVersion": "solo-v2-gate",
+      "id": "gate-long-56-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 5,
+        "height": 5,
+        "playableCells": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          18,
+          19,
+          20,
+          21,
+          23,
+          24
+        ]
+      },
+      "start": 10,
+      "walls": [
+        23,
+        20
+      ],
+      "fixed": [],
+      "stars": [
+        21,
+        8,
+        18,
+        6,
+        15,
+        24
+      ],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "gate": {
+        "tile": 12,
+        "switch": 11,
+        "initialOpen": false
+      },
+      "chapter": {
+        "id": "chapter-02-gate-long-research",
+        "number": 56,
+        "title": "氷扉のむこうへ",
+        "focus": "6個の星を集めながら、壁を次々と動かし、スイッチで氷扉を開こう。開いた通路を使う順番が鍵になる。",
+        "hint": "序盤の星を拾ってから、移動する壁を停止位置として使おう。扉が開くのはまだ先。"
+      },
+      "challenge": {
+        "minimumTurns": 16,
+        "aThrough": 18,
+        "passThrough": 20,
+        "verifiedBy": "complete-bfs-gate-v2"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 20,
+            "to": 15
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 15,
+            "to": 10
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 10,
+            "to": 5
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 5,
+            "to": 6
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 23,
+            "to": 24
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 24,
+            "to": 19
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 19,
+            "to": 14
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 14,
+            "to": 13
+          },
+          "dir": 2
+        }
+      ],
+      "provenance": {
+        "status": "unapproved",
+        "purpose": "long-form switch gate puzzle for human evaluation; does not replace 11-turn tutorial",
+        "algorithm": "full-state BFS gate-v2 with gate locked counterfactual",
+        "gateSwitchRequired": true,
+        "gateOpensOnShortestTurn": 8,
+        "openGateCrossedOnShortestTurn": 9,
+        "wallActionsOnProof": 8,
+        "starPickupTurns": [
+          1,
+          6,
+          7,
+          10,
+          13,
+          16
+        ],
+        "originalPrototype": "gate-trial-01-v1",
+        "designWarning": "One switch toggle only: multi-toggle gate challenges should be explored in stage 57+"
+      }
+    }
+  ]
+}

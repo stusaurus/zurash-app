@@ -11,7 +11,8 @@ const longMode=location.pathname.endsWith('/long-lab.html');
 const itemMode=location.pathname.endsWith('/item-lab.html');
 const itemLongMode=location.pathname.endsWith('/item-long-lab.html');
 const dualItemMode=location.pathname.endsWith('/dual-item-lab.html');
-const gateMode=location.pathname.endsWith('/gate-lab.html');
+const gateLongMode=location.pathname.endsWith('/gate-long-lab.html');
+const gateMode=gateLongMode||location.pathname.endsWith('/gate-lab.html');
 const challengeMode=longMode||itemMode||gateMode||itemLongMode||dualItemMode;
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
 let activeMs=0,activeSince=null,hintUses=0,undoUses=0,hintLevel=0;
@@ -73,7 +74,7 @@ function setStage(n){
  $('fun-feedback').replaceChildren();
  if(challengeMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
  showSelection();render();
- say(number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
+ say(gateMode?'氷扉は閉じている。✦スイッチの上に止まる方法を考えよう。':number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
 }
 function paintBoard(options){
  const w=stage.board.width,h=stage.board.height;
@@ -188,6 +189,7 @@ async function takeStep(action){
  const beforeSprite=$('fun-board').querySelector('.cell img');
  const startRect=beforeSprite?.getBoundingClientRect();
  const oldStarCount=state.stars.length;
+ const gateWasOpen=gateMode?state.gateOpen:null;
  try{
   state=gateMode?applyGate(stage,state,action):applyPuzzle(stage,state,action);trace.push(action);
   mode='none';selectedWall=null;selectedPrep={type:'none'};
@@ -231,7 +233,7 @@ async function takeStep(action){
    }
    $('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>a.prep.type==='wall').length+'回 ／ 考える＋操作する時間 '+formattedTime(elapsed)+' ／ Undo '+undoUses+'回 ／ ヒント '+hintUses+'回';
    $('fun-next').textContent=number<entries.length?'次のステージへ':'最初からもう一度';
-  }else say('次の1手を考えよう。');
+  }else say(gateMode&&state.gateOpen!==gateWasOpen?(state.gateOpen?'カチッ！氷扉が開いた！ 通れる道が変わったよ。':'カチッ！氷扉が閉じた！ 止まる場所を考え直そう。'):'次の1手を考えよう。');
  }catch(e){console.error(e);say('操作を続けられませんでした。最初からやり直してみてください。',true);}
  finally{
   busy=false;render();
@@ -310,7 +312,7 @@ document.addEventListener('keydown',e=>{
  if(dir!==undefined&&selectedPrep&&!e.target.closest('button')){e.preventDefault();takeStep({prep:selectedPrep,dir});}
 });
 try{
- const res=await fetch(new URL(gateMode?'data/chapters/chapter-02/gate-candidates-v1.json':dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
+ const res=await fetch(new URL(gateMode?(gateLongMode?'data/chapters/chapter-02/gate-long-candidates-v1.json':'data/chapters/chapter-02/gate-candidates-v1.json'):dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
  if(!res.ok)throw Error('HTTP '+res.status);
  const bundle=await res.json();
  if(bundle.version!==1||bundle.stages?.length!==(gateMode?1:dualItemMode?2:itemLongMode?3:itemMode?3:longMode?4:10))throw Error('候補データが不完全です');

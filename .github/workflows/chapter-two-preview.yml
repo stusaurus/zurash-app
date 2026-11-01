@@ -7,6 +7,7 @@ on:
       - 'dual-item-lab.html'
       - 'playwright.chapter.config.js'
       - 'gate-lab.html'
+      - 'gate-long-lab.html'
       - 'duel-boss.html'
       - 'chapter-02-preview.html'
       - 'src/boss-duel.js'
@@ -19,6 +20,8 @@ on:
       - 'tests/adventure/item-long.spec.js'
       - 'tests/item-required.test.js'
       - 'tests/gate-v2.test.js'
+      - 'tests/gate-long.test.js'
+      - 'tests/adventure/gate-long.spec.js'
       - 'tests/adventure/chapter-one.spec.js'
       - '.github/workflows/chapter-two-preview.yml'
   workflow_dispatch:
@@ -36,10 +39,10 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js
+      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js tests/gate-long.test.js
       - run: npx playwright install --with-deps chromium webkit
       - name: Test item, switch gate and CPU trial pages (Chromium / WebKit)
-        run: npx playwright test -c playwright.chapter.config.js -g "item laboratory|CPU rival|switch gate|item long trials|dual item trials" --output=test-results-chapter-two
+        run: npx playwright test -c playwright.chapter.config.js -g "item laboratory|CPU rival|switch gate|item long trials|dual item trials|gate long trials" --output=test-results-chapter-two
         env:
           PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-chapter-two-report
       - uses: actions/upload-artifact@v4
