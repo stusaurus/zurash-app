@@ -307,3 +307,39 @@ test('approved art comparison keeps current puzzle rules and home appearance unt
  await expect(page.locator('html')).not.toHaveClass(/art-review-approved/);
  await expect(page.locator('#home-screen')).toBeVisible();
 });
+
+
+test('approved-art stage 14 keeps a tall puzzle on screen and animates a legal slide',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ const fixture=newHome();
+ fixture.home.reached=14;
+ for(let n=1;n<=13;n++)fixture.progress.completed['pz-'+(100000+n)]={reward:1,bestTurns:4,revision:1};
+ await page.addInitScript(({key,save})=>{
+  if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(save));
+ },{key:HOME_KEY,save:fixture});
+ await page.addInitScript(()=>{
+  const original=Element.prototype.animate;
+  window.__previewSlideAnimations=0;
+  if(typeof original==='function'){
+   Element.prototype.animate=function(frames,options){
+    if(this.matches?.('.cell img'))window.__previewSlideAnimations++;
+    return original.call(this,frames,options);
+   };
+  }
+ });
+ await page.goto('/adventure.html?art=approved');
+ await page.locator('#play-next').click();
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','14');
+ await expect(page.locator('.tap-hint')).toBeVisible();
+ const approvedSize=await page.locator('#board').boundingBox();
+ expect(approvedSize.height).toBeLessThan(550);
+ expect(approvedSize.width).toBeLessThan(300);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+ await perform(page,proofs[13].actions[0]);
+ await expect(page.locator('#moves')).toHaveText('1');
+ expect(await page.evaluate(()=>window.__previewSlideAnimations)).toBeGreaterThanOrEqual(1);
+ await page.goto('/adventure.html');
+ await page.locator('#play-next').click();
+ await expect(page.locator('.tap-hint')).toBeHidden();
+ expect(await page.locator('#board').evaluate(el=>el.style.maxWidth)).toBe('');
+});
