@@ -48,7 +48,14 @@ body{margin:0}
 .fun-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:8px 0 0}
 .fun-actions button{min-height:43px}
 .fun-warning{font-size:11px;color:#325a79;line-height:1.6;text-align:center;margin:10px 0 4px}
-.fun-feedback{border:1px solid #e8c35c;padding:10px;background:#fff8dc;border-radius:12px;color:#765016;font-size:12px;min-height:34px}
+.fun-feedback{border:1px solid #e8c35c;padding:12px;background:#fff8dc;border-radius:12px;color:#765016;font-size:12px;min-height:34px;scroll-margin:90px}
+.fun-feedback strong{display:block;font-size:15px;color:#865514;margin-bottom:5px}
+.fun-feedback p{margin:6px 0;line-height:1.6}
+.fun-feedback ol{margin:8px 0;padding:9px 10px 9px 30px;max-height:min(48vh,360px);overflow-y:auto;overscroll-behavior:contain;
+ background:#fffef7;border-radius:9px;border:1px solid #ead49a}
+.fun-feedback li{padding:5px 0 5px 2px;line-height:1.55;border-bottom:1px solid #f3e6cb;font-weight:700}
+.fun-feedback li:last-child{border-bottom:0}
+.fun-feedback small{display:block;margin-top:6px;color:#6b6657}
 .fun-result{border-radius:16px;border:2px solid #f5cc4c;background:linear-gradient(#fff8d7,#d4f2ff);padding:18px 12px;text-align:center;margin:10px 0;box-shadow:0 3px 0 #ba9334}
 .fun-result h2{color:#d77615;font-size:22px;margin:4px 0}
 .fun-result p{font-size:12px;color:#255b8a;margin:8px}
@@ -120,7 +127,7 @@ body{margin:0}
 <div class="fun-actions">
 <button type="button" id="fun-undo">↶ 1手戻す</button>
 <button type="button" id="fun-retry">最初から</button>
-<button type="button" id="fun-hint">ヒント</button>
+<button type="button" id="fun-hint" data-hint-step="0">ヒント 1/4</button>
 </div>
 <div class="fun-result" id="fun-result" hidden>
  <div>✨ ⭐ ✨</div>
