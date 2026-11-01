@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import {validateStage,initialPuzzle} from '../src/puzzle/schema.js';
 import {solved,replay,applyPuzzle,successors,stateKey} from '../src/puzzle/engine.js';
 import {solve} from '../src/puzzle/solver.js';
+import {validateChallenge,evaluateChallenge} from '../src/puzzle/challenge-grade.js';
 
 const bundle=JSON.parse(fs.readFileSync(new URL('../data/chapters/chapter-01/long-candidates-v1.json',import.meta.url),'utf8'));
 
@@ -35,12 +36,22 @@ test('long experimental puzzles are not the original chapter stages',()=>{
 for(const stage of bundle.stages){
  test('long candidate '+stage.id+' proof and 2-minute design metrics',()=>{
   const route=stage.proof,optimalTurns=stage.provenance.shortestReported;
+  const targets=validateChallenge(stage);
+  assert.ok(targets,'No challenge may ship without a certified BFS minimum');
   assert.equal(route.length,optimalTurns);
+  assert.equal(targets.minimumTurns,optimalTurns);
+  assert.equal(targets.aThrough,optimalTurns+Math.ceil(optimalTurns*.10));
+  assert.equal(targets.passThrough,optimalTurns+Math.ceil(optimalTurns*.25));
   assert.ok(route.length>=16,'Five-turn micro-puzzles are no longer accepted as main challenges');
   assert.equal(replay(stage,route).cleared,true);
   const answer=solve(stage,{maxNodes:160000,maxMs:45000});
   assert.equal(answer.status,'solved',JSON.stringify(answer));
   assert.equal(answer.optimalTurns,optimalTurns,'Route needs to be genuinely long, not padded');
+  assert.equal(answer.optimalTurns,targets.minimumTurns,'Published minimum must match a fresh complete BFS search');
+  assert.equal(evaluateChallenge(stage,answer.optimalTurns).rank,'S');
+  assert.equal(evaluateChallenge(stage,targets.aThrough).rank,'A');
+  assert.equal(evaluateChallenge(stage,targets.passThrough).rank,'B');
+  assert.equal(evaluateChallenge(stage,targets.passThrough+1).rank,'unqualified');
   assert.equal(noWallSolution(stage),false,'Wall movement should be necessary to clear');
   let s=initialPuzzle(stage),gap=0,maxGap=0,wallStreak=0,maxWallStreak=0,wallMoves=0;
   const pickups=[];
