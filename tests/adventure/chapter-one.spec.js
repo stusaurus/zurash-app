@@ -393,6 +393,13 @@ test('16 and 19-turn experimental puzzles are playable with iPhone controls and 
  page.on('response',r=>{if(r.status()>=400)pageErrors.push(r.status()+' '+r.url());});
  await page.goto('/long-lab.html');
  await expect(page.locator('#fun-board')).toHaveAttribute('data-stage','1');
+ const arrows={};
+ for(const dir of ['0','1','2','3'])arrows[dir]=await page.locator('[data-fun-dir="'+dir+'"]').boundingBox();
+ expect(arrows['0'].y).toBeLessThan(arrows['3'].y);
+ expect(arrows['3'].x).toBeLessThan(arrows['1'].x);
+ expect(arrows['2'].y).toBeGreaterThan(arrows['1'].y);
+ expect(Math.abs(arrows['0'].x-arrows['2'].x)).toBeLessThan(2);
+ 
  const initial=await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)));
  for(const candidate of bundle.stages){
   await expect(page.locator('#fun-title')).toHaveText(candidate.chapter.title);
@@ -408,6 +415,9 @@ test('16 and 19-turn experimental puzzles are playable with iPhone controls and 
    await expect(page.locator('#fun-retry')).toBeEnabled();
   }
   await expect(page.locator('#fun-result')).toBeVisible();
+  await expect(page.locator('#fun-finish')).toContainText('考える＋操作する時間');
+  await expect(page.locator('#fun-finish')).toContainText('Undo 0回');
+  await expect(page.locator('#fun-finish')).toContainText('ヒント 0回');
   await expect(page.locator('#fun-stars')).toHaveText('0');
   const board=await page.locator('#fun-board').boundingBox();
   expect(board.height).toBeLessThanOrEqual(430);
