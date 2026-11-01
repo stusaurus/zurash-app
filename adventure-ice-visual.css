@@ -180,3 +180,6 @@ html.art-review-approved .game-panel .cell.star-landing{
 @media(prefers-reduced-motion:reduce){
  html.art-review-approved .game-panel .cell.star-landing{animation:none}
 }
+
+/* No guidance is injected into the original, non-comparison UI. */
+.tap-hint{display:none}
