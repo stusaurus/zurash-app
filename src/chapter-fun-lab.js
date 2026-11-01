@@ -36,7 +36,7 @@ function showSelection(){
  }
 }
 function setStage(n){
- if(!entries[n-1])return;
+ if(busy||!entries[n-1])return;
  number=n;stage=entries[n-1];state=initialPuzzle(stage);trace=[];
  activeMs=0;activeSince=document.hidden?null:performance.now();hintUses=0;undoUses=0;hintLevel=0;
  mode='none';selectedWall=null;selectedPrep={type:'none'};busy=false;
@@ -218,7 +218,9 @@ async function takeStep(action){
 }
 function undo(){
  if(busy||!trace.length)return;
+ const wasSolved=solved(state);
  trace.pop();undoUses++;state=replay(stage,trace).state;mode='none';selectedWall=null;selectedPrep={type:'none'};
+ if(wasSolved&&!document.hidden&&activeSince===null)activeSince=performance.now();
  $('fun-result').hidden=true;render();say('1手戻しました。');
 }
 $('fun-tools').addEventListener('click',e=>{
