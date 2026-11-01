@@ -493,6 +493,15 @@ test('four-tier hints on iPhone reveal only requested steps and do not change S 
  }
  await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
  await expect(page.locator('#fun-finish')).toContainText('ヒント 4回');
+ // Undo from the finished screen reopens the puzzle without stopping its timer.
+ await page.locator('#fun-undo').click();
+ await expect(page.locator('#fun-result')).toBeHidden();
+ await expect(page.locator('#fun-moves')).toHaveText('15');
+ await expect(page.locator('#fun-hint')).toBeEnabled();
+ await page.locator('[data-fun-dir="0"]').click();
+ await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+ await expect(page.locator('#fun-finish')).toContainText('Undo 1回');
+ await expect(page.locator('#fun-finish')).toContainText('ヒント 4回');
  await page.locator('#fun-again').click();
  await expect(page.locator('#fun-hint')).toHaveText('ヒント 1/4');
  await expect(page.locator('#fun-hint')).toHaveAttribute('data-hint-step','0');
