@@ -343,3 +343,43 @@ test('approved-art stage 14 keeps a tall puzzle on screen and animates a legal s
  await expect(page.locator('.tap-hint')).toBeHidden();
  expect(await page.locator('#board').evaluate(el=>el.style.maxWidth)).toBe('');
 });
+
+
+test('independent ten-stage puzzle lab can be completed on mobile without writing game saves',async({page},info)=>{
+ await page.setViewportSize({width:390,height:844});
+ const bundle=JSON.parse(fs.readFileSync(new URL('../../data/chapters/chapter-01/fun-candidates-v1.json',import.meta.url)));
+ const failed=[];
+ page.on('pageerror',error=>failed.push(String(error)));
+ page.on('response',response=>{if(response.status()>=400)failed.push(response.status()+' '+response.url());});
+ await page.goto('/fun-lab.html');
+ await expect(page.locator('#fun-title')).toHaveText(bundle.stages[0].chapter.title);
+ const initial=await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)));
+ for(const stage of bundle.stages){
+  await expect(page.locator('#fun-board')).toHaveAttribute('data-stage',String(stage.chapter.number));
+  await expect(page.locator('#fun-title')).toHaveText(stage.chapter.title);
+  const box=await page.locator('#fun-board').boundingBox();
+  expect(box.height).toBeLessThanOrEqual(420);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  for(const action of stage.proof){
+   const kind=action.prep.type;
+   await page.locator('[data-fun-mode="'+kind+'"]').click();
+   if(kind==='wall'){
+    await page.locator('#fun-board [data-cell="'+action.prep.from+'"]').click();
+    await page.locator('#fun-board [data-cell="'+action.prep.to+'"]').click();
+   }else if(kind==='ice'){
+    await page.locator('#fun-board [data-cell="'+action.prep.to+'"]').click();
+   }
+   await page.locator('[data-fun-dir="'+action.dir+'"]').click();
+   await expect(page.locator('#fun-retry')).toBeEnabled();
+  }
+  await expect(page.locator('#fun-result')).toBeVisible();
+  await expect(page.locator('#fun-stars')).toHaveText('0');
+  if(stage.chapter.number===6){
+   await page.screenshot({animations:'disabled',path:info.outputPath('fun-lab-stage6-390.png'),fullPage:true});
+  }
+  await page.locator('#fun-next').click();
+ }
+ await expect(page.locator('#fun-board')).toHaveAttribute('data-stage','1');
+ expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(initial);
+ expect(failed).toEqual([]);
+});
