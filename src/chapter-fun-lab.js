@@ -257,7 +257,12 @@ $('fun-hint').addEventListener('click',()=>{
  panel.hidden=false;
  $('fun-hint').dataset.hintStep=String(hintLevel);
  $('fun-hint').textContent=hintLevel===4?'答えを見直す':hintLevel===3?'最短解を見る 4/4':'次のヒント '+(hintLevel+1)+'/4';
- if(hintLevel>=3)panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+ requestAnimationFrame(()=>{
+  if(!panel.hidden)panel.scrollIntoView({
+   behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
+   block:'center'
+  });
+ });
 });
 $('fun-next').addEventListener('click',()=>setStage(number===entries.length?1:number+1));
 $('fun-again')?.addEventListener('click',()=>setStage(number));
