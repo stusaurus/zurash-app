@@ -4,7 +4,7 @@
   "release": "experimental-unapproved",
   "rulesVersion": "solo-v1",
   "saveWrites": false,
-  "note": "長編候補2面。最短16/19手、遊びの面白さは未検証。既存第1章と家の星の記録には影響なし。",
+  "note": "長編候補2面。最短手数はCIの完全BFS探索で検証し、合格手数を設定。面白さは未承認。既存第1章と家の星には影響なし。",
   "stages": [
     {
       "schemaVersion": 1,
@@ -203,7 +203,13 @@
           },
           "dir": 3
         }
-      ]
+      ],
+      "challenge": {
+        "minimumTurns": 16,
+        "aThrough": 18,
+        "passThrough": 20,
+        "verifiedBy": "complete-bfs-solo-v1"
+      }
     },
     {
       "schemaVersion": 1,
@@ -422,7 +428,13 @@
           },
           "dir": 0
         }
-      ]
+      ],
+      "challenge": {
+        "minimumTurns": 19,
+        "aThrough": 21,
+        "passThrough": 24,
+        "verifiedBy": "complete-bfs-solo-v1"
+      }
     }
   ]
 }
