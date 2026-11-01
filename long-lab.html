@@ -21,7 +21,7 @@ body{margin:0}
 .fun-head img{width:min(54vw,245px);max-height:96px;object-fit:contain;filter:drop-shadow(0 5px 7px #092e61)}
 .fun-head a{color:#fff5c5;font-size:12px;text-decoration:underline;font-weight:750}
 .fun-card{padding:clamp(10px,2.8vw,18px)!important}
-.fun-selector{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:4px 0 10px}
+.fun-selector{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:4px 0 10px}
 .fun-selector button{min-width:0;padding:4px 1px;min-height:44px;border:1px solid #6ba7d0;border-radius:9px;background:linear-gradient(#fff,#d8eefe);color:#185480;font-size:12px;font-weight:800}
 .fun-selector button[aria-current="step"]{color:white;background:linear-gradient(#f8a83c,#e57523);border-color:#d56b18}
 .fun-meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
@@ -91,14 +91,14 @@ body{margin:0}
 </head>
 <body>
 <main class="fun-shell">
-<div class="fun-banner"><strong>❄ 長編パズル・比較試遊 ❄</strong>3つの長編パズル。Sランクへの最短ルートを探そう！</div>
+<div class="fun-banner"><strong>❄ 長編パズル・比較試遊 ❄</strong>4つの長編パズル。壁を動かして最短ルートを探そう！</div>
 <header class="fun-head">
 <img src="./assets/zurash-approved-logo.webp" alt="ズラッシュ！">
 <a href="./fun-lab.html">短い10面に戻る</a>
 </header>
 <section class="game-panel fun-card" aria-label="実験パズル">
 <nav class="fun-selector" id="stage-choices" aria-label="実験ステージ選択"></nav>
-<div class="fun-meta"><h1 id="fun-title">読み込み中…</h1><span id="fun-count" class="counter">1 / 3</span></div>
+<div class="fun-meta"><h1 id="fun-title">読み込み中…</h1><span id="fun-count" class="counter">1 / 4</span></div>
 <p class="fun-focus" id="fun-focus"></p>
 <div class="fun-goal" id="fun-goal" hidden>
  <span class="fun-goal-label">🎯 合格チャレンジ</span>
@@ -141,7 +141,7 @@ body{margin:0}
  </div>
 </div>
 <div id="fun-feedback" class="fun-feedback" role="status" aria-live="polite" hidden></div>
-<p class="fun-warning">この長編3面は未採用の研究候補です。進行記録・家の星・修復デザインは変更しません。まだ人間による面白さ評価は完了していません。</p>
+<p class="fun-warning">この長編4面は未採用の研究候補です。進行記録・家の星・修復デザインは変更しません。まだ人間による面白さ評価は完了していません。</p>
 </section>
 </main>
 <script type="module" src="./src/chapter-fun-lab.js"></script>
