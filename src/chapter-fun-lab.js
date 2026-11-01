@@ -199,7 +199,7 @@ async function takeStep(action){
     const result=$('fun-result');
     if(!result.hidden){
      result.scrollIntoView({
-      behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',
+      behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
       block:'center'
      });
      $('fun-rank')?.focus({preventScroll:true});
