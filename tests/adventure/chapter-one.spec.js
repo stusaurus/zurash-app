@@ -281,3 +281,29 @@ test('v7 mobile art gallery loads all 30 views from root without changing saves'
  expect(httpErrors).toEqual([]);
  expect(await page.evaluate(()=>({...localStorage}))).toEqual(initialStore);
 });
+
+
+test('approved art comparison keeps current puzzle rules and home appearance untouched',async({page},info)=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/adventure.html?art=approved');
+ await expect(page.locator('html')).toHaveClass(/art-review-approved/);
+ await expect(page.locator('#home-screen')).toBeVisible();
+ await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','true');
+ await page.locator('#play-next').click();
+ await expect(page.locator('.game-panel')).toBeVisible();
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','1');
+ const boardStyle=await page.locator('#board').evaluate(el=>getComputedStyle(el).backgroundImage);
+ expect(boardStyle).toContain('linear-gradient');
+ const background=await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundImage);
+ expect(background).toContain('ice-world-mobile.webp');
+ expect(await page.locator('#board .cell').count()).toBe(16);
+ await page.screenshot({animations:'disabled',path:info.outputPath('approved-ice-puzzle-mobile.png'),fullPage:true});
+ await page.locator('[data-dir="1"]').click();
+ await expect(page.locator('#notice')).toBeVisible();
+ await expect(page.locator('#notice-title')).toHaveText('クリア！');
+ await page.locator('#notice-primary').click();
+ await expect(page.locator('#home-screen')).toBeVisible();
+ await page.goto('/adventure.html');
+ await expect(page.locator('html')).not.toHaveClass(/art-review-approved/);
+ await expect(page.locator('#home-screen')).toBeVisible();
+});
