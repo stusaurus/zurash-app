@@ -5,6 +5,13 @@ const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く'};
 const longMode=location.pathname.endsWith('/long-lab.html');
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
+let activeMs=0,activeSince=null,hintUses=0,undoUses=0;
+const activeTime=()=>activeMs+(activeSince===null?0:performance.now()-activeSince);
+const formattedTime=ms=>{const seconds=Math.floor(ms/1000);return Math.floor(seconds/60)+'分'+String(seconds%60).padStart(2,'0')+'秒';};
+document.addEventListener('visibilitychange',()=>{
+ if(document.hidden){if(activeSince!==null)activeMs+=performance.now()-activeSince;activeSince=null;}
+ else if(stage&&!solved(state)&&activeSince===null)activeSince=performance.now();
+});
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const currentOptions=()=>solved(state)?[]:successors(stage,state);
 const root=new URL('../',import.meta.url);
@@ -27,6 +34,7 @@ function showSelection(){
 function setStage(n){
  if(!entries[n-1])return;
  number=n;stage=entries[n-1];state=initialPuzzle(stage);trace=[];
+ activeMs=0;activeSince=document.hidden?null:performance.now();hintUses=0;undoUses=0;
  mode='none';selectedWall=null;selectedPrep={type:'none'};busy=false;
  const query=new URL(location.href);
  query.searchParams.set('stage',String(n));
@@ -148,7 +156,8 @@ async function takeStep(action){
   }
   if(solved(state)){
    $('fun-result').hidden=false;
-   $('fun-finish').textContent=trace.length+'手でクリア！ 壁を'+trace.filter(a=>a.prep.type==='wall').length+'回ずらしました。';
+   const elapsed=activeTime();activeMs=elapsed;activeSince=null;
+   $('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>a.prep.type==='wall').length+'回 ／ 考える＋操作する時間 '+formattedTime(elapsed)+' ／ Undo '+undoUses+'回 ／ ヒント '+hintUses+'回';
    $('fun-next').textContent=number<entries.length?'次のステージへ':'最初からもう一度';
    say('すべての星をゲット！');
   }else say('次の1手を考えよう。');
@@ -157,7 +166,7 @@ async function takeStep(action){
 }
 function undo(){
  if(busy||!trace.length)return;
- trace.pop();state=replay(stage,trace).state;mode='none';selectedWall=null;selectedPrep={type:'none'};
+ trace.pop();undoUses++;state=replay(stage,trace).state;mode='none';selectedWall=null;selectedPrep={type:'none'};
  $('fun-result').hidden=true;render();say('1手戻しました。');
 }
 $('fun-tools').addEventListener('click',e=>{
@@ -173,7 +182,7 @@ $('fun-dpad').addEventListener('click',e=>{
 });
 $('fun-undo').addEventListener('click',undo);
 $('fun-retry').addEventListener('click',()=>setStage(number));
-$('fun-hint').addEventListener('click',()=>{$('fun-feedback').hidden=false;$('fun-feedback').textContent=stage.chapter.hint;});
+$('fun-hint').addEventListener('click',()=>{if(!stage)return;hintUses++;$('fun-feedback').hidden=false;$('fun-feedback').textContent=stage.chapter.hint;});
 $('fun-next').addEventListener('click',()=>setStage(number===entries.length?1:number+1));
 window.addEventListener('resize',()=>{if(stage)render();});
 document.addEventListener('keydown',e=>{
