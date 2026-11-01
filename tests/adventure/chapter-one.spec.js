@@ -266,7 +266,7 @@ test('v7 mobile art gallery loads all 30 views from root without changing saves'
   await page.locator('[data-scene="'+area+'"]').click();
   await expect(page.locator('body')).toHaveAttribute('data-ready','true');
   for(const state of ['before','building','a','b','c']){
-   await page.locator('[data-state="'+state+'"]').click();
+   await page.locator('#states button[data-state="'+state+'"]').click();
    await expect(page.locator('body')).toHaveAttribute('data-ready','true');
    await expect(page.locator('#status')).toContainText('読み込み済み');
    const urlCheck=await page.locator('#preview image').evaluateAll(images=>({
