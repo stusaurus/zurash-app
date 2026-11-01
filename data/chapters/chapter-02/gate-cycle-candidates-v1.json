@@ -1,0 +1,242 @@
+{
+  "version": 1,
+  "collection": "gate-cycle-research",
+  "release": "experimental-unapproved",
+  "rulesVersion": "solo-v2-gate",
+  "saveWrites": false,
+  "note": "第57面の多段切替研究。開→閉→再開の3回が必要（2回以下では完全探索で不可能）。19手。第1章50面、家、セーブ、旧56面を変更せず、未承認候補として試遊する。",
+  "stages": [
+    {
+      "schemaVersion": 2,
+      "rulesVersion": "solo-v2-gate",
+      "id": "gate-cycle-57-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 5,
+        "height": 5,
+        "playableCells": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          18,
+          19,
+          20,
+          21,
+          23,
+          24
+        ]
+      },
+      "start": 24,
+      "walls": [
+        19,
+        1
+      ],
+      "fixed": [],
+      "stars": [
+        4,
+        8,
+        5,
+        23,
+        12,
+        11,
+        15
+      ],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "gate": {
+        "tile": 13,
+        "switch": 14,
+        "initialOpen": false
+      },
+      "chapter": {
+        "id": "chapter-02-gate-cycle-research",
+        "number": 57,
+        "title": "三度ひらく氷扉",
+        "focus": "氷扉はスイッチで開いたり閉じたりする。7つの星のために、壁を動かす順番と3回の切替を考えよう。",
+        "hint": "最初は扉を開けずに星を集められる。遠い星への道を考え、スイッチへ止まる準備をしよう。"
+      },
+      "challenge": {
+        "minimumTurns": 19,
+        "aThrough": 21,
+        "passThrough": 24,
+        "verifiedBy": "complete-bfs-gate-v2"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 19,
+            "to": 18
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 18,
+            "to": 19
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 1,
+            "to": 0
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 0,
+            "to": 5
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 5,
+            "to": 10
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 10,
+            "to": 5
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 5,
+            "to": 6
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 6,
+            "to": 11
+          },
+          "dir": 3
+        }
+      ],
+      "requiredGateSwitches": 3,
+      "provenance": {
+        "status": "unapproved",
+        "purpose": "multi-toggle strategy research, not formally accepted stage57",
+        "generatedUsing": "exhaustive BFS in an independent engine reproduction; official CI must reverify",
+        "toggleTurns": [
+          7,
+          16,
+          18
+        ],
+        "starPickupTurns": [
+          1,
+          3,
+          5,
+          9,
+          13,
+          15,
+          19
+        ],
+        "wallActionsOnProof": 8,
+        "maxTwoSwitchesExhaustedStates": 9250,
+        "caveat": "If the open gate never closes, a 17-turn solution exists: the temporary closure has not been proven beneficial. Human playtest must evaluate this repeated switch sequence."
+      }
+    }
+  ]
+}
