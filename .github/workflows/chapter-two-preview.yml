@@ -1,0 +1,43 @@
+name: Chapter two preview QA
+on:
+  pull_request:
+    paths:
+      - 'item-lab.html'
+      - 'duel-boss.html'
+      - 'chapter-02-preview.html'
+      - 'src/boss-duel.js'
+      - 'src/chapter-fun-lab.js'
+      - 'src/puzzle/**'
+      - 'data/chapters/chapter-02/**'
+      - 'tests/item-required.test.js'
+      - 'tests/adventure/chapter-one.spec.js'
+      - '.github/workflows/chapter-two-preview.yml'
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  items-and-cpu:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: node --test tests/item-required.test.js
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Test all item and CPU trial pages (Chromium / WebKit)
+        run: npx playwright test -c playwright.chapter.config.js -g "item laboratory|CPU rival" --output=test-results-chapter-two
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-chapter-two-report
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chapter-two-preview-qa
+          path: |
+            playwright-chapter-two-report/
+            test-results-chapter-two/
+          retention-days: 14
