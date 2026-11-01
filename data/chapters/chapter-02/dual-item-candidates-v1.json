@@ -1,0 +1,453 @@
+{
+  "version": 1,
+  "collection": "dual-item",
+  "release": "experimental-unapproved",
+  "rulesVersion": "solo-v1",
+  "saveWrites": false,
+  "note": "54-55の先行研究。指定された2道具を個別に禁止した完全状態探索と通常の最短BFSをCIで検証。既存第1章50面・家・セーブ・元ボドゲには反映しない。",
+  "stages": [
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "revision": 1,
+      "status": "candidate",
+      "fixed": [
+        20,
+        44
+      ],
+      "iceSockets": [
+        12
+      ],
+      "portals": [
+        [
+          34,
+          18
+        ]
+      ],
+      "walls": [],
+      "goal": {
+        "type": "collect-all"
+      },
+      "id": "ch02-dual-ice-warp-v1",
+      "board": {
+        "width": 10,
+        "height": 5,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          44
+        ]
+      },
+      "start": 0,
+      "stars": [
+        3,
+        1,
+        13,
+        30,
+        2,
+        11,
+        36,
+        38
+      ],
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "chapter": {
+        "id": "chapter-02-dual-item-trials",
+        "number": 54,
+        "title": "氷の二重海峡",
+        "focus": "アイスで止まる位置を変え、最後にワープで離れた星へ向かおう。道具は各1回だけ。",
+        "hint": "前半の星を先に回収しよう。アイスは序盤に置かなくてもよく、ワープは片道だ。"
+      },
+      "requiredItems": [
+        "iceBlock",
+        "warpCrystal"
+      ],
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 12
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 18
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        }
+      ],
+      "challenge": {
+        "minimumTurns": 19,
+        "aThrough": 21,
+        "passThrough": 24,
+        "verifiedBy": "complete-bfs-solo-v1"
+      },
+      "provenance": {
+        "status": "unapproved",
+        "purpose": "dual item necessity proof; human playtest required",
+        "initialSearchExpanded": 935,
+        "forbiddenSearchExpanded": {
+          "iceBlock": 79,
+          "warpCrystal": 406
+        },
+        "wallMovesOnShortestProof": 0,
+        "designRisk": "19 turns with no movable walls; do not promote without human fun test"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "revision": 1,
+      "status": "candidate",
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [
+        [
+          12,
+          34
+        ]
+      ],
+      "walls": [
+        1,
+        29
+      ],
+      "goal": {
+        "type": "collect-all"
+      },
+      "id": "ch02-dual-glove-warp-v1",
+      "board": {
+        "width": 9,
+        "height": 4,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6,
+          7,
+          8,
+          9,
+          11,
+          12,
+          14,
+          15,
+          16,
+          17,
+          19,
+          21,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          35
+        ]
+      },
+      "start": 28,
+      "stars": [
+        21,
+        19,
+        2,
+        9,
+        27,
+        35
+      ],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 1,
+        "warpCrystal": 1
+      },
+      "chapter": {
+        "id": "chapter-02-dual-item-trials",
+        "number": 55,
+        "title": "グローブと時空の門",
+        "focus": "動かした壁を何度も役立て、グローブとワープをつなげよう。",
+        "hint": "最初の壁の配置をよく見よう。グローブは普通の壁移動より遠く届く。片道ワープを急がない。"
+      },
+      "requiredItems": [
+        "powerGlove",
+        "warpCrystal"
+      ],
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 29,
+            "to": 27
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 27,
+            "to": 28
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 28,
+            "to": 29
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 29,
+            "to": 30
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 1,
+            "to": 2
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 11
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 30,
+            "to": 21
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 34
+          },
+          "dir": 1
+        }
+      ],
+      "challenge": {
+        "minimumTurns": 16,
+        "aThrough": 18,
+        "passThrough": 20,
+        "verifiedBy": "complete-bfs-solo-v1"
+      },
+      "provenance": {
+        "status": "unapproved",
+        "purpose": "dual item necessity; wall manipulation + one-use warp",
+        "initialSearchExpanded": 1104,
+        "forbiddenSearchExpanded": {
+          "powerGlove": 34,
+          "warpCrystal": 863
+        },
+        "wallMovesOnShortestProof": 6
+      }
+    }
+  ]
+}
