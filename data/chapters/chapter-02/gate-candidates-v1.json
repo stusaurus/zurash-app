@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "collection": "gate-research",
+  "release": "experimental-unapproved",
+  "rulesVersion": "solo-v2-gate",
+  "saveWrites": false,
+  "stages": [
+    {
+      "schemaVersion": 2,
+      "rulesVersion": "solo-v2-gate",
+      "id": "gate-trial-01-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 5,
+        "height": 5,
+        "playableCells": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          18,
+          19,
+          20,
+          21,
+          23,
+          24
+        ]
+      },
+      "start": 10,
+      "walls": [
+        23,
+        20
+      ],
+      "fixed": [],
+      "stars": [
+        21,
+        8,
+        18,
+        6
+      ],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "gate": {
+        "tile": 12,
+        "switch": 11,
+        "initialOpen": false
+      },
+      "chapter": {
+        "id": "chapter-02-gate-prototype",
+        "number": 56,
+        "title": "スイッチの氷扉",
+        "focus": "スイッチの上で止まると中央のゲートが切り替わる。道を開いて向こう岸の星を集めよう。",
+        "hint": "閉じた扉の1マス手前で止まれる場所がスイッチ。どうすればそこへ止まれるかな？"
+      },
+      "challenge": {
+        "minimumTurns": 11,
+        "aThrough": 13,
+        "passThrough": 14,
+        "verifiedBy": "complete-bfs-solo-v1"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 20,
+            "to": 15
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 15,
+            "to": 10
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 10,
+            "to": 5
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 5,
+            "to": 6
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 23,
+            "to": 24
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 24,
+            "to": 19
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 19,
+            "to": 14
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 14,
+            "to": 13
+          },
+          "dir": 2
+        }
+      ],
+      "provenance": {
+        "status": "unapproved",
+        "purpose": "gate mechanic introductory puzzle; not production stage 56",
+        "algorithm": "complete BFS gate-v2-state including gate open/closed",
+        "itemRequired": "none",
+        "gateSwitchRequired": true,
+        "starPickupTurns": [
+          3,
+          4,
+          8,
+          11
+        ]
+      }
+    }
+  ]
+}
