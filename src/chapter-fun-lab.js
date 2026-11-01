@@ -278,7 +278,7 @@ try{
  const res=await fetch(new URL('data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
  if(!res.ok)throw Error('HTTP '+res.status);
  const bundle=await res.json();
- if(bundle.version!==1||bundle.stages?.length!==(longMode?3:10))throw Error('候補データが不完全です');
+ if(bundle.version!==1||bundle.stages?.length!==(longMode?4:10))throw Error('候補データが不完全です');
  entries=bundle.stages;
  for(const s of entries){
   validateStage(s);
