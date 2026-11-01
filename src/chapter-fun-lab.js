@@ -181,6 +181,10 @@ async function takeStep(action){
     $('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！ 合格は次の挑戦';
     $('fun-rank').dataset.rank=grade.rank;
     $('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';
+    $('fun-next-objective').textContent=
+      grade.rank==='S'?'最短手数で完全攻略！':
+      grade.passed?'Sランクまであと'+grade.extraTurns+'手！ 別の止まり方を探そう。':
+      'Bランク合格まであと'+(grade.turns-grade.passThrough)+'手！';
     $('fun-again').hidden=false;
     say(grade.passed?'合格！ 次はSランクを目指そう。':'すべての星を獲得！ 合格手数を目指して再挑戦しよう。');
    }else{
