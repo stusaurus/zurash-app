@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {validateGateStage,initialGate,gateSuccessors,applyGate,replayGate,solveGate} from '../src/puzzle/gate-v2.js';
 import {validateChallenge,evaluateChallenge} from '../src/puzzle/challenge-grade.js';
+import {buildGateHints} from '../src/puzzle/gate-hints.js';
 const collection=JSON.parse(fs.readFileSync(new URL('../data/chapters/chapter-02/gate-candidates-v1.json',import.meta.url),'utf8'));
 const stage=collection.stages[0];
 test('gate engine is research-only and isolated from chapter one',()=>{
@@ -44,4 +45,16 @@ test('closed gates block sliding, and no wall can occupy a gate or its switch',(
  forged.gate.tile=forged.start;
  assert.throws(()=>validateGateStage(forged),/overlaps/);
  assert.throws(()=>applyGate(stage,root,{prep:{type:'wall',from:3,to:0},dir:99}),/Invalid gate action/);
+});
+
+test('gate hints reveal the switch only when requested and have legal replayable steps',()=>{
+ const hints=buildGateHints(stage);
+ assert.equal(hints.length,4);
+ assert.equal(hints[0].steps.length,0);
+ assert.equal(hints[1].steps.length,0);
+ assert.match(hints[1].body,/5手目/);
+ assert.equal(hints[2].steps.length,5);
+ assert.match(hints[2].steps[4],/ゲートが開いた/);
+ assert.equal(hints[3].steps.length,11);
+ assert.equal(hints[3].steps.filter(x=>x.includes('⭐星取得')).length,4);
 });
