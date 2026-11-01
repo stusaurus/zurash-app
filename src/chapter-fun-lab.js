@@ -1,12 +1,13 @@
 import {initialPuzzle,validateStage} from './puzzle/schema.js';
 import {successors,applyPuzzle,solved,replay} from './puzzle/engine.js';
 import {validateChallenge,evaluateChallenge} from './puzzle/challenge-grade.js';
+import {buildProgressiveHints} from './puzzle/progressive-hints.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く'};
 const longMode=location.pathname.endsWith('/long-lab.html');
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
-let activeMs=0,activeSince=null,hintUses=0,undoUses=0;
+let activeMs=0,activeSince=null,hintUses=0,undoUses=0,hintLevel=0;
 // Session-only personal bests; never write to the real chapter save.
 const sessionBestTurns=new Map();
 const activeTime=()=>activeMs+(activeSince===null?0:performance.now()-activeSince);
@@ -37,12 +38,14 @@ function showSelection(){
 function setStage(n){
  if(!entries[n-1])return;
  number=n;stage=entries[n-1];state=initialPuzzle(stage);trace=[];
- activeMs=0;activeSince=document.hidden?null:performance.now();hintUses=0;undoUses=0;
+ activeMs=0;activeSince=document.hidden?null:performance.now();hintUses=0;undoUses=0;hintLevel=0;
  mode='none';selectedWall=null;selectedPrep={type:'none'};busy=false;
  const query=new URL(location.href);
  query.searchParams.set('stage',String(n));
  history.replaceState(null,'',query.pathname+query.search);
  $('fun-result').hidden=true;$('fun-feedback').hidden=true;
+ $('fun-feedback').replaceChildren();
+ if(longMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
  showSelection();render();
  say(number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
 }
@@ -113,6 +116,7 @@ function render(){
  }
  $('fun-undo').disabled=busy||trace.length===0;
  $('fun-retry').disabled=busy;
+ if(longMode)$('fun-hint').disabled=busy||solved(state);
 }
 function changeMode(next){
  if(busy||solved(state))return;
@@ -230,7 +234,31 @@ $('fun-dpad').addEventListener('click',e=>{
 });
 $('fun-undo').addEventListener('click',undo);
 $('fun-retry').addEventListener('click',()=>setStage(number));
-$('fun-hint').addEventListener('click',()=>{if(!stage)return;hintUses++;$('fun-feedback').hidden=false;$('fun-feedback').textContent=stage.chapter.hint;});
+$('fun-hint').addEventListener('click',()=>{
+ if(!stage||busy||(longMode&&solved(state)))return;
+ const panel=$('fun-feedback');
+ if(!longMode){hintUses++;panel.hidden=false;panel.textContent=stage.chapter.hint;return;}
+ const hints=buildProgressiveHints(stage);
+ if(hintLevel<hints.length){hintLevel++;hintUses++;}
+ const hint=hints[hintLevel-1];
+ const heading=document.createElement('strong');
+ heading.textContent=hint.title;
+ const description=document.createElement('p');
+ description.textContent=hint.body;
+ panel.replaceChildren(heading,description);
+ if(hint.steps.length){
+  const ordered=document.createElement('ol');
+  for(const line of hint.steps){const item=document.createElement('li');item.textContent=line;ordered.append(item);}
+  panel.append(ordered);
+ }
+ const caveat=document.createElement('small');
+ caveat.textContent='ヒントを使ってもSランクの判定は手数だけで決まります。';
+ panel.append(caveat);
+ panel.hidden=false;
+ $('fun-hint').dataset.hintStep=String(hintLevel);
+ $('fun-hint').textContent=hintLevel===4?'答えを見直す':'次のヒント '+(hintLevel+1)+'/4';
+ if(hintLevel>=3)panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+});
 $('fun-next').addEventListener('click',()=>setStage(number===entries.length?1:number+1));
 $('fun-again')?.addEventListener('click',()=>setStage(number));
 window.addEventListener('resize',()=>{if(stage)render();});
