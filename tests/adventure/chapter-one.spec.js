@@ -564,3 +564,33 @@ test('chapter-two item laboratory proves ice glove and warp are playable, indisp
  expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(stored);
  expect(errors).toEqual([]);
 });
+
+
+test('standalone CPU rival boss uses real board-game actions and never touches chapter saves',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ const errors=[];
+ page.on('pageerror',e=>errors.push(String(e)));
+ page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});
+ await page.goto('/duel-boss.html');
+ await expect(page.locator('h1')).toHaveText('ライバルからの挑戦状！');
+ await expect(page.locator('#boss-board .boss-cell')).toHaveCount(49);
+ const original=await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)));
+ await expect(page.locator('#boss-side')).toHaveText('あなたの番');
+ await expect(page.locator('#boss-turns')).toHaveText('0');
+ await expect(page.locator('#boss-score-human')).toHaveText('0');
+ await page.locator('#boss-skip').click();
+ await expect(page.locator('[data-boss-dir="0"]')).toBeEnabled();
+ await page.locator('[data-boss-dir="0"]').click();
+ await expect(page.locator('#boss-turns')).toHaveText('2',{timeout:10000});
+ await expect(page.locator('#boss-side')).toHaveText('あなたの番');
+ await expect(page.locator('#boss-board')).toHaveAttribute('data-ply','2');
+ await expect(page.locator('#boss-score-cpu')).not.toHaveText('NaN');
+ await expect(page.locator('#boss-reset')).toBeEnabled();
+ await page.locator('#boss-reset').click();
+ await expect(page.locator('#boss-turns')).toHaveText('0');
+ await expect(page.locator('#boss-side')).toHaveText('あなたの番');
+ await expect(page.locator('#boss-board .boss-cell')).toHaveCount(49);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(original);
+ expect(errors).toEqual([]);
+});
