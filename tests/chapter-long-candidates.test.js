@@ -25,7 +25,7 @@ test('long experimental puzzles are not the original chapter stages',()=>{
  assert.equal(bundle.release,'experimental-unapproved');
  assert.equal(bundle.saveWrites,false);
  assert.equal(bundle.stages.length,3);
- assert.equal(new Set(bundle.stages.map(s=>s.id)).size,2);
+ assert.equal(new Set(bundle.stages.map(s=>s.id)).size,bundle.stages.length);
  for(const s of bundle.stages){
   assert.ok(s.id.startsWith('fun-long-'));
   assert.equal(s.status,'candidate');
