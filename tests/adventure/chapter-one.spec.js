@@ -378,8 +378,13 @@ test('independent ten-stage puzzle lab can be completed on mobile without writin
    await page.screenshot({animations:'disabled',path:info.outputPath('fun-lab-stage6-390.png'),fullPage:true});
   }
   await page.locator('#fun-next').click();
+  if(candidate.chapter.number===1){
+   await expect(page.locator('#fun-pass-target')).toHaveText('24手以内');
+   await expect(page.locator('#fun-benchmark')).toBeHidden();
+  }
  }
  await expect(page.locator('#fun-board')).toHaveAttribute('data-stage','1');
+ await expect(page.locator('#fun-pass-target')).toHaveText('20手以内');
  expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(initial);
  expect(failed).toEqual([]);
 });
@@ -393,6 +398,10 @@ test('16 and 19-turn experimental puzzles are playable with iPhone controls and 
  page.on('response',r=>{if(r.status()>=400)pageErrors.push(r.status()+' '+r.url());});
  await page.goto('/long-lab.html');
  await expect(page.locator('#fun-board')).toHaveAttribute('data-stage','1');
+ await expect(page.locator('#fun-goal')).toBeVisible();
+ await expect(page.locator('#fun-pass-target')).toHaveText('20手以内');
+ await expect(page.locator('#fun-remaining')).toHaveText('合格ラインまで残り 20手');
+ await expect(page.locator('#fun-benchmark')).toBeHidden();
  const arrows={};
  for(const dir of ['0','1','2','3'])arrows[dir]=await page.locator('[data-fun-dir="'+dir+'"]').boundingBox();
  expect(arrows['0'].y).toBeLessThan(arrows['3'].y);
@@ -415,6 +424,11 @@ test('16 and 19-turn experimental puzzles are playable with iPhone controls and 
    await expect(page.locator('#fun-retry')).toBeEnabled();
   }
   await expect(page.locator('#fun-result')).toBeVisible();
+  await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+  await expect(page.locator('#fun-benchmark')).toContainText('最短 '+candidate.challenge.minimumTurns+'手');
+  await expect(page.locator('#fun-benchmark')).toContainText('合格 '+candidate.challenge.passThrough+'手以内');
+  await expect(page.locator('#fun-again')).toBeVisible();
+  await expect(page.locator('#fun-best')).toHaveText('今回の試遊での自己ベスト '+candidate.challenge.minimumTurns+'手');
   await expect(page.locator('#fun-finish')).toContainText('考える＋操作する時間');
   await expect(page.locator('#fun-finish')).toContainText('Undo 0回');
   await expect(page.locator('#fun-finish')).toContainText('ヒント 0回');
