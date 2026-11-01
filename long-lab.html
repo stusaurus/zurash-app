@@ -24,6 +24,15 @@ body{margin:0}
 .fun-selector{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:4px 0 10px}
 .fun-selector button{min-width:0;padding:4px 1px;min-height:44px;border:1px solid #6ba7d0;border-radius:9px;background:linear-gradient(#fff,#d8eefe);color:#185480;font-size:12px;font-weight:800}
 .fun-selector button[aria-current="step"]{color:white;background:linear-gradient(#f8a83c,#e57523);border-color:#d56b18}
+.fun-selector button{position:relative}
+.fun-selector .fun-rank-mark{position:absolute;right:4px;top:3px;display:grid;place-items:center;
+ min-width:17px;height:17px;padding:0 3px;border-radius:8px;font-size:11px;line-height:1;
+ color:#fff;background:#5d7891;border:1px solid #d6efff}
+.fun-selector .fun-rank-mark[data-rank="S"]{background:#c88a11}
+.fun-selector .fun-rank-mark[data-rank="A"]{background:#2f8cc3}
+.fun-selector .fun-rank-mark[data-rank="B"]{background:#438877}
+.fun-progress{font-size:11px;color:#1b5e89;text-align:center;font-weight:800;margin:0 0 9px;
+ background:#e7f7ffba;border-radius:9px;padding:4px 6px}
 .fun-meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .fun-meta h1{font-size:clamp(18px,5vw,24px);margin:0;color:#14518b;letter-spacing:0;transform:none;line-height:1.2}
 .fun-meta .counter{font-size:12px;font-weight:900;color:#5c6682;white-space:nowrap}
@@ -98,6 +107,7 @@ body{margin:0}
 </header>
 <section class="game-panel fun-card" aria-label="実験パズル">
 <nav class="fun-selector" id="stage-choices" aria-label="実験ステージ選択"></nav>
+<p id="fun-progress" class="fun-progress" role="status">この試遊中の記録：クリア 0/4面 ／ Sランク 0/4面</p>
 <div class="fun-meta"><h1 id="fun-title">読み込み中…</h1><span id="fun-count" class="counter">1 / 4</span></div>
 <p class="fun-focus" id="fun-focus"></p>
 <div class="fun-goal" id="fun-goal" hidden>
