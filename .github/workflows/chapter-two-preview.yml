@@ -79,6 +79,8 @@ jobs:
       - name: Audit human-review-priority patterns without altering stage data
         run: node scripts/chapter-two-pattern-audit.js
       - run: npx playwright install --with-deps chromium webkit
+      - name: Verify stage54 three-way human feedback in actual browsers
+        run: npx playwright test -c playwright.chapter.config.js -g "stage54 review" --output=test-results-stage54-review
       - name: Test item, switch gate and CPU trial pages (Chromium / WebKit)
         run: npx playwright test -c playwright.chapter.config.js -g "expedition rewards|chapter two adventure|review hub|stage54 remix|item laboratory|CPU rival|switch gate|item long trials|dual item trials|gate long trials|gate cycle trials|gate closure trials|gate warp trials" --output=test-results-chapter-two
         env:
