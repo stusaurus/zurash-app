@@ -6,3 +6,8 @@ dist/
 reports/*.jsonl
 
 playwright-chapter-report/
+
+# Generated QA bundle only; source files remain tracked.
+preview-dist/
+playwright-preview-report/
+test-results-preview-bundle/

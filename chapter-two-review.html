@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#104c81">
+<title>ズラッシュ！｜第2章 比較試遊</title>
+<link rel="stylesheet" href="./chapter-two-review.css">
+<script type="module" src="./src/chapter-two-review.js"></script>
+</head>
+<body>
+<main>
+<header>
+ <a href="./index.html" class="back">← 冒険の入口</a>
+ <img src="./assets/zurash-approved-logo.webp" class="logo" alt="ズラッシュ！">
+ <p class="eyebrow">CHAPTER 2 · プレイテスト</p>
+ <h1>謎解きの面白さを比べよう</h1>
+ <p>第54・57・59面の候補を遊んで、ひらめき・難しさ・操作感を比較します。点数を自動で採用判定に使うことはありません。</p>
+</header>
+<section class="guide">
+ <h2>遊び比べるポイント</h2>
+ <p><b>54面：</b>長い滑走の途中も、考える楽しさが続く？</p>
+ <p><b>57面：</b>氷扉の切替が3回あることに、発見や達成感はある？</p>
+ <p><b>59面：</b>最後のワープが、気持ちのいい決め手になっている？</p>
+ <p class="notice">以下の「自由試遊」は、通常冒険の結晶や4つの灯りを増やしません。感想は端末内だけに保存され、外部に自動送信されません。</p>
+</section>
+<p id="review-summary" class="summary" role="status">評価の読み込み中…</p>
+<p id="review-error" class="alert" role="alert" hidden></p>
+<div id="review-cards" class="cards" aria-label="比較ステージ"></div>
+<section class="comparison">
+ <h2>遊び比べにおすすめ</h2>
+ <p>57面で扉の3回切替に迷ったら、短い3回切替の<strong>67面</strong>も比較。59面のワープが単純に感じたら、往復ワープの<strong>65面</strong>に挑戦できます。</p>
+ <div class="extra">
+  <a href="./chapter-two.html?trial=1&practice=1&stage=67">67面・短い切替を試す</a>
+  <a href="./chapter-two.html?trial=1&practice=1&stage=65">65面・往復ワープを試す</a>
+ </div>
+</section>
+<section class="export">
+ <h2>感想をまとめる</h2>
+ <p>評価した面だけをJSONファイルに書き出せます。チャットに添付すると、次のパズル改良の判断材料にできます。</p>
+ <button type="button" id="export-review" disabled>感想をJSONで書き出す</button>
+ <p id="export-status" role="status"></p>
+</section>
+<footer><a href="./chapter-two.html?trial=1">通常の第2章に戻る</a><p>第2章の盤面・最短解・星報酬は、この比較画面では変更されません。</p></footer>
+</main>
+</body>
+</html>
