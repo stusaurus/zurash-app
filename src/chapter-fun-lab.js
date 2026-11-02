@@ -1,5 +1,5 @@
 import {loadHome,clears} from './puzzle/house.js';
-import {CHAPTER_TWO_KEY,newChapterTwo,canEnterTwo,checkpointTwo,loadChapterTwo,writeChapterTwo} from './puzzle/chapter-two-progress.js';
+import {CHAPTER_TWO_KEY,newChapterTwo,canEnterTwo as canEnterTwoBase,checkpointTwo,loadChapterTwo,writeChapterTwo} from './puzzle/chapter-two-progress.js';
 import {initialPuzzle,validateStage} from './puzzle/schema.js';
 import {successors,applyPuzzle,solved,replay} from './puzzle/engine.js';
 import {validateChallenge,evaluateChallenge} from './puzzle/challenge-grade.js';
@@ -10,6 +10,8 @@ import {buildGateHints} from './puzzle/gate-hints.js';
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
 const adventureMode=location.pathname.endsWith('/chapter-two.html');
+const saveOptions={practice:new URLSearchParams(location.search).get('practice')==='1'};
+const canEnterTwo=(entries,save,index)=>canEnterTwoBase(entries,save,index,saveOptions);
 let chapterSave=newChapterTwo(),saveReadOnly=false;
 const longMode=location.pathname.endsWith('/long-lab.html');
 const itemMode=location.pathname.endsWith('/item-lab.html');
@@ -73,7 +75,7 @@ function showSelection(){
 }
 function persistAdventure(){
  if(!adventureMode)return;
- try{chapterSave=checkpointTwo(chapterSave,entries,stage,trace);if(!saveReadOnly)writeChapterTwo(localStorage,chapterSave);}
+ try{chapterSave=checkpointTwo(chapterSave,entries,stage,trace,saveOptions);if(!saveReadOnly)writeChapterTwo(localStorage,chapterSave,saveOptions);}
  catch(e){saveReadOnly=true;$('save-status').textContent='保存できませんでした。この画面では遊べますが、再読み込みで進行が失われる場合があります。';}
 }
 function setStage(n,{resume=false}={}){
@@ -349,7 +351,8 @@ try{
   if(challengeMode&&!validateChallenge(s))throw Error('最短手数と合格手数の検証情報がありません');
  }
  if(adventureMode){
-  try{chapterSave=loadChapterTwo(localStorage,entries);}
+  if(saveOptions.practice)$('save-status').textContent='自由試遊：好きな面を選べます。冒険の進行とは別に記録します。';
+  try{chapterSave=loadChapterTwo(localStorage,entries,saveOptions);}
   catch(e){saveReadOnly=true;$('save-status').textContent='保存データを読み込めませんでした。元の記録は保持しています。この試遊の記録は保存されません。';}
   for(const [id,r]of Object.entries(chapterSave.completed))sessionBestTurns.set(id,r.bestTurns);
  }

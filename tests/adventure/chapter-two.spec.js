@@ -47,3 +47,22 @@ for(const width of [320,390,1440]){
   await expect(page.locator('#fun-title')).toHaveText(stages[0].chapter.title);
  });
 }
+for(const width of [320,390,1440])test('chapter two adventure: direct practice70, all tools undo and separate save at '+width,async({page})=>{
+ await page.setViewportSize({width,height:844});await page.emulateMedia({reducedMotion:'reduce'});
+ await page.goto('/chapter-two.html?trial=1&practice=1&stage=70');
+ const stage=stages.find(s=>s.chapter.number===70);
+ await expect(page.locator('#fun-title')).toHaveText(stage.chapter.title);
+ const original=await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'));
+ for(const [i,a]of stage.proof.entries()){
+  await act(page,a);
+  if(['ice','glove','warp'].includes(a.prep.type)){
+   await page.locator('#fun-undo').click();await expect(page.locator('#fun-moves')).toHaveText(String(i));await act(page,a);
+   await page.reload();await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+  }
+ }
+ await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+ expect(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'))).toBe(original);
+ await page.locator('.chapter-map summary').click();
+ await expect(page.locator('[data-stage-choice="1"]')).toBeEnabled();
+ await page.locator('[data-stage-choice="1"]').click();await expect(page.locator('#fun-title')).toHaveText(stages[0].chapter.title);
+});

@@ -22,3 +22,10 @@ test('corrupt and future saves remain intact; impossible traces and forged unloc
  }
  assert.throws(()=>checkpointTwo(newChapterTwo(),entries,entries[1],[]),/locked/);
 });
+test('free practice permits direct stage70 without unlocking or overwriting adventure progress',()=>{
+ const stage=entries.at(-1),options={practice:true},storage=new Map();storage.setItem=storage.set.bind(storage);storage.getItem=k=>storage.get(k)??null;
+ const adventure=newChapterTwo();writeChapterTwo(storage,adventure);
+ const practice=checkpointTwo(newChapterTwo(),entries,stage,stage.proof,options);writeChapterTwo(storage,practice,options);
+ assert.equal(loadChapterTwo(storage,entries,options).completed[stage.id].bestTurns,stage.challenge.minimumTurns);
+ assert.deepEqual(loadChapterTwo(storage,entries),adventure);assert.equal(canEnterTwo(entries,adventure,entries.length-1),false);
+});
