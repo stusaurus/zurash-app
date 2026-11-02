@@ -53,3 +53,43 @@ CPU試作は既存 engine/ai の greedy 対戦を使い、先後入替公平性�
 4. 公開用タイトル・初回ガイド・クレジット・動作端末範囲を確認し、改めて本番公開を判断。
 
 第71面以降は未制作。70面までの人間評価を確保する前に、類似面の追加や新ギミックの導入へ進まない。
+
+## 公開品質の評価
+
+| 観点 | 今回確認したこと | 一般公開前の残件 |
+|---|---|---|
+| ゲーム性 | 60〜70面の最短解と各道具・ゲートの必須性 | 人間による難易度・テンポ評価、54/57/59の採否 |
+| 操作性 | 390pxの配信版で70面18手Sクリア、横はみ出し・例外0 | iPhone実機・Safariの実際の表示領域と誤タップ確認 |
+| デザイン | 既存キャラクター・氷世界・71画像の維持と配信一致 | 6シーン・家具の最終的な目視承認、公開用導入 |
+| 保存 | 章1を保持、章2の途中再開・Undo・ベスト・自由試遊の保存分離 | 同一端末/同一URLが前提。端末間クラウド同期は未実装 |
+| 安定性 | 正規BFSとCIの回帰試験、破損保存を上書きしない | 実機・通信の遅い環境での最終確認 |
+
+一般公開可否：現時点では先行試遊向け。自動検証の合格を、人間による面白さ・最終美術の承認として扱わない。
+
+## 最終検証記録
+
+検証・配信コード：`d45960cdbb05ecfda4207e3581937a07d7d1f619`。この後の記録更新はレポートだけで、ゲームコードを変更しない。
+
+- [第1章CI](https://github.com/stusaurus/zurash-app/actions/runs/41382935444)：151単体、家/美術16ブラウザ、全50面6条件が成功。失敗0。
+- [第2章CI](https://github.com/stusaurus/zurash-app/actions/runs/41382935406)：52単体、48ブラウザが成功。失敗0。52単体は上記151件の一部なので合算しない。
+- 第1章と第2章のブラウザ試験は計70件。Chromium/WebKit × 320/390/1440pxで各章を通し操作。
+- [拡張性回帰](https://github.com/stusaurus/zurash-app/actions/runs/41382935433)も成功。既存対戦画面全体の補助的なGame qualityは記録時点でルール試験成功・ブラウザ試験実行中。
+- 配信版の第70面をChromium 390pxで実操作し、18手Sランク、横はみ出しなし、ページ例外0。実機iPhoneではない。
+- ページ・データ・JS・build-infoの4ファイルが配信先と一致。家の画像71件もHTTP 200・ハッシュ一致。
+- 全20面の配置は、回転・反転を含む全オブジェクト比較で重複なし。ただし、これは人間が面白いと感じることの証明ではない。
+
+[第60面から自由試遊](https://zurash-triken-home-playtest.jyoker.chatgpt.site/chapter-two?trial=1&practice=1&stage=60) ／ [第51面から順番に冒険](https://zurash-triken-home-playtest.jyoker.chatgpt.site/chapter-two?trial=1)。同じChatGPTアカウントでログインする。
+
+詳細：`verification-summary.json`、`deployed-playthrough.json`、`deployed-files.json`、`deployed-house-assets.json`、`puzzle-quality-metrics.json`。
+
+## 主な変更ファイル
+
+- `src/chapter-fun-lab.js`：通常/ゲート混在進行、リザルト、保存、自由試遊、拡張子なしURL対応。
+- `src/puzzle/chapter-two-progress.js`：合法手順の保存・再生、順次解放、自己ベスト、通常/自由試遊の分離。
+- `data/chapters/chapter-02/adventure-v1.json` と各候補パック：51〜70面、60面証明、61〜65面、66〜70面。
+- `adventure.html`、`src/adventure.js`：第1章50面からの章選択と解放導線。
+- `chapter-two.html`、`chapter-02-preview.html`、`gate-glove-lab.html`：統合冒険・直接試遊・比較用ページ。
+- `tests/adventure/chapter-two.spec.js`、`tests/chapter-two-*.test.js`、`tests/gate-glove.test.js`：全操作と必須性の回帰。
+- `.github/workflows/chapter-two-preview.yml`、`playwright.chapter.config.js`：新テストを実行対象へ登録。
+
+[全変更ファイル](https://github.com/stusaurus/zurash-app/pull/14/files)

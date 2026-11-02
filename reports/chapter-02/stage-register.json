@@ -99,8 +99,41 @@
       "expanded": 76,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "intro"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "intro",
+      "initialSetup": {
+        "start": 0,
+        "walls": [],
+        "fixed": [
+          8
+        ],
+        "stars": [
+          5,
+          3,
+          7,
+          12
+        ],
+        "iceSockets": [
+          6
+        ],
+        "portals": []
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 52,
@@ -265,8 +298,42 @@
       "expanded": 848,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "hard"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "hard",
+      "initialSetup": {
+        "start": 13,
+        "walls": [
+          1,
+          14,
+          0
+        ],
+        "fixed": [],
+        "stars": [
+          11,
+          9,
+          4,
+          12,
+          2
+        ],
+        "iceSockets": [],
+        "portals": []
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 53,
@@ -345,8 +412,41 @@
       "expanded": 20,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "intro"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "intro",
+      "initialSetup": {
+        "start": 0,
+        "walls": [],
+        "fixed": [],
+        "stars": [
+          15,
+          4,
+          10
+        ],
+        "iceSockets": [],
+        "portals": [
+          [
+            1,
+            14
+          ]
+        ]
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 54,
@@ -542,8 +642,51 @@
       "expanded": 935,
       "adoption": "provisional-playtest",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "hard"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "hard",
+      "initialSetup": {
+        "start": 0,
+        "walls": [],
+        "fixed": [
+          20,
+          44
+        ],
+        "stars": [
+          3,
+          1,
+          13,
+          30,
+          2,
+          11,
+          36,
+          38
+        ],
+        "iceSockets": [
+          12
+        ],
+        "portals": [
+          [
+            34,
+            18
+          ]
+        ]
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 55,
@@ -723,8 +866,47 @@
       "expanded": 1104,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "hard"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "hard",
+      "initialSetup": {
+        "start": 28,
+        "walls": [
+          1,
+          29
+        ],
+        "fixed": [],
+        "stars": [
+          21,
+          19,
+          2,
+          9,
+          27,
+          35
+        ],
+        "iceSockets": [],
+        "portals": [
+          [
+            12,
+            34
+          ]
+        ]
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 56,
@@ -863,8 +1045,40 @@
       "expanded": 8228,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "medium"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "medium",
+      "initialSetup": {
+        "start": 10,
+        "walls": [
+          23,
+          20
+        ],
+        "fixed": [],
+        "stars": [
+          21,
+          8,
+          18,
+          6
+        ],
+        "iceSockets": [],
+        "portals": []
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 57,
@@ -1051,8 +1265,43 @@
       "expanded": 15583,
       "adoption": "provisional-playtest",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "hard"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "hard",
+      "initialSetup": {
+        "start": 24,
+        "walls": [
+          19,
+          1
+        ],
+        "fixed": [],
+        "stars": [
+          4,
+          8,
+          5,
+          23,
+          12,
+          11,
+          15
+        ],
+        "iceSockets": [],
+        "portals": []
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 58,
@@ -1343,8 +1592,42 @@
       "expanded": 9183,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "hard"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "hard",
+      "initialSetup": {
+        "start": 21,
+        "walls": [
+          16,
+          22
+        ],
+        "fixed": [],
+        "stars": [
+          13,
+          7,
+          10,
+          24,
+          2,
+          1
+        ],
+        "iceSockets": [],
+        "portals": []
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 59,
@@ -1552,8 +1835,48 @@
       "expanded": 37943,
       "adoption": "provisional-playtest",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "hard"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "hard",
+      "initialSetup": {
+        "start": 16,
+        "walls": [
+          35,
+          32
+        ],
+        "fixed": [],
+        "stars": [
+          33,
+          11,
+          27,
+          9,
+          24,
+          36,
+          15
+        ],
+        "iceSockets": [],
+        "portals": [
+          [
+            0,
+            14
+          ]
+        ]
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 60,
@@ -1739,8 +2062,40 @@
       "expanded": 912,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "hard"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "hard",
+      "initialSetup": {
+        "start": 15,
+        "walls": [
+          23,
+          0
+        ],
+        "fixed": [],
+        "stars": [
+          4,
+          13,
+          1,
+          22
+        ],
+        "iceSockets": [],
+        "portals": []
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 61,
@@ -1865,8 +2220,40 @@
       "expanded": 61,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "medium"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "medium",
+      "initialSetup": {
+        "start": 3,
+        "walls": [
+          12
+        ],
+        "fixed": [],
+        "stars": [
+          17,
+          0,
+          8
+        ],
+        "iceSockets": [
+          7
+        ],
+        "portals": []
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 62,
@@ -1984,8 +2371,43 @@
       "expanded": 55,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "medium"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "medium",
+      "initialSetup": {
+        "start": 9,
+        "walls": [
+          3
+        ],
+        "fixed": [],
+        "stars": [
+          8,
+          4,
+          11
+        ],
+        "iceSockets": [],
+        "portals": [
+          [
+            5,
+            17
+          ]
+        ]
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 63,
@@ -2135,8 +2557,39 @@
       "expanded": 1072,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "medium"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "medium",
+      "initialSetup": {
+        "start": 6,
+        "walls": [
+          13
+        ],
+        "fixed": [],
+        "stars": [
+          14,
+          18,
+          9,
+          2
+        ],
+        "iceSockets": [],
+        "portals": []
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 64,
@@ -2287,8 +2740,40 @@
       "expanded": 79,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "medium"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "medium",
+      "initialSetup": {
+        "start": 19,
+        "walls": [
+          5
+        ],
+        "fixed": [],
+        "stars": [
+          10,
+          8,
+          13
+        ],
+        "iceSockets": [
+          15
+        ],
+        "portals": []
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 65,
@@ -2466,8 +2951,45 @@
       "expanded": 965,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "hard"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "hard",
+      "initialSetup": {
+        "start": 21,
+        "walls": [
+          23
+        ],
+        "fixed": [],
+        "stars": [
+          9,
+          30,
+          15
+        ],
+        "iceSockets": [
+          8
+        ],
+        "portals": [
+          [
+            22,
+            5
+          ]
+        ]
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 66,
@@ -2594,8 +3116,39 @@
       "expanded": 439,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "medium"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "medium",
+      "initialSetup": {
+        "start": 11,
+        "walls": [
+          5
+        ],
+        "fixed": [],
+        "stars": [
+          21,
+          16,
+          9,
+          22
+        ],
+        "iceSockets": [],
+        "portals": []
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 67,
@@ -2720,8 +3273,38 @@
       "expanded": 364,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "medium"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "medium",
+      "initialSetup": {
+        "start": 17,
+        "walls": [
+          16
+        ],
+        "fixed": [],
+        "stars": [
+          2,
+          11,
+          4
+        ],
+        "iceSockets": [],
+        "portals": []
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 68,
@@ -2880,8 +3463,43 @@
       "expanded": 140,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "medium"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "medium",
+      "initialSetup": {
+        "start": 3,
+        "walls": [
+          7
+        ],
+        "fixed": [],
+        "stars": [
+          4,
+          12,
+          6
+        ],
+        "iceSockets": [],
+        "portals": [
+          [
+            16,
+            11
+          ]
+        ]
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 69,
@@ -3039,8 +3657,46 @@
       "expanded": 203,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "medium"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "medium",
+      "initialSetup": {
+        "start": 2,
+        "walls": [
+          18
+        ],
+        "fixed": [],
+        "stars": [
+          21,
+          3,
+          22,
+          14
+        ],
+        "iceSockets": [
+          24
+        ],
+        "portals": [
+          [
+            5,
+            19
+          ]
+        ]
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     },
     {
       "number": 70,
@@ -3255,8 +3911,45 @@
       "expanded": 1519,
       "adoption": "curated-preview",
       "humanPlaytest": "pending",
-      "browserVerification": "see CI for exact commit",
-      "difficulty": "hard"
+      "browserVerification": {
+        "status": "passed",
+        "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+        "browsers": [
+          "chromium",
+          "webkit"
+        ],
+        "viewportWidths": [
+          320,
+          390,
+          1440
+        ],
+        "method": "real button clicks, full proof, reload, undo, retry, S rank and save isolation",
+        "workflowRun": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406"
+      },
+      "difficulty": "hard",
+      "initialSetup": {
+        "start": 29,
+        "walls": [
+          28
+        ],
+        "fixed": [],
+        "stars": [
+          2,
+          19,
+          4
+        ],
+        "iceSockets": [
+          25
+        ],
+        "portals": [
+          [
+            1,
+            6
+          ]
+        ]
+      },
+      "source": "data/chapters/chapter-02/adventure-v1.json",
+      "formalAdoption": "pending-human-review"
     }
   ]
 }

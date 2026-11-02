@@ -1,0 +1,70 @@
+{
+  "verifiedCodeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+  "branch": "feature/chapter2-adventure-integration",
+  "draftPR": "https://github.com/stusaurus/zurash-app/pull/14",
+  "mainMerged": false,
+  "release": "private curated preview; human adoption pending",
+  "chapterOne": {
+    "run": "https://github.com/stusaurus/zurash-app/actions/runs/41382935444",
+    "status": "success",
+    "unitPassed": 151,
+    "unitFailed": 0,
+    "houseBrowserPassed": 16,
+    "full50StageBrowserPassed": 6,
+    "browserFailed": 0
+  },
+  "chapterTwo": {
+    "run": "https://github.com/stusaurus/zurash-app/actions/runs/41382935406",
+    "status": "success",
+    "unitPassed": 52,
+    "unitFailed": 0,
+    "browserPassed": 48,
+    "browserFailed": 0,
+    "nodeTestsAreSubsetOfGlobal151": true,
+    "browsers": [
+      "chromium",
+      "webkit"
+    ],
+    "viewportWidths": [
+      320,
+      390,
+      1440
+    ]
+  },
+  "scalability": {
+    "run": "https://github.com/stusaurus/zurash-app/actions/runs/41382935433",
+    "status": "success"
+  },
+  "supplementalGameQuality": {
+    "run": "https://github.com/stusaurus/zurash-app/actions/runs/41382935448",
+    "rules": "success",
+    "legacyDuelBrowsers": "in_progress_at_report_time"
+  },
+  "deployment": {
+    "siteSourceCommit": "25da62fed0dceabd32f63e8c2526fd499d949874",
+    "deploymentId": "appgdep_6ae802e631308191be8cf9bb2352f129",
+    "status": "succeeded",
+    "url": "https://zurash-triken-home-playtest.jyoker.chatgpt.site",
+    "codeSha": "d45960cdbb05ecfda4207e3581937a07d7d1f619",
+    "runtimeFileHashMatches": 4,
+    "houseAssetHashMatches": 71,
+    "onlinePlaythrough": {
+      "browser": "chromium",
+      "width": 390,
+      "stage": 70,
+      "turns": 18,
+      "rank": "S",
+      "pageErrors": 0,
+      "horizontalOverflow": false
+    }
+  },
+  "hardwareIPhone": "unverified",
+  "humanPuzzleEnjoyment": "pending",
+  "knownDesignReservations": [
+    54,
+    57,
+    59
+  ],
+  "cpuEvent": "independent research; not promoted to required adventure",
+  "stages71plus": "not authored"
+}
