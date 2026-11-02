@@ -267,7 +267,7 @@ async function takeStep(action){
       grade.passed?'Sランクまであと'+grade.extraTurns+'手！ 別の止まり方を探そう。':
       'Bランク合格まであと'+(grade.turns-grade.passThrough)+'手！';
     $('fun-again').hidden=false;
-    say(grade.passed?'合格！ 次はSランクを目指そう。':'すべての星を獲得！ 合格手数を目指して再挑戦しよう。');
+    say(grade.rank==='S'?'最短手数でクリア！ 次の冒険へ進もう。':grade.passed?'合格！ 次はSランクを目指そう。':'すべての星を獲得！ 合格手数を目指して再挑戦しよう。');
    }else{
     say('すべての星をゲット！');
    }

@@ -32,6 +32,7 @@ for(const width of [320,390,1440]){
    }
    await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
    await expect(page.locator('#expedition-reward')).toContainText('結晶 +1');
+   await expect(page.locator('#fun-prompt')).toHaveText('最短手数でクリア！ 次の冒険へ進もう。');
    if(n===stages.length-1){await expect(page.locator('#expedition-reward')).toContainText('第2章クリア');await expect(page.locator('#expedition-map [data-lit=true]')).toHaveCount(4);}
    await expect(page.locator('#fun-finish')).toContainText('壁移動'+s.proof.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回');
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
