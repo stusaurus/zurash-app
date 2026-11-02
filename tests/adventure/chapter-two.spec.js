@@ -109,3 +109,28 @@ test('chapter two adventure: invalid save can be downloaded then deliberately re
  await expect(page.locator('#fun-title')).toHaveText(stages[0].chapter.title);
  await expect(page.locator('#save-recovery')).toBeHidden();
 });
+
+test('chapter two adventure: a human review is optional, local-only, persistent and exportable',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/chapter-two.html?trial=1&practice=1&stage=54');
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 54');
+ const campaignBefore=await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'));
+ await page.locator('#playtest-review summary').click();
+ await page.locator('#review-enjoyment').selectOption('poor');
+ await page.locator('#review-difficulty').selectOption('hard');
+ await page.locator('#review-note').fill('54面は壁移動が少なくて、滑走が長く感じた。');
+ await page.locator('#playtest-form button[type=submit]').click();
+ await expect(page.locator('#review-status')).toContainText('端末内に保存しました');
+ await page.reload();
+ await page.locator('#playtest-review summary').click();
+ await expect(page.locator('#review-enjoyment')).toHaveValue('poor');
+ await expect(page.locator('#review-difficulty')).toHaveValue('hard');
+ await expect(page.locator('#review-note')).toHaveValue('54面は壁移動が少なくて、滑走が長く感じた。');
+ expect(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'))).toBe(campaignBefore);
+ const download=page.waitForEvent('download');
+ await page.locator('#export-playtest-reviews').click();
+ const file=await download;expect(file.suggestedFilename()).toBe('zurash-chapter-two-playtest-reviews.json');
+ const data=JSON.parse(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-playtest-review:v1')));
+ const stage=stages.find(s=>s.chapter.number===54);
+ expect(data.reviews[stage.id]).toMatchObject({enjoyment:'poor',difficulty:'hard',note:'54面は壁移動が少なくて、滑走が長く感じた。'});
+});

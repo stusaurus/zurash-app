@@ -9,6 +9,8 @@ on:
       - 'tests/gate-glove.test.js'
       - 'tests/chapter-two-progress.test.js'
       - 'tests/chapter-two-story.test.js'
+      - 'tests/chapter-two-playtest.test.js'
+      - 'src/puzzle/chapter-two-playtest.js'
       - 'src/puzzle/chapter-two-story.js'
       - 'tests/chapter-two-stages.test.js'
       - 'tests/adventure/chapter-two.spec.js'
@@ -59,7 +61,7 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js tests/gate-long.test.js tests/gate-cycle.test.js tests/gate-closure.test.js tests/gate-warp.test.js tests/gate-glove.test.js tests/chapter-two-progress.test.js tests/chapter-two-story.test.js tests/chapter-two-stages.test.js
+      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js tests/gate-long.test.js tests/gate-cycle.test.js tests/gate-closure.test.js tests/gate-warp.test.js tests/gate-glove.test.js tests/chapter-two-progress.test.js tests/chapter-two-story.test.js tests/chapter-two-playtest.test.js tests/chapter-two-stages.test.js
       - run: node scripts/chapter-two-certify.js
       - run: npx playwright install --with-deps chromium webkit
       - name: Test item, switch gate and CPU trial pages (Chromium / WebKit)

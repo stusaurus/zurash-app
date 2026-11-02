@@ -1,6 +1,7 @@
 import {loadHome,clears} from './puzzle/house.js';
 import {CHAPTER_TWO_KEY,practiceSaveKey,newChapterTwo,canEnterTwo as canEnterTwoBase,checkpointTwo,loadChapterTwo,writeChapterTwo,recoverInvalidChapterTwo} from './puzzle/chapter-two-progress.js';
 import {chapterTwoMilestone} from './puzzle/chapter-two-story.js';
+import {loadChapterTwoReviews,recordChapterTwoReview,exportChapterTwoReviews} from './puzzle/chapter-two-playtest.js';
 import {initialPuzzle,validateStage} from './puzzle/schema.js';
 import {successors,applyPuzzle,solved,replay} from './puzzle/engine.js';
 import {validateChallenge,evaluateChallenge} from './puzzle/challenge-grade.js';
@@ -75,6 +76,19 @@ function showSelection(){
  const progress=$('fun-progress');
  if(progress)progress.textContent=(adventureMode?'冒険の記録：クリア ':'この試遊中の記録：クリア ')+completed+'/'+entries.length+'面 ／ Sランク '+fullRank+'/'+entries.length+'面';
 }
+function updateReviewForm(){
+ const form=$('playtest-form');if(!form||!stage)return;
+ $('review-enjoyment').value='';$('review-difficulty').value='';$('review-note').value='';
+ try{
+  const row=loadChapterTwoReviews(localStorage).reviews[stage.id];
+  if(row){
+   $('review-enjoyment').value=row.enjoyment;
+   $('review-difficulty').value=row.difficulty??'';
+   $('review-note').value=row.note;
+   $('review-status').textContent='このステージの評価は保存済みです。変更して再保存できます。';
+  }else $('review-status').textContent='この感想は端末内だけに保存されます。ステージを途中でやめても記録できます。';
+ }catch(e){$('review-status').textContent='以前の感想データを読み込めません。元の内容を上書きしないよう、新しい評価の保存を停止しています。';}
+}
 function updateChapterStory(){
  const panel=$('chapter-story');if(!panel)return;
  const milestone=adventureMode&&stage&&solved(state)?chapterTwoMilestone(stage.chapter.number):null;
@@ -103,7 +117,7 @@ function setStage(n,{resume=false}={}){
  $('fun-result').hidden=true;$('fun-feedback').hidden=true;
  $('fun-feedback').replaceChildren();
  if(challengeMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
- showSelection();render();updateChapterStory();
+ showSelection();render();updateChapterStory();updateReviewForm();
  if(adventureMode&&solved(state)){const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！';$('fun-rank').dataset.rank=grade.rank;$('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';$('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回';$('fun-next').textContent=number<entries.length?'次のステージへ':'家に帰る';}
  say(solved(state)?'クリアした記録から再開しました。':gateMode?(state.gateOpen?'氷扉が開いている。続きの1手を考えよう。':'氷扉は閉じている。✦スイッチの上に止まる方法を考えよう。'):number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
 }
@@ -351,6 +365,28 @@ $('download-invalid-save')?.addEventListener('click',()=>{
   setTimeout(()=>URL.revokeObjectURL(url),1500);
   $('save-status').textContent='元の記録をテキストファイルに保存しました。記録はまだ変更していません。';
  }catch(e){$('save-status').textContent='記録を書き出せませんでした。元の保存データは変更していません。';}
+});
+$('playtest-form')?.addEventListener('submit',e=>{
+ e.preventDefault();
+ if(!stage)return;
+ try{
+  recordChapterTwoReview(localStorage,stage,{
+   enjoyment:$('review-enjoyment').value,
+   difficulty:$('review-difficulty').value||null,
+   note:$('review-note').value
+  });
+  $('review-status').textContent='このステージの感想を端末内に保存しました。必要なら「感想をまとめて保存」から共有できます。';
+ }catch(e){$('review-status').textContent='感想を保存できませんでした。以前の感想データは上書きしていません。';}
+});
+$('export-playtest-reviews')?.addEventListener('click',()=>{
+ try{
+  const content=exportChapterTwoReviews(localStorage);
+  const url=URL.createObjectURL(new Blob([content],{type:'application/json;charset=utf-8'}));
+  const a=document.createElement('a');
+  a.href=url;a.download='zurash-chapter-two-playtest-reviews.json';document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  $('review-status').textContent='感想をJSONファイルに保存しました。このファイルをチャットに添付すると、ステージ改善の評価資料として利用できます。';
+ }catch(e){$('review-status').textContent='感想を書き出せませんでした。元のデータは変更していません。';}
 });
 $('reset-invalid-save')?.addEventListener('click',()=>{
  if(!confirm('第2章の記録を作り直しますか？ 元の記録は別のキーへ退避します。第1章の家や星には影響しません。'))return;
