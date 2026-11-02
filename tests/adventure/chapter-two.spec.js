@@ -66,3 +66,10 @@ for(const width of [320,390,1440])test('chapter two adventure: direct practice70
  await expect(page.locator('[data-stage-choice="1"]')).toBeEnabled();
  await page.locator('[data-stage-choice="1"]').click();await expect(page.locator('#fun-title')).toHaveText(stages[0].chapter.title);
 });
+
+test('chapter two adventure: deployed clean URL keeps chapter mode and direct practice',async({page})=>{
+ await page.route('**/chapter-two?*',async route=>route.fulfill({path:new URL('../../chapter-two.html',import.meta.url).pathname,contentType:'text/html'}));
+ await page.goto('/chapter-two?trial=1&practice=1&stage=70');
+ await expect(page.locator('#fun-title')).toHaveText(stages.find(s=>s.chapter.number===70).chapter.title);
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 70');
+});
