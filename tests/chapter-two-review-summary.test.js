@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import fs from 'node:fs';import {reviewCards,REVIEW_STAGES,stage54ComparisonRows} from '../src/puzzle/chapter-two-review-summary.js';
+import fs from 'node:fs';import {reviewCards,REVIEW_STAGES,stage54ComparisonRows,stage59ComparisonRows} from '../src/puzzle/chapter-two-review-summary.js';
 const stages=JSON.parse(fs.readFileSync(new URL('../data/chapters/chapter-02/adventure-v1.json',import.meta.url))).stages;
 test('three comparison stages are exactly 54, 57, 59, keeping official stage names',()=>{
  assert.deepEqual(REVIEW_STAGES.map(x=>x.number),[54,57,59]);
@@ -48,4 +48,14 @@ test('stage54 three independent optional human feedbacks do not mutate data',()=
  assert.deepEqual(rows.map(x=>x.note),['感想0','感想1','感想2']);
  assert.equal(JSON.stringify(reviews),raw);
  assert.throws(()=>stage54ComparisonRows(stages,remixes.slice(0,1),{}),/Three verified/);
+});
+
+const stage59Research=JSON.parse(fs.readFileSync(new URL('../data/chapters/chapter-02/stage59-return-candidates-v1.json',import.meta.url))).stages;
+test('stage59 comparison retains original plus two separate candidate data records',()=>{
+ const rows=stage59ComparisonRows(stages,stage59Research,{});
+ assert.deepEqual(rows.map(x=>x.minimumTurns),[20,18,19]);
+ assert.deepEqual(rows.map(x=>x.key),['original','a','b']);
+ assert.ok(rows.slice(1).every(x=>x.status==='研究用・未採用'));
+ assert.ok(rows.every(x=>x.rating==='未評価'));
+ assert.throws(()=>stage59ComparisonRows(stages,stage59Research.slice(0,1),{}),/Three verified/);
 });

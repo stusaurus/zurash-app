@@ -50,3 +50,27 @@ export function stage54ComparisonRows(campaignStages,remixStages,reviews){
    note:typeof record?.note==='string'?record.note:''};
  });
 }
+
+export function stage59ComparisonRows(campaignStages,remixStages,reviews){
+ const original=campaignStages.find(s=>s.chapter?.number===59);
+ if(!original||remixStages?.length!==2||remixStages.some(s=>s.chapter?.number!==59))
+  throw Error('Three verified stage59 candidates are required');
+ const ordered=[
+  {key:'original',stage:original,label:'現行59面',url:'./chapter-two.html?trial=1&practice=1&stage=59',status:'本編の現行候補'},
+  {key:'a',stage:remixStages[0],label:'改良案A',url:'./stage59-return-lab.html?stage=1',status:'研究用・未採用'},
+  {key:'b',stage:remixStages[1],label:'改良案B',url:'./stage59-return-lab.html?stage=2',status:'研究用・未採用'}
+ ];
+ const keys=ordered.map(x=>x.stage.id);
+ if(new Set(keys).size!==3||!remixStages.every(s=>s.status==='candidate'))
+  throw Error('Duplicate or non-candidate stage59 comparison');
+ return ordered.map(({key,stage,label,url,status})=>{
+  const record=reviews?.[stage.id]??null;
+  const actionCount=stage.proof.filter(a=>a.prep.type==='wall'||a.prep.type==='glove').length;
+  return {key,id:stage.id,label,url,status,title:stage.chapter.title,
+   minimumTurns:stage.challenge.minimumTurns,wallActions:actionCount,
+   hasReview:Boolean(record),rating:record?enjoyment[record.enjoyment]??'未評価':'未評価',
+   difficulty:record?difficulty[record.difficulty]??'未評価':'未評価',
+   insight:record?insights[record.insight]??'未評価':'未評価',
+   note:typeof record?.note==='string'?record.note:''};
+ });
+}

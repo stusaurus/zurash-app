@@ -17,6 +17,11 @@ for(const width of [320,390]){
   await expect(page.locator('#review-insight')).toBeVisible();
   await expect(page.locator('#fun-title')).toHaveText('氷海の壁リレー');
   await page.goto('/chapter-two-review.html');
+  await expect(page.locator('[data-variant59]')).toHaveCount(3);
+  await page.locator('[data-variant59="a"] a').click();
+  await expect(page.locator('#fun-title')).toHaveText('氷海の往復航路');
+  await expect(page.locator('#fun-warp-remaining')).toHaveText('2');
+  await page.goto('/chapter-two-review.html');
   await page.locator('[data-review-stage="54"] a.primary').click();
   await expect(page.locator('#fun-count')).toHaveText('STAGE 54');
   await expect(page.locator('#fun-title')).not.toHaveText('読み込み中…');
