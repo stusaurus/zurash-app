@@ -44,7 +44,7 @@ async function openStage(number) {
   }catch(error){tell('ステージを開けませんでした。通信を確認して、もう一度選んでください。',true);console.error(error);}
   finally{busy=false;}
 }
-function showHome(){document.querySelector('.game-panel').hidden=true;$('home-screen').hidden=false;houseView.renderHome();}
+function showHome(){const unlocked=chapter.stageIds.every(id=>Object.hasOwn(progress.completed,id));$('chapter-two-link').hidden=!unlocked;$('chapter-two-lock').textContent=unlocked?'第2章が解放されました！':'第1章50面をクリアすると第2章へ進めます。';document.querySelector('.game-panel').hidden=true;$('home-screen').hidden=false;houseView.renderHome();}
 function currentOptions(){return solved(state)?[]:successors(stage,state);}
 function renderModes(options) {
   const unlocked=itemsAvailableAt(campaign,homeSave.home.reached);

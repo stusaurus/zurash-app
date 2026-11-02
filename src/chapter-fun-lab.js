@@ -1,3 +1,5 @@
+import {loadHome,clears} from './puzzle/house.js';
+import {CHAPTER_TWO_KEY,newChapterTwo,canEnterTwo,checkpointTwo,loadChapterTwo,writeChapterTwo} from './puzzle/chapter-two-progress.js';
 import {initialPuzzle,validateStage} from './puzzle/schema.js';
 import {successors,applyPuzzle,solved,replay} from './puzzle/engine.js';
 import {validateChallenge,evaluateChallenge} from './puzzle/challenge-grade.js';
@@ -7,6 +9,8 @@ import {buildGateHints} from './puzzle/gate-hints.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
+const adventureMode=location.pathname.endsWith('/chapter-two.html');
+let chapterSave=newChapterTwo(),saveReadOnly=false;
 const longMode=location.pathname.endsWith('/long-lab.html');
 const itemMode=location.pathname.endsWith('/item-lab.html');
 const itemLongMode=location.pathname.endsWith('/item-long-lab.html');
@@ -14,9 +18,10 @@ const dualItemMode=location.pathname.endsWith('/dual-item-lab.html');
 const gateLongMode=location.pathname.endsWith('/gate-long-lab.html');
 const gateCycleMode=location.pathname.endsWith('/gate-cycle-lab.html');
 const gateClosureMode=location.pathname.endsWith('/gate-closure-lab.html');
+const gateGloveMode=location.pathname.endsWith('/gate-glove-lab.html');
 const gateWarpMode=location.pathname.endsWith('/gate-warp-lab.html');
-const gateMode=gateLongMode||gateCycleMode||gateClosureMode||gateWarpMode||location.pathname.endsWith('/gate-lab.html');
-const challengeMode=longMode||itemMode||gateMode||itemLongMode||dualItemMode;
+let gateMode=gateGloveMode||gateLongMode||gateCycleMode||gateClosureMode||gateWarpMode||location.pathname.endsWith('/gate-lab.html');
+const challengeMode=adventureMode||longMode||itemMode||gateMode||itemLongMode||dualItemMode;
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
 let activeMs=0,activeSince=null,hintUses=0,undoUses=0,hintLevel=0;
 // Session-only personal bests; never write to the real chapter save.
@@ -42,10 +47,11 @@ function showSelection(){
   const candidate=entries[n-1],best=sessionBestTurns.get(candidate.id);
   const button=document.createElement('button');
   button.type='button';
-  button.textContent=String(n);
+  button.textContent=String(adventureMode?candidate.chapter.number:n);
+  if(adventureMode)button.disabled=!canEnterTwo(entries,chapterSave,n-1);
   button.setAttribute('data-stage-choice',String(n));
   button.setAttribute('aria-current',n===number?'step':'false');
-  let label='候補ステージ'+n+(challengeMode?' '+candidate.chapter.title:'');
+  let label=(adventureMode?'ステージ'+candidate.chapter.number:'候補ステージ'+n)+(challengeMode?' '+candidate.chapter.title:'');
   if(challengeMode&&best!==undefined){
    const rank=evaluateChallenge(candidate,best).rank;
    const badge=document.createElement('span');
@@ -63,20 +69,29 @@ function showSelection(){
   $('stage-choices').append(button);
  }
  const progress=$('fun-progress');
- if(progress)progress.textContent='この試遊中の記録：クリア '+completed+'/'+entries.length+'面 ／ Sランク '+fullRank+'/'+entries.length+'面';
+ if(progress)progress.textContent=(adventureMode?'冒険の記録：クリア ':'この試遊中の記録：クリア ')+completed+'/'+entries.length+'面 ／ Sランク '+fullRank+'/'+entries.length+'面';
 }
-function setStage(n){
- if(busy||!entries[n-1])return;
+function persistAdventure(){
+ if(!adventureMode)return;
+ try{chapterSave=checkpointTwo(chapterSave,entries,stage,trace);if(!saveReadOnly)writeChapterTwo(localStorage,chapterSave);}
+ catch(e){saveReadOnly=true;$('save-status').textContent='保存できませんでした。この画面では遊べますが、再読み込みで進行が失われる場合があります。';}
+}
+function setStage(n,{resume=false}={}){
+ if(busy||!entries[n-1]||(adventureMode&&!canEnterTwo(entries,chapterSave,n-1)))return;
+ if(adventureMode)gateMode=entries[n-1].rulesVersion==='solo-v2-gate';
  number=n;stage=entries[n-1];state=gateMode?initialGate(stage):initialPuzzle(stage);trace=[];
+ if(adventureMode&&resume&&chapterSave.active?.id===stage.id){trace=structuredClone(chapterSave.active.actions);state=(gateMode?replayGate(stage,trace):replay(stage,trace)).state;}
+ persistAdventure();
  activeMs=0;activeSince=document.hidden?null:performance.now();hintUses=0;undoUses=0;hintLevel=0;
  mode='none';selectedWall=null;selectedPrep={type:'none'};busy=false;
  const query=new URL(location.href);
- query.searchParams.set('stage',String(n));
+ query.searchParams.set('stage',String(adventureMode?stage.chapter.number:n));
  history.replaceState(null,'',query.pathname+query.search);
  $('fun-result').hidden=true;$('fun-feedback').hidden=true;
  $('fun-feedback').replaceChildren();
  if(challengeMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
  showSelection();render();
+ if(adventureMode&&solved(state)){const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！';$('fun-finish').textContent=trace.length+'手でクリア！';$('fun-next').textContent=number<entries.length?'次のステージへ':'家に帰る';}
  say(gateMode?'氷扉は閉じている。✦スイッチの上に止まる方法を考えよう。':number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
 }
 function paintBoard(options){
@@ -88,7 +103,7 @@ function paintBoard(options){
  board.style.width=Math.floor(width)+'px';
  board.style.gridTemplateColumns='repeat('+w+',minmax(0,1fr))';
  board.setAttribute('data-stage',String(number));
- board.setAttribute('aria-label',w+'列'+h+'段の候補パズル');
+ board.setAttribute('aria-label',w+'列'+h+'段のパズル');
  const playable=new Set(stage.board.playableCells??Array.from({length:w*h},(_,i)=>i));
  const visual={position:state.position,walls:[...state.walls],ice:[...state.ice]};
  if(['wall','glove'].includes(selectedPrep?.type))visual.walls=visual.walls.map(c=>c===selectedPrep.from?selectedPrep.to:c);
@@ -133,14 +148,16 @@ function render(){
  }
 
  $('fun-title').textContent=stage.chapter.title;
- $('fun-count').textContent=number+' / '+entries.length;
+ $('fun-count').textContent=adventureMode?'STAGE '+stage.chapter.number:number+' / '+entries.length;
  $('fun-focus').textContent=stage.chapter.focus;
  $('fun-moves').textContent=trace.length;
  $('fun-stars').textContent=state.stars.length;
- $('fun-shifts').textContent=trace.filter(a=>a.prep.type==='wall').length;
+ $('fun-shifts').textContent=trace.filter(a=>['wall','glove'].includes(a.prep.type)).length;
+ if(adventureMode)for(const [item,type]of [['iceBlock','ice'],['powerGlove','glove'],['warpCrystal','warp']]){const b=document.querySelector('[data-fun-mode="'+type+'"]');if(b)b.textContent=modeNames[type]+'（残り '+state.inventory[item]+'）';}
  const warpRemaining=$('fun-warp-remaining');
  if(warpRemaining)warpRemaining.textContent=state.inventory.warpCrystal;
  const gateStatus=$('fun-gate-status');
+ if(gateStatus)gateStatus.hidden=!gateMode;
  if(gateStatus)gateStatus.textContent='氷の扉：'+(state.gateOpen?'開いている ◇':'閉じている ▦')+' ／ ✦スイッチで開閉';
  paintBoard(options);
  for(const button of document.querySelectorAll('[data-fun-mode]')){
@@ -198,7 +215,7 @@ async function takeStep(action){
  try{
   state=gateMode?applyGate(stage,state,action):applyPuzzle(stage,state,action);trace.push(action);
   mode='none';selectedWall=null;selectedPrep={type:'none'};
-  render();
+  persistAdventure();render();
   const afterSprite=$('fun-board').querySelector('.cell img');
   const finishRect=afterSprite?.getBoundingClientRect();
   if(startRect&&finishRect&&afterSprite&&typeof afterSprite.animate==='function'&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
@@ -237,7 +254,7 @@ async function takeStep(action){
     say('すべての星をゲット！');
    }
    $('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>a.prep.type==='wall').length+'回 ／ 考える＋操作する時間 '+formattedTime(elapsed)+' ／ Undo '+undoUses+'回 ／ ヒント '+hintUses+'回';
-   $('fun-next').textContent=number<entries.length?'次のステージへ':'最初からもう一度';
+   $('fun-next').textContent=number<entries.length?'次のステージへ':adventureMode?'家に帰る':'最初からもう一度';
   }else say(gateMode&&state.gateOpen!==gateWasOpen?(state.gateOpen?'カチッ！氷扉が開いた！ 通れる道が変わったよ。':'カチッ！氷扉が閉じた！ 止まる場所を考え直そう。'):'次の1手を考えよう。');
  }catch(e){console.error(e);say('操作を続けられませんでした。最初からやり直してみてください。',true);}
  finally{
@@ -263,7 +280,7 @@ function undo(){
  const wasSolved=solved(state);
  trace.pop();undoUses++;state=(gateMode?replayGate(stage,trace):replay(stage,trace)).state;mode='none';selectedWall=null;selectedPrep={type:'none'};
  if(wasSolved&&!document.hidden&&activeSince===null)activeSince=performance.now();
- $('fun-result').hidden=true;render();say('1手戻しました。');
+ $('fun-result').hidden=true;persistAdventure();render();say('1手戻しました。');
 }
 $('fun-tools').addEventListener('click',e=>{
  const b=e.target.closest('[data-fun-mode]');
@@ -308,7 +325,7 @@ $('fun-hint').addEventListener('click',()=>{
   });
  });
 });
-$('fun-next').addEventListener('click',()=>setStage(number===entries.length?1:number+1));
+$('fun-next').addEventListener('click',()=>{if(adventureMode&&number===entries.length){location.href='./adventure.html';return;}setStage(number===entries.length?1:number+1);});
 $('fun-again')?.addEventListener('click',()=>setStage(number));
 window.addEventListener('resize',()=>{if(stage)render();});
 document.addEventListener('keydown',e=>{
@@ -317,17 +334,31 @@ document.addEventListener('keydown',e=>{
  if(dir!==undefined&&selectedPrep&&!e.target.closest('button')){e.preventDefault();takeStep({prep:selectedPrep,dir});}
 });
 try{
- const res=await fetch(new URL(gateMode?(gateWarpMode?'data/chapters/chapter-02/gate-warp-candidates-v1.json':gateClosureMode?'data/chapters/chapter-02/gate-closure-candidates-v1.json':gateCycleMode?'data/chapters/chapter-02/gate-cycle-candidates-v1.json':gateLongMode?'data/chapters/chapter-02/gate-long-candidates-v1.json':'data/chapters/chapter-02/gate-candidates-v1.json'):dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
+ if(adventureMode&&new URLSearchParams(location.search).get('trial')!=='1'&&clears(loadHome(localStorage))<50){
+  $('fun-title').textContent='もうすぐ、新しい冒険へ';$('fun-focus').textContent='第1章50面をクリアすると、第2章が解放されます。';$('fun-board').hidden=true;$('fun-controls')?.setAttribute('hidden','');
+  for(const el of document.querySelectorAll('.fun-controls,.fun-actions,.fun-stats,.fun-gate-status'))el.hidden=true;
+  const link=document.createElement('a');link.href='./chapter-two.html?trial=1';link.textContent='第2章だけ先行試遊する';$('stage-choices').append(link);
+ }else{
+ const res=await fetch(new URL(adventureMode?'data/chapters/chapter-02/adventure-v1.json':gateMode?(gateGloveMode?'data/chapters/chapter-02/gate-glove-candidates-v1.json':gateWarpMode?'data/chapters/chapter-02/gate-warp-candidates-v1.json':gateClosureMode?'data/chapters/chapter-02/gate-closure-candidates-v1.json':gateCycleMode?'data/chapters/chapter-02/gate-cycle-candidates-v1.json':gateLongMode?'data/chapters/chapter-02/gate-long-candidates-v1.json':'data/chapters/chapter-02/gate-candidates-v1.json'):dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
  if(!res.ok)throw Error('HTTP '+res.status);
  const bundle=await res.json();
- if(bundle.version!==1||bundle.stages?.length!==(gateMode?1:dualItemMode?2:itemLongMode?3:itemMode?3:longMode?4:10))throw Error('候補データが不完全です');
+ if(bundle.version!==1||(!adventureMode&&bundle.stages?.length!==(gateMode?1:dualItemMode?2:itemLongMode?3:itemMode?3:longMode?4:10)))throw Error('候補データが不完全です');
  entries=bundle.stages;
  for(const s of entries){
-  if(gateMode)validateGateStage(s);else validateStage(s);
+  if(s.rulesVersion==='solo-v2-gate')validateGateStage(s);else validateStage(s);
   if(challengeMode&&!validateChallenge(s))throw Error('最短手数と合格手数の検証情報がありません');
  }
+ if(adventureMode){
+  try{chapterSave=loadChapterTwo(localStorage,entries);}
+  catch(e){saveReadOnly=true;$('save-status').textContent='保存データを読み込めませんでした。元の記録は保持しています。この試遊の記録は保存されません。';}
+  for(const [id,r]of Object.entries(chapterSave.completed))sessionBestTurns.set(id,r.bestTurns);
+ }
  const selected=Number(new URLSearchParams(location.search).get('stage'));
- setStage(Number.isInteger(selected)&&selected>=1&&selected<=entries.length?selected:1);
+ const activeIndex=entries.findIndex(s=>s.id===chapterSave.active?.id);
+ const desired=adventureMode?entries.findIndex(s=>s.chapter.number===selected)+1:selected;
+ const n=adventureMode?(desired>0&&canEnterTwo(entries,chapterSave,desired-1)?desired:activeIndex>=0?activeIndex+1:1):(Number.isInteger(desired)&&desired>=1&&desired<=entries.length?desired:1);
+ setStage(n,{resume:adventureMode});
+ }
 }catch(error){
  console.error(error);
  $('fun-title').textContent='候補を表示できませんでした';

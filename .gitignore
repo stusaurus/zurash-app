@@ -4,3 +4,5 @@ test-results/
 dist/
 # Uncompressed intermediate simulation traces; keep reproducible .jsonl.gz files.
 reports/*.jsonl
+
+playwright-chapter-report/
