@@ -39,3 +39,24 @@ export function loadChapterTwo(storage,entries,options={}){
  return raw===null?newChapterTwo():validateChapterTwo(JSON.parse(raw),entries,options);
 }
 export function writeChapterTwo(storage,save,options={}){storage.setItem(options.practice?practiceSaveKey:CHAPTER_TWO_KEY,JSON.stringify(save));}
+
+// Preserve an invalid/unknown-version record BEFORE explicitly resetting chapter two.
+// A write failure must leave the original key untouched. Never touch chapter one.
+export function recoverInvalidChapterTwo(storage,entries,options={}){
+ const key=options.practice?practiceSaveKey:CHAPTER_TWO_KEY,raw=storage.getItem(key);
+ if(raw===null)throw Error('No chapter-two save to recover');
+ try{loadChapterTwo(storage,entries,options);}catch(_){
+  const root=key+':invalid-backup';
+  let suffix=1;
+  while(storage.getItem(root+':'+suffix)!==null){
+   suffix++;
+   if(suffix>10000)throw Error('Too many chapter-two backups');
+  }
+  const backupKey=root+':'+suffix;
+  storage.setItem(backupKey,raw);
+  const fresh=newChapterTwo();
+  storage.setItem(key,JSON.stringify(fresh));
+  return {save:fresh,backupKey};
+ }
+ throw Error('Chapter-two save is valid; recovery is unnecessary');
+}

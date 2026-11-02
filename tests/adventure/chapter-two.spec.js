@@ -62,6 +62,8 @@ for(const width of [320,390,1440])test('chapter two adventure: direct practice70
   }
  }
  await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+ await expect(page.locator('#chapter-story-title')).toHaveText('第2章・全20ステージクリア！');
+ await expect(page.locator('#chapter-story')).toBeVisible();
  expect(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'))).toBe(original);
  await page.locator('.chapter-map summary').click();
  await expect(page.locator('[data-stage-choice="1"]')).toBeEnabled();
@@ -73,4 +75,37 @@ test('chapter two adventure: deployed clean URL keeps chapter mode and direct pr
  await page.goto('/chapter-two?trial=1&practice=1&stage=70');
  await expect(page.locator('#fun-title')).toHaveText(stages.find(s=>s.chapter.number===70).chapter.title);
  await expect(page.locator('#fun-count')).toHaveText('STAGE 70');
+});
+
+test('chapter two adventure: invalid save can be downloaded then deliberately recovered without touching house',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/chapter-two.html?trial=1');
+ const invalid='{"version":999,"opaque":"do not destroy"}';
+ await page.evaluate(({raw})=>{
+  localStorage.setItem('zurash-app:chapter-two-preview:v1',raw);
+  localStorage.setItem('zurash-app:home-preview:ice-town:v2','keep-chapter-one');
+ },{raw:invalid});
+ await page.reload();
+ await expect(page.locator('#save-recovery')).toBeVisible();
+ await expect(page.locator('#save-status')).toContainText('上書きしません');
+ const output=page.waitForEvent('download');
+ await page.locator('#download-invalid-save').click();
+ const downloaded=await output;expect(downloaded.suggestedFilename()).toContain('original-record.txt');
+ expect(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'))).toBe(invalid);
+ page.once('dialog',dialog=>dialog.accept());
+ await page.locator('#reset-invalid-save').click();
+ await expect(page.locator('#save-recovery')).toBeHidden();
+ await expect(page.locator('#fun-title')).toHaveText(stages[0].chapter.title);
+ await expect(page.locator('#save-status')).toContainText('元の記録は');
+ const result=await page.evaluate(()=>{
+  const key='zurash-app:chapter-two-preview:v1';
+  const backupKey=Object.keys(localStorage).find(s=>s.startsWith(key+':invalid-backup:'));
+  return {saved:localStorage.getItem(key),backup:backupKey?localStorage.getItem(backupKey):null,house:localStorage.getItem('zurash-app:home-preview:ice-town:v2')};
+ });
+ expect(JSON.parse(result.saved)).toEqual({version:1,completed:{},active:{id:stages[0].id,revision:stages[0].revision,actions:[]}});
+ expect(result.backup).toBe(invalid);
+ expect(result.house).toBe('keep-chapter-one');
+ await page.reload();
+ await expect(page.locator('#fun-title')).toHaveText(stages[0].chapter.title);
+ await expect(page.locator('#save-recovery')).toBeHidden();
 });

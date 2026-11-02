@@ -1,5 +1,6 @@
 import {loadHome,clears} from './puzzle/house.js';
-import {CHAPTER_TWO_KEY,newChapterTwo,canEnterTwo as canEnterTwoBase,checkpointTwo,loadChapterTwo,writeChapterTwo} from './puzzle/chapter-two-progress.js';
+import {CHAPTER_TWO_KEY,practiceSaveKey,newChapterTwo,canEnterTwo as canEnterTwoBase,checkpointTwo,loadChapterTwo,writeChapterTwo,recoverInvalidChapterTwo} from './puzzle/chapter-two-progress.js';
+import {chapterTwoMilestone} from './puzzle/chapter-two-story.js';
 import {initialPuzzle,validateStage} from './puzzle/schema.js';
 import {successors,applyPuzzle,solved,replay} from './puzzle/engine.js';
 import {validateChallenge,evaluateChallenge} from './puzzle/challenge-grade.js';
@@ -74,6 +75,15 @@ function showSelection(){
  const progress=$('fun-progress');
  if(progress)progress.textContent=(adventureMode?'冒険の記録：クリア ':'この試遊中の記録：クリア ')+completed+'/'+entries.length+'面 ／ Sランク '+fullRank+'/'+entries.length+'面';
 }
+function updateChapterStory(){
+ const panel=$('chapter-story');if(!panel)return;
+ const milestone=adventureMode&&stage&&solved(state)?chapterTwoMilestone(stage.chapter.number):null;
+ panel.hidden=!milestone;
+ if(milestone){
+  $('chapter-story-title').textContent=milestone.title;
+  $('chapter-story-text').textContent=milestone.body;
+ }
+}
 function persistAdventure(){
  if(!adventureMode)return;
  try{chapterSave=checkpointTwo(chapterSave,entries,stage,trace,saveOptions);if(!saveReadOnly)writeChapterTwo(localStorage,chapterSave,saveOptions);}
@@ -93,7 +103,7 @@ function setStage(n,{resume=false}={}){
  $('fun-result').hidden=true;$('fun-feedback').hidden=true;
  $('fun-feedback').replaceChildren();
  if(challengeMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
- showSelection();render();
+ showSelection();render();updateChapterStory();
  if(adventureMode&&solved(state)){const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！';$('fun-rank').dataset.rank=grade.rank;$('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';$('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回';$('fun-next').textContent=number<entries.length?'次のステージへ':'家に帰る';}
  say(solved(state)?'クリアした記録から再開しました。':gateMode?(state.gateOpen?'氷扉が開いている。続きの1手を考えよう。':'氷扉は閉じている。✦スイッチの上に止まる方法を考えよう。'):number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
 }
@@ -237,7 +247,7 @@ async function takeStep(action){
    box?.classList.add('land');
   }
   if(solved(state)){
-   $('fun-result').hidden=false;
+   $('fun-result').hidden=false;updateChapterStory();
    const elapsed=activeTime();activeMs=elapsed;activeSince=null;
    const grade=evaluateChallenge(stage,trace.length);
    if(grade){
@@ -283,7 +293,7 @@ function undo(){
  const wasSolved=solved(state);
  trace.pop();undoUses++;state=(gateMode?replayGate(stage,trace):replay(stage,trace)).state;mode='none';selectedWall=null;selectedPrep={type:'none'};
  if(wasSolved&&!document.hidden&&activeSince===null)activeSince=performance.now();
- $('fun-result').hidden=true;persistAdventure();render();say('1手戻しました。');
+ $('fun-result').hidden=true;persistAdventure();render();updateChapterStory();say('1手戻しました。');
 }
 $('fun-tools').addEventListener('click',e=>{
  const b=e.target.closest('[data-fun-mode]');
@@ -330,6 +340,31 @@ $('fun-hint').addEventListener('click',()=>{
 });
 $('fun-next').addEventListener('click',()=>{if(adventureMode&&number===entries.length){location.href='./adventure.html';return;}setStage(number===entries.length?1:number+1);});
 $('fun-again')?.addEventListener('click',()=>setStage(number));
+$('download-invalid-save')?.addEventListener('click',()=>{
+ try{
+  const raw=localStorage.getItem(saveOptions.practice?practiceSaveKey:CHAPTER_TWO_KEY);
+  if(raw===null)throw Error('No saved record');
+  const url=URL.createObjectURL(new Blob([raw],{type:'text/plain;charset=utf-8'}));
+  const a=document.createElement('a');
+  a.href=url;a.download='zurash-chapter-two-'+(saveOptions.practice?'practice-':'')+'original-record.txt';
+  document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  $('save-status').textContent='元の記録をテキストファイルに保存しました。記録はまだ変更していません。';
+ }catch(e){$('save-status').textContent='記録を書き出せませんでした。元の保存データは変更していません。';}
+});
+$('reset-invalid-save')?.addEventListener('click',()=>{
+ if(!confirm('第2章の記録を作り直しますか？ 元の記録は別のキーへ退避します。第1章の家や星には影響しません。'))return;
+ try{
+  const {save,backupKey}=recoverInvalidChapterTwo(localStorage,entries,saveOptions);
+  chapterSave=save;saveReadOnly=false;sessionBestTurns.clear();
+  $('save-recovery').hidden=true;
+  $('save-status').textContent='第2章の記録を復旧しました。元の記録はこの端末の '+backupKey+' に退避しました。';
+  setStage(1);
+ }catch(e){
+  saveReadOnly=true;
+  $('save-status').textContent='復旧できませんでした。元の記録はそのままです。空き容量を確認し、必要なら記録を書き出してください。';
+ }
+});
 window.addEventListener('resize',()=>{if(stage)render();});
 document.addEventListener('keydown',e=>{
  if(!stage||busy)return;
@@ -354,7 +389,7 @@ try{
  if(adventureMode){
   if(saveOptions.practice)$('save-status').textContent='自由試遊：好きな面を選べます。冒険の進行とは別に記録します。';
   try{chapterSave=loadChapterTwo(localStorage,entries,saveOptions);}
-  catch(e){saveReadOnly=true;$('save-status').textContent='保存データを読み込めませんでした。元の記録は保持しています。この試遊の記録は保存されません。';}
+  catch(e){saveReadOnly=true;$('save-status').textContent='第2章の保存データを読み込めませんでした。元の記録は保持しています。復旧操作を選ぶまで上書きしません。';if($('save-recovery'))$('save-recovery').hidden=false;}
   for(const [id,r]of Object.entries(chapterSave.completed))sessionBestTurns.set(id,r.bestTurns);
  }
  const selected=Number(new URLSearchParams(location.search).get('stage'));

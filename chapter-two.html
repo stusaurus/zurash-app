@@ -125,6 +125,15 @@ body{margin:0}
 .fun-stats{padding:3px;font-size:10px;margin:4px 0}.fun-stats b{font-size:15px}.fun-prompt{padding:4px;margin:4px 0;font-size:11px}
 .fun-controls{padding:5px 0}.fun-tools{grid-template-columns:repeat(2,minmax(0,1fr))}.fun-tools button{min-height:44px;padding:4px;font-size:11px}.fun-actions{margin-top:4px}.fun-actions button{min-height:44px}
 .fun-meta h1{font-size:19px}.fun-shell{padding-bottom:max(40px,env(safe-area-inset-bottom))}
+.chapter-story{margin:12px auto 0;max-width:520px;padding:15px 13px;border:2px solid #ecc478;border-radius:15px;
+ background:linear-gradient(135deg,#fff8dc,#d7efff);box-shadow:0 4px 14px #2c659022;text-align:center}
+.chapter-story strong{display:block;color:#97600e;font-size:clamp(17px,4.6vw,22px);line-height:1.5}
+.chapter-story p{font-size:12px;line-height:1.8;color:#265c7c;margin:8px 0 0}
+.save-recovery{border:2px solid #d69b5b;border-radius:12px;background:#fff6de;padding:12px;margin:7px 0;color:#775021}
+.save-recovery strong{display:block;font-size:14px}
+.save-recovery p{font-size:12px;line-height:1.65;margin:5px 0 9px}
+.save-recovery button{min-height:44px;border-radius:9px;border:1px solid #8c9fb4;background:#fff;color:#1d5683;font-size:12px;font-weight:800;padding:7px 9px;margin:3px}
+.save-recovery #reset-invalid-save{background:#f8e7cf;border-color:#ae8a57;color:#775021}
 </style>
 </head>
 <body>
@@ -137,6 +146,12 @@ body{margin:0}
 <section class="game-panel fun-card" aria-label="実験パズル">
 <details class="chapter-map"><summary>ステージを選ぶ・冒険の記録</summary><nav class="fun-selector" id="stage-choices" aria-label="ステージ選択"></nav><a href="./chapter-two.html?trial=1&practice=1&stage=60">新しい60〜70面を自由試遊</a></details>
 <p id="save-status" role="status" class="fun-warning"></p>
+<section id="save-recovery" class="save-recovery" hidden aria-label="保存データを安全に復旧">
+ <strong>第2章の保存記録を読み込めませんでした</strong>
+ <p>古い形式や壊れた記録は勝手に削除しません。記録を書き出すか、元の内容を別に退避して第2章だけ最初から始められます。第1章の家や星には影響しません。</p>
+ <button type="button" id="download-invalid-save">元の記録をダウンロード</button>
+ <button type="button" id="reset-invalid-save">第2章の記録を復旧する</button>
+</section>
 <p id="fun-progress" class="fun-progress" role="status">この試遊中の記録：クリア 0/1面 ／ Sランク 0/1面</p>
 <div class="fun-meta"><h1 id="fun-title">読み込み中…</h1><span id="fun-count" class="counter">1 / 1</span></div>
 <p class="fun-focus" id="fun-focus"></p><p id="fun-gate-status" class="fun-gate-status" aria-live="polite">氷の扉：閉じている ▦</p>
@@ -177,6 +192,9 @@ body{margin:0}
  <p id="fun-benchmark"></p>
  <p id="fun-next-objective" aria-live="polite"></p>
  <p id="fun-finish"></p>
+ <section id="chapter-story" class="chapter-story" hidden aria-label="冒険の節目">
+  <strong id="chapter-story-title"></strong><p id="chapter-story-text"></p>
+ </section>
  <div class="fun-result-buttons">
   <button type="button" id="fun-again" class="fun-again">もう一度挑戦</button>
   <button type="button" id="fun-next">次のステージへ</button>
