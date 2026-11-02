@@ -14,6 +14,8 @@ on:
       - 'tests/chapter-two-progress.test.js'
       - 'tests/chapter-two-playtest.test.js'
       - 'tests/chapter-two-review-summary.test.js'
+      - 'tests/chapter-two-pattern-audit.test.js'
+      - 'scripts/chapter-two-pattern-audit.js'
       - 'tests/adventure/review-hub.spec.js'
       - 'chapter-two-review.html'
       - 'chapter-two-review.css'
@@ -69,8 +71,10 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js tests/gate-long.test.js tests/gate-cycle.test.js tests/gate-closure.test.js tests/gate-warp.test.js tests/gate-glove.test.js tests/chapter-two-progress.test.js tests/chapter-two-playtest.test.js tests/chapter-two-review-summary.test.js tests/chapter-two-stages.test.js tests/expedition.test.js
+      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js tests/gate-long.test.js tests/gate-cycle.test.js tests/gate-closure.test.js tests/gate-warp.test.js tests/gate-glove.test.js tests/chapter-two-progress.test.js tests/chapter-two-playtest.test.js tests/chapter-two-review-summary.test.js tests/chapter-two-pattern-audit.test.js tests/chapter-two-stages.test.js tests/expedition.test.js
       - run: node scripts/chapter-two-certify.js
+      - name: Audit human-review-priority patterns without altering stage data
+        run: node scripts/chapter-two-pattern-audit.js
       - run: npx playwright install --with-deps chromium webkit
       - name: Test item, switch gate and CPU trial pages (Chromium / WebKit)
         run: npx playwright test -c playwright.chapter.config.js -g "expedition rewards|chapter two adventure|review hub|item laboratory|CPU rival|switch gate|item long trials|dual item trials|gate long trials|gate cycle trials|gate closure trials|gate warp trials" --output=test-results-chapter-two
