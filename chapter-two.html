@@ -116,6 +116,15 @@ body{margin:0}
 .fun-board .gate-indicator{color:#f1e2ff}.fun-board .switch-indicator{color:#c48116}
 .fun-board .gate-tile:not(.gate-closed) .gate-indicator{opacity:.5}
 .fun-board .cell img{z-index:4}
+
+/* Keep the ice field and controls close together on a phone. */
+.fun-head img{width:140px;max-height:52px}.fun-banner{margin:0;font-size:10px}.fun-banner strong{font-size:12px}
+.chapter-map summary{min-height:44px;display:flex;align-items:center;justify-content:center;color:#195e90;font-size:12px;font-weight:800;cursor:pointer}
+.fun-progress{font-size:10px;padding:2px;margin-bottom:5px}.fun-focus{font-size:11px;margin:4px 0;line-height:1.4}.fun-gate-status{font-size:11px;padding:3px;margin:3px 0}
+.fun-goal{padding:3px 6px;margin:4px 0}.fun-goal strong{font-size:15px}.fun-goal small{display:none}.fun-goal #fun-remaining{font-size:10px}
+.fun-stats{padding:3px;font-size:10px;margin:4px 0}.fun-stats b{font-size:15px}.fun-prompt{padding:4px;margin:4px 0;font-size:11px}
+.fun-controls{padding:5px 0}.fun-tools{grid-template-columns:repeat(2,minmax(0,1fr))}.fun-tools button{min-height:44px;padding:4px;font-size:11px}.fun-actions{margin-top:4px}.fun-actions button{min-height:44px}
+.fun-meta h1{font-size:19px}.fun-shell{padding-bottom:max(40px,env(safe-area-inset-bottom))}
 </style>
 </head>
 <body>
@@ -126,7 +135,7 @@ body{margin:0}
 <a href="./adventure.html">トリケンの家へ</a>
 </header>
 <section class="game-panel fun-card" aria-label="実験パズル">
-<nav class="fun-selector" id="stage-choices" aria-label="実験ステージ選択"></nav>
+<details class="chapter-map"><summary>ステージを選ぶ・冒険の記録</summary><nav class="fun-selector" id="stage-choices" aria-label="ステージ選択"></nav></details>
 <p id="save-status" role="status" class="fun-warning"></p>
 <p id="fun-progress" class="fun-progress" role="status">この試遊中の記録：クリア 0/1面 ／ Sランク 0/1面</p>
 <div class="fun-meta"><h1 id="fun-title">読み込み中…</h1><span id="fun-count" class="counter">1 / 1</span></div>

@@ -96,7 +96,7 @@ function setStage(n,{resume=false}={}){
 }
 function paintBoard(options){
  const w=stage.board.width,h=stage.board.height;
- const maxH=Math.min(390,Math.max(270,innerHeight*.40));
+ const maxH=adventureMode?Math.min(350,Math.max(230,innerHeight*.32)):Math.min(390,Math.max(270,innerHeight*.40));
  const availableWidth=Math.min(innerWidth-52,460);
  const width=Math.min(availableWidth,((maxH-26)/h)*w+26);
  const board=$('fun-board');
@@ -143,7 +143,7 @@ function render(){
    $('fun-remaining').textContent=rest>=0?'合格ラインまで残り '+rest+'手':'合格ラインを '+Math.abs(rest)+'手超過';
    $('fun-remaining').dataset.over=String(rest<0);
    const best=sessionBestTurns.get(stage.id);
-   $('fun-best').textContent=best===undefined?'':'今回の試遊での自己ベスト '+best+'手';
+   $('fun-best').textContent=best===undefined?'':(adventureMode?'自己ベスト ':'今回の試遊での自己ベスト ')+best+'手';
   }
  }
 
@@ -337,7 +337,7 @@ try{
  if(adventureMode&&new URLSearchParams(location.search).get('trial')!=='1'&&clears(loadHome(localStorage))<50){
   $('fun-title').textContent='もうすぐ、新しい冒険へ';$('fun-focus').textContent='第1章50面をクリアすると、第2章が解放されます。';$('fun-board').hidden=true;$('fun-controls')?.setAttribute('hidden','');
   for(const el of document.querySelectorAll('.fun-controls,.fun-actions,.fun-stats,.fun-gate-status'))el.hidden=true;
-  const link=document.createElement('a');link.href='./chapter-two.html?trial=1';link.textContent='第2章だけ先行試遊する';$('stage-choices').append(link);
+  const link=document.createElement('a');link.href='./chapter-two.html?trial=1';link.textContent='第2章だけ先行試遊する';$('stage-choices').append(link);$('stage-choices').closest('details')?.setAttribute('open','');
  }else{
  const res=await fetch(new URL(adventureMode?'data/chapters/chapter-02/adventure-v1.json':gateMode?(gateGloveMode?'data/chapters/chapter-02/gate-glove-candidates-v1.json':gateWarpMode?'data/chapters/chapter-02/gate-warp-candidates-v1.json':gateClosureMode?'data/chapters/chapter-02/gate-closure-candidates-v1.json':gateCycleMode?'data/chapters/chapter-02/gate-cycle-candidates-v1.json':gateLongMode?'data/chapters/chapter-02/gate-long-candidates-v1.json':'data/chapters/chapter-02/gate-candidates-v1.json'):dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
  if(!res.ok)throw Error('HTTP '+res.status);
