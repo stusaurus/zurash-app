@@ -39,7 +39,48 @@ for(const width of [320,390]){
 }
 test('stage54 remix: page two direct selection and comparison links',async({page})=>{
  await page.goto('/chapter-two-review.html');
- await expect(page.locator('#stage54-remix-compare a')).toHaveCount(2);
- await page.locator('#stage54-remix-compare a').nth(1).click();
+ await expect(page.locator('#stage54-remix-compare a')).toHaveCount(3);
+ await page.locator('[data-variant="b"] a').click();
  await expect(page.locator('#fun-title')).toHaveText(pack.stages[1].chapter.title);
+});
+
+for(const width of [320,390])test('stage54 review: independent original A/B ratings and insight at '+width+'px',async({page})=>{
+ await page.setViewportSize({width,height:844});
+ await page.goto('/stage54-remix-lab.html?stage=1');
+ const campaign=await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'));
+ await page.locator('#playtest-review summary').click();
+ await page.locator('#review-enjoyment').selectOption('fun');
+ await page.locator('#review-difficulty').selectOption('balanced');
+ await page.locator('#review-insight').selectOption('strong');
+ await page.locator('#review-note').fill('Aは壁の移動を考えるのがよかった');
+ await page.locator('#playtest-form button[type="submit"]').click();
+ await expect(page.locator('#review-status')).toContainText('保存しました');
+ await page.locator('#stage-choices [data-stage-choice="2"]').click();
+ await expect(page.locator('#review-enjoyment')).toHaveValue('');
+ await page.locator('#review-enjoyment').selectOption('okay');
+ await page.locator('#review-difficulty').selectOption('hard');
+ await page.locator('#review-insight').selectOption('some');
+ await page.locator('#review-note').fill('Bは少し難しかった');
+ await page.locator('#playtest-form button[type="submit"]').click();
+ await page.goto('/chapter-two-review.html');
+ await expect(page.locator('[data-variant]')).toHaveCount(3);
+ await expect(page.locator('#stage54-compare-status')).toContainText('2案の感想');
+ await expect(page.locator('[data-variant-review="original"]')).toHaveText('感想：未評価');
+ await expect(page.locator('[data-variant-review="a"]')).toContainText('発見があって気持ちよかった');
+ await expect(page.locator('[data-variant-review="b"]')).toContainText('少し発見があった');
+ await expect(page.locator('[data-variant-note="a"]')).toHaveText('Aは壁の移動を考えるのがよかった');
+ await expect(page.locator('[data-variant-note="b"]')).toHaveText('Bは少し難しかった');
+ await page.locator('[data-variant="original"] a').click();
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 54');
+ await page.locator('#playtest-review summary').click();
+ await page.locator('#review-enjoyment').selectOption('fun');
+ await page.locator('#review-insight').selectOption('strong');
+ await page.locator('#playtest-form button[type="submit"]').click();
+ await page.goto('/chapter-two-review.html');
+ await expect(page.locator('#stage54-compare-status')).toContainText('3案の感想');
+ await expect(page.locator('[data-variant-review="original"]')).toContainText('発見があって気持ちよかった');
+ const data=await page.evaluate(()=>JSON.parse(localStorage.getItem('zurash-app:chapter-two-playtest-review:v1')));
+ expect(Object.keys(data.reviews)).toHaveLength(3);
+ expect(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'))).toBe(campaign);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });

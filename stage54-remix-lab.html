@@ -107,6 +107,18 @@ body{margin:0}
 .fun-board .cell img{position:relative;z-index:3}
 .fun-tools{gap:5px}
 .fun-tools button{min-height:43px}
+.playtest-review{border:1px solid #b4d0e2;border-radius:13px;background:#eaf6ffdb;padding:7px 10px;margin:11px 0;color:#1e5b84}
+.playtest-review summary{min-height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:850}
+.playtest-review p{font-size:11px;line-height:1.6}
+.playtest-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.playtest-review label{font-size:12px;font-weight:800}
+.playtest-review select,.playtest-review textarea{display:block;min-width:0;width:100%;margin:4px 0;padding:10px;border-radius:9px;border:1px solid #91b6d4;background:#fff;color:#214d73;font:inherit;font-size:13px}
+.playtest-review textarea{resize:vertical;min-height:70px}
+.playtest-review button{min-height:44px;border:1px solid #85b2d1;background:#fff;border-radius:9px;padding:8px;font-weight:800;font-size:12px;color:#195c92;margin:3px}
+.playtest-review button[type=submit]{background:#2c8dcc;border-color:#1875aa;color:#fff}
+@media(max-width:370px){.playtest-fields{grid-template-columns:1fr}}
+
+.fun-compare-link{display:block;text-align:center;min-height:44px;padding:12px 6px;border:1px solid #82bfe2;background:#e4f6ff;color:#13588f;font-size:13px;font-weight:850;border-radius:12px;margin-top:10px;text-decoration:none}
 </style>
 </head>
 <body>
@@ -164,6 +176,36 @@ body{margin:0}
  </div>
 </div>
 <div id="fun-feedback" class="fun-feedback" role="status" aria-live="polite" hidden></div>
+<details class="playtest-review" id="playtest-review">
+ <summary>📝 この面の感想を記録（任意）</summary>
+ <p>正解・不正解とは別に、遊んだ感想を残せます。端末内にだけ保存し、自動送信はしません。クリアできなくても評価できます。</p>
+ <form id="playtest-form">
+  <div class="playtest-fields">
+   <label>面白さ
+    <select id="review-enjoyment" required>
+     <option value="">選んでください</option><option value="fun">面白かった</option><option value="okay">ふつう</option><option value="poor">改善してほしい</option>
+    </select>
+   </label>
+   <label>難しさ（任意）
+    <select id="review-difficulty">
+     <option value="">未評価</option><option value="easy">簡単</option><option value="balanced">ちょうどいい</option><option value="hard">難しい</option>
+    </select>
+   </label>
+  </div>
+  <label>ひらめきの手応え（任意）
+   <select id="review-insight">
+    <option value="">未評価</option><option value="strong">発見があって気持ちよかった</option><option value="some">少し発見があった</option><option value="none">作業に感じた</option>
+   </select>
+  </label>
+  <label>気になった点（任意・300文字まで）
+   <textarea id="review-note" maxlength="300" placeholder="面白かった手順、分かりにくい操作、難しすぎたところなど"></textarea>
+  </label>
+  <button type="submit">この面の感想を保存</button>
+ </form>
+ <button type="button" id="export-playtest-reviews">感想をまとめて保存（共有用JSON）</button>
+ <p id="review-status" role="status" aria-live="polite"></p>
+</details>
+<a href="./chapter-two-review.html#stage54-remix-compare" class="fun-compare-link">← 54面・A・Bの評価を並べて見る</a>
 <p class="fun-warning">第54面の改良研究候補A/Bです。アイス・ワープ・壁移動がすべて必要。元の54面（19手・壁移動0回）は本編に残しています。この研究試遊のクリアは結晶・灯り・家づくりに反映されません。人間試遊前の未採用案です。</p>
 </section>
 </main>

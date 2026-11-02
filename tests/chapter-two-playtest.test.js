@@ -26,3 +26,15 @@ test('invalid input and text longer than 300 characters are rejected',()=>{
  assert.throws(()=>recordChapterTwoReview(storage,stage,{enjoyment:'fun',difficulty:'bad'}));
  assert.throws(()=>recordChapterTwoReview(storage,stage,{enjoyment:'fun',note:'x'.repeat(301)}));
 });
+
+test('legacy records without insight load, new insight saves under same key',()=>{
+ const old={version:1,reviews:{'gate-cycle-57-v1':{title:'old',number:57,enjoyment:'fun',difficulty:'hard',note:'old',savedAt:'2026-11-02T01:00:00.000Z'}}};
+ const map=new Map([[CHAPTER_TWO_REVIEW_KEY,JSON.stringify(old)],['zurash-app:chapter-two-preview:v1','campaign']]);
+ const storage={getItem:k=>map.get(k)??null,setItem:(k,v)=>map.set(k,v)};
+ assert.equal(loadChapterTwoReviews(storage).reviews[stage.id].insight,undefined);
+ recordChapterTwoReview(storage,stage,{enjoyment:'okay',difficulty:'balanced',insight:'strong',note:'発見'},{now:'2026-11-02T01:03:00.000Z'});
+ assert.equal(loadChapterTwoReviews(storage).reviews[stage.id].insight,'strong');
+ assert.equal(map.get('zurash-app:chapter-two-preview:v1'),'campaign');
+ assert.equal(JSON.parse(exportChapterTwoReviews(storage)).reviews[stage.id].insight,'strong');
+ assert.throws(()=>recordChapterTwoReview(storage,stage,{enjoyment:'fun',insight:'invalid'}),/Invalid/);
+});

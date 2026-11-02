@@ -1,11 +1,14 @@
 import {loadChapterTwoReviews,exportChapterTwoReviews} from './puzzle/chapter-two-playtest.js';
 import {loadChapterTwo} from './puzzle/chapter-two-progress.js';
-import {REVIEW_STAGES,reviewCards} from './puzzle/chapter-two-review-summary.js';
+import {REVIEW_STAGES,reviewCards,stage54ComparisonRows} from './puzzle/chapter-two-review-summary.js';
 const $=id=>document.getElementById(id);
 const root=new URL('../',import.meta.url);
 const data=await fetch(new URL('data/chapters/chapter-02/adventure-v1.json',root));
 if(!data.ok)throw Error('Comparison stage data: HTTP '+data.status);
 const {stages}=await data.json();
+const remixResponse=await fetch(new URL('data/chapters/chapter-02/stage54-remix-candidates-v1.json',root));
+if(!remixResponse.ok)throw Error('Stage54 remixes: HTTP '+remixResponse.status);
+const {stages:remixStages}=await remixResponse.json();
 const container=$('review-cards');
 const make=(tag,cls,content)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(content!==undefined)el.textContent=content;return el;};
 function readCompleted(practice){
@@ -48,6 +51,23 @@ function render(){
   card.append(actions);
   container.append(card);
  }
+ const comparisons=stage54ComparisonRows(stages,remixStages,reviews);
+ const comparisonList=$('stage54-variants');comparisonList.replaceChildren();
+ for(const row of comparisons){
+  const card=make('article','card');card.dataset.variant=row.key;
+  card.append(make('span','stage',row.label+' · '+row.status),make('h3','',row.title));
+  card.append(make('p','metric','最短'+row.minimumTurns+'手 ／ 壁・グローブ操作'+row.wallActions+'回'));
+  const result=make('p','metric',row.hasReview?
+    '面白さ：'+row.rating+' ／ 難しさ：'+row.difficulty+' ／ ひらめき：'+row.insight:'感想：未評価');
+  result.dataset.variantReview=row.key;card.append(result);
+  if(row.note){const note=make('p','note',row.note);note.dataset.variantNote=row.key;card.append(note);}
+  const link=make('a','variant-play','この案を遊んで感想を残す');link.href=row.url;card.append(link);
+  comparisonList.append(card);
+ }
+ const ratedComparisons=comparisons.filter(r=>r.hasReview).length;
+ $('stage54-compare-status').textContent='54面の3案中 '+ratedComparisons+'案の感想を記録。'+(ratedComparisons===3?
+  '3案の記録がそろいました。どれが面白いか比較して判断してください。':
+  '現行案・A・Bをそれぞれ試してください。');
  const reviewed=rows.filter(r=>r.hasReview).length;
  $('review-summary').textContent='3面中 '+reviewed+'面の感想を記録しました。'+(reviewed===3?'比較用の記録がそろいました。':'どの順番でも遊べます。');
  $('export-review').disabled=!reviewed||!$('review-error').hidden;

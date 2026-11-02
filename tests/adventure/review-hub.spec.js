@@ -6,6 +6,7 @@ for(const width of [320,390]){
   page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});
   await page.goto('/chapter-two-review.html');
   await expect(page.locator('[data-review-stage]')).toHaveCount(3);
+  await expect(page.locator('[data-variant]')).toHaveCount(3);
   await expect(page.locator('#review-summary')).toContainText('0面の感想');
   await expect(page.locator('#export-review')).toBeDisabled();
   await expect(page.locator('[data-review-stage="54"]')).toContainText('STAGE 54');

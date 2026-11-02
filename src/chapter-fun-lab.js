@@ -91,12 +91,13 @@ function showExpeditionReward(before=null){
 }
 function updateReviewForm(){
  const form=$('playtest-form');if(!form||!stage)return;
- $('review-enjoyment').value='';$('review-difficulty').value='';$('review-note').value='';
+ $('review-enjoyment').value='';$('review-difficulty').value='';$('review-insight').value='';$('review-note').value='';
  try{
   const row=loadChapterTwoReviews(localStorage).reviews[stage.id];
   if(row){
    $('review-enjoyment').value=row.enjoyment;
    $('review-difficulty').value=row.difficulty??'';
+   $('review-insight').value=row.insight??'';
    $('review-note').value=row.note;
    $('review-status').textContent='このステージの評価は保存済みです。変更して再保存できます。';
   }else $('review-status').textContent='この感想は端末内だけに保存されます。ステージを途中でやめても記録できます。';
@@ -379,6 +380,7 @@ $('playtest-form')?.addEventListener('submit',e=>{
   recordChapterTwoReview(localStorage,stage,{
    enjoyment:$('review-enjoyment').value,
    difficulty:$('review-difficulty').value||null,
+   insight:$('review-insight').value||null,
    note:$('review-note').value
   });
   $('review-status').textContent='このステージの感想を端末内に保存しました。必要なら「感想をまとめて保存」から共有できます。';

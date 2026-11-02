@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import fs from 'node:fs';import {reviewCards,REVIEW_STAGES} from '../src/puzzle/chapter-two-review-summary.js';
+import fs from 'node:fs';import {reviewCards,REVIEW_STAGES,stage54ComparisonRows} from '../src/puzzle/chapter-two-review-summary.js';
 const stages=JSON.parse(fs.readFileSync(new URL('../data/chapters/chapter-02/adventure-v1.json',import.meta.url))).stages;
 test('three comparison stages are exactly 54, 57, 59, keeping official stage names',()=>{
  assert.deepEqual(REVIEW_STAGES.map(x=>x.number),[54,57,59]);
@@ -27,4 +27,25 @@ test('ratings and both verified completion ledgers are displayed separately with
 });
 test('missing candidate data is a hard error, never silently invented',()=>{
  assert.throws(()=>reviewCards(stages.filter(x=>x.chapter.number!==59),{}),/Missing comparison stage 59/);
+});
+
+const remixes=JSON.parse(fs.readFileSync(new URL('../data/chapters/chapter-02/stage54-remix-candidates-v1.json',import.meta.url))).stages;
+test('stage54 comparison keeps real original and two distinct candidate ids',()=>{
+ const rows=stage54ComparisonRows(stages,remixes,{});
+ assert.deepEqual(rows.map(x=>x.key),['original','a','b']);
+ assert.deepEqual(rows.map(x=>x.minimumTurns),[19,16,17]);
+ assert.deepEqual(rows.map(x=>x.wallActions),[0,4,7]);
+ assert.ok(rows.every(x=>x.rating==='未評価'));
+ assert.ok(rows.slice(1).every(x=>x.status==='研究用・未採用'));
+});
+test('stage54 three independent optional human feedbacks do not mutate data',()=>{
+ const ids=[stages.find(s=>s.chapter.number===54).id,...remixes.map(s=>s.id)];
+ const reviews=Object.fromEntries(ids.map((id,i)=>[id,{enjoyment:['fun','okay','poor'][i],difficulty:'hard',insight:['strong','some','none'][i],note:'感想'+i}]));
+ const raw=JSON.stringify(reviews);
+ const rows=stage54ComparisonRows(stages,remixes,reviews);
+ assert.deepEqual(rows.map(x=>x.rating),['面白かった','ふつう','改善してほしい']);
+ assert.deepEqual(rows.map(x=>x.insight),['発見があって気持ちよかった','少し発見があった','作業に感じた']);
+ assert.deepEqual(rows.map(x=>x.note),['感想0','感想1','感想2']);
+ assert.equal(JSON.stringify(reviews),raw);
+ assert.throws(()=>stage54ComparisonRows(stages,remixes.slice(0,1),{}),/Three verified/);
 });
