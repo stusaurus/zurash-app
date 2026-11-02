@@ -1,0 +1,474 @@
+{
+  "version": 1,
+  "collection": "chapter02-stage59-return-research",
+  "release": "candidate-unapproved",
+  "saveWrites": false,
+  "notes": "元の59面は変更しない。改良A/Bは2回ワープが最短手数達成には必要。1回ワープでもクリアできるが最短より3手長い。",
+  "stages": [
+    {
+      "schemaVersion": 2,
+      "rulesVersion": "solo-v2-gate",
+      "id": "ch02-59-return-a-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 8,
+        "height": 5,
+        "playableCells": [
+          0,
+          1,
+          3,
+          4,
+          8,
+          9,
+          11,
+          12,
+          16,
+          17,
+          18,
+          19,
+          20,
+          24,
+          25,
+          27,
+          28,
+          32,
+          33,
+          35,
+          36,
+          14,
+          15,
+          22,
+          23
+        ]
+      },
+      "start": 16,
+      "walls": [
+        35,
+        32
+      ],
+      "fixed": [],
+      "stars": [
+        33,
+        11,
+        27,
+        9,
+        24,
+        36,
+        23
+      ],
+      "iceSockets": [],
+      "portals": [
+        [
+          0,
+          14
+        ]
+      ],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 2
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "gate": {
+        "tile": 18,
+        "switch": 17,
+        "initialOpen": false
+      },
+      "chapter": {
+        "id": "chapter-02-59-return-research",
+        "number": 59,
+        "title": "氷海の往復航路",
+        "focus": "離れ島の星を先に取り、2回のワープで本土へ戻る。戻ってからゲートを開け、残りの星を集めよう。",
+        "hint": "ワープを最後に残すより、早く島に渡って星を取り、本土へ戻ってから氷扉のスイッチを目指そう。"
+      },
+      "challenge": {
+        "minimumTurns": 18,
+        "aThrough": 20,
+        "passThrough": 23,
+        "verifiedBy": "complete-bfs-gate-v2"
+      },
+      "requiredItems": [
+        "warpCrystal"
+      ],
+      "requiredGateOpen": true,
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 14
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 32,
+            "to": 24
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 24,
+            "to": 16
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 0
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 16,
+            "to": 8
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 8,
+            "to": 9
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 35,
+            "to": 36
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 36,
+            "to": 28
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 28,
+            "to": 20
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 20,
+            "to": 19
+          },
+          "dir": 2
+        }
+      ],
+      "provenance": {
+        "status": "candidate-unapproved",
+        "originalStageId": "gate-warp-59-v1",
+        "originalMinimumTurns": 20,
+        "originalWarpTurn": 20,
+        "requiresGateOpen": true,
+        "requiresTwoWarpsForOptimal": true,
+        "oneWarpMinimumTurns": 21,
+        "humanPlaytested": false,
+        "doNotReplaceCampaign": true
+      },
+      "adoption": "provisional-playtest"
+    },
+    {
+      "schemaVersion": 2,
+      "rulesVersion": "solo-v2-gate",
+      "id": "ch02-59-return-b-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 8,
+        "height": 5,
+        "playableCells": [
+          0,
+          1,
+          3,
+          4,
+          8,
+          9,
+          11,
+          12,
+          16,
+          17,
+          18,
+          19,
+          20,
+          24,
+          25,
+          27,
+          28,
+          32,
+          33,
+          35,
+          36,
+          14,
+          15,
+          22,
+          23
+        ]
+      },
+      "start": 16,
+      "walls": [
+        35,
+        32
+      ],
+      "fixed": [],
+      "stars": [
+        33,
+        11,
+        27,
+        9,
+        24,
+        36,
+        23,
+        12
+      ],
+      "iceSockets": [],
+      "portals": [
+        [
+          0,
+          14
+        ]
+      ],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 2
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "gate": {
+        "tile": 18,
+        "switch": 17,
+        "initialOpen": false
+      },
+      "chapter": {
+        "id": "chapter-02-59-return-research",
+        "number": 59,
+        "title": "八つ星と帰還の氷扉",
+        "focus": "離れ島を往復して8個の星を回収しよう。早い段階で2回ワープする順番が最短攻略の鍵。",
+        "hint": "島へ渡り、星を取って帰還したあとにゲートを開けよう。遠回りに見える往復が実は近道。"
+      },
+      "challenge": {
+        "minimumTurns": 19,
+        "aThrough": 21,
+        "passThrough": 24,
+        "verifiedBy": "complete-bfs-gate-v2"
+      },
+      "requiredItems": [
+        "warpCrystal"
+      ],
+      "requiredGateOpen": true,
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 14
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 32,
+            "to": 24
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 24,
+            "to": 16
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 0
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 16,
+            "to": 8
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 8,
+            "to": 9
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 35,
+            "to": 27
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 27,
+            "to": 19
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 19,
+            "to": 20
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        }
+      ],
+      "provenance": {
+        "status": "candidate-unapproved",
+        "originalStageId": "gate-warp-59-v1",
+        "originalMinimumTurns": 20,
+        "originalWarpTurn": 20,
+        "requiresGateOpen": true,
+        "requiresTwoWarpsForOptimal": true,
+        "oneWarpMinimumTurns": 22,
+        "humanPlaytested": false,
+        "doNotReplaceCampaign": true
+      },
+      "adoption": "provisional-playtest"
+    }
+  ]
+}
