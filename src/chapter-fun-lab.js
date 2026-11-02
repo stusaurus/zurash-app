@@ -1,3 +1,5 @@
+import {expeditionProgress,expeditionReward} from './puzzle/expedition.js';
+import {renderExpedition} from './expedition-view.js';
 import {loadHome,clears} from './puzzle/house.js';
 import {CHAPTER_TWO_KEY,newChapterTwo,canEnterTwo as canEnterTwoBase,checkpointTwo,loadChapterTwo,writeChapterTwo} from './puzzle/chapter-two-progress.js';
 import {initialPuzzle,validateStage} from './puzzle/schema.js';
@@ -72,7 +74,18 @@ function showSelection(){
   $('stage-choices').append(button);
  }
  const progress=$('fun-progress');
+ if(adventureMode){const journey=renderExpedition($('expedition-map'),entries,chapterSave,saveOptions);$('expedition-story').textContent=saveOptions.practice?'道具をつなぐ謎を、好きな順番で試そう。':journey.complete?'4つの灯りをつないだ！ トリケンの家へ帰ろう。':journey.lit?journey.stops[journey.lit-1].story:'4つの道しるべに、灯りを戻そう。';}
  if(progress)progress.textContent=(adventureMode?'冒険の記録：クリア ':'この試遊中の記録：クリア ')+completed+'/'+entries.length+'面 ／ Sランク '+fullRank+'/'+entries.length+'面';
+}
+function showExpeditionReward(before=null){
+ if(!adventureMode)return;
+ const panel=$('expedition-reward'),journey=expeditionProgress(entries,chapterSave,saveOptions);
+ if(saveOptions.practice){panel.textContent='自由試遊のクリア！ 冒険では初クリアで結晶が集まる。';return;}
+ const reward=before?expeditionReward(entries,before,chapterSave,stage,saveOptions):null;
+ panel.textContent=reward?.crystals?'✧ 初クリア！ 道しるべの結晶 +1':'この面の結晶は獲得済み。最短記録に挑戦しよう。';
+ if(reward?.newStops.length)panel.textContent+=(journey.complete?' 第2章クリア！ ':' ')+reward.newStops.at(-1).name+'に灯りがともった！ '+reward.newStops.at(-1).story;
+ else if(journey.complete)panel.textContent+=' 第2章クリア！ 4つの灯りをつないだ。冒険の思い出を持って、家へ帰ろう。';
+ else panel.textContent+=' 次の灯りまで、あと'+(5-journey.balance)+'個。';
 }
 function persistAdventure(){
  if(!adventureMode)return;
@@ -94,7 +107,7 @@ function setStage(n,{resume=false}={}){
  $('fun-feedback').replaceChildren();
  if(challengeMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
  showSelection();render();
- if(adventureMode&&solved(state)){const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！';$('fun-rank').dataset.rank=grade.rank;$('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';$('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回';$('fun-next').textContent=number<entries.length?'次のステージへ':'家に帰る';}
+ if(adventureMode&&solved(state)){showExpeditionReward();const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！';$('fun-rank').dataset.rank=grade.rank;$('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';$('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回';$('fun-next').textContent=number<entries.length?'次のステージへ':'家に帰る';}
  say(solved(state)?'クリアした記録から再開しました。':gateMode?(state.gateOpen?'氷扉が開いている。続きの1手を考えよう。':'氷扉は閉じている。✦スイッチの上に止まる方法を考えよう。'):number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
 }
 function paintBoard(options){
@@ -214,6 +227,7 @@ async function takeStep(action){
  const beforeSprite=$('fun-board').querySelector('.cell img');
  const startRect=beforeSprite?.getBoundingClientRect();
  const oldStarCount=state.stars.length;
+ const expeditionBefore=adventureMode?structuredClone(chapterSave):null;
  const gateWasOpen=gateMode?state.gateOpen:null;
  try{
   state=gateMode?applyGate(stage,state,action):applyPuzzle(stage,state,action);trace.push(action);
@@ -237,6 +251,7 @@ async function takeStep(action){
    box?.classList.add('land');
   }
   if(solved(state)){
+   showExpeditionReward(expeditionBefore);
    $('fun-result').hidden=false;
    const elapsed=activeTime();activeMs=elapsed;activeSince=null;
    const grade=evaluateChallenge(stage,trace.length);

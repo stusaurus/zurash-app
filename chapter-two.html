@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#1360a5">
 <title>ズラッシュ！｜第2章 氷の向こうへ</title>
 <link rel="stylesheet" href="./adventure.css">
+<link rel="stylesheet" href="./expedition.css">
 <script>document.documentElement.classList.add('art-review-approved')</script>
 <link rel="stylesheet" href="./adventure-ice-visual.css">
 <style>
@@ -135,8 +136,9 @@ body{margin:0}
 <a href="./adventure.html">トリケンの家へ</a>
 </header>
 <section class="game-panel fun-card" aria-label="実験パズル">
-<details class="chapter-map"><summary>ステージを選ぶ・冒険の記録</summary><nav class="fun-selector" id="stage-choices" aria-label="ステージ選択"></nav><a href="./chapter-two.html?trial=1&practice=1&stage=60">新しい60〜70面を自由試遊</a></details>
+<details class="chapter-map"><summary>ステージを選ぶ・冒険の記録</summary><nav class="fun-selector" id="stage-choices" aria-label="ステージ選択"></nav><a href="./chapter-two.html?trial=1&practice=1&stage=60">新しい60〜70面を自由試遊</a><div id="expedition-map"></div></details>
 <p id="save-status" role="status" class="fun-warning"></p>
+<p id="expedition-story" class="expedition-story">4つの道しるべに、灯りを戻そう。</p>
 <p id="fun-progress" class="fun-progress" role="status">この試遊中の記録：クリア 0/1面 ／ Sランク 0/1面</p>
 <div class="fun-meta"><h1 id="fun-title">読み込み中…</h1><span id="fun-count" class="counter">1 / 1</span></div>
 <p class="fun-focus" id="fun-focus"></p><p id="fun-gate-status" class="fun-gate-status" aria-live="polite">氷の扉：閉じている ▦</p>
@@ -177,6 +179,7 @@ body{margin:0}
  <p id="fun-benchmark"></p>
  <p id="fun-next-objective" aria-live="polite"></p>
  <p id="fun-finish"></p>
+ <p id="expedition-reward" class="expedition-reward" role="status"></p>
  <div class="fun-result-buttons">
   <button type="button" id="fun-again" class="fun-again">もう一度挑戦</button>
   <button type="button" id="fun-next">次のステージへ</button>

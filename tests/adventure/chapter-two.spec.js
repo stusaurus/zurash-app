@@ -31,6 +31,8 @@ for(const width of [320,390,1440]){
     }
    }
    await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+   await expect(page.locator('#expedition-reward')).toContainText('結晶 +1');
+   if(n===stages.length-1){await expect(page.locator('#expedition-reward')).toContainText('第2章クリア');await expect(page.locator('#expedition-map [data-lit=true]')).toHaveCount(4);}
    await expect(page.locator('#fun-finish')).toContainText('壁移動'+s.proof.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回');
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
    if(n===stages.length-1){await page.screenshot({path:'test-results/chapter-two-'+test.info().project.name+'-'+width+'.png',fullPage:true});await page.reload();await expect(page.locator('#fun-result')).toBeVisible();await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');}
