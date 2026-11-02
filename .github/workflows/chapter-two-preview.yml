@@ -2,16 +2,17 @@ name: Chapter two preview QA
 on:
   pull_request:
     paths:
+      - 'expedition.css'
+      - 'src/expedition-view.js'
+      - 'tests/expedition.test.js'
+      - 'tests/adventure/expedition.spec.js'
       - 'chapter-two.html'
       - 'adventure.html'
       - 'src/adventure.js'
       - 'gate-glove-lab.html'
       - 'tests/gate-glove.test.js'
       - 'tests/chapter-two-progress.test.js'
-      - 'tests/chapter-two-story.test.js'
       - 'tests/chapter-two-playtest.test.js'
-      - 'src/puzzle/chapter-two-playtest.js'
-      - 'src/puzzle/chapter-two-story.js'
       - 'tests/chapter-two-stages.test.js'
       - 'tests/adventure/chapter-two.spec.js'
       - 'scripts/chapter-two-certify.js'
@@ -61,11 +62,11 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js tests/gate-long.test.js tests/gate-cycle.test.js tests/gate-closure.test.js tests/gate-warp.test.js tests/gate-glove.test.js tests/chapter-two-progress.test.js tests/chapter-two-story.test.js tests/chapter-two-playtest.test.js tests/chapter-two-stages.test.js
+      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js tests/gate-long.test.js tests/gate-cycle.test.js tests/gate-closure.test.js tests/gate-warp.test.js tests/gate-glove.test.js tests/chapter-two-progress.test.js tests/chapter-two-playtest.test.js tests/chapter-two-stages.test.js tests/expedition.test.js
       - run: node scripts/chapter-two-certify.js
       - run: npx playwright install --with-deps chromium webkit
       - name: Test item, switch gate and CPU trial pages (Chromium / WebKit)
-        run: npx playwright test -c playwright.chapter.config.js -g "chapter two adventure|item laboratory|CPU rival|switch gate|item long trials|dual item trials|gate long trials|gate cycle trials|gate closure trials|gate warp trials" --output=test-results-chapter-two
+        run: npx playwright test -c playwright.chapter.config.js -g "expedition rewards|chapter two adventure|item laboratory|CPU rival|switch gate|item long trials|dual item trials|gate long trials|gate cycle trials|gate closure trials|gate warp trials" --output=test-results-chapter-two
         env:
           PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-chapter-two-report
       - uses: actions/upload-artifact@v4

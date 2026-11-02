@@ -1,6 +1,7 @@
+import {expeditionProgress,expeditionReward} from './puzzle/expedition.js';
+import {renderExpedition} from './expedition-view.js';
 import {loadHome,clears} from './puzzle/house.js';
 import {CHAPTER_TWO_KEY,practiceSaveKey,newChapterTwo,canEnterTwo as canEnterTwoBase,checkpointTwo,loadChapterTwo,writeChapterTwo,recoverInvalidChapterTwo} from './puzzle/chapter-two-progress.js';
-import {chapterTwoMilestone} from './puzzle/chapter-two-story.js';
 import {loadChapterTwoReviews,recordChapterTwoReview,exportChapterTwoReviews} from './puzzle/chapter-two-playtest.js';
 import {initialPuzzle,validateStage} from './puzzle/schema.js';
 import {successors,applyPuzzle,solved,replay} from './puzzle/engine.js';
@@ -74,7 +75,18 @@ function showSelection(){
   $('stage-choices').append(button);
  }
  const progress=$('fun-progress');
+ if(adventureMode){const journey=renderExpedition($('expedition-map'),entries,chapterSave,saveOptions);$('expedition-story').textContent=saveOptions.practice?'道具をつなぐ謎を、好きな順番で試そう。':journey.complete?'4つの灯りをつないだ！ トリケンの家へ帰ろう。':journey.lit?journey.stops[journey.lit-1].story:'4つの道しるべに、灯りを戻そう。';}
  if(progress)progress.textContent=(adventureMode?'冒険の記録：クリア ':'この試遊中の記録：クリア ')+completed+'/'+entries.length+'面 ／ Sランク '+fullRank+'/'+entries.length+'面';
+}
+function showExpeditionReward(before=null){
+ if(!adventureMode)return;
+ const panel=$('expedition-reward'),journey=expeditionProgress(entries,chapterSave,saveOptions);
+ if(saveOptions.practice){panel.textContent='自由試遊のクリア！ 冒険では初クリアで結晶が集まる。';return;}
+ const reward=before?expeditionReward(entries,before,chapterSave,stage,saveOptions):null;
+ panel.textContent=reward?.crystals?'✧ 初クリア！ 道しるべの結晶 +1':'この面の結晶は獲得済み。最短記録に挑戦しよう。';
+ if(reward?.newStops.length)panel.textContent+=(journey.complete?' 第2章クリア！ ':' ')+reward.newStops.at(-1).name+'に灯りがともった！ '+reward.newStops.at(-1).story;
+ else if(journey.complete)panel.textContent+=' 第2章クリア！ 4つの灯りをつないだ。冒険の思い出を持って、家へ帰ろう。';
+ else panel.textContent+=' 次の灯りまで、あと'+(5-journey.balance)+'個。';
 }
 function updateReviewForm(){
  const form=$('playtest-form');if(!form||!stage)return;
@@ -88,15 +100,6 @@ function updateReviewForm(){
    $('review-status').textContent='このステージの評価は保存済みです。変更して再保存できます。';
   }else $('review-status').textContent='この感想は端末内だけに保存されます。ステージを途中でやめても記録できます。';
  }catch(e){$('review-status').textContent='以前の感想データを読み込めません。元の内容を上書きしないよう、新しい評価の保存を停止しています。';}
-}
-function updateChapterStory(){
- const panel=$('chapter-story');if(!panel)return;
- const milestone=adventureMode&&stage&&solved(state)?chapterTwoMilestone(stage.chapter.number):null;
- panel.hidden=!milestone;
- if(milestone){
-  $('chapter-story-title').textContent=milestone.title;
-  $('chapter-story-text').textContent=milestone.body;
- }
 }
 function persistAdventure(){
  if(!adventureMode)return;
@@ -117,8 +120,8 @@ function setStage(n,{resume=false}={}){
  $('fun-result').hidden=true;$('fun-feedback').hidden=true;
  $('fun-feedback').replaceChildren();
  if(challengeMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
- showSelection();render();updateChapterStory();updateReviewForm();
- if(adventureMode&&solved(state)){const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！';$('fun-rank').dataset.rank=grade.rank;$('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';$('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回';$('fun-next').textContent=number<entries.length?'次のステージへ':'家に帰る';}
+ showSelection();render();updateReviewForm();
+ if(adventureMode&&solved(state)){showExpeditionReward();const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！';$('fun-rank').dataset.rank=grade.rank;$('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';$('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回';$('fun-next').textContent=number<entries.length?'次のステージへ':'家に帰る';}
  say(solved(state)?'クリアした記録から再開しました。':gateMode?(state.gateOpen?'氷扉が開いている。続きの1手を考えよう。':'氷扉は閉じている。✦スイッチの上に止まる方法を考えよう。'):number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
 }
 function paintBoard(options){
@@ -238,6 +241,7 @@ async function takeStep(action){
  const beforeSprite=$('fun-board').querySelector('.cell img');
  const startRect=beforeSprite?.getBoundingClientRect();
  const oldStarCount=state.stars.length;
+ const expeditionBefore=adventureMode?structuredClone(chapterSave):null;
  const gateWasOpen=gateMode?state.gateOpen:null;
  try{
   state=gateMode?applyGate(stage,state,action):applyPuzzle(stage,state,action);trace.push(action);
@@ -261,7 +265,8 @@ async function takeStep(action){
    box?.classList.add('land');
   }
   if(solved(state)){
-   $('fun-result').hidden=false;updateChapterStory();
+   showExpeditionReward(expeditionBefore);
+   $('fun-result').hidden=false;
    const elapsed=activeTime();activeMs=elapsed;activeSince=null;
    const grade=evaluateChallenge(stage,trace.length);
    if(grade){
@@ -276,7 +281,7 @@ async function takeStep(action){
       grade.passed?'Sランクまであと'+grade.extraTurns+'手！ 別の止まり方を探そう。':
       'Bランク合格まであと'+(grade.turns-grade.passThrough)+'手！';
     $('fun-again').hidden=false;
-    say(grade.passed?'合格！ 次はSランクを目指そう。':'すべての星を獲得！ 合格手数を目指して再挑戦しよう。');
+    say(grade.rank==='S'?'最短手数でクリア！ 次の冒険へ進もう。':grade.passed?'合格！ 次はSランクを目指そう。':'すべての星を獲得！ 合格手数を目指して再挑戦しよう。');
    }else{
     say('すべての星をゲット！');
    }
@@ -307,7 +312,7 @@ function undo(){
  const wasSolved=solved(state);
  trace.pop();undoUses++;state=(gateMode?replayGate(stage,trace):replay(stage,trace)).state;mode='none';selectedWall=null;selectedPrep={type:'none'};
  if(wasSolved&&!document.hidden&&activeSince===null)activeSince=performance.now();
- $('fun-result').hidden=true;persistAdventure();render();updateChapterStory();say('1手戻しました。');
+ $('fun-result').hidden=true;persistAdventure();render();say('1手戻しました。');
 }
 $('fun-tools').addEventListener('click',e=>{
  const b=e.target.closest('[data-fun-mode]');
@@ -401,6 +406,7 @@ $('reset-invalid-save')?.addEventListener('click',()=>{
   $('save-status').textContent='復旧できませんでした。元の記録はそのままです。空き容量を確認し、必要なら記録を書き出してください。';
  }
 });
+
 window.addEventListener('resize',()=>{if(stage)render();});
 document.addEventListener('keydown',e=>{
  if(!stage||busy)return;
