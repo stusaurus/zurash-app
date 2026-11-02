@@ -53,6 +53,7 @@ small{display:block;opacity:.92;margin-top:25px;line-height:1.8}
 <a href="./chapter-two.html?trial=1&practice=1&stage=60">✦ 第60面から自由試遊</a>
 <a href="./chapter-two-review.html">❖ 54・57・59面を比較する</a>
 <a href="./chapter-two.html?trial=1&practice=1&stage=54">第54面を評価する</a>
+<a href="./stage54-remix-lab.html">🧊 第54面改良版・16手と17手を試す</a>
 <a href="./chapter-two.html?trial=1&practice=1&stage=57">第57面を評価する</a>
 <a href="./chapter-two.html?trial=1&practice=1&stage=59">第59面を評価する</a>
 <a href="./adventure.html">トリケンの家・第1章</a>
@@ -66,7 +67,7 @@ fs.writeFileSync(path.join(output,'_redirects'),'/chapter-two /chapter-two.html 
 fs.writeFileSync(path.join(output,'_headers'),'/*\n  X-Robots-Tag: noindex, nofollow\n');
 // Fail before publishing any artifact if essential runtime files are incomplete.
 const required=[
-'index.html','chapter-two.html','chapter-two-review.html','chapter-two-review.css','adventure.html','legacy-duel.html',
+'index.html','chapter-two.html','chapter-two-review.html','chapter-two-review.css','stage54-remix-lab.html','adventure.html','legacy-duel.html',
 'expedition.css','src/chapter-fun-lab.js','src/puzzle/expedition.js',
 'src/puzzle/chapter-two-progress.js','src/puzzle/chapter-two-playtest.js',
 'src/expedition-view.js','assets/zurash-approved-logo.webp','data/chapters/chapter-02/adventure-v1.json'

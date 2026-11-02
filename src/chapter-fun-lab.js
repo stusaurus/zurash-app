@@ -21,13 +21,14 @@ const longMode=pagePath.endsWith('/long-lab');
 const itemMode=pagePath.endsWith('/item-lab');
 const itemLongMode=pagePath.endsWith('/item-long-lab');
 const dualItemMode=pagePath.endsWith('/dual-item-lab');
+const stage54RemixMode=pagePath.endsWith('/stage54-remix-lab');
 const gateLongMode=pagePath.endsWith('/gate-long-lab');
 const gateCycleMode=pagePath.endsWith('/gate-cycle-lab');
 const gateClosureMode=pagePath.endsWith('/gate-closure-lab');
 const gateGloveMode=pagePath.endsWith('/gate-glove-lab');
 const gateWarpMode=pagePath.endsWith('/gate-warp-lab');
 let gateMode=gateGloveMode||gateLongMode||gateCycleMode||gateClosureMode||gateWarpMode||pagePath.endsWith('/gate-lab');
-const challengeMode=adventureMode||longMode||itemMode||gateMode||itemLongMode||dualItemMode;
+const challengeMode=adventureMode||longMode||itemMode||gateMode||itemLongMode||dualItemMode||stage54RemixMode;
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
 let activeMs=0,activeSince=null,hintUses=0,undoUses=0,hintLevel=0;
 // Session-only personal bests; never write to the real chapter save.
@@ -419,10 +420,10 @@ try{
   for(const el of document.querySelectorAll('.fun-controls,.fun-actions,.fun-stats,.fun-gate-status'))el.hidden=true;
   const link=document.createElement('a');link.href='./chapter-two.html?trial=1';link.textContent='第2章だけ先行試遊する';$('stage-choices').append(link);$('stage-choices').closest('details')?.setAttribute('open','');
  }else{
- const res=await fetch(new URL(adventureMode?'data/chapters/chapter-02/adventure-v1.json':gateMode?(gateGloveMode?'data/chapters/chapter-02/gate-glove-candidates-v1.json':gateWarpMode?'data/chapters/chapter-02/gate-warp-candidates-v1.json':gateClosureMode?'data/chapters/chapter-02/gate-closure-candidates-v1.json':gateCycleMode?'data/chapters/chapter-02/gate-cycle-candidates-v1.json':gateLongMode?'data/chapters/chapter-02/gate-long-candidates-v1.json':'data/chapters/chapter-02/gate-candidates-v1.json'):dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
+ const res=await fetch(new URL(adventureMode?'data/chapters/chapter-02/adventure-v1.json':gateMode?(gateGloveMode?'data/chapters/chapter-02/gate-glove-candidates-v1.json':gateWarpMode?'data/chapters/chapter-02/gate-warp-candidates-v1.json':gateClosureMode?'data/chapters/chapter-02/gate-closure-candidates-v1.json':gateCycleMode?'data/chapters/chapter-02/gate-cycle-candidates-v1.json':gateLongMode?'data/chapters/chapter-02/gate-long-candidates-v1.json':'data/chapters/chapter-02/gate-candidates-v1.json'):stage54RemixMode?'data/chapters/chapter-02/stage54-remix-candidates-v1.json':dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
  if(!res.ok)throw Error('HTTP '+res.status);
  const bundle=await res.json();
- if(bundle.version!==1||(!adventureMode&&bundle.stages?.length!==(gateMode?1:dualItemMode?2:itemLongMode?3:itemMode?3:longMode?4:10)))throw Error('候補データが不完全です');
+ if(bundle.version!==1||(!adventureMode&&bundle.stages?.length!==(gateMode?1:stage54RemixMode?2:dualItemMode?2:itemLongMode?3:itemMode?3:longMode?4:10)))throw Error('候補データが不完全です');
  entries=bundle.stages;
  for(const s of entries){
   if(s.rulesVersion==='solo-v2-gate')validateGateStage(s);else validateStage(s);

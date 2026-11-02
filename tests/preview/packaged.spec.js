@@ -11,6 +11,10 @@ for(const width of [320,390]){
   await page.getByRole('link',{name:'54・57・59面を比較する'}).click();
   await expect(page.locator('[data-review-stage]')).toHaveCount(3);
   await expect(page.locator('#review-summary')).toContainText('0面の感想');
+  await expect(page.locator('#stage54-remix-compare a')).toHaveCount(2);
+  await page.locator('#stage54-remix-compare a').first().click();
+  await expect(page.locator('#fun-title')).toHaveText('氷海の壁リレー');
+  await page.goto('/chapter-two-review.html');
   await page.locator('[data-review-stage="54"] a.primary').click();
   await expect(page.locator('#fun-count')).toHaveText('STAGE 54');
   await expect(page.locator('#fun-title')).not.toHaveText('読み込み中…');
