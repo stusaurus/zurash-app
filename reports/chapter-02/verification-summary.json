@@ -38,7 +38,7 @@
   "supplementalGameQuality": {
     "run": "https://github.com/stusaurus/zurash-app/actions/runs/41382935448",
     "rules": "success",
-    "legacyDuelBrowsers": "in_progress_at_report_time"
+    "legacyDuelBrowsers": "success"
   },
   "deployment": {
     "siteSourceCommit": "25da62fed0dceabd32f63e8c2526fd499d949874",
@@ -66,5 +66,6 @@
     59
   ],
   "cpuEvent": "independent research; not promoted to required adventure",
-  "stages71plus": "not authored"
+  "stages71plus": "not authored",
+  "expeditionVerification": "expedition-verification.json"
 }

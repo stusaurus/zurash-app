@@ -48,7 +48,7 @@ CPU試作は既存 engine/ai の greedy 対戦を使い、先後入替公平性�
 ## 一般公開までの優先順
 
 1. iPhone実機での読みやすさ、誤タップ、難易度、54/57/59の面白さを評価し、採否を決定。
-2. 第2章の報酬・次の家や物語を設計し、今回の独立した進行記録へ正式に接続。
+2. 公開用の初回ガイドと章の導入を仕上げる。第2章の結晶・4点灯・帰還・家の思い出は実装済み（expedition.md）。
 3. 不公平性と対局テンポが確認できた場合のみCPUイベントを本編へ昇格。
 4. 公開用タイトル・初回ガイド・クレジット・動作端末範囲を確認し、改めて本番公開を判断。
 
@@ -73,7 +73,7 @@ CPU試作は既存 engine/ai の greedy 対戦を使い、先後入替公平性�
 - [第1章CI](https://github.com/stusaurus/zurash-app/actions/runs/41382935444)：151単体、家/美術16ブラウザ、全50面6条件が成功。失敗0。
 - [第2章CI](https://github.com/stusaurus/zurash-app/actions/runs/41382935406)：52単体、48ブラウザが成功。失敗0。52単体は上記151件の一部なので合算しない。
 - 第1章と第2章のブラウザ試験は計70件。Chromium/WebKit × 320/390/1440pxで各章を通し操作。
-- [拡張性回帰](https://github.com/stusaurus/zurash-app/actions/runs/41382935433)も成功。既存対戦画面全体の補助的なGame qualityは記録時点でルール試験成功・ブラウザ試験実行中。
+- [拡張性回帰](https://github.com/stusaurus/zurash-app/actions/runs/41382935433)も成功。既存対戦画面全体の補助的なGame qualityも、その後成功を確認。
 - 配信版の第70面をChromium 390pxで実操作し、18手Sランク、横はみ出しなし、ページ例外0。実機iPhoneではない。
 - ページ・データ・JS・build-infoの4ファイルが配信先と一致。家の画像71件もHTTP 200・ハッシュ一致。
 - 全20面の配置は、回転・反転を含む全オブジェクト比較で重複なし。ただし、これは人間が面白いと感じることの証明ではない。
@@ -93,3 +93,9 @@ CPU試作は既存 engine/ai の greedy 対戦を使い、先後入替公平性�
 - `.github/workflows/chapter-two-preview.yml`、`playwright.chapter.config.js`：新テストを実行対象へ登録。
 
 [全変更ファイル](https://github.com/stusaurus/zurash-app/pull/14/files)
+
+## 結晶・物語・帰還の追加
+
+[追加仕様と検証](expedition.md)。通常冒険の初クリアごとに結晶を1個、55/60/65/70面で4つの道しるべを点灯。第1章の家からも成果を見返せる。v1のクリア記録から算出するため、家の星や旧セーブを移行・消費しない。自由試遊は報酬と分離する。
+
+実装・配信コード：`2054a86762542434dc0506a957c85d414305ca8b`。第1章CIは154単体・22ブラウザ、第2章CIは55単体（154の内数）・56ブラウザが成功、失敗0。詳細は `expedition-verification.json`。

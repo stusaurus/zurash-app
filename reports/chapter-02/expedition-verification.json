@@ -1,0 +1,63 @@
+{
+  "codeSha": "2054a86762542434dc0506a957c85d414305ca8b",
+  "chapterOne": {
+    "run": "https://github.com/stusaurus/zurash-app/actions/runs/41422898466",
+    "unitPassed": 154,
+    "houseBrowserPassed": 16,
+    "full50BrowserPassed": 6,
+    "failed": 0
+  },
+  "chapterTwo": {
+    "run": "https://github.com/stusaurus/zurash-app/actions/runs/41422898416",
+    "unitPassed": 55,
+    "browserPassed": 56,
+    "failed": 0,
+    "nodeTestsAreSubsetOf154": true,
+    "browsers": [
+      "chromium",
+      "webkit"
+    ],
+    "widths": [
+      320,
+      390,
+      1440
+    ]
+  },
+  "deployment": {
+    "siteSourceCommit": "698cfa825fc5621e481f6ff8ea88d3ee62864914",
+    "id": "appgdep_6ae85be6e1148191bcd155f8c57fec1a",
+    "status": "succeeded",
+    "url": "https://zurash-triken-home-playtest.jyoker.chatgpt.site",
+    "runtimeFilesMatched": 8
+  },
+  "manualUIQA": {
+    "environment": "managed preview, desktop cloud browser",
+    "stage": 51,
+    "turns": 8,
+    "rank": "S",
+    "crystals": 1,
+    "restoredAfterReload": true,
+    "homeMemoryCrystals": 1,
+    "chapterOneHomeStars": 0
+  },
+  "iPhoneHardware": "unverified",
+  "unchanged": [
+    "all stage definitions",
+    "shortest solutions",
+    "chapter-one reward ledger",
+    "15 home repairs",
+    "71 existing art assets"
+  ],
+  "rewards": {
+    "totalCrystals": 20,
+    "lampMilestones": [
+      55,
+      60,
+      65,
+      70
+    ],
+    "crystalsPerStop": 5,
+    "replayPayment": 0,
+    "practicePayment": 0
+  }
+}
