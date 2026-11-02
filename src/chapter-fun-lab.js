@@ -6,7 +6,7 @@ import {initialGate,validateGateStage,gateSuccessors,applyGate,replayGate} from 
 import {buildGateHints} from './puzzle/gate-hints.js';
 
 const $=id=>document.getElementById(id);
-const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く'};
+const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
 const longMode=location.pathname.endsWith('/long-lab.html');
 const itemMode=location.pathname.endsWith('/item-lab.html');
 const itemLongMode=location.pathname.endsWith('/item-long-lab.html');
@@ -14,7 +14,8 @@ const dualItemMode=location.pathname.endsWith('/dual-item-lab.html');
 const gateLongMode=location.pathname.endsWith('/gate-long-lab.html');
 const gateCycleMode=location.pathname.endsWith('/gate-cycle-lab.html');
 const gateClosureMode=location.pathname.endsWith('/gate-closure-lab.html');
-const gateMode=gateLongMode||gateCycleMode||gateClosureMode||location.pathname.endsWith('/gate-lab.html');
+const gateWarpMode=location.pathname.endsWith('/gate-warp-lab.html');
+const gateMode=gateLongMode||gateCycleMode||gateClosureMode||gateWarpMode||location.pathname.endsWith('/gate-lab.html');
 const challengeMode=longMode||itemMode||gateMode||itemLongMode||dualItemMode;
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
 let activeMs=0,activeSince=null,hintUses=0,undoUses=0,hintLevel=0;
@@ -137,6 +138,8 @@ function render(){
  $('fun-moves').textContent=trace.length;
  $('fun-stars').textContent=state.stars.length;
  $('fun-shifts').textContent=trace.filter(a=>a.prep.type==='wall').length;
+ const warpRemaining=$('fun-warp-remaining');
+ if(warpRemaining)warpRemaining.textContent=state.inventory.warpCrystal;
  const gateStatus=$('fun-gate-status');
  if(gateStatus)gateStatus.textContent='氷の扉：'+(state.gateOpen?'開いている ◇':'閉じている ▦')+' ／ ✦スイッチで開閉';
  paintBoard(options);
@@ -314,7 +317,7 @@ document.addEventListener('keydown',e=>{
  if(dir!==undefined&&selectedPrep&&!e.target.closest('button')){e.preventDefault();takeStep({prep:selectedPrep,dir});}
 });
 try{
- const res=await fetch(new URL(gateMode?(gateClosureMode?'data/chapters/chapter-02/gate-closure-candidates-v1.json':gateCycleMode?'data/chapters/chapter-02/gate-cycle-candidates-v1.json':gateLongMode?'data/chapters/chapter-02/gate-long-candidates-v1.json':'data/chapters/chapter-02/gate-candidates-v1.json'):dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
+ const res=await fetch(new URL(gateMode?(gateWarpMode?'data/chapters/chapter-02/gate-warp-candidates-v1.json':gateClosureMode?'data/chapters/chapter-02/gate-closure-candidates-v1.json':gateCycleMode?'data/chapters/chapter-02/gate-cycle-candidates-v1.json':gateLongMode?'data/chapters/chapter-02/gate-long-candidates-v1.json':'data/chapters/chapter-02/gate-candidates-v1.json'):dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
  if(!res.ok)throw Error('HTTP '+res.status);
  const bundle=await res.json();
  if(bundle.version!==1||bundle.stages?.length!==(gateMode?1:dualItemMode?2:itemLongMode?3:itemMode?3:longMode?4:10))throw Error('候補データが不完全です');
