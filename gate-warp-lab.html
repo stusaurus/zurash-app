@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#1360a5">
+<title>ズラッシュ！｜第59面 時空の氷海と七つ星</title>
+<link rel="stylesheet" href="./adventure.css">
+<script>document.documentElement.classList.add('art-review-approved')</script>
+<link rel="stylesheet" href="./adventure-ice-visual.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0}
+[hidden]{display:none!important}
+.fun-shell{max-width:700px;margin:0 auto;padding:5px 8px 55px}
+.fun-banner{text-align:center;color:white;font-size:11px;font-weight:800;text-shadow:0 2px 3px #1b4d7d;margin:0 0 7px}
+.fun-banner strong{display:block;font-size:14px;letter-spacing:.1em}
+.fun-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 7px}
+.fun-head img{width:min(54vw,245px);max-height:96px;object-fit:contain;filter:drop-shadow(0 5px 7px #092e61)}
+.fun-head a{color:#fff5c5;font-size:12px;text-decoration:underline;font-weight:750}
+.fun-card{padding:clamp(10px,2.8vw,18px)!important}
+.fun-selector{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:7px;margin:4px 0 10px}
+.fun-selector button{min-width:0;padding:4px 1px;min-height:44px;border:1px solid #6ba7d0;border-radius:9px;background:linear-gradient(#fff,#d8eefe);color:#185480;font-size:12px;font-weight:800}
+.fun-selector button[aria-current="step"]{color:white;background:linear-gradient(#f8a83c,#e57523);border-color:#d56b18}
+.fun-selector button{position:relative}
+.fun-selector .fun-rank-mark{position:absolute;right:4px;top:3px;display:grid;place-items:center;
+ min-width:17px;height:17px;padding:0 3px;border-radius:8px;font-size:11px;line-height:1;
+ color:#fff;background:#5d7891;border:1px solid #d6efff}
+.fun-selector .fun-rank-mark[data-rank="S"]{background:#c88a11}
+.fun-selector .fun-rank-mark[data-rank="A"]{background:#2f8cc3}
+.fun-selector .fun-rank-mark[data-rank="B"]{background:#438877}
+.fun-progress{font-size:11px;color:#1b5e89;text-align:center;font-weight:800;margin:0 0 9px;
+ background:#e7f7ffba;border-radius:9px;padding:4px 6px}
+.fun-meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fun-meta h1{font-size:clamp(18px,5vw,24px);margin:0;color:#14518b;letter-spacing:0;transform:none;line-height:1.2}
+.fun-meta .counter{font-size:12px;font-weight:900;color:#5c6682;white-space:nowrap}
+.fun-focus{font-size:12px;font-weight:750;color:#1e5984;margin:8px 0 10px;line-height:1.5}
+.fun-stats{display:flex;align-items:center;justify-content:space-around;gap:10px;margin-bottom:9px;padding:7px 9px;border:1px solid #f0cf70;background:linear-gradient(#fff9df,#f5dca1);color:#84541e;border-radius:13px;font-size:12px;font-weight:750}
+.fun-stats b{font-size:18px;margin-left:3px}
+.fun-board{position:relative;margin:0 auto!important}
+.fun-board .cell{touch-action:manipulation}
+.fun-board .cell.hot{outline:3px solid #f9c52d;outline-offset:-2px}
+.fun-board .cell.arrival{outline:3px solid #feaa2b;outline-offset:-2px}
+.fun-board .cell img{transition:none!important}
+.fun-board .cell.land{animation:landFlash .5s ease-out}
+@keyframes landFlash{0%{box-shadow:0 0 0 2px #ffd139,0 0 4px 12px #ffe878cc}100%{box-shadow:0 0 0 14px #ffe87800}}
+.fun-prompt{font-size:12px;text-align:center;color:#125c9f;font-weight:750;margin:8px 0;padding:7px 9px;border:1px solid #a0cfec;border-radius:13px;background:#ebfaff;min-height:32px}
+.fun-controls{display:grid;grid-template-columns:minmax(0,1fr) 140px;gap:9px;padding:8px 0;border-top:1px solid #9abed9}
+.fun-tools{display:grid;gap:6px;align-content:start}
+.fun-tools button,.fun-actions button{min-height:44px;border:1px solid #85b5d5;border-bottom:3px solid #689fca;border-radius:11px;background:linear-gradient(#fff,#d2e9fb);font-weight:800;color:#154e82;font-size:12px;padding:6px}
+.fun-tools button[aria-pressed="true"]{color:#fff;background:linear-gradient(#389be4,#0e66ac);border-color:#146ba6}
+.fun-tools button:disabled{opacity:.45}
+.fun-controls .dpad{margin:4px auto 0;grid-template-columns:repeat(3,42px);grid-template-rows:repeat(3,42px);gap:4px}
+.fun-controls .dpad button{min-height:42px;font-size:20px}
+.fun-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:8px 0 0}
+.fun-actions button{min-height:43px}
+.fun-warning{font-size:11px;color:#325a79;line-height:1.6;text-align:center;margin:10px 0 4px}
+.fun-feedback{border:1px solid #e8c35c;padding:12px;background:#fff8dc;border-radius:12px;color:#765016;font-size:12px;min-height:34px;scroll-margin:90px}
+.fun-feedback strong{display:block;font-size:15px;color:#865514;margin-bottom:5px}
+.fun-feedback p{margin:6px 0;line-height:1.6}
+.fun-feedback ol{margin:8px 0;padding:9px 10px 9px 30px;max-height:min(48vh,360px);overflow-y:auto;overscroll-behavior:contain;
+ background:#fffef7;border-radius:9px;border:1px solid #ead49a}
+.fun-feedback li{padding:5px 0 5px 2px;line-height:1.55;border-bottom:1px solid #f3e6cb;font-weight:700}
+.fun-feedback li:last-child{border-bottom:0}
+.fun-feedback small{display:block;margin-top:6px;color:#6b6657}
+.fun-result{border-radius:16px;border:2px solid #f5cc4c;background:linear-gradient(#fff8d7,#d4f2ff);padding:18px 12px;text-align:center;margin:10px 0;box-shadow:0 3px 0 #ba9334}
+.fun-result h2{color:#d77615;font-size:22px;margin:4px 0}
+.fun-result p{font-size:12px;color:#255b8a;margin:8px}
+.fun-result button{min-height:44px;padding:8px 20px;background:linear-gradient(#ffa544,#e86b1c);color:white;border:2px solid #dc7c33;border-radius:12px;font-weight:850}
+@media(min-width:600px){.fun-shell{padding-top:15px}.fun-head img{max-height:115px}.fun-controls{grid-template-columns:minmax(0,1fr) 155px}.fun-tools{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:370px){.fun-controls{grid-template-columns:minmax(0,1fr) 116px;gap:5px}.fun-controls .dpad{grid-template-columns:repeat(3,35px);grid-template-rows:repeat(3,38px);gap:3px}.fun-tools button{font-size:11px}.fun-selector{gap:2px}.fun-selector button{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.fun-board .cell.land{animation:none}}
+
+.fun-goal{display:flex;align-items:center;justify-content:center;gap:4px 10px;flex-wrap:wrap;
+ background:linear-gradient(140deg,#e8faff,#c4e9ff);border:1px solid #8cbee4;border-radius:14px;
+ padding:7px 9px;margin:9px 0 8px;color:#155785;}
+.fun-goal-label{font-size:11px;font-weight:900;}
+.fun-goal strong{font-size:19px;color:#a85a11;}
+.fun-goal #fun-remaining{font-size:11px;font-weight:800;}
+.fun-goal #fun-remaining[data-over="true"]{color:#b64c29;}
+.fun-goal small{flex-basis:100%;text-align:center;font-size:10px;}
+.fun-goal .fun-best{font-weight:800;color:#155083;font-size:11px;}
+.fun-goal .fun-best:empty{display:none}
+.fun-result #fun-rank[data-rank="S"]{color:#b3760b}
+.fun-result #fun-rank[data-rank="A"]{color:#227ca0}
+.fun-result #fun-rank[data-rank="B"]{color:#376f65}
+.fun-result #fun-rank[data-rank="unqualified"]{color:#a85027;font-size:17px}
+.fun-result #fun-benchmark{font-size:13px;font-weight:900}
+.fun-result #fun-next-objective{font-size:15px;font-weight:900;color:#a35411;margin:8px 0 12px}
+.fun-result .fun-result-buttons{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.fun-result .fun-again{background:linear-gradient(#4ba9e8,#1b6eb8);border-color:#246eae}
+.fun-result{scroll-margin-block:22vh;}
+.fun-result h2:focus{outline:none;}
+/* Reserve scrolling space for Safari chrome and Netlify's preview toolbar. */
+.fun-shell{padding-bottom:max(190px,calc(150px + env(safe-area-inset-bottom)));}
+@media(max-width:370px){.fun-goal{gap:2px 8px}.fun-goal strong{font-size:17px}}
+
+/* Item trial symbols; all engine rules still come from solo-v1. */
+.fun-board .cell{position:relative}
+.fun-board .cell.fixed-wall{filter:saturate(.55);box-shadow:inset 0 0 0 2px #3c6d86}
+.fun-board .cell .portal-indicator{pointer-events:none;position:absolute;inset:0;display:grid;place-items:center;
+ font-size:clamp(21px,5vw,32px);font-weight:900;color:#bb64f5;text-shadow:0 1px #fff,0 0 7px #fff}
+.fun-board .cell .ice-indicator{pointer-events:none;position:absolute;inset:0;display:grid;place-items:center;
+ color:#62d6ff;font-size:26px;text-shadow:0 0 6px #026a91}
+.fun-board .cell img{position:relative;z-index:3}
+.fun-tools{gap:5px}
+.fun-tools button{min-height:43px}
+
+.fun-gate-status{text-align:center;background:#d8f4ff;color:#185583;border:1px solid #98c4e6;border-radius:11px;padding:6px 8px;font-size:13px;font-weight:900;margin:4px 0 10px}
+.fun-board .gate-tile{position:relative;box-shadow:inset 0 0 0 3px #9470d3!important;background:linear-gradient(145deg,#e5ddff,#bda8ef)!important}
+.fun-board .gate-tile.gate-closed{background:linear-gradient(140deg,#474c97,#222b62)!important;box-shadow:inset 0 0 0 3px #e3cfff!important}
+.fun-board .switch-tile{background:linear-gradient(145deg,#fff5c0,#ffe18a)!important;box-shadow:inset 0 0 0 2px #b78d2f!important}
+.fun-board .gate-indicator,.fun-board .switch-indicator{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;font-size:clamp(22px,7vw,34px);z-index:1;font-weight:900;text-shadow:0 1px 2px #456}
+.fun-board .gate-indicator{color:#f1e2ff}.fun-board .switch-indicator{color:#c48116}
+.fun-board .gate-tile:not(.gate-closed) .gate-indicator{opacity:.5}
+.fun-board .cell img{z-index:4}
+</style>
+</head>
+<body>
+<main class="fun-shell">
+<div class="fun-banner"><strong>❄ 第59面・時空の氷海と七つ星 ❄</strong>最短20手。氷扉を開いて、ワープで小島の最後の星へ！</div>
+<header class="fun-head">
+<img src="./assets/zurash-approved-logo.webp" alt="ズラッシュ！">
+<a href="./chapter-02-preview.html">第2章の入口へ</a>
+</header>
+<section class="game-panel fun-card" aria-label="実験パズル">
+<nav class="fun-selector" id="stage-choices" aria-label="実験ステージ選択"></nav>
+<p id="fun-progress" class="fun-progress" role="status">この試遊中の記録：クリア 0/1面 ／ Sランク 0/1面</p>
+<div class="fun-meta"><h1 id="fun-title">読み込み中…</h1><span id="fun-count" class="counter">1 / 1</span></div>
+<p class="fun-focus" id="fun-focus"></p><p id="fun-gate-status" class="fun-gate-status" aria-live="polite">氷の扉：閉じている ▦</p>
+<div class="fun-goal" id="fun-goal" hidden>
+ <span class="fun-goal-label">🎯 合格チャレンジ</span>
+ <strong id="fun-pass-target">—</strong>
+ <span id="fun-remaining"></span>
+ <small>全ての星を取ろう。最短手数はクリア後に発表！</small>
+ <span id="fun-best" class="fun-best"></span>
+</div>
+<div class="fun-stats"><span>手数 <b id="fun-moves">0</b></span><span>のこりの星 <b id="fun-stars">—</b></span><span>壁をずらした回数 <b id="fun-shifts">0</b></span><span>ワープ残り <b id="fun-warp-remaining">1</b></span></div>
+<div id="fun-board" class="board fun-board" aria-label="パズル盤面"></div>
+<p id="fun-prompt" class="fun-prompt" role="status" aria-live="polite">長編パズルを準備しています…</p>
+<div class="fun-controls">
+<div class="fun-tools" id="fun-tools" role="group" aria-label="滑る前の準備">
+<button type="button" data-fun-mode="none">そのまま滑る</button>
+<button type="button" data-fun-mode="wall">壁をずらす</button>
+<button type="button" data-fun-mode="warp">✧ ワープ（1回）</button>
+
+</div>
+<div class="dpad" id="fun-dpad" aria-label="滑る方向">
+<button type="button" data-fun-dir="0" aria-label="上へ">▲</button>
+<button type="button" data-fun-dir="3" aria-label="左へ">◀</button>
+<span class="dpad-center" aria-hidden="true">❄</span>
+<button type="button" data-fun-dir="1" aria-label="右へ">▶</button>
+<button type="button" data-fun-dir="2" aria-label="下へ">▼</button>
+</div>
+</div>
+<div class="fun-actions">
+<button type="button" id="fun-undo">↶ 1手戻す</button>
+<button type="button" id="fun-retry">最初から</button>
+<button type="button" id="fun-hint" data-hint-step="0">ヒント 1/4</button>
+</div>
+<div class="fun-result" id="fun-result" hidden>
+ <div>✨ ⭐ ✨</div>
+ <h2 id="fun-rank" tabindex="-1">ひらめき成功！</h2>
+ <p id="fun-benchmark"></p>
+ <p id="fun-next-objective" aria-live="polite"></p>
+ <p id="fun-finish"></p>
+ <div class="fun-result-buttons">
+  <button type="button" id="fun-again" class="fun-again">もう一度挑戦</button>
+  <button type="button" id="fun-next">次のステージへ</button>
+ </div>
+</div>
+<div id="fun-feedback" class="fun-feedback" role="status" aria-live="polite" hidden></div>
+<p class="fun-warning">第59面の研究候補です。ゲートの開放と1回限りのワープが両方必要です。ワープを早く使うと本土に戻れませんが、Undo・最初からやり直せます。既存ステージ・家・セーブには変更しません。</p>
+</section>
+</main>
+<script type="module" src="./src/chapter-fun-lab.js"></script>
+</body>
+</html>
