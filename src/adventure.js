@@ -58,7 +58,7 @@ async function refreshHomeExpedition(){
   panel.hidden=false;renderExpedition(panel,entries,save);
   const title=document.createElement('h2');title.textContent='氷海の冒険の思い出';panel.prepend(title);
   const link=document.createElement('a');link.href='./chapter-two.html?trial=1';link.textContent='氷海の冒険へ戻る';panel.append(link);
- }catch{panel.hidden=false;panel.textContent='冒険の記録を読み込めませんでした。元の記録は保持しています。';}
+ }catch{panel.hidden=$('home-screen').hidden;panel.textContent='冒険の記録を読み込めませんでした。元の記録は保持しています。';}
 }
 function showHome(){const unlocked=chapter.stageIds.every(id=>Object.hasOwn(progress.completed,id));$('chapter-two-link').hidden=!unlocked;$('chapter-two-lock').textContent=unlocked?'第2章が解放されました！':'第1章50面をクリアすると第2章へ進めます。';document.querySelector('.game-panel').hidden=true;$('home-screen').hidden=false;houseView.renderHome();void refreshHomeExpedition();}
 function currentOptions(){return solved(state)?[]:successors(stage,state);}

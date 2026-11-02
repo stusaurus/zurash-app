@@ -17,14 +17,27 @@ for(const width of [320,390,1440])test('expedition rewards: milestone, replay, r
  await page.goto('/chapter-two.html?trial=1&stage=55');await expect(page.locator('#fun-count')).toHaveText('STAGE 55');
  const stage=entries[4];for(const a of stage.proof)await act(page,a);
  await expect(page.locator('#expedition-reward')).toContainText('結晶 +1');await expect(page.locator('#expedition-reward')).toContainText('雪道の道しるべに灯りがともった');
+ await page.screenshot({path:test.info().outputPath('milestone.png'),fullPage:true});
  await page.reload();await expect(page.locator('#expedition-reward')).toContainText('獲得済み');
  await page.locator('.chapter-map summary').click();await expect(page.locator('#expedition-map [data-lit=true]')).toHaveCount(1);
  await expect(page.locator('#expedition-map')).toContainText('結晶 5/20個');
  const normal=await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY);
  await page.goto('/adventure.html');await expect(page.locator('#expedition-home')).toBeVisible();await expect(page.locator('#expedition-home [data-lit=true]')).toHaveCount(1);
+ await page.screenshot({path:test.info().outputPath('home-memory.png'),fullPage:true});
  expect(await page.evaluate(key=>localStorage.getItem(key),HOME_KEY)).toBe(homeRaw);
  await page.goto('/chapter-two.html?trial=1&practice=1&stage=55');for(const a of stage.proof)await act(page,a);
  await expect(page.locator('#expedition-reward')).toContainText('自由試遊');
  expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(normal);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+
+test('expedition rewards: a delayed optional memory request cannot reappear inside chapter-one puzzle',async({page})=>{
+ let save=newChapterTwo();save=checkpointTwo(save,entries,entries[0],entries[0].proof);
+ await page.addInitScript(({key,save})=>localStorage.setItem(key,JSON.stringify(save)),{key:CHAPTER_TWO_KEY,save});
+ let release;const wait=new Promise(resolve=>{release=resolve;});
+ await page.route('**/data/chapters/chapter-02/adventure-v1.json',async route=>{await wait;await route.abort();});
+ await page.goto('/adventure.html');await page.locator('#play-next').click();
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','1');release();
+ await expect(page.locator('#expedition-home')).toContainText('元の記録は保持しています');
+ await expect(page.locator('#expedition-home')).toBeHidden();
 });
