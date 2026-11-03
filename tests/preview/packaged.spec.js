@@ -45,3 +45,45 @@ for(const width of [320,390]){
   expect(errors).toEqual([]);
  });
 }
+
+for(const width of [320,390]){
+ test('packaged preview: 54 A/B review stays open and safely exports text at '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  await page.addInitScript(()=>{
+   Object.defineProperty(navigator,'clipboard',{configurable:true,value:{
+    writeText:async value=>{window.__copiedComparisonText=value;}
+   }});
+  });
+  const errors=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});
+  await page.goto('/stage54-remix-lab.html?stage=1');
+  await expect(page.locator('#fun-title')).toHaveText('氷海の壁リレー');
+  await page.locator('#playtest-review summary').click();
+  await page.locator('#review-enjoyment').selectOption('fun');
+  await page.locator('#review-insight').selectOption('strong');
+  await page.locator('#review-note').fill('Aで壁をずらすひらめきが面白かった');
+  await page.locator('#playtest-form button[type=submit]').click();
+  await expect(page.locator('#review-status')).toContainText('保存しました');
+  await page.locator('#stage-choices [data-stage-choice="2"]').click();
+  await expect(page.locator('#playtest-review')).toHaveAttribute('open','');
+  await expect(page.locator('#review-enjoyment')).toBeVisible();
+  await expect(page.locator('#review-enjoyment')).toHaveValue('');
+  await page.locator('#review-enjoyment').selectOption('okay');
+  await page.locator('#review-note').fill('Bは手数を読むのが少し難しい');
+  await page.locator('#playtest-form button[type=submit]').click();
+  await page.goto('/chapter-two-review.html');
+  await expect(page.locator('#review-summary')).toContainText('12案中 2案の感想');
+  await expect(page.locator('#copy-review')).toBeEnabled();
+  await page.locator('#copy-review').click();
+  await expect(page.locator('#export-status')).toContainText('コピーしました');
+  const copied=await page.evaluate(()=>window.__copiedComparisonText);
+  expect(copied).toContain('評価済み 2/12案');
+  expect(copied).toContain('Aで壁をずらすひらめきが面白かった');
+  expect(copied).toContain('Bは手数を読むのが少し難しい');
+  expect(copied).toContain('現行70面：未評価');
+  expect(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'))).toBe(null);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  expect(errors).toEqual([]);
+ });
+}

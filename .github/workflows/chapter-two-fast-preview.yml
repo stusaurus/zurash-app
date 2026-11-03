@@ -1,0 +1,63 @@
+name: Chapter two fast playable preview
+
+on:
+  pull_request:
+    paths:
+      - '*.html'
+      - '*.css'
+      - 'assets/**'
+      - 'src/**'
+      - 'data/**'
+      - 'scripts/build-chapter-two-preview.js'
+      - 'tests/preview/**'
+      - 'playwright.preview-bundle.config.js'
+      - 'package*.json'
+      - '.github/workflows/chapter-two-fast-preview.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: chapter-two-fast-preview-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  package-and-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check game UI syntax and independent review data
+        run: |
+          node --check src/chapter-fun-lab.js
+          node --check src/chapter-two-review.js
+          node --test tests/chapter-two-review-summary.test.js tests/chapter-two-playtest.test.js
+      - name: Build the isolated chapter two static preview
+        run: node scripts/build-chapter-two-preview.js
+      - name: Install Chromium and WebKit
+        run: npx playwright install --with-deps chromium webkit
+      - name: Smoke-test the actual packaged files and A/B review flow
+        run: npx playwright test -c playwright.preview-bundle.config.js --output=test-results-preview-fast
+      - name: Save early independently tested preview (not a full QA approval)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-two-fast-preview-${{ github.run_attempt }}
+          path: preview-dist/
+          retention-days: 14
+      - name: Save diagnostics when the packaged preview fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-two-fast-preview-failure-${{ github.run_attempt }}
+          path: |
+            playwright-preview-report/
+            test-results-preview-fast/
+          if-no-files-found: warn
+          retention-days: 14
