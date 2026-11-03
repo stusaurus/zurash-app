@@ -29,7 +29,8 @@ const gateClosureMode=pagePath.endsWith('/gate-closure-lab');
 const gateGloveMode=pagePath.endsWith('/gate-glove-lab');
 const gateWarpMode=pagePath.endsWith('/gate-warp-lab');
 const gateWarpReturnMode=pagePath.endsWith('/stage59-return-lab');
-let gateMode=gateGloveMode||gateLongMode||gateCycleMode||stage57RemixMode||gateClosureMode||gateWarpMode||gateWarpReturnMode||pagePath.endsWith('/gate-lab');
+const finaleMode=pagePath.endsWith('/stage70-finale-lab');
+let gateMode=gateGloveMode||gateLongMode||gateCycleMode||stage57RemixMode||gateClosureMode||gateWarpMode||gateWarpReturnMode||finaleMode||pagePath.endsWith('/gate-lab');
 const challengeMode=adventureMode||longMode||itemMode||gateMode||itemLongMode||dualItemMode||stage54RemixMode;
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
 let activeMs=0,activeSince=null,hintUses=0,undoUses=0,hintLevel=0;
@@ -188,6 +189,9 @@ function render(){
  $('fun-stars').textContent=state.stars.length;
  $('fun-shifts').textContent=trace.filter(a=>['wall','glove'].includes(a.prep.type)).length;
  if(adventureMode)for(const [item,type]of [['iceBlock','ice'],['powerGlove','glove'],['warpCrystal','warp']]){const b=document.querySelector('[data-fun-mode="'+type+'"]');if(b)b.textContent=modeNames[type]+'（残り '+state.inventory[item]+'）';}
+ for(const [item,id] of [['iceBlock','fun-ice-remaining'],['powerGlove','fun-glove-remaining']]){
+  const count=$(id);if(count)count.textContent=state.inventory[item];
+ }
  const warpRemaining=$('fun-warp-remaining');
  if(warpRemaining)warpRemaining.textContent=state.inventory.warpCrystal;
  const gateStatus=$('fun-gate-status');
@@ -424,10 +428,10 @@ try{
   for(const el of document.querySelectorAll('.fun-controls,.fun-actions,.fun-stats,.fun-gate-status'))el.hidden=true;
   const link=document.createElement('a');link.href='./chapter-two.html?trial=1';link.textContent='第2章だけ先行試遊する';$('stage-choices').append(link);$('stage-choices').closest('details')?.setAttribute('open','');
  }else{
- const res=await fetch(new URL(adventureMode?'data/chapters/chapter-02/adventure-v1.json':gateMode?(stage57RemixMode?'data/chapters/chapter-02/stage57-remix-candidates-v1.json':gateWarpReturnMode?'data/chapters/chapter-02/stage59-return-candidates-v1.json':gateGloveMode?'data/chapters/chapter-02/gate-glove-candidates-v1.json':gateWarpMode?'data/chapters/chapter-02/gate-warp-candidates-v1.json':gateClosureMode?'data/chapters/chapter-02/gate-closure-candidates-v1.json':gateCycleMode?'data/chapters/chapter-02/gate-cycle-candidates-v1.json':gateLongMode?'data/chapters/chapter-02/gate-long-candidates-v1.json':'data/chapters/chapter-02/gate-candidates-v1.json'):stage54RemixMode?'data/chapters/chapter-02/stage54-remix-candidates-v1.json':dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
+ const res=await fetch(new URL(adventureMode?'data/chapters/chapter-02/adventure-v1.json':gateMode?(finaleMode?'data/chapters/chapter-02/stage70-finale-candidates-v1.json':stage57RemixMode?'data/chapters/chapter-02/stage57-remix-candidates-v1.json':gateWarpReturnMode?'data/chapters/chapter-02/stage59-return-candidates-v1.json':gateGloveMode?'data/chapters/chapter-02/gate-glove-candidates-v1.json':gateWarpMode?'data/chapters/chapter-02/gate-warp-candidates-v1.json':gateClosureMode?'data/chapters/chapter-02/gate-closure-candidates-v1.json':gateCycleMode?'data/chapters/chapter-02/gate-cycle-candidates-v1.json':gateLongMode?'data/chapters/chapter-02/gate-long-candidates-v1.json':'data/chapters/chapter-02/gate-candidates-v1.json'):stage54RemixMode?'data/chapters/chapter-02/stage54-remix-candidates-v1.json':dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
  if(!res.ok)throw Error('HTTP '+res.status);
  const bundle=await res.json();
- if(bundle.version!==1||(!adventureMode&&bundle.stages?.length!==(gateMode?(gateWarpReturnMode||stage57RemixMode?2:1):stage54RemixMode?2:dualItemMode?2:itemLongMode?3:itemMode?3:longMode?4:10)))throw Error('候補データが不完全です');
+ if(bundle.version!==1||(!adventureMode&&bundle.stages?.length!==(gateMode?(gateWarpReturnMode||stage57RemixMode||finaleMode?2:1):stage54RemixMode?2:dualItemMode?2:itemLongMode?3:itemMode?3:longMode?4:10)))throw Error('候補データが不完全です');
  entries=bundle.stages;
  for(const s of entries){
   if(s.rulesVersion==='solo-v2-gate')validateGateStage(s);else validateStage(s);

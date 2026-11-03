@@ -1,6 +1,6 @@
 import {loadChapterTwoReviews,exportChapterTwoReviews} from './puzzle/chapter-two-playtest.js';
 import {loadChapterTwo} from './puzzle/chapter-two-progress.js';
-import {REVIEW_STAGES,reviewCards,stage54ComparisonRows,stage59ComparisonRows,stage57ComparisonRows} from './puzzle/chapter-two-review-summary.js';
+import {REVIEW_STAGES,reviewCards,stage54ComparisonRows,stage59ComparisonRows,stage57ComparisonRows,stage70ComparisonRows} from './puzzle/chapter-two-review-summary.js';
 const $=id=>document.getElementById(id);
 const root=new URL('../',import.meta.url);
 const data=await fetch(new URL('data/chapters/chapter-02/adventure-v1.json',root));
@@ -15,6 +15,9 @@ const {stages:returnStages}=await returnResponse.json();
 const gateResponse=await fetch(new URL('data/chapters/chapter-02/stage57-remix-candidates-v1.json',root));
 if(!gateResponse.ok)throw Error('Stage57 research: HTTP '+gateResponse.status);
 const {stages:gateResearch}=await gateResponse.json();
+const finaleResponse=await fetch(new URL('data/chapters/chapter-02/stage70-finale-candidates-v1.json',root));
+if(!finaleResponse.ok)throw Error('Stage70 finale data: HTTP '+finaleResponse.status);
+const {stages:finaleStages}=await finaleResponse.json();
 const container=$('review-cards');
 const make=(tag,cls,content)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(content!==undefined)el.textContent=content;return el;};
 function readCompleted(practice){
@@ -105,9 +108,25 @@ function render(){
  }
  const rated57=gateRows.filter(row=>row.hasReview).length;
  $('stage57-compare-status').textContent='57面の3案中 '+rated57+'案の感想を記録。'+(rated57===3?'比較結果をもとに採否を判断してください。':'現行案と改良A/Bを比べてください。');
+ const finaleRows=stage70ComparisonRows(stages,finaleStages,reviews);
+ const finaleList=$('stage70-variants');finaleList.replaceChildren();
+ for(const row of finaleRows){
+  const card=make('article','card');card.dataset.variant70=row.key;
+  card.append(make('span','stage',row.label+' · '+row.status),make('h3','',row.title));
+  card.append(make('p','metric','最短'+row.minimumTurns+'手 ／ 壁・グローブ操作'+row.wallActions+'回'));
+  const label=make('p','metric',row.hasReview?'面白さ：'+row.rating+' ／ 難しさ：'+row.difficulty+' ／ ひらめき：'+row.insight:'感想：未評価');
+  label.dataset.variant70Review=row.key;card.append(label);
+  if(row.note){const note=make('p','note',row.note);note.dataset.variant70Note=row.key;card.append(note);}
+  const link=make('a','variant-play','この案を遊んで感想を残す');link.href=row.url;card.append(link);
+  finaleList.append(card);
+ }
+ const rated70=finaleRows.filter(x=>x.hasReview).length;
+ $('stage70-compare-status').textContent='70面の3案中 '+rated70+'案の感想を記録。'+(rated70===3?'最終面の達成感を比較して判断してください。':'現行案と改良A/Bを比べてください。');
  const reviewed=rows.filter(r=>r.hasReview).length;
  $('review-summary').textContent='3面中 '+reviewed+'面の感想を記録しました。'+(reviewed===3?'比較用の記録がそろいました。':'どの順番でも遊べます。');
- $('export-review').disabled=!reviewed||!$('review-error').hidden;
+ // Candidate-only feedback is exportable even when none of 54/57/59 is rated.
+ const rated=new Set([...rows,...comparisons,...gateRows,...returnRows,...finaleRows].filter(row=>row.hasReview).map(row=>row.id));
+ $('export-review').disabled=!rated.size||!$('review-error').hidden;
 }
 $('export-review').addEventListener('click',()=>{
  try{

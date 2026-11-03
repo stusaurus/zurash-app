@@ -58,6 +58,8 @@ small{display:block;opacity:.92;margin-top:25px;line-height:1.8}
 <a href="./stage57-remix-lab.html">▦ 第57面・ゲート切替改良A/Bを試す</a>
 <a href="./chapter-two.html?trial=1&practice=1&stage=59">第59面を評価する</a>
 <a href="./stage59-return-lab.html">✧ 第59面・往復ワープ改良A/Bを試す</a>
+<a href="./chapter-two.html?trial=1&practice=1&stage=70">第70面の現行フィナーレ</a>
+<a href="./stage70-finale-lab.html">✦ 第70面・光のフィナーレA/Bを試す</a>
 <a href="./adventure.html">トリケンの家・第1章</a>
 </nav>
 <div class="small">先行版です。通常冒険の結晶と、自由試遊の記録は別々に保存されます。感想は端末内のみに記録し、任意でJSON書き出しできます。</div>
@@ -69,7 +71,7 @@ fs.writeFileSync(path.join(output,'_redirects'),'/chapter-two /chapter-two.html 
 fs.writeFileSync(path.join(output,'_headers'),'/*\n  X-Robots-Tag: noindex, nofollow\n');
 // Fail before publishing any artifact if essential runtime files are incomplete.
 const required=[
-'index.html','chapter-two.html','chapter-two-review.html','chapter-two-review.css','stage54-remix-lab.html','stage59-return-lab.html','stage57-remix-lab.html','adventure.html','legacy-duel.html',
+'index.html','chapter-two.html','chapter-two-review.html','chapter-two-review.css','stage54-remix-lab.html','stage59-return-lab.html','stage57-remix-lab.html','stage70-finale-lab.html','adventure.html','legacy-duel.html',
 'expedition.css','src/chapter-fun-lab.js','src/puzzle/expedition.js',
 'src/puzzle/chapter-two-progress.js','src/puzzle/chapter-two-playtest.js',
 'src/expedition-view.js','assets/zurash-approved-logo.webp','data/chapters/chapter-02/adventure-v1.json'
