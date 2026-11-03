@@ -49,6 +49,11 @@ for(const width of [320,390]){
    await expect(page.locator('#fun-stars')).toHaveText('0');
    await expect(page.locator('#star-journey')).toHaveAttribute('data-complete','true');
    await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+   await expect(page.locator('#clear-hero-grade')).toHaveText('S');
+   await expect(page.locator('#clear-hero-label')).toHaveText('最短ルートを発見！');
+   await expect(page.locator('#clear-next-preview')).toContainText(j===0?'次の比較候補':'最後の候補まで到達');
+   await expect(page.locator('#fun-result')).toHaveAttribute('data-clear-rank','S');
+   await expect(page.locator('#fun-next')).toHaveText(j===0?'次の候補へ':'最初からもう一度');
    await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');
    await expect(page.locator('#move-history-summary')).toContainText(s.proof.length+'手');
    await page.locator('#move-history summary').click();
@@ -63,6 +68,8 @@ for(const width of [320,390]){
    await page.locator('#fun-next').click();
    await expect(page.locator('#playtest-review')).not.toHaveAttribute('open','');
    await expect(page.locator('#move-history-summary')).toContainText('0手');
+   await expect(page.locator('#fun-result')).toBeHidden();
+   await expect(page.locator('#fun-board')).toHaveClass(/stage-entry/);
    await expect(page.locator('#star-journey-label')).toHaveText('集めた星 0 / '+pack.stages[(j+1)%pack.stages.length].stars.length);
   }
   expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(original);

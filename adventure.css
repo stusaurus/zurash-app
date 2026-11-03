@@ -573,3 +573,39 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
 .star-journey-star.collected{color:#ffc52b;-webkit-text-stroke:.5px #ae7517;filter:drop-shadow(0 1px 3px #ffda70aa);opacity:1}
 .star-journey[data-complete="true"]{border-color:#ebc76b;background:#fff5cf}
 @media(max-width:360px){.star-journey{gap:6px;padding:3px 5px}.star-journey-track{gap:2px}}
+
+/* Compact, rank-aware clear presentation. The real verified grade remains in #fun-rank. */
+.fun-result .clear-hero{
+ text-align:center;position:relative;overflow:hidden;border-radius:15px;
+ margin:4px 0 10px;padding:13px 10px 12px;
+ color:#184d73;background:radial-gradient(ellipse at top,#fbf6da,#d7f0ff 75%);
+ border:2px solid #b7d9f1;
+}
+.fun-result .clear-hero-sparks{
+ display:block;font-size:17px;letter-spacing:.26em;color:#ffbc2f;
+ line-height:1.3;text-shadow:0 1px 8px #ffefae
+}
+.fun-result .clear-hero-grade{
+ display:block;font:900 clamp(32px,10vw,55px)/1.02 system-ui,sans-serif;
+ letter-spacing:.08em;color:#b67d17;text-shadow:0 2px 1px #fff8da,0 3px 9px #d3a55f55;
+}
+.fun-result .clear-hero-label{font-weight:900;font-size:clamp(14px,4vw,19px);line-height:1.5}
+.fun-result .clear-hero-subtitle{font-size:12px;line-height:1.5;margin-top:4px}
+.fun-result[data-clear-rank="S"] .clear-hero{background:radial-gradient(ellipse at top,#fff3be,#d1eefb 82%);border-color:#dfac43}
+.fun-result[data-clear-rank="A"] .clear-hero-grade{color:#2a86a9}
+.fun-result[data-clear-rank="B"] .clear-hero-grade{color:#398e73}
+.fun-result[data-clear-rank="unqualified"] .clear-hero-grade{color:#60829a}
+.fun-result .clear-next-preview{
+ margin:10px 0 11px;padding:10px 12px;border-radius:11px;
+ border:1px solid #9bcfdf;color:#1d547a;background:#eefbff;
+ font-size:12px;font-weight:800;line-height:1.6;text-align:center;overflow-wrap:anywhere;
+}
+.fun-result:not([hidden]) .clear-hero{animation:clearHeroRise .48s cubic-bezier(.2,.8,.3,1) both}
+.fun-result:not([hidden]) .clear-hero-sparks{animation:clearSparksGlow 1.1s ease-out both}
+.fun-board.stage-entry{animation:stageArrival .48s ease-out}
+@keyframes clearHeroRise{from{opacity:.3;transform:translateY(9px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes clearSparksGlow{from{opacity:.35;letter-spacing:.08em}to{opacity:1;letter-spacing:.26em}}
+@keyframes stageArrival{from{outline:3px solid #a5edff;outline-offset:3px}to{outline:0px solid transparent;outline-offset:0}}
+@media(prefers-reduced-motion:reduce){
+ .fun-result:not([hidden]) .clear-hero,.fun-result:not([hidden]) .clear-hero-sparks,.fun-board.stage-entry{animation:none}
+}

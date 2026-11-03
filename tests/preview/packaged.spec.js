@@ -134,3 +134,27 @@ for(const width of [320,390]){
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  });
 }
+
+for(const width of [320,390]){
+ test('packaged preview: first puzzle clear shows reward, next preview and seamless stage entry '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('/fun-lab.html?stage=1');
+  await expect(page.locator('#fun-title')).toHaveText('すべってみよう');
+  await page.locator('[data-fun-mode="none"]').click();
+  await page.locator('[data-fun-dir="1"]').click();
+  await expect(page.locator('#fun-result')).toBeVisible();
+  await expect(page.locator('#clear-hero-grade')).toHaveText('✓');
+  await expect(page.locator('#clear-hero-label')).toHaveText('クリア！');
+  await expect(page.locator('#clear-next-preview')).toContainText('次のパズル');
+  await expect(page.locator('#clear-next-preview')).toContainText('壁はストッパー');
+  await expect(page.locator('#fun-next')).toHaveText('次のパズルへ');
+  await expect(page.locator('#fun-retry')).toBeEnabled();
+  await page.locator('#fun-next').click();
+  await expect(page.locator('#fun-title')).toHaveText('壁はストッパー');
+  await expect(page.locator('#fun-result')).toBeHidden();
+  await expect(page.locator('#fun-board')).toHaveClass(/stage-entry/);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  expect(errors).toEqual([]);
+ });
+}

@@ -13,6 +13,7 @@ import {summarizeMoveHistory} from './puzzle/move-history.js';
 import {describeMoveEffects} from './puzzle/move-effects.js';
 import {describeBoardCues} from './puzzle/board-cues.js';
 import {starJourney} from './puzzle/star-journey.js';
+import {clearPresentation} from './puzzle/clear-presentation.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -34,6 +35,7 @@ const gateGloveMode=pagePath.endsWith('/gate-glove-lab');
 const gateWarpMode=pagePath.endsWith('/gate-warp-lab');
 const gateWarpReturnMode=pagePath.endsWith('/stage59-return-lab');
 const finaleMode=pagePath.endsWith('/stage70-finale-lab');
+const comparisonMode=stage54RemixMode||stage57RemixMode||gateWarpReturnMode||finaleMode;
 let gateMode=gateGloveMode||gateLongMode||gateCycleMode||stage57RemixMode||gateClosureMode||gateWarpMode||gateWarpReturnMode||finaleMode||pagePath.endsWith('/gate-lab');
 const challengeMode=adventureMode||longMode||itemMode||gateMode||itemLongMode||dualItemMode||stage54RemixMode;
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
@@ -86,6 +88,58 @@ function renderStarJourney(){
  track.setAttribute('aria-valuemax',String(progress.total));
  track.setAttribute('aria-valuenow',String(progress.collected));
  strip.dataset.complete=String(progress.complete);
+}
+
+
+/* Completion presentation is shared by the normal adventure and A/B study.
+ * It reads the proven grade; it never changes it or writes progression. */
+function updateClearPresentation(grade){
+ const result=$('fun-result');
+ if(!result||!stage)return;
+ let hero=$('clear-hero');
+ if(!hero){
+  const decoration=result.firstElementChild;
+  if(decoration&&decoration.textContent?.includes('✨')){decoration.hidden=true;decoration.setAttribute('aria-hidden','true');}
+  hero=document.createElement('div');
+  hero.id='clear-hero';hero.className='clear-hero';
+  const spark=document.createElement('span');
+  spark.className='clear-hero-sparks';
+  spark.setAttribute('aria-hidden','true');spark.textContent='✦  ✧  ★  ✧  ✦';
+  const rank=document.createElement('strong');
+  rank.id='clear-hero-grade';rank.className='clear-hero-grade';
+  const label=document.createElement('div');
+  label.id='clear-hero-label';label.className='clear-hero-label';
+  const subtitle=document.createElement('div');
+  subtitle.id='clear-hero-subtitle';subtitle.className='clear-hero-subtitle';
+  hero.append(spark,rank,label,subtitle);
+  const heading=$('fun-rank');
+  result.insertBefore(hero,heading);
+ }
+ let teaser=$('clear-next-preview');
+ if(!teaser){
+  teaser=document.createElement('p');
+  teaser.id='clear-next-preview';teaser.className='clear-next-preview';
+  result.insertBefore(teaser,result.querySelector('.fun-result-buttons'));
+ }
+ const nextStage=entries[number]??null;
+ const view=clearPresentation({stage,nextStage,rank:grade?.rank??'clear',adventureMode,comparisonMode});
+ result.dataset.clearRank=view.rank;
+ $('clear-hero-grade').textContent=view.rank==='unqualified'?'★':view.rank==='clear'?'✓':view.rank;
+ $('clear-hero-label').textContent=view.label;
+ $('clear-hero-subtitle').textContent=view.sub;
+ teaser.textContent=view.next;
+}
+function nextButtonLabel(){
+ if(number<entries.length)return adventureMode?'次のステージへ':comparisonMode?'次の候補へ':'次のパズルへ';
+ return adventureMode?'家に帰る':'最初からもう一度';
+}
+function playStageEntry(){
+ // No overlay, artificial wait, or disabled input while entering the next page.
+ const board=$('fun-board');
+ if(!board||document.hidden)return;
+ board.classList.remove('stage-entry');
+ void board.offsetWidth;
+ board.classList.add('stage-entry');
 }
 
 // Compact, optional move journal. This is reconstructed from the player's actual
@@ -291,7 +345,13 @@ function setStage(n,{resume=false,preserveReviewOpen=false}={}){
  // Keep deliberate A/B review sessions open while resetting the inputs to the
  // newly selected stage. Ordinary progression, retry and reload start closed.
  if($('playtest-review'))$('playtest-review').open=keepReviewOpen;
- if(adventureMode&&solved(state)){showExpeditionReward();const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！';$('fun-rank').dataset.rank=grade.rank;$('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';$('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回';$('fun-next').textContent=number<entries.length?'次のステージへ':'家に帰る';}
+ if(adventureMode&&solved(state)){showExpeditionReward();const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！';$('fun-rank').dataset.rank=grade.rank;$('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';$('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回';$('fun-next').textContent=nextButtonLabel();}
+ if(solved(state)){
+  const result=evaluateChallenge(stage,trace.length);
+  if(result)$('fun-next-objective').textContent=result.rank==='S'?'最短手数で完全攻略！':result.passed?'Sランクまであと'+result.extraTurns+'手！ 別の止まり方を探そう。':'Bランク合格まであと'+(result.turns-result.passThrough)+'手！';
+  updateClearPresentation(result);
+ }
+ playStageEntry();
  say(solved(state)?'クリアした記録から再開しました。':gateMode?(state.gateOpen?'氷扉が開いている。続きの1手を考えよう。':'氷扉は閉じている。✦スイッチの上に止まる方法を考えよう。'):number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
 }
 function paintBoard(options){
@@ -468,7 +528,8 @@ async function takeStep(action){
     say('すべての星をゲット！');
    }
    $('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回 ／ 考える＋操作する時間 '+formattedTime(elapsed)+' ／ Undo '+undoUses+'回 ／ ヒント '+hintUses+'回';
-   $('fun-next').textContent=number<entries.length?'次のステージへ':adventureMode?'家に帰る':'最初からもう一度';
+   $('fun-next').textContent=nextButtonLabel();
+   updateClearPresentation(grade);
   }else say(gateMode&&state.gateOpen!==gateWasOpen?(state.gateOpen?'カチッ！氷扉が開いた！ 通れる道が変わったよ。':'カチッ！氷扉が閉じた！ 止まる場所を考え直そう。'):'次の1手を考えよう。');
  }catch(e){console.error(e);say('操作を続けられませんでした。最初からやり直してみてください。',true);}
  finally{
