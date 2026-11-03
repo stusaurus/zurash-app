@@ -33,6 +33,10 @@ for(const width of [320,390]){
    await expect(page.locator('#fun-stars')).toHaveText('0');
    await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
    await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');
+   await expect(page.locator('#move-history-summary')).toContainText(s.proof.length+'手');
+   await page.locator('#move-history summary').click();
+   await expect(page.locator('#move-history-list li')).toHaveCount(5);
+   await expect(page.locator('#move-history-list')).toContainText('へ滑走');
    await expect(page.locator('#fun-review-now')).toBeVisible();
    await expect(page.locator('#playtest-review')).not.toHaveAttribute('open','');
    await page.locator('#fun-review-now').click();
@@ -41,6 +45,7 @@ for(const width of [320,390]){
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
    await page.locator('#fun-next').click();
    await expect(page.locator('#playtest-review')).not.toHaveAttribute('open','');
+   await expect(page.locator('#move-history-summary')).toContainText('0手');
   }
   expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(original);
   expect(errors).toEqual([]);

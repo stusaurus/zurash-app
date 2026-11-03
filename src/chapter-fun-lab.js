@@ -9,6 +9,7 @@ import {validateChallenge,evaluateChallenge} from './puzzle/challenge-grade.js';
 import {buildProgressiveHints} from './puzzle/progressive-hints.js';
 import {initialGate,validateGateStage,gateSuccessors,applyGate,replayGate} from './puzzle/gate-v2.js';
 import {buildGateHints} from './puzzle/gate-hints.js';
+import {summarizeMoveHistory} from './puzzle/move-history.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -45,6 +46,54 @@ document.addEventListener('visibilitychange',()=>{
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const currentOptions=()=>solved(state)?[]:(gateMode?gateSuccessors(stage,state):successors(stage,state));
 const root=new URL('../',import.meta.url);
+
+
+// Compact, optional move journal. This is reconstructed from the player's actual
+// moves, never from the puzzle's stored shortest-solution certificate.
+const historyAnchor=document.querySelector('.fun-actions');
+if(historyAnchor){
+ const details=document.createElement('details');
+ details.id='move-history';
+ details.className='move-history';
+ const summary=document.createElement('summary');
+ summary.id='move-history-summary';
+ summary.textContent='🧭 自分の足あと（0手）';
+ const hint=document.createElement('p');
+ hint.className='move-history-help';
+ hint.textContent='自分が実際に操作した直近5手です。最短解は表示しません。';
+ const list=document.createElement('ol');
+ list.id='move-history-list';
+ details.append(summary,hint,list);
+ historyAnchor.insertAdjacentElement('afterend',details);
+}
+function renderMoveHistory(){
+ const details=$('move-history');
+ if(!details||!stage)return;
+ const history=summarizeMoveHistory(stage,trace);
+ $('move-history-summary').textContent='🧭 自分の足あと（'+history.total+'手／直近'+history.entries.length+'手）';
+ const list=$('move-history-list');
+ list.replaceChildren();
+ for(const row of history.entries){
+  const item=document.createElement('li');
+  const move=document.createElement('span');
+  move.className='move-history-action';
+  move.textContent=row.turn+'手目：'+row.action+' → '+row.destination;
+  item.append(move);
+  for(const note of row.notes){
+   const chip=document.createElement('span');
+   chip.className='move-history-event';
+   chip.textContent=note;
+   item.append(chip);
+  }
+  list.append(item);
+ }
+ if(!history.total){
+  const item=document.createElement('li');
+  item.className='move-history-empty';
+  item.textContent='まだ操作していません。1手動かすとここに記録されます。';
+  list.append(item);
+ }
+}
 
 function say(message,error=false){
  $('fun-prompt').textContent=message;
@@ -129,6 +178,7 @@ function setStage(n,{resume=false,preserveReviewOpen=false}={}){
  $('fun-feedback').replaceChildren();
  if(challengeMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
  showSelection();render();updateReviewForm();
+ if($('move-history'))$('move-history').open=false;
  // Keep deliberate A/B review sessions open while resetting the inputs to the
  // newly selected stage. Ordinary progression, retry and reload start closed.
  if($('playtest-review'))$('playtest-review').open=keepReviewOpen;
@@ -204,6 +254,7 @@ function render(){
  if(gateStatus)gateStatus.hidden=!gateMode;
  if(gateStatus)gateStatus.textContent='氷の扉：'+(state.gateOpen?'開いている ◇':'閉じている ▦')+' ／ ✦スイッチで開閉';
  paintBoard(options);
+ renderMoveHistory();
  for(const button of document.querySelectorAll('[data-fun-mode]')){
   const key=button.dataset.funMode;
   button.hidden=['ice','glove','warp'].includes(key)&&!stage.inventory[{ice:'iceBlock',glove:'powerGlove',warp:'warpCrystal'}[key]];

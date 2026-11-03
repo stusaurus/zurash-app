@@ -479,3 +479,15 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
 .house-world[data-art-ready="false"]::after,.house-world[aria-busy="true"]::after{content:'❄ 読み込み中';position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);padding:12px 20px;border-radius:24px;color:#fff7df;background:#273b64dd;font-size:13px;pointer-events:none;z-index:4}
 
 .house-world[data-art-ready="error"]::after{content:"画像を表示できません。通信を確認し、ページを再読み込みしてください。";position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);width:min(82%,320px);padding:14px 17px;border-radius:16px;color:#fff8e5;background:#513b4beF;text-align:center;font-size:13px;line-height:1.6;z-index:4;pointer-events:none}
+
+
+/* Player-only move journal: intentionally collapsed while solving. */
+.move-history{margin:8px 0;border:1px solid #a9cfe7;border-radius:12px;background:#eef9ffed;color:#235478;overflow:hidden}
+.move-history summary{cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:center;padding:9px 12px;font-size:12px;font-weight:850}
+.move-history summary:focus-visible{outline:3px solid #f4b540;outline-offset:-3px}
+.move-history-help{font-size:11px;line-height:1.6;margin:3px 12px 5px}
+.move-history ol{list-style:none;margin:0;padding:5px 9px 12px;display:grid;gap:6px}
+.move-history li{background:#fff;border:1px solid #c9dcea;border-radius:9px;padding:7px 9px;font-size:11px;line-height:1.6;overflow-wrap:anywhere}
+.move-history-action{display:block}
+.move-history-event{display:inline-block;margin:5px 5px 0 0;padding:2px 8px;font-weight:850;color:#8c5911;background:#fff1c9;border-radius:999px}
+.move-history .move-history-empty{color:#507088}

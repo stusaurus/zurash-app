@@ -87,3 +87,26 @@ for(const width of [320,390]){
   expect(errors).toEqual([]);
  });
 }
+
+for(const width of [320,390]){
+ test('packaged preview: move journal reflects play, undo and candidate change at '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  await page.goto('/stage70-finale-lab.html?stage=1');
+  await expect(page.locator('#move-history-summary')).toContainText('0手');
+  await expect(page.locator('#move-history')).not.toHaveAttribute('open','');
+  await page.locator('[data-fun-mode="none"]').click();
+  await page.locator('[data-fun-dir="3"]').click();
+  await expect(page.locator('#fun-moves')).toHaveText('1');
+  await expect(page.locator('#move-history-summary')).toContainText('1手');
+  await page.locator('#move-history summary').click();
+  await expect(page.locator('#move-history-list li')).toHaveCount(1);
+  await expect(page.locator('#move-history-list')).toContainText('左へ滑走');
+  await page.locator('#fun-undo').click();
+  await expect(page.locator('#move-history-summary')).toContainText('0手');
+  await expect(page.locator('#move-history-list')).toContainText('まだ操作していません');
+  await page.locator('[data-stage-choice="2"]').click();
+  await expect(page.locator('#move-history-summary')).toContainText('0手');
+  await expect(page.locator('#move-history')).not.toHaveAttribute('open','');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ });
+}
