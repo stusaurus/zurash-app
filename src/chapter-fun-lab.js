@@ -622,7 +622,15 @@ if(reviewPanel&&reviewActions){
  });
  reviewActions.append(reviewButton);
 }
-$('fun-next').addEventListener('click',()=>{if(adventureMode&&number===entries.length){location.href='./adventure.html';return;}setStage(number===entries.length?1:number+1);});
+$('fun-next').addEventListener('click',()=>{
+ if(adventureMode&&number===entries.length){
+  // A genuine final adventure clear returns directly to the earned home memory.
+  // Practice play does not claim rewards or trigger an earned-memory arrival.
+  location.href=saveOptions.practice?'./adventure.html':'./adventure.html?view=expedition';
+  return;
+ }
+ setStage(number===entries.length?1:number+1);
+});
 $('fun-again')?.addEventListener('click',()=>setStage(number));
 $('download-invalid-save')?.addEventListener('click',()=>{
  try{

@@ -1,4 +1,7 @@
 import {test,expect} from '@playwright/test';
+import fs from 'node:fs';
+import {CHAPTER_TWO_KEY,newChapterTwo,checkpointTwo} from '../../src/puzzle/chapter-two-progress.js';
+const completedJourneyStages=JSON.parse(fs.readFileSync(new URL('../../data/chapters/chapter-02/adventure-v1.json',import.meta.url),'utf8')).stages;
 for(const width of [320,390]){
  test('packaged preview boots and preserves chapter two and home at '+width+'px',async({page})=>{
   await page.setViewportSize({width,height:844});
@@ -156,5 +159,27 @@ for(const width of [320,390]){
   await expect(page.locator('#fun-board')).toHaveClass(/stage-entry/);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   expect(errors).toEqual([]);
+ });
+}
+
+for(const width of [320,390]){
+ test('packaged home remembers real stage completion and deep-links to its earned memory at '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  const stage=completedJourneyStages[0];
+  const completed=checkpointTwo(newChapterTwo(),completedJourneyStages,stage,stage.proof);
+  const initial=JSON.stringify(completed);
+  await page.addInitScript(({key,value})=>localStorage.setItem(key,value),{key:CHAPTER_TWO_KEY,value:initial});
+  await page.goto('/adventure.html?view=expedition');
+  await expect(page.locator('#expedition-home')).toBeVisible();
+  await expect(page.locator('#expedition-home')).toHaveAttribute('data-arrival','true');
+  await expect(page.locator('#expedition-home h2')).toHaveText('氷海の冒険の思い出');
+  await expect(page.locator('#expedition-home h2')).toBeFocused();
+  await expect(page.locator('#expedition-home')).toContainText('道しるべの結晶 1/20個');
+  await expect(page.locator('#expedition-home [data-lit=true]')).toHaveCount(0);
+  await expect(page.locator('#expedition-home .expedition-house-link')).toBeVisible();
+  expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toEqual(initial);
+  await page.locator('#expedition-home .expedition-house-link').click();
+  await expect(page.locator('#home-screen')).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  });
 }

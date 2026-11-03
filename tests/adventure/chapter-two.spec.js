@@ -36,8 +36,23 @@ for(const width of [320,390,1440]){
    if(n===stages.length-1){await expect(page.locator('#expedition-reward')).toContainText('第2章クリア');await expect(page.locator('#expedition-map [data-lit=true]')).toHaveCount(4);}
    await expect(page.locator('#fun-finish')).toContainText('壁移動'+s.proof.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回');
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-   if(n===stages.length-1){await page.screenshot({path:'test-results/chapter-two-'+test.info().project.name+'-'+width+'.png',fullPage:true});await page.reload();await expect(page.locator('#fun-result')).toBeVisible();await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');}
-   else await page.locator('#fun-next').click();
+   if(n===stages.length-1){
+    await page.screenshot({path:'test-results/chapter-two-'+test.info().project.name+'-'+width+'.png',fullPage:true});
+    await page.reload();
+    await expect(page.locator('#fun-result')).toBeVisible();
+    await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');
+    await expect(page.locator('#clear-next-preview')).toContainText('家で道しるべの思い出');
+    await page.locator('#fun-next').click();
+    await expect(page).toHaveURL(/adventure\.html\?view=expedition$/);
+    await expect(page.locator('#expedition-home')).toBeVisible();
+    await expect(page.locator('#expedition-home h2')).toContainText('おかえり！');
+    await expect(page.locator('#expedition-home [data-lit=true]')).toHaveCount(4);
+    await expect(page.locator('#expedition-home')).toHaveAttribute('data-arrival','true');
+    await expect(page.locator('#expedition-home h2')).toBeFocused();
+    await expect(page.locator('#expedition-home .expedition-house-link')).toBeVisible();
+    await page.getByRole('link',{name:'氷海の冒険へ戻る'}).click();
+    await expect(page.locator('#fun-title')).toHaveText(s.chapter.title);
+   }else await page.locator('#fun-next').click();
   }
   expect(await page.evaluate(()=>localStorage.getItem('zurash-app:home-preview:ice-town:v2'))).toBe(before);
   await page.locator('#fun-retry').click();await expect(page.locator('#fun-moves')).toHaveText('0');

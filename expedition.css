@@ -10,3 +10,13 @@
 .expedition-home h2{font-size:18px;margin:0;text-align:center}.expedition-home a{display:block;min-height:44px;line-height:44px;text-align:center;font-weight:800;color:#185e98}
 .expedition-story{font-size:11px;line-height:1.5;text-align:center;color:#295e83;margin:5px 0}
 @media(prefers-reduced-motion:no-preference){.expedition-route li[data-lit=true] .expedition-light{animation:expedition-glow 3s ease-in-out infinite alternate}@keyframes expedition-glow{to{box-shadow:0 0 20px #ffcf7599,0 3px 0 #ad782b}}}
+
+/* Coming home after the real chapter finale: arrive at the earned expedition memory. */
+.expedition-home[data-arrival="true"]{
+ border:2px solid #e4b962;
+ background:linear-gradient(150deg,#fff5d8,#c3e4f7dd);
+ box-shadow:0 4px 22px #d0a34a44;
+ scroll-margin-top:18px;
+}
+.expedition-home h2:focus{outline:none}
+.expedition-home .expedition-house-link{border:1px solid #9bbdc9;border-radius:10px;background:#ffffffb9;line-height:1.5;padding:12px 8px;margin-top:5px}
