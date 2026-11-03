@@ -24,6 +24,8 @@ for(const width of [320,390]){
     }
     await page.locator('[data-fun-dir="'+dir+'"]').click();
     await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+    // Wait until the sliding animation has finished before starting another move.
+    await expect(page.locator('#fun-retry')).toBeEnabled();
     if(i===2)await expect(page.locator('#fun-warp-remaining')).toHaveText('1');
     if(i===6){
      await expect(page.locator('#fun-warp-remaining')).toHaveText('0');
@@ -34,6 +36,7 @@ for(const width of [320,390]){
      await page.locator('#fun-board [data-cell="0"]').click();
      await page.locator('[data-fun-dir="2"]').click();
      await expect(page.locator('#fun-moves')).toHaveText('7');
+     await expect(page.locator('#fun-retry')).toBeEnabled();
      await expect(page.locator('#fun-warp-remaining')).toHaveText('0');
     }
     if(i===9)await expect(page.locator('#fun-gate-status')).toContainText('開いている');

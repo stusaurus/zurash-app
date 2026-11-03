@@ -491,3 +491,24 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
 .move-history-action{display:block}
 .move-history-event{display:inline-block;margin:5px 5px 0 0;padding:2px 8px;font-weight:850;color:#8c5911;background:#fff1c9;border-radius:999px}
 .move-history .move-history-empty{color:#507088}
+
+/* Short, non-blocking action feedback. Only shown when a move changes the field. */
+.fun-board .fun-move-effect{
+ position:absolute;inset:7px 4px auto;display:flex;justify-content:center;
+ align-items:flex-start;gap:5px;flex-wrap:wrap;pointer-events:none;
+ user-select:none;z-index:12;animation:funEffectAppear .26s ease-out both
+}
+.fun-board .fun-move-effect-chip{
+ font:900 clamp(11px,3.1vw,14px)/1.45 system-ui,-apple-system,sans-serif;
+ padding:5px 10px;border:2px solid #fff4be;border-radius:999px;
+ background:linear-gradient(145deg,#fff2b6,#ffc364);color:#653d08;
+ box-shadow:0 4px 10px #183c6488,0 0 14px #ffe58a77;
+ text-shadow:none
+}
+@keyframes funEffectAppear{
+ from{opacity:0;transform:translateY(11px) scale(.9)}
+ to{opacity:1;transform:translateY(0) scale(1)}
+}
+@media(prefers-reduced-motion:reduce){
+ .fun-board .fun-move-effect{animation:none}
+}

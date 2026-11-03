@@ -110,3 +110,22 @@ for(const width of [320,390]){
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  });
 }
+
+// Item feedback is deliberately transient; check it while it is visible,
+// then verify Undo removes it without persisting a separate effect state.
+for(const width of [320,390]){
+ test('packaged preview: ice item feedback appears without blocking the next turn at '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  await page.goto('/stage54-remix-lab.html?stage=1');
+  await page.locator('[data-fun-mode="ice"]').click();
+  await page.locator('#fun-board [data-cell="24"]').click();
+  await page.locator('[data-fun-dir="2"]').click();
+  await expect(page.locator('#fun-moves')).toHaveText('1');
+  await expect(page.locator('#fun-move-effect')).toContainText('アイスを置いた！');
+  await expect(page.locator('#fun-retry')).toBeEnabled();
+  await page.locator('#fun-undo').click();
+  await expect(page.locator('#fun-move-effect')).toHaveCount(0);
+  await expect(page.locator('#fun-moves')).toHaveText('0');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ });
+}

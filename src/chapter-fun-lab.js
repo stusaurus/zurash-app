@@ -10,6 +10,7 @@ import {buildProgressiveHints} from './puzzle/progressive-hints.js';
 import {initialGate,validateGateStage,gateSuccessors,applyGate,replayGate} from './puzzle/gate-v2.js';
 import {buildGateHints} from './puzzle/gate-hints.js';
 import {summarizeMoveHistory} from './puzzle/move-history.js';
+import {describeMoveEffects} from './puzzle/move-effects.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -35,6 +36,7 @@ let gateMode=gateGloveMode||gateLongMode||gateCycleMode||stage57RemixMode||gateC
 const challengeMode=adventureMode||longMode||itemMode||gateMode||itemLongMode||dualItemMode||stage54RemixMode;
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
 let activeMs=0,activeSince=null,hintUses=0,undoUses=0,hintLevel=0;
+let activeMoveEffect=null,effectTimeout=null;
 // Session-only personal bests; never write to the real chapter save.
 const sessionBestTurns=new Map();
 const activeTime=()=>activeMs+(activeSince===null?0:performance.now()-activeSince);
@@ -93,6 +95,34 @@ function renderMoveHistory(){
   item.textContent='まだ操作していません。1手動かすとここに記録されます。';
   list.append(item);
  }
+}
+
+
+function clearMoveEffect(){
+ if(effectTimeout!==null){clearTimeout(effectTimeout);effectTimeout=null;}
+ activeMoveEffect?.remove();
+ activeMoveEffect=null;
+}
+function showMoveEffect(messages){
+ clearMoveEffect();
+ if(!messages.length)return;
+ const board=$('fun-board');
+ if(!board)return;
+ const effect=document.createElement('div');
+ effect.id='fun-move-effect';
+ effect.className='fun-move-effect';
+ effect.setAttribute('role','status');
+ effect.setAttribute('aria-live','polite');
+ for(const message of messages){
+  const chip=document.createElement('span');
+  chip.className='fun-move-effect-chip';
+  chip.textContent=message;
+  effect.append(chip);
+ }
+ activeMoveEffect=effect;
+ board.append(effect);
+ // Does not block the next turn or require a new saved-state field.
+ effectTimeout=setTimeout(()=>{if(activeMoveEffect===effect)clearMoveEffect();},1750);
 }
 
 function say(message,error=false){
@@ -162,6 +192,7 @@ function persistAdventure(){
 }
 function setStage(n,{resume=false,preserveReviewOpen=false}={}){
  if(busy||!entries[n-1]||(adventureMode&&!canEnterTwo(entries,chapterSave,n-1)))return;
+ clearMoveEffect();
  // Switching candidates through the selector should not force an evaluator
  // to reopen the panel every time; the Next/Retry actions still collapse it.
  const keepReviewOpen=preserveReviewOpen&&Boolean($('playtest-review')?.open);
@@ -221,6 +252,7 @@ function paintBoard(options){
    '</button>';
  }
  board.innerHTML=cells;
+ if(activeMoveEffect)board.append(activeMoveEffect);
 }
 function render(){
  const options=currentOptions();
@@ -306,12 +338,15 @@ async function takeStep(action){
  const beforeSprite=$('fun-board').querySelector('.cell img');
  const startRect=beforeSprite?.getBoundingClientRect();
  const oldStarCount=state.stars.length;
+ const beforeState=state;
+ clearMoveEffect();
  const expeditionBefore=adventureMode?structuredClone(chapterSave):null;
  const gateWasOpen=gateMode?state.gateOpen:null;
  try{
   state=gateMode?applyGate(stage,state,action):applyPuzzle(stage,state,action);trace.push(action);
   mode='none';selectedWall=null;selectedPrep={type:'none'};
   persistAdventure();render();
+  showMoveEffect(describeMoveEffects(beforeState,state,action));
   const afterSprite=$('fun-board').querySelector('.cell img');
   const finishRect=afterSprite?.getBoundingClientRect();
   if(startRect&&finishRect&&afterSprite&&typeof afterSprite.animate==='function'&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
@@ -374,6 +409,7 @@ async function takeStep(action){
 }
 function undo(){
  if(busy||!trace.length)return;
+ clearMoveEffect();
  const wasSolved=solved(state);
  trace.pop();undoUses++;state=(gateMode?replayGate(stage,trace):replay(stage,trace)).state;mode='none';selectedWall=null;selectedPrep={type:'none'};
  if(wasSolved&&!document.hidden&&activeSince===null)activeSince=performance.now();
