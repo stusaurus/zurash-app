@@ -69,9 +69,12 @@
 </section>
 <section class="export">
  <h2>感想をまとめる</h2>
- <p>評価した面だけをJSONファイルに書き出せます。チャットに添付すると、次のパズル改良の判断材料にできます。</p>
- <button type="button" id="export-review" disabled>感想をJSONで書き出す</button>
- <p id="export-status" role="status"></p>
+ <p>iPhoneからも感想を共有しやすいように、評価済み・未評価の12案を日本語でまとめてコピーできます。自動送信はしません。</p>
+ <button type="button" id="copy-review" disabled>感想をコピー（チャットに貼り付け）</button>
+ <button type="button" id="export-review" disabled>感想の原本をJSONで書き出す</button>
+ <label for="share-manual-copy" id="share-manual-copy-label" hidden>コピーできない場合は、下の文章を長押しして選択してください。</label>
+ <textarea id="share-manual-copy" readonly hidden aria-label="手動コピー用の感想"></textarea>
+ <p id="export-status" role="status" aria-live="polite"></p>
 </section>
 <footer><a href="./chapter-two.html?trial=1">通常の第2章に戻る</a><p>第2章の盤面・最短解・星報酬は、この比較画面では変更されません。</p></footer>
 </main>

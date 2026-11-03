@@ -124,3 +124,29 @@ export function stage70ComparisonRows(campaignStages,remixStages,reviews){
  });
 }
 
+
+/**
+ * Share only the twelve reviewed, verified stage variants as human-readable text.
+ * This is a pure formatter: no persistence, network calls or automated adoption.
+ */
+export function formatChapterTwoComparisonText(rows){
+ if(!Array.isArray(rows)||rows.length!==12)throw Error('Expected 12 verified comparison variants');
+ const stageNumbers=[54,57,59,70],ids=new Set();
+ const rated=rows.filter(row=>row.hasReview).length;
+ const lines=['ズラッシュ！｜第2章 比較試遊の感想','評価済み '+rated+'/12案','※ 改良A/Bは研究用・未採用。最短手数のみで正式採用は決めません。'];
+ for(const n of stageNumbers){
+  const group=rows.filter(row=>row.stageNumber===n);
+  if(group.length!==3||group.map(row=>row.key).join(',')!=='original,a,b')
+   throw Error('Missing or out-of-order comparison variants for stage '+n);
+  lines.push('','【第'+n+'面】');
+  for(const row of group){
+   if(typeof row.id!=='string'||ids.has(row.id))throw Error('Duplicated or invalid comparison ID');
+   ids.add(row.id);
+   if(!row.hasReview){lines.push('・'+row.label+'：未評価');continue;}
+   lines.push('・'+row.label+'（'+row.title+'）：面白さ '+row.rating+
+    '／難しさ '+row.difficulty+'／ひらめき '+row.insight);
+   if(row.note)lines.push('  感想：'+row.note);
+  }
+ }
+ return lines.join('\n')+'\n';
+}

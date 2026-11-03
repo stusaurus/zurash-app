@@ -1,6 +1,6 @@
 import {loadChapterTwoReviews,exportChapterTwoReviews} from './puzzle/chapter-two-playtest.js';
 import {loadChapterTwo} from './puzzle/chapter-two-progress.js';
-import {REVIEW_STAGES,reviewCards,stage54ComparisonRows,stage59ComparisonRows,stage57ComparisonRows,stage70ComparisonRows} from './puzzle/chapter-two-review-summary.js';
+import {REVIEW_STAGES,reviewCards,stage54ComparisonRows,stage59ComparisonRows,stage57ComparisonRows,stage70ComparisonRows,formatChapterTwoComparisonText} from './puzzle/chapter-two-review-summary.js';
 const $=id=>document.getElementById(id);
 const root=new URL('../',import.meta.url);
 const data=await fetch(new URL('data/chapters/chapter-02/adventure-v1.json',root));
@@ -140,8 +140,40 @@ function render(){
   nextLink.textContent='次に遊ぶ：第'+next.stageNumber+'面 '+next.label+'（未評価）';
  }
  // Candidate-only feedback is exportable even if the campaign stages have no reviews.
- $('export-review').disabled=!rated.size||!$('review-error').hidden;
+ const canShare=Boolean(rated.size)&&$('review-error').hidden;
+ $('export-review').disabled=!canShare;
+ $('copy-review').disabled=!canShare;
 }
+$('copy-review').addEventListener('click',async()=>{
+ const status=$('export-status'),manual=$('share-manual-copy'),label=$('share-manual-copy-label');
+ let text;
+ // Re-read storage at the moment of the explicit user action; never copy stale or corrupt feedback.
+ try{
+  const feedback=loadChapterTwoReviews(localStorage).reviews;
+  const ordered=[
+   ...stage54ComparisonRows(stages,remixStages,feedback).map(row=>({...row,stageNumber:54})),
+   ...stage57ComparisonRows(stages,gateResearch,feedback).map(row=>({...row,stageNumber:57})),
+   ...stage59ComparisonRows(stages,returnStages,feedback).map(row=>({...row,stageNumber:59})),
+   ...stage70ComparisonRows(stages,finaleStages,feedback).map(row=>({...row,stageNumber:70}))
+  ];
+  if(!ordered.some(row=>row.hasReview))throw Error('No human reviews to copy');
+  text=formatChapterTwoComparisonText(ordered);
+ }catch(error){
+  status.textContent='感想を読み取れませんでした。元の保存データは変更していません。';
+  return;
+ }
+ try{
+  if(!navigator.clipboard?.writeText)throw Error('Clipboard API unavailable');
+  await navigator.clipboard.writeText(text);
+  manual.hidden=true;label.hidden=true;
+  status.textContent='比較試遊の感想をコピーしました。チャットに貼り付けて共有できます。';
+ }catch(error){
+  // Safari can refuse clipboard permission. Show selectable text instead of losing the result.
+  manual.value=text;manual.hidden=false;label.hidden=false;
+  manual.focus();manual.select();
+  status.textContent='自動コピーが使えないため、文章を表示しました。長押ししてコピーできます。';
+ }
+});
 $('export-review').addEventListener('click',()=>{
  try{
   const body=exportChapterTwoReviews(localStorage);

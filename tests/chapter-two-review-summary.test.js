@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import fs from 'node:fs';import {reviewCards,REVIEW_STAGES,stage54ComparisonRows,stage59ComparisonRows,stage57ComparisonRows,stage70ComparisonRows} from '../src/puzzle/chapter-two-review-summary.js';
+import fs from 'node:fs';import {reviewCards,REVIEW_STAGES,stage54ComparisonRows,stage59ComparisonRows,stage57ComparisonRows,stage70ComparisonRows,formatChapterTwoComparisonText} from '../src/puzzle/chapter-two-review-summary.js';
 const stages=JSON.parse(fs.readFileSync(new URL('../data/chapters/chapter-02/adventure-v1.json',import.meta.url))).stages;
 test('four comparison stages are exactly 54, 57, 59, 70, keeping official stage names',()=>{
  assert.deepEqual(REVIEW_STAGES.map(x=>x.number),[54,57,59,70]);
@@ -81,4 +81,27 @@ test('stage70 review retains original and both distinct finale candidates',()=>{
  assert.deepEqual(rows.map(x=>x.key),['original','a','b']);
  assert.ok(rows.slice(1).every(x=>x.status==='研究用・未採用'));
  assert.throws(()=>stage70ComparisonRows(stages,stage70Candidates.slice(1),{}),/Three verified/);
+});
+
+test('12-variant Japanese share text includes human reviews, missing variants and no auto-adoption',()=>{
+ const groups=[
+  ...stage54ComparisonRows(stages,remixes,{}).map(row=>({...row,stageNumber:54})),
+  ...stage57ComparisonRows(stages,stage57Variants,{}).map(row=>({...row,stageNumber:57})),
+  ...stage59ComparisonRows(stages,stage59Research,{}).map(row=>({...row,stageNumber:59})),
+  ...stage70ComparisonRows(stages,stage70Candidates,{}).map(row=>({...row,stageNumber:70}))
+ ];
+ groups[1]={...groups[1],hasReview:true,rating:'面白かった',difficulty:'難しい',insight:'発見があって気持ちよかった',note:'中盤の壁移動に気づけた'};
+ groups[11]={...groups[11],hasReview:true,rating:'ふつう',difficulty:'ちょうどいい',insight:'少し発見があった',note:''};
+ const before=JSON.stringify(groups);
+ const text=formatChapterTwoComparisonText(groups);
+ assert.match(text,/評価済み 2\/12案/);
+ assert.match(text,/【第54面】/);
+ assert.match(text,/【第70面】/);
+ assert.match(text,/中盤の壁移動に気づけた/);
+ assert.match(text,/改良案B.*ふつう/);
+ assert.match(text,/研究用・未採用/);
+ assert.match(text,/現行70面：未評価/);
+ assert.equal(JSON.stringify(groups),before);
+ assert.throws(()=>formatChapterTwoComparisonText(groups.slice(1)),/12 verified/);
+ assert.throws(()=>formatChapterTwoComparisonText([...groups.slice(0,11),{...groups[0],stageNumber:70}]),/out-of-order|Duplicated/);
 });
