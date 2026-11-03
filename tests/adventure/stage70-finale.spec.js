@@ -17,6 +17,8 @@ for(const width of [320,390]){
    await expect(page.locator('#fun-glove-remaining')).toHaveText('1');
    await expect(page.locator('#fun-warp-remaining')).toHaveText('2');
    let expectedState=initialGate(s);
+   await expect(page.locator('#star-journey-label')).toHaveText('集めた星 0 / '+s.stars.length);
+   await expect(page.locator('#star-journey-track')).toHaveAttribute('aria-valuenow','0');
    for(const [i,action] of s.proof.entries()){
     const {prep,dir}=action;
     await page.locator('[data-fun-mode="'+prep.type+'"]').click();
@@ -32,6 +34,10 @@ for(const width of [320,390]){
     await expect(page.locator('#fun-retry')).toBeEnabled();
     const previous=expectedState;
     expectedState=applyGate(s,expectedState,action);
+    const earned=s.stars.length-expectedState.stars.length;
+    await expect(page.locator('#star-journey-label')).toHaveText('集めた星 '+earned+' / '+s.stars.length);
+    await expect(page.locator('#star-journey-track')).toHaveAttribute('aria-valuenow',String(earned));
+    await expect(page.locator('#star-journey .star-journey-star.collected')).toHaveCount(earned);
     if(previous.stars.length>expectedState.stars.length)
      await expect(page.locator('#fun-board [data-cell="'+expectedState.position+'"].board-cue-star')).toHaveCount(1);
     if(previous.gateOpen!==expectedState.gateOpen)
@@ -41,6 +47,7 @@ for(const width of [320,390]){
    }
    await expect(page.locator('#fun-warp-remaining')).toHaveText('0');
    await expect(page.locator('#fun-stars')).toHaveText('0');
+   await expect(page.locator('#star-journey')).toHaveAttribute('data-complete','true');
    await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
    await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');
    await expect(page.locator('#move-history-summary')).toContainText(s.proof.length+'手');
@@ -56,6 +63,7 @@ for(const width of [320,390]){
    await page.locator('#fun-next').click();
    await expect(page.locator('#playtest-review')).not.toHaveAttribute('open','');
    await expect(page.locator('#move-history-summary')).toContainText('0手');
+   await expect(page.locator('#star-journey-label')).toHaveText('集めた星 0 / '+pack.stages[(j+1)%pack.stages.length].stars.length);
   }
   expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(original);
   expect(errors).toEqual([]);

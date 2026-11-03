@@ -559,3 +559,17 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
  .fun-board .cell.board-cue-item::before,
  .fun-board .cell .board-cue-mark{animation:none}
 }
+
+/* Chapter puzzles: compact star trail without displacing the board controls. */
+.star-journey{
+ display:flex;justify-content:center;align-items:center;gap:9px;
+ width:min(100%,460px);margin:-5px auto 9px;padding:4px 8px;
+ border-radius:0 0 10px 10px;background:#e7f7ffdd;border:1px solid #b9d9ed;
+ border-top:none;min-height:25px;color:#21537e;
+}
+.star-journey-label{font:800 11px/1.4 system-ui,-apple-system,sans-serif;white-space:nowrap}
+.star-journey-track{display:flex;gap:3px;align-items:center;justify-content:center;flex-wrap:wrap}
+.star-journey-star{font-size:clamp(12px,3.3vw,16px);color:#99b0c4;-webkit-text-stroke:.4px #61819c;line-height:1;opacity:.65}
+.star-journey-star.collected{color:#ffc52b;-webkit-text-stroke:.5px #ae7517;filter:drop-shadow(0 1px 3px #ffda70aa);opacity:1}
+.star-journey[data-complete="true"]{border-color:#ebc76b;background:#fff5cf}
+@media(max-width:360px){.star-journey{gap:6px;padding:3px 5px}.star-journey-track{gap:2px}}

@@ -12,6 +12,7 @@ import {buildGateHints} from './puzzle/gate-hints.js';
 import {summarizeMoveHistory} from './puzzle/move-history.js';
 import {describeMoveEffects} from './puzzle/move-effects.js';
 import {describeBoardCues} from './puzzle/board-cues.js';
+import {starJourney} from './puzzle/star-journey.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -51,6 +52,41 @@ const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const currentOptions=()=>solved(state)?[]:(gateMode?gateSuccessors(stage,state):successors(stage,state));
 const root=new URL('../',import.meta.url);
 
+
+
+// A compact, spoiler-free progress strip. Keep the underlying remaining-star
+// counter unchanged for existing players and game accessibility tests.
+const starsAnchor=document.querySelector('.fun-stats');
+if(starsAnchor){
+ const strip=document.createElement('div');
+ strip.id='star-journey';
+ strip.className='star-journey';
+ strip.innerHTML='<span id="star-journey-label" class="star-journey-label"></span><span id="star-journey-track" class="star-journey-track" role="progressbar" aria-label="このステージで集めた星" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0"></span>';
+ starsAnchor.insertAdjacentElement('afterend',strip);
+}
+function renderStarJourney(){
+ const strip=$('star-journey');
+ if(!strip||!stage)return;
+ const progress=starJourney(stage,state);
+ const track=$('star-journey-track');
+ const existing=track.children;
+ // Reuse nodes across steps; completed stars do not replay an animation on every render.
+ if(existing.length!==progress.total){
+  track.replaceChildren();
+  for(let i=0;i<progress.total;i++){
+   const star=document.createElement('span');
+   star.className='star-journey-star';
+   star.setAttribute('aria-hidden','true');
+   star.textContent='★';
+   track.append(star);
+  }
+ }
+ Array.from(track.children).forEach((node,i)=>node.classList.toggle('collected',i<progress.collected));
+ $('star-journey-label').textContent='集めた星 '+progress.collected+' / '+progress.total;
+ track.setAttribute('aria-valuemax',String(progress.total));
+ track.setAttribute('aria-valuenow',String(progress.collected));
+ strip.dataset.complete=String(progress.complete);
+}
 
 // Compact, optional move journal. This is reconstructed from the player's actual
 // moves, never from the puzzle's stored shortest-solution certificate.
@@ -318,6 +354,7 @@ function render(){
  $('fun-focus').textContent=stage.chapter.focus;
  $('fun-moves').textContent=trace.length;
  $('fun-stars').textContent=state.stars.length;
+ renderStarJourney();
  $('fun-shifts').textContent=trace.filter(a=>['wall','glove'].includes(a.prep.type)).length;
  if(adventureMode)for(const [item,type]of [['iceBlock','ice'],['powerGlove','glove'],['warpCrystal','warp']]){const b=document.querySelector('[data-fun-mode="'+type+'"]');if(b)b.textContent=modeNames[type]+'（残り '+state.inventory[item]+'）';}
  for(const [item,id] of [['iceBlock','fun-ice-remaining'],['powerGlove','fun-glove-remaining']]){

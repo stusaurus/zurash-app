@@ -29,6 +29,8 @@ for(const width of [320,390]){
   await expect(page.locator('[data-variant70]')).toHaveCount(3);
   await page.locator('[data-variant70="a"] a').click();
   await expect(page.locator('#fun-title')).toHaveText('五つの灯標・光の連鎖');
+  await expect(page.locator('#star-journey-label')).toHaveText('集めた星 0 / 5');
+  await expect(page.locator('#star-journey-track')).toHaveAttribute('aria-valuenow','0');
   await expect(page.locator('#fun-ice-remaining')).toHaveText('1');
   await expect(page.locator('#fun-glove-remaining')).toHaveText('1');
   await page.goto('/chapter-two-review.html');
@@ -97,6 +99,7 @@ for(const width of [320,390]){
   await page.locator('[data-fun-mode="none"]').click();
   await page.locator('[data-fun-dir="3"]').click();
   await expect(page.locator('#fun-moves')).toHaveText('1');
+  await expect(page.locator('#star-journey-track')).toHaveAttribute('aria-valuenow','0');
   await expect(page.locator('#move-history-summary')).toContainText('1手');
   await page.locator('#move-history summary').click();
   await expect(page.locator('#move-history-list li')).toHaveCount(1);
