@@ -40,6 +40,7 @@ for(const width of [320,390]){
    await expect(page.locator('#review-enjoyment')).toBeFocused();
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
    await page.locator('#fun-next').click();
+   await expect(page.locator('#playtest-review')).not.toHaveAttribute('open','');
   }
   expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(original);
   expect(errors).toEqual([]);

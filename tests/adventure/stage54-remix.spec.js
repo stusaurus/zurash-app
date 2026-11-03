@@ -56,6 +56,8 @@ for(const width of [320,390])test('stage54 review: independent original A/B rati
  await page.locator('#playtest-form button[type="submit"]').click();
  await expect(page.locator('#review-status')).toContainText('保存しました');
  await page.locator('#stage-choices [data-stage-choice="2"]').click();
+ await expect(page.locator('#playtest-review')).toHaveAttribute('open','');
+ await expect(page.locator('#review-enjoyment')).toBeVisible();
  await expect(page.locator('#review-enjoyment')).toHaveValue('');
  await page.locator('#review-enjoyment').selectOption('okay');
  await page.locator('#review-difficulty').selectOption('hard');

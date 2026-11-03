@@ -75,7 +75,7 @@ function showSelection(){
    if(rank==='S')fullRank++;
   }
   button.setAttribute('aria-label',label);
-  button.addEventListener('click',()=>setStage(n));
+  button.addEventListener('click',()=>setStage(n,{preserveReviewOpen:true}));
   $('stage-choices').append(button);
  }
  const progress=$('fun-progress');
@@ -111,8 +111,11 @@ function persistAdventure(){
  try{chapterSave=checkpointTwo(chapterSave,entries,stage,trace,saveOptions);if(!saveReadOnly)writeChapterTwo(localStorage,chapterSave,saveOptions);}
  catch(e){saveReadOnly=true;$('save-status').textContent='保存できませんでした。この画面では遊べますが、再読み込みで進行が失われる場合があります。';}
 }
-function setStage(n,{resume=false}={}){
+function setStage(n,{resume=false,preserveReviewOpen=false}={}){
  if(busy||!entries[n-1]||(adventureMode&&!canEnterTwo(entries,chapterSave,n-1)))return;
+ // Switching candidates through the selector should not force an evaluator
+ // to reopen the panel every time; the Next/Retry actions still collapse it.
+ const keepReviewOpen=preserveReviewOpen&&Boolean($('playtest-review')?.open);
  if(adventureMode)gateMode=entries[n-1].rulesVersion==='solo-v2-gate';
  number=n;stage=entries[n-1];state=gateMode?initialGate(stage):initialPuzzle(stage);trace=[];
  if(adventureMode&&resume&&chapterSave.active?.id===stage.id){trace=structuredClone(chapterSave.active.actions);state=(gateMode?replayGate(stage,trace):replay(stage,trace)).state;}
@@ -126,9 +129,9 @@ function setStage(n,{resume=false}={}){
  $('fun-feedback').replaceChildren();
  if(challengeMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
  showSelection();render();updateReviewForm();
- // A newly selected stage starts with its own collapsed feedback panel.
- // This prevents the previous stage's expanded form from carrying over.
- if($('playtest-review'))$('playtest-review').open=false;
+ // Keep deliberate A/B review sessions open while resetting the inputs to the
+ // newly selected stage. Ordinary progression, retry and reload start closed.
+ if($('playtest-review'))$('playtest-review').open=keepReviewOpen;
  if(adventureMode&&solved(state)){showExpeditionReward();const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！';$('fun-rank').dataset.rank=grade.rank;$('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';$('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回';$('fun-next').textContent=number<entries.length?'次のステージへ':'家に帰る';}
  say(solved(state)?'クリアした記録から再開しました。':gateMode?(state.gateOpen?'氷扉が開いている。続きの1手を考えよう。':'氷扉は閉じている。✦スイッチの上に止まる方法を考えよう。'):number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
 }
