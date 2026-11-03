@@ -512,3 +512,50 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
 @media(prefers-reduced-motion:reduce){
  .fun-board .fun-move-effect{animation:none}
 }
+
+/* The board itself reacts to stars, item use and a changed ice gate. */
+.fun-board .cell.board-cue-star,
+.fun-board .cell.board-cue-gate-open,
+.fun-board .cell.board-cue-gate-closed,
+.fun-board .cell.board-cue-item{isolation:isolate}
+.fun-board .cell.board-cue-star::after,
+.fun-board .cell.board-cue-gate-open::after,
+.fun-board .cell.board-cue-gate-closed::after,
+.fun-board .cell.board-cue-item::before{
+ content:"";position:absolute;inset:3px;border-radius:10px;pointer-events:none;z-index:5;
+}
+.fun-board .cell.board-cue-star::after{
+ background:radial-gradient(circle,#ffe68fcc 0%,#ffda4b55 43%,transparent 72%);
+ outline:2px solid #fff4a1;animation:boardStarGlow .75s ease-out both;
+}
+.fun-board .cell.board-cue-gate-open::after{
+ border:3px solid #9efbe0;box-shadow:0 0 0 3px #86e8ff80,inset 0 0 16px #9efbe0c0;
+ animation:boardGatePulse .9s ease-out both;
+}
+.fun-board .cell.board-cue-gate-closed::after{
+ border:3px solid #edc7ff;box-shadow:0 0 0 3px #d7b1ff88,inset 0 0 16px #c4a4f8c0;
+ animation:boardGatePulse .9s ease-out both;
+}
+.fun-board .cell.board-cue-item::before{
+ border:2px solid #b3efff;box-shadow:inset 0 0 12px #8de9ff80;
+ animation:boardItemFlash .7s ease-out both;
+}
+.fun-board .cell .board-cue-mark{
+ pointer-events:none;user-select:none;position:absolute;left:50%;top:50%;z-index:7;
+ display:grid;place-items:center;transform:translate(-50%,-50%);font-size:clamp(22px,7vw,36px);
+ font-weight:900;color:#fff0a1;text-shadow:0 0 6px #fff,0 0 12px #e3ad18,0 2px 2px #78613a;
+ animation:boardStarSpark .8s ease-out both;
+}
+.fun-board .cell.board-cue-gate-open .board-cue-mark{color:#c3fff3;text-shadow:0 0 10px #e7ffff,0 0 14px #13b88b}
+.fun-board .cell.board-cue-gate-closed .board-cue-mark{color:#e8d4ff;text-shadow:0 0 10px #fff,0 0 14px #684dcb}
+@keyframes boardStarGlow{0%{opacity:0;transform:scale(.65)}40%{opacity:1;transform:scale(1.15)}100%{opacity:.35;transform:scale(1)}}
+@keyframes boardStarSpark{0%{opacity:0;transform:translate(-50%,-50%) scale(.5) rotate(-20deg)}35%{opacity:1;transform:translate(-50%,-50%) scale(1.45) rotate(12deg)}100%{opacity:.7;transform:translate(-50%,-50%) scale(.95)}}
+@keyframes boardGatePulse{0%{opacity:0;transform:scale(.7)}45%{opacity:1;transform:scale(1.07)}100%{opacity:.7;transform:scale(1)}}
+@keyframes boardItemFlash{0%{opacity:0;transform:scale(.82)}45%{opacity:.95;transform:scale(1.05)}100%{opacity:.4;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){
+ .fun-board .cell.board-cue-star::after,
+ .fun-board .cell.board-cue-gate-open::after,
+ .fun-board .cell.board-cue-gate-closed::after,
+ .fun-board .cell.board-cue-item::before,
+ .fun-board .cell .board-cue-mark{animation:none}
+}

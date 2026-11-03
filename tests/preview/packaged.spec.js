@@ -122,9 +122,11 @@ for(const width of [320,390]){
   await page.locator('[data-fun-dir="2"]').click();
   await expect(page.locator('#fun-moves')).toHaveText('1');
   await expect(page.locator('#fun-move-effect')).toContainText('アイスを置いた！');
+  await expect(page.locator('#fun-board [data-cell="24"].board-cue-item')).toHaveCount(1);
   await expect(page.locator('#fun-retry')).toBeEnabled();
   await page.locator('#fun-undo').click();
   await expect(page.locator('#fun-move-effect')).toHaveCount(0);
+  await expect(page.locator('#fun-board .board-cue-item')).toHaveCount(0);
   await expect(page.locator('#fun-moves')).toHaveText('0');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  });

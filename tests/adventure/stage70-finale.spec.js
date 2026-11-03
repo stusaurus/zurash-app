@@ -1,5 +1,6 @@
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
+import {initialGate,applyGate} from '../../src/puzzle/gate-v2.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../../data/chapters/chapter-02/stage70-finale-candidates-v1.json',import.meta.url),'utf8'));
 for(const width of [320,390]){
  test('stage70 finale: A/B complete gate and 3 items with S rank '+width+'px',async({page})=>{
@@ -15,6 +16,7 @@ for(const width of [320,390]){
    await expect(page.locator('#fun-ice-remaining')).toHaveText('1');
    await expect(page.locator('#fun-glove-remaining')).toHaveText('1');
    await expect(page.locator('#fun-warp-remaining')).toHaveText('2');
+   let expectedState=initialGate(s);
    for(const [i,action] of s.proof.entries()){
     const {prep,dir}=action;
     await page.locator('[data-fun-mode="'+prep.type+'"]').click();
@@ -28,6 +30,12 @@ for(const width of [320,390]){
     await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
     // A move is counted before its slide animation finishes; wait for controls to recover.
     await expect(page.locator('#fun-retry')).toBeEnabled();
+    const previous=expectedState;
+    expectedState=applyGate(s,expectedState,action);
+    if(previous.stars.length>expectedState.stars.length)
+     await expect(page.locator('#fun-board [data-cell="'+expectedState.position+'"].board-cue-star')).toHaveCount(1);
+    if(previous.gateOpen!==expectedState.gateOpen)
+     await expect(page.locator('#fun-board [data-cell="'+s.gate.tile+'"].board-cue-gate-'+(expectedState.gateOpen?'open':'closed'))).toHaveCount(1);
     if(prep.type==='ice')await expect(page.locator('#fun-ice-remaining')).toHaveText('0');
     if(prep.type==='glove')await expect(page.locator('#fun-glove-remaining')).toHaveText('0');
    }
