@@ -22,6 +22,10 @@ for(const width of [320,390]){
   await expect(page.locator('#fun-title')).toHaveText('氷海の往復航路');
   await expect(page.locator('#fun-warp-remaining')).toHaveText('2');
   await page.goto('/chapter-two-review.html');
+  await expect(page.locator('[data-variant57]')).toHaveCount(3);
+  await page.locator('[data-variant57="a"] a').click();
+  await expect(page.locator('#fun-title')).toHaveText('七つ星と氷扉の連鎖');
+  await page.goto('/chapter-two-review.html');
   await page.locator('[data-review-stage="54"] a.primary').click();
   await expect(page.locator('#fun-count')).toHaveText('STAGE 54');
   await expect(page.locator('#fun-title')).not.toHaveText('読み込み中…');

@@ -19,6 +19,9 @@ on:
       - 'tests/adventure/stage54-remix.spec.js'
       - 'stage54-remix-lab.html'
       - 'stage59-return-lab.html'
+      - 'stage57-remix-lab.html'
+      - 'tests/stage57-remix.test.js'
+      - 'tests/adventure/stage57-remix.spec.js'
       - 'tests/stage59-return.test.js'
       - 'tests/adventure/stage59-return.spec.js'
       - 'scripts/chapter-two-pattern-audit.js'
@@ -77,7 +80,7 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js tests/gate-long.test.js tests/gate-cycle.test.js tests/gate-closure.test.js tests/gate-warp.test.js tests/gate-glove.test.js tests/chapter-two-progress.test.js tests/chapter-two-playtest.test.js tests/chapter-two-review-summary.test.js tests/chapter-two-pattern-audit.test.js tests/stage54-remix.test.js tests/stage59-return.test.js tests/chapter-two-stages.test.js tests/expedition.test.js
+      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js tests/gate-long.test.js tests/gate-cycle.test.js tests/gate-closure.test.js tests/gate-warp.test.js tests/gate-glove.test.js tests/chapter-two-progress.test.js tests/chapter-two-playtest.test.js tests/chapter-two-review-summary.test.js tests/chapter-two-pattern-audit.test.js tests/stage54-remix.test.js tests/stage59-return.test.js tests/stage57-remix.test.js tests/chapter-two-stages.test.js tests/expedition.test.js
       - run: node scripts/chapter-two-certify.js
       - name: Audit human-review-priority patterns without altering stage data
         run: node scripts/chapter-two-pattern-audit.js
@@ -86,6 +89,8 @@ jobs:
         run: npx playwright test -c playwright.chapter.config.js -g "stage54 review" --output=test-results-stage54-review
       - name: Verify stage59 return remixes, both winning routes and local reviews
         run: npx playwright test -c playwright.chapter.config.js -g "stage59 return" --output=test-results-stage59-return
+      - name: Verify stage57 A/B full browser playthroughs and reviews
+        run: npx playwright test -c playwright.chapter.config.js -g "stage57 remix" --output=test-results-stage57-remix
       - name: Test item, switch gate and CPU trial pages (Chromium / WebKit)
         run: npx playwright test -c playwright.chapter.config.js -g "expedition rewards|chapter two adventure|review hub|stage54 remix|item laboratory|CPU rival|switch gate|item long trials|dual item trials|gate long trials|gate cycle trials|gate closure trials|gate warp trials" --output=test-results-chapter-two
         env:

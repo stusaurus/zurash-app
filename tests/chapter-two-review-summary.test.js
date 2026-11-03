@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import fs from 'node:fs';import {reviewCards,REVIEW_STAGES,stage54ComparisonRows,stage59ComparisonRows} from '../src/puzzle/chapter-two-review-summary.js';
+import fs from 'node:fs';import {reviewCards,REVIEW_STAGES,stage54ComparisonRows,stage59ComparisonRows,stage57ComparisonRows} from '../src/puzzle/chapter-two-review-summary.js';
 const stages=JSON.parse(fs.readFileSync(new URL('../data/chapters/chapter-02/adventure-v1.json',import.meta.url))).stages;
 test('three comparison stages are exactly 54, 57, 59, keeping official stage names',()=>{
  assert.deepEqual(REVIEW_STAGES.map(x=>x.number),[54,57,59]);
@@ -58,4 +58,14 @@ test('stage59 comparison retains original plus two separate candidate data recor
  assert.ok(rows.slice(1).every(x=>x.status==='研究用・未採用'));
  assert.ok(rows.every(x=>x.rating==='未評価'));
  assert.throws(()=>stage59ComparisonRows(stages,stage59Research.slice(0,1),{}),/Three verified/);
+});
+
+const stage57Variants=JSON.parse(fs.readFileSync(new URL('../data/chapters/chapter-02/stage57-remix-candidates-v1.json',import.meta.url))).stages;
+test('stage57 comparison retains the original and displays two faster, distinct alternatives',()=>{
+ const rows=stage57ComparisonRows(stages,stage57Variants,{});
+ assert.deepEqual(rows.map(r=>r.minimumTurns),[19,16,17]);
+ assert.deepEqual(rows.map(r=>r.wallActions),[8,6,4]);
+ assert.deepEqual(rows.map(r=>r.key),['original','a','b']);
+ assert.ok(rows.slice(1).every(r=>r.status==='研究用・未採用'));
+ assert.throws(()=>stage57ComparisonRows(stages,stage57Variants.slice(1),{}),/Three verified/);
 });
