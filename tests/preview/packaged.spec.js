@@ -26,6 +26,12 @@ for(const width of [320,390]){
   await page.locator('[data-variant57="a"] a').click();
   await expect(page.locator('#fun-title')).toHaveText('七つ星と氷扉の連鎖');
   await page.goto('/chapter-two-review.html');
+  await expect(page.locator('[data-variant70]')).toHaveCount(3);
+  await page.locator('[data-variant70="a"] a').click();
+  await expect(page.locator('#fun-title')).toHaveText('五つの灯標・光の連鎖');
+  await expect(page.locator('#fun-ice-remaining')).toHaveText('1');
+  await expect(page.locator('#fun-glove-remaining')).toHaveText('1');
+  await page.goto('/chapter-two-review.html');
   await page.locator('[data-review-stage="54"] a.primary').click();
   await expect(page.locator('#fun-count')).toHaveText('STAGE 54');
   await expect(page.locator('#fun-title')).not.toHaveText('読み込み中…');
