@@ -24,6 +24,8 @@ for(const width of [320,390]){
     }
     await page.locator('[data-fun-dir="'+dir+'"]').click();
     await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+    // A move is counted before its slide animation finishes; wait for controls to recover.
+    await expect(page.locator('#fun-retry')).toBeEnabled();
    }
    await expect(page.locator('#fun-stars')).toHaveText('0');
    await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');

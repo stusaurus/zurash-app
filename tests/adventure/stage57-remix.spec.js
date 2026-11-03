@@ -22,6 +22,8 @@ for(const width of [320,390]){
     }
     await page.locator('[data-fun-dir="'+dir+'"]').click();
     await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+    // A move is counted before its slide animation finishes; wait for controls to recover.
+    await expect(page.locator('#fun-retry')).toBeEnabled();
     if(stage.provenance.toggleTurns.includes(i+1)){
      const isOpen=stage.provenance.toggleTurns.indexOf(i+1)%2===0;
      await expect(page.locator('#fun-gate-status')).toContainText(isOpen?'開いている':'閉じている');

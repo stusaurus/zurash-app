@@ -119,5 +119,12 @@ jobs:
           name: chapter-two-preview-qa
           path: |
             playwright-chapter-two-report/
+            playwright-preview-report/
             test-results-chapter-two/
+            test-results-stage54-review/
+            test-results-stage59-return/
+            test-results-stage57-remix/
+            test-results-stage70-finale/
+            test-results-preview-bundle/
+          if-no-files-found: warn
           retention-days: 14

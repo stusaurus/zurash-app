@@ -26,6 +26,8 @@ for(const width of [320,390]){
     }
     await page.locator('[data-fun-dir="'+dir+'"]').click();
     await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+    // A move is counted before its slide animation finishes; wait for controls to recover.
+    await expect(page.locator('#fun-retry')).toBeEnabled();
     if(prep.type==='ice')await expect(page.locator('#fun-ice-remaining')).toHaveText('0');
     if(prep.type==='glove')await expect(page.locator('#fun-glove-remaining')).toHaveText('0');
    }
