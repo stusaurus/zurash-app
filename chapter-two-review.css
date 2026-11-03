@@ -9,6 +9,8 @@ section,.card{border-radius:18px;background:linear-gradient(150deg,#f7fdff,#d8f2
 h2{font-size:17px;margin:0 0 9px;color:#0f5286}p{font-size:13px;line-height:1.7;margin:6px 0}
 .guide p{margin:5px 0}.notice{background:#eafaff;border-left:3px solid #3d93d0;padding:9px;margin-top:12px!important}
 .summary{background:#ffebb5;border:1px solid #eac97a;color:#77511d;border-radius:11px;font-weight:850;padding:10px 12px;text-align:center}
+.next-trial{display:flex;align-items:center;justify-content:center;min-height:52px;padding:12px;margin:10px 0 16px;border:2px solid #f5ce6f;border-radius:12px;text-align:center;text-decoration:none;font-weight:900;font-size:14px;background:linear-gradient(#fff9df,#f6cd72);color:#754b0b;box-shadow:0 3px #b78e3e}
+.next-trial[hidden]{display:none}
 .cards{display:grid;gap:10px}.card{margin:0}.card h2{margin-bottom:3px}.stage{color:#1d77ad;font-weight:900;font-size:12px}
 .metric{font-size:12px;color:#205477;font-weight:750;margin:7px 0}
 .note{font-size:12px;background:white;border-radius:10px;padding:10px;border:1px solid #a8cbdf;white-space:pre-wrap;overflow-wrap:anywhere}

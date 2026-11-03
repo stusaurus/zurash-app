@@ -51,7 +51,7 @@ small{display:block;opacity:.92;margin-top:25px;line-height:1.8}
 <nav class="links" aria-label="遊ぶモードを選ぶ">
 <a class="main" href="./chapter-two.html?trial=1">❄ 第51面から冒険する</a>
 <a href="./chapter-two.html?trial=1&practice=1&stage=60">✦ 第60面から自由試遊</a>
-<a href="./chapter-two-review.html">❖ 54・57・59面を比較する</a>
+<a href="./chapter-two-review.html">❖ 54・57・59・70面を比較する</a>
 <a href="./chapter-two.html?trial=1&practice=1&stage=54">第54面を評価する</a>
 <a href="./stage54-remix-lab.html">🧊 第54面改良版・16手と17手を試す</a>
 <a href="./chapter-two.html?trial=1&practice=1&stage=57">第57面を評価する</a>

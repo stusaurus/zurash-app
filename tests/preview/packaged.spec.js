@@ -8,9 +8,9 @@ for(const width of [320,390]){
   await page.goto('/');
   await expect(page.getByRole('heading',{name:'氷の向こうへの冒険'})).toBeVisible();
   await expect(page.getByRole('link',{name:'第51面から冒険する'})).toBeVisible();
-  await page.getByRole('link',{name:'54・57・59面を比較する'}).click();
-  await expect(page.locator('[data-review-stage]')).toHaveCount(3);
-  await expect(page.locator('#review-summary')).toContainText('0面の感想');
+  await page.getByRole('link',{name:'54・57・59・70面を比較する'}).click();
+  await expect(page.locator('[data-review-stage]')).toHaveCount(4);
+  await expect(page.locator('#review-summary')).toContainText('12案中 0案の感想');
   await expect(page.locator('#stage54-remix-compare a')).toHaveCount(3);
   await page.locator('[data-variant="a"] a').click();
   await page.locator('#playtest-review summary').click();

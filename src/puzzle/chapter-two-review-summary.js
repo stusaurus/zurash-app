@@ -2,7 +2,8 @@
 export const REVIEW_STAGES=Object.freeze([
  {number:54,question:'長い滑走中も「考えること」が続いた？',contrast:null},
  {number:57,question:'氷扉を3回切り替えるひらめきは気持ちよかった？',contrast:67},
- {number:59,question:'最後のワープは「発見」だった？ それともただの作業？',contrast:65}
+ {number:59,question:'最後のワープは「発見」だった？ それともただの作業？',contrast:65},
+ {number:70,question:'最終面にふさわしい達成感と、道具を連携するひらめきはあった？',contrast:null}
 ]);
 const enjoyment={fun:'面白かった',okay:'ふつう',poor:'改善してほしい'};
 const difficulty={easy:'簡単',balanced:'ちょうどいい',hard:'難しい'};

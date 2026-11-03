@@ -122,10 +122,24 @@ function render(){
  }
  const rated70=finaleRows.filter(x=>x.hasReview).length;
  $('stage70-compare-status').textContent='70面の3案中 '+rated70+'案の感想を記録。'+(rated70===3?'最終面の達成感を比較して判断してください。':'現行案と改良A/Bを比べてください。');
- const reviewed=rows.filter(r=>r.hasReview).length;
- $('review-summary').textContent='3面中 '+reviewed+'面の感想を記録しました。'+(reviewed===3?'比較用の記録がそろいました。':'どの順番でも遊べます。');
- // Candidate-only feedback is exportable even when none of 54/57/59 is rated.
- const rated=new Set([...rows,...comparisons,...gateRows,...returnRows,...finaleRows].filter(row=>row.hasReview).map(row=>row.id));
+ const reviewOrder=[
+  ...comparisons.map(row=>({...row,stageNumber:54})),
+  ...gateRows.map(row=>({...row,stageNumber:57})),
+  ...returnRows.map(row=>({...row,stageNumber:59})),
+  ...finaleRows.map(row=>({...row,stageNumber:70}))
+ ];
+ const rated=new Set(reviewOrder.filter(row=>row.hasReview).map(row=>row.id));
+ const reviewed=rows.filter(row=>row.hasReview).length;
+ $('review-summary').textContent='現行版 '+reviewed+'/4面、12案中 '+rated.size+'案の感想を記録。'+
+  (rated.size===12?'全案の評価がそろいました。感想を比較して採否を判断してください。':'未評価の案から続けて遊べます。');
+ const next=reviewOrder.find(row=>!row.hasReview);
+ const nextLink=$('next-unreviewed');
+ nextLink.hidden=!next;
+ if(next){
+  nextLink.href=next.url;
+  nextLink.textContent='次に遊ぶ：第'+next.stageNumber+'面 '+next.label+'（未評価）';
+ }
+ // Candidate-only feedback is exportable even if the campaign stages have no reviews.
  $('export-review').disabled=!rated.size||!$('review-error').hidden;
 }
 $('export-review').addEventListener('click',()=>{

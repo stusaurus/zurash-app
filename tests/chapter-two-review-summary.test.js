@@ -1,10 +1,10 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
 import fs from 'node:fs';import {reviewCards,REVIEW_STAGES,stage54ComparisonRows,stage59ComparisonRows,stage57ComparisonRows,stage70ComparisonRows} from '../src/puzzle/chapter-two-review-summary.js';
 const stages=JSON.parse(fs.readFileSync(new URL('../data/chapters/chapter-02/adventure-v1.json',import.meta.url))).stages;
-test('three comparison stages are exactly 54, 57, 59, keeping official stage names',()=>{
- assert.deepEqual(REVIEW_STAGES.map(x=>x.number),[54,57,59]);
+test('four comparison stages are exactly 54, 57, 59, 70, keeping official stage names',()=>{
+ assert.deepEqual(REVIEW_STAGES.map(x=>x.number),[54,57,59,70]);
  const rows=reviewCards(stages,{});
- assert.equal(rows.length,3);
+ assert.equal(rows.length,4);
  for(const r of rows){
   assert.ok(r.minimumTurns>=1);
   assert.ok(r.title.length>1);
@@ -13,6 +13,8 @@ test('three comparison stages are exactly 54, 57, 59, keeping official stage nam
  }
  assert.equal(rows[1].contrast,67);
  assert.equal(rows[2].contrast,65);
+ assert.equal(rows[3].contrast,null);
+ assert.equal(rows[3].minimumTurns,18);
 });
 test('ratings and both verified completion ledgers are displayed separately without mutation',()=>{
  const s=stages.find(x=>x.chapter.number===57),review={enjoyment:'fun',difficulty:'hard',note:'三度開いた'};
@@ -27,6 +29,7 @@ test('ratings and both verified completion ledgers are displayed separately with
 });
 test('missing candidate data is a hard error, never silently invented',()=>{
  assert.throws(()=>reviewCards(stages.filter(x=>x.chapter.number!==59),{}),/Missing comparison stage 59/);
+ assert.throws(()=>reviewCards(stages.filter(x=>x.chapter.number!==70),{}),/Missing comparison stage 70/);
 });
 
 const remixes=JSON.parse(fs.readFileSync(new URL('../data/chapters/chapter-02/stage54-remix-candidates-v1.json',import.meta.url))).stages;
