@@ -365,6 +365,26 @@ $('fun-hint').addEventListener('click',()=>{
   });
  });
 });
+// Make post-clear playtest feedback discoverable in the result panel itself.
+// The control never writes to storage; feedback is only persisted after form submission.
+const reviewPanel=$('playtest-review');
+const reviewActions=$('fun-result')?.querySelector('.fun-result-buttons');
+if(reviewPanel&&reviewActions){
+ const reviewButton=document.createElement('button');
+ reviewButton.id='fun-review-now';
+ reviewButton.type='button';
+ reviewButton.className='fun-again';
+ reviewButton.textContent='📝 この面を評価';
+ reviewButton.addEventListener('click',()=>{
+  reviewPanel.open=true;
+  reviewPanel.scrollIntoView({
+   behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
+   block:'start'
+  });
+  $('review-enjoyment')?.focus({preventScroll:true});
+ });
+ reviewActions.append(reviewButton);
+}
 $('fun-next').addEventListener('click',()=>{if(adventureMode&&number===entries.length){location.href='./adventure.html';return;}setStage(number===entries.length?1:number+1);});
 $('fun-again')?.addEventListener('click',()=>setStage(number));
 $('download-invalid-save')?.addEventListener('click',()=>{

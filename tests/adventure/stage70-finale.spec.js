@@ -33,6 +33,11 @@ for(const width of [320,390]){
    await expect(page.locator('#fun-stars')).toHaveText('0');
    await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
    await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');
+   await expect(page.locator('#fun-review-now')).toBeVisible();
+   await expect(page.locator('#playtest-review')).not.toHaveAttribute('open','');
+   await page.locator('#fun-review-now').click();
+   await expect(page.locator('#playtest-review')).toHaveAttribute('open','');
+   await expect(page.locator('#review-enjoyment')).toBeFocused();
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
    await page.locator('#fun-next').click();
   }
