@@ -15,7 +15,7 @@ export function formatClearShare({stage,turns,mode='research'}={}){
   research:'研究パズル・第'+stage.chapter.number+'面'
  }[mode];
  const outcome=grade?.rank==='unqualified'?'星を全部集めた！（合格手数は未達）':
-  grade?grade.rank+'ランクでクリア！':'クリア！';
+  grade?grade.rank+'ランクを達成！':'クリア！';
  // Keep line lengths and labels human-readable, without copying any solution.
  return '❄️ ズラッシュ！\n【'+kind+'】「'+stage.chapter.title.trim()+'」\n'+turns+'手で'+outcome+'\n#ズラッシュ';
 }

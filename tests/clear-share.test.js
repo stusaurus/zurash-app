@@ -17,6 +17,7 @@ test('certified rank and real turn count are used, never an arbitrary claim',()=
   assert.ok(copy.includes(stage.chapter.title));
   assert.ok(copy.includes(turns+'手'));
   assert.ok(copy.includes(label));
+  if(turns===8)assert.ok(copy.includes('8手でSランクを達成！'));
   assert.ok(copy.endsWith('#ズラッシュ'));
   assert.ok(!copy.includes('prep'));
   assert.ok(!copy.includes('warpCrystal'));
