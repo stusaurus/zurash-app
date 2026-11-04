@@ -206,7 +206,9 @@ for(const width of [320,390]){
   const save=checkpointTwo(newChapterTwo(),completedJourneyStages,stage,stage.proof);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.addInitScript(({key,value})=>localStorage.setItem(key,value),{key:CHAPTER_TWO_KEY,value:JSON.stringify(save)});
-  await page.goto('/chapter-two.html?stage=51');
+  // Trial entry bypasses chapter-one completion for preview QA only; it is
+  // not practice mode and still uses the genuine chapter-two record ledger.
+  await page.goto('/chapter-two.html?trial=1&stage=51');
   await expect(page.locator('#fun-result')).toBeVisible();
   await expect(page.locator('#fun-best-chase')).toBeHidden();
   await page.locator('#fun-again').click();
