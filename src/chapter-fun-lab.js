@@ -20,12 +20,16 @@ import {formatClearShare} from './puzzle/clear-share.js';
 import {challengeReplayPath,shareableChallengeUrl} from './puzzle/challenge-replay-link.js';
 import {invitationGuide} from './puzzle/invitation-guide.js';
 import {controlGuide} from './puzzle/control-guide.js';
+import {tapLanding,ambiguousTapCells} from './puzzle/tap-landing.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
 const pagePath=location.pathname.replace(/\/$/,'').replace(/\.html$/,'');
 const adventureMode=pagePath.endsWith('/chapter-two');
 const saveOptions={practice:new URLSearchParams(location.search).get('practice')==='1'};
+// Deliberately isolated trial; ordinary adventures and study modes are unchanged.
+const tapFirst=adventureMode&&new URLSearchParams(location.search).get('tap')==='1';
+if(tapFirst)document.documentElement.classList.add('fun-tap-first');
 const canEnterTwo=(entries,save,index)=>canEnterTwoBase(entries,save,index,saveOptions);
 let chapterSave=newChapterTwo(),saveReadOnly=false;
 const longMode=pagePath.endsWith('/long-lab');
@@ -436,7 +440,7 @@ function showFirstInvitation(){
  const steps=document.createElement('div');
  steps.className='fun-invite-steps';
  for(const step of guide.steps){
-  const line=document.createElement('p');line.textContent=step;steps.append(line);
+  const line=document.createElement('p');line.textContent=tapFirst&&step.includes('▲ ▶ ▼ ◀')?'② 光る停止マスをタップして滑る':step;steps.append(line);
  }
  const privacy=document.createElement('p');
  privacy.className='fun-invite-privacy';privacy.textContent=guide.privacy;
@@ -523,13 +527,14 @@ function paintBoard(options){
   optionsOfMode.filter(p=>!['wall','glove'].includes(mode)||p.from===selectedWall).map(p=>p.to));
  const matches=options.filter(o=>same(o.action.prep,selectedPrep));
  const arrivals=new Set(matches.map(o=>o.state.position));
+ const ambiguous=tapFirst?ambiguousTapCells(options,selectedPrep):new Set();
  let cells='';
  for(let c=0;c<w*h;c++){
   if(!playable.has(c)){cells+='<span class="hole" aria-hidden="true"></span>';continue;}
   const wall=visual.walls.includes(c),fixed=stage.fixed.includes(c),portal=stage.portals.some(pair=>pair.includes(c)),gate=gateMode&&c===stage.gate.tile,switchTile=gateMode&&c===stage.gate.switch,ice=visual.ice.includes(c),star=state.stars.includes(c),player=visual.position===c,arrive=arrivals.has(c)&&!player;
   const socket=stage.iceSockets.includes(c)&&!ice;
-  const klass=['cell',wall?'wall':'',fixed?'wall fixed-wall':'',portal?'portal-cell':'',gate?'gate-tile':'',gate&&!state.gateOpen?'gate-closed':'',switchTile?'switch-tile':'',ice?'ice':'',socket?'socket':'',hotspots.has(c)?'hot':'',selectedWall===c?'selected':'',arrive?'arrival':''].filter(Boolean).join(' ');
-  const label=['左から'+(c%w+1)+'、上から'+(Math.floor(c/w)+1),wall?'動く壁':'',fixed?'動かせない壁':'',portal?'転送門':'',gate?(state.gateOpen?'開いた氷扉':'閉じた氷扉'):'',switchTile?'扉を切り替えるスイッチ':'',player?'トリケン':'',star?'星':'',socket?'氷を置ける':'',hotspots.has(c)?(choosingWall?'ここから動かせる壁':'準備の移動先'):'',arrive?'ここへ滑る':''].filter(Boolean).join('・');
+  const klass=['cell',wall?'wall':'',fixed?'wall fixed-wall':'',portal?'portal-cell':'',gate?'gate-tile':'',gate&&!state.gateOpen?'gate-closed':'',switchTile?'switch-tile':'',ice?'ice':'',socket?'socket':'',hotspots.has(c)?'hot':'',selectedWall===c?'selected':'',arrive?'arrival':'',ambiguous.has(c)?'tap-ambiguous':''].filter(Boolean).join(' ');
+  const label=['左から'+(c%w+1)+'、上から'+(Math.floor(c/w)+1),wall?'動く壁':'',fixed?'動かせない壁':'',portal?'転送門':'',gate?(state.gateOpen?'開いた氷扉':'閉じた氷扉'):'',switchTile?'扉を切り替えるスイッチ':'',player?'トリケン':'',star?'星':'',socket?'氷を置ける':'',hotspots.has(c)?(choosingWall?'ここから動かせる壁':'準備の移動先'):'',arrive?(ambiguous.has(c)?'方向ボタンで選んで滑る':'ここへ滑る'):''].filter(Boolean).join('・');
   cells+='<button type="button" class="'+klass+'" data-cell="'+c+'" aria-label="'+label+'" '+(busy?'disabled':'')+'>'+
    (star?'<span class="star" aria-hidden="true">★</span>':'')+
    (portal?'<span class="portal-indicator" aria-hidden="true">✧</span>':'')+
@@ -600,11 +605,12 @@ function render(){
  renderMoveHistory();
  const coach=$('fun-action-guide');
  if(coach){
-  const guide=controlGuide({mode,selectedWall,selectedPrep,options,cleared:solved(state)});
+  const guide=controlGuide({mode,selectedWall,selectedPrep,options,cleared:solved(state),tapFirst});
   coach.dataset.phase=guide.phase;
   $('fun-action-title').textContent=guide.title;
   $('fun-action-next').textContent=guide.instruction;
-  $('fun-action-directions').textContent=guide.directions?'いま滑れる方向：'+guide.directions:'';
+  $('fun-action-directions').textContent=tapFirst?'':guide.directions?'いま滑れる方向：'+guide.directions:'';
+  if(tapFirst&&ambiguousTapCells(options,selectedPrep).size)$('fun-action-directions').textContent='※ 重なる停止マスは補助の方向ボタンで選ぼう';
  }
  for(const button of document.querySelectorAll('[data-fun-mode]')){
   const key=button.dataset.funMode;
@@ -625,14 +631,24 @@ function changeMode(next){
  if(busy||solved(state))return;
  mode=next;selectedWall=null;selectedPrep=next==='none'?{type:'none'}:null;
  render();
- say(['wall','glove'].includes(next)?'動かす壁 → 光る移動先 → 滑る方向を選ぼう。':next==='ice'?'氷を置く光るソケットをタップしよう。':next==='warp'?'移動先のポータルをタップ → 滑る方向を選ぼう。':'停止先の光るマスをタップして滑ろう。');
+ say(['wall','glove'].includes(next)?'動かす壁 → 光る移動先 → '+(tapFirst?'光る停止マス':'滑る方向')+'を選ぼう。':next==='ice'?'氷を置く光るソケットをタップしよう。':next==='warp'?'移動先のポータルをタップ → '+(tapFirst?'光る停止マス':'滑る方向')+'を選ぼう。':'停止先の光るマスをタップして滑ろう。');
 }
 function selectCell(cell){
  if(busy||solved(state))return;
  const options=currentOptions();
  if(selectedPrep){
-  const arrival=options.find(o=>same(o.action.prep,selectedPrep)&&o.state.position===cell);
-  if(arrival){takeStep(arrival.action);return;}
+  if(tapFirst){
+   const hit=tapLanding(options,selectedPrep,cell);
+   if(hit?.kind==='move'){takeStep(hit.action);return;}
+   if(hit?.kind==='direction-required'){
+    showDirectionPad(true);
+    say('ここには違う滑り方で止まれるよ。方向ボタンから選ぼう。');
+    return;
+   }
+  }else{
+   const arrival=options.find(o=>same(o.action.prep,selectedPrep)&&o.state.position===cell);
+   if(arrival){takeStep(arrival.action);return;}
+  }
  }
  const preps=options.map(o=>o.action.prep).filter(p=>p.type===mode);
  if(mode==='wall'||mode==='glove'){
@@ -649,7 +665,7 @@ function selectCell(cell){
  if(mode==='none'&&state.walls.includes(cell)){changeMode('wall');selectCell(cell);return;}
  if(mode==='none'&&stage.iceSockets.includes(cell)&&stage.inventory.iceBlock){changeMode('ice');selectCell(cell);return;}
  if(mode==='none'&&stage.portals.some(pair=>pair.includes(cell))&&stage.inventory.warpCrystal){changeMode('warp');selectCell(cell);return;}
- say('光るマスを選ぶか、右の十字キーで滑ろう。');
+ say(tapFirst?'光るマスをタップして滑ろう。必要なら方向ボタンも開けるよ。':'光るマスを選ぶか、右の十字キーで滑ろう。');
 }
 async function takeStep(action){
  if(busy||solved(state))return;
@@ -867,6 +883,25 @@ $('reset-invalid-save')?.addEventListener('click',()=>{
  }
 });
 
+function showDirectionPad(open){
+ const pad=$('fun-dpad'),toggle=$('fun-direction-toggle');
+ if(!tapFirst||!pad||!toggle)return;
+ pad.dataset.open=String(open);
+ toggle.setAttribute('aria-expanded',String(open));
+ toggle.textContent=open?'方向ボタンを閉じる':'方向ボタンを使う（補助）';
+}
+if(tapFirst){
+ const toggle=$('fun-direction-toggle');
+ if(toggle){
+  toggle.hidden=false;
+  toggle.addEventListener('click',()=>showDirectionPad($('fun-dpad').dataset.open!=='true'));
+ }
+ showDirectionPad(false);
+ const paragraphs=document.querySelectorAll('#fun-quick-help .fun-quick-help-body p');
+ if(paragraphs[1])paragraphs[1].innerHTML='<strong>② すべる</strong> 光る停止マスをタップして進もう。';
+ if(paragraphs[2])paragraphs[2].innerHTML='<strong>③ 道具を使う</strong> 壁・氷・グローブ・ワープを選び、光る場所をタップ。最後に停止マスを選ぼう。';
+ if(paragraphs[3])paragraphs[3].textContent='こまったら「1手戻す」や「ヒント」を使おう。方向ボタンも補助で開けるよ。';
+}
 window.addEventListener('resize',()=>{if(stage)render();});
 document.addEventListener('keydown',e=>{
  if(!stage||busy)return;
