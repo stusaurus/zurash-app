@@ -509,7 +509,9 @@ function setStage(n,{resume=false,preserveReviewOpen=false,invited=false}={}){
 function paintBoard(options){
  const w=stage.board.width,h=stage.board.height;
  const maxH=adventureMode?Math.min(350,Math.max(230,innerHeight*.32)):Math.min(390,Math.max(270,innerHeight*.40));
- const availableWidth=Math.min(innerWidth-52,460);
+ // Tap mode has no permanent direction pad; reclaim the safe inner panel
+ // margin for slightly larger target cells on narrow mobile screens.
+ const availableWidth=Math.min(innerWidth-(tapFirst?40:52),460);
  const width=Math.min(availableWidth,((maxH-26)/h)*w+26);
  const board=$('fun-board');
  board.style.width=Math.floor(width)+'px';
