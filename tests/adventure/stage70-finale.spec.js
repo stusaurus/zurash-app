@@ -74,6 +74,11 @@ for(const width of [320,390]){
    await expect(page.locator('#fun-result')).toBeHidden();
    await expect(page.locator('#fun-board')).toHaveClass(/stage-entry/);
    await expect(page.locator('#star-journey-label')).toHaveText('集めた星 0 / '+pack.stages[(j+1)%pack.stages.length].stars.length);
+   if(j===pack.stages.length-1){
+    await expect(page.locator('#fun-best-chase')).toBeVisible();
+    await expect(page.locator('#fun-best-chase')).toHaveAttribute('data-phase','s-replay');
+    await expect(page.locator('#fun-best-chase-label')).toContainText('Sランク再挑戦');
+   }
   }
   expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(original);
   expect(errors).toEqual([]);

@@ -198,3 +198,32 @@ for(const width of [320,390]){
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  });
 }
+
+for(const width of [320,390]){
+ test('packaged adventure: earned S-best pace tracks retry, move, Undo without resetting best '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  const stage=completedJourneyStages[0];
+  const save=checkpointTwo(newChapterTwo(),completedJourneyStages,stage,stage.proof);
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.addInitScript(({key,value})=>localStorage.setItem(key,value),{key:CHAPTER_TWO_KEY,value:JSON.stringify(save)});
+  await page.goto('/chapter-two.html?stage=51');
+  await expect(page.locator('#fun-result')).toBeVisible();
+  await expect(page.locator('#fun-best-chase')).toBeHidden();
+  await page.locator('#fun-again').click();
+  await expect(page.locator('#fun-result')).toBeHidden();
+  await expect(page.locator('#fun-best-chase')).toBeVisible();
+  await expect(page.locator('#fun-best-chase')).toHaveAttribute('data-phase','s-replay');
+  await expect(page.locator('#fun-best-chase-label')).toContainText('あと8手');
+  await page.locator('[data-fun-mode="none"]').click();
+  await page.locator('[data-fun-dir="1"]').click();
+  await expect(page.locator('#fun-moves')).toHaveText('1');
+  await expect(page.locator('#fun-retry')).toBeEnabled();
+  await expect(page.locator('#fun-best-chase-label')).toContainText('あと7手');
+  await page.locator('#fun-undo').click();
+  await expect(page.locator('#fun-moves')).toHaveText('0');
+  await expect(page.locator('#fun-best-chase-label')).toContainText('あと8手');
+  expect(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).completed,CHAPTER_TWO_KEY)).toEqual(save.completed);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  expect(errors).toEqual([]);
+ });
+}

@@ -15,6 +15,7 @@ import {describeBoardCues} from './puzzle/board-cues.js';
 import {starJourney} from './puzzle/star-journey.js';
 import {clearPresentation} from './puzzle/clear-presentation.js';
 import {describePersonalRecord} from './puzzle/clear-record.js';
+import {personalBestPace} from './puzzle/personal-best-pace.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -429,7 +430,28 @@ function render(){
    $('fun-remaining').textContent=rest>=0?'合格ラインまで残り '+rest+'手':'合格ラインを '+Math.abs(rest)+'手超過';
    $('fun-remaining').dataset.over=String(rest<0);
    const best=sessionBestTurns.get(stage.id);
-   $('fun-best').textContent=best===undefined?'':(adventureMode?'自己ベスト ':'今回の試遊での自己ベスト ')+best+'手';
+   $('fun-best').textContent=best===undefined?'':(adventureMode?(saveOptions.practice?'自由試遊のベスト ':'自己ベスト '):'今回の試遊での自己ベスト ')+best+'手';
+   // Compare with the player's previously earned record, never with a proof.
+   let chase=$('fun-best-chase');
+   if(!chase){
+    chase=document.createElement('div');
+    chase.id='fun-best-chase';
+    chase.className='fun-best-chase';
+    const label=document.createElement('span');
+    label.id='fun-best-chase-label';label.className='fun-best-chase-label';
+    const track=document.createElement('span');
+    track.className='fun-best-chase-track';track.setAttribute('aria-hidden','true');
+    const fill=document.createElement('span');
+    fill.id='fun-best-chase-fill';fill.className='fun-best-chase-fill';
+    track.append(fill);chase.append(label,track);target.append(chase);
+   }
+   const pace=personalBestPace({turns:trace.length,bestTurns:best??null,minimumTurns:goal.minimumTurns,cleared:solved(state)});
+   chase.hidden=!pace;
+   if(pace){
+    chase.dataset.phase=pace.phase;
+    $('fun-best-chase-label').textContent=pace.label;
+    $('fun-best-chase-fill').style.width=Math.round(pace.fraction*100)+'%';
+   }
   }
  }
 
