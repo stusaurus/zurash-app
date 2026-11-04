@@ -816,3 +816,19 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
  .fun-action-guide .fun-quick-help summary strong{font-size:11px}
  .fun-action-guide .fun-quick-help .fun-quick-help-label{font-size:10px;padding:4px 6px}
 }
+
+/* STEP33, opt-in tap=1 experiment: no change to normal adventure controls. */
+html.fun-tap-first .fun-controls{display:block}
+html.fun-tap-first .fun-tools{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+html.fun-tap-first .fun-tools button{min-height:44px}
+html.fun-tap-first #fun-dpad:not([data-open="true"]){display:none!important}
+html.fun-tap-first #fun-dpad[data-open="true"]{margin:10px auto;max-width:max-content}
+html.fun-tap-first .fun-board .cell.arrival{outline:3px solid #f5a12e;outline-offset:-2px}
+html.fun-tap-first .fun-board .cell.arrival:not(:disabled){box-shadow:0 0 0 2px #fff,0 0 8px 2px #ffda6e}
+html.fun-tap-first .fun-board .cell.tap-ambiguous{outline-color:#9b56bf}
+.fun-direction-toggle{
+ display:block;width:100%;min-height:44px;padding:6px 10px;margin:5px 0 0;
+ border:1px solid #8abbd7;border-radius:10px;background:#e7f4ff;
+ color:#215e89;font:800 11px/1.4 system-ui,-apple-system,sans-serif;
+}
+.fun-direction-toggle[hidden]{display:none!important}
