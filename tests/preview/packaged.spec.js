@@ -162,7 +162,7 @@ for(const width of [320,390]){
   expect(shared).not.toContain('Sランク');
   expect(shared).not.toContain('http://');
   await expect(page.locator('#clear-challenge-play')).toHaveAttribute('href','./fun-lab.html?stage=1');
-  await expect(page.locator('#clear-challenge-info')).toContainText('未公開のURL');
+  await expect(page.locator('#clear-challenge-info')).toContainText('正式公開前の試遊版');
   expect(shared).not.toContain('prep');
   expect(await page.evaluate(()=>JSON.stringify(localStorage))).toBe(before);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

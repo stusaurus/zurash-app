@@ -27,6 +27,9 @@ test('only an HTTPS host serving the active game can produce a copyable absolute
  assert.equal(shareableChallengeUrl('file:///tmp/chapter-two.html',path),null);
  assert.equal(shareableChallengeUrl('https://user:pass@example.com/chapter-two.html',path),null);
  assert.equal(shareableChallengeUrl('https://stusaurus.github.io/zurash-app/chapter-two.html','https://other.example/'),null);
+ assert.equal(shareableChallengeUrl('https://temporary-preview.example.com/chapter-two.html',path),null);
+ assert.equal(shareableChallengeUrl('https://stusaurus.github.io/other-project/chapter-two.html',path),null);
+ assert.equal(shareableChallengeUrl('https://another-user.github.io/zurash-app/chapter-two.html',path),null);
 });
 
 test('bad page names, impossible stage numbers and injected query arguments fail closed',()=>{

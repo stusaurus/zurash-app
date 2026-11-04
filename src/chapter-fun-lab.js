@@ -216,7 +216,7 @@ function updateClearPresentation(grade,recordContext=null){
  }
  info.textContent=shareableChallengeUrl(location.href,invite)?
   '公開ページのURLがある場合、コピー文にもこの面の挑戦リンクを付けます。':
-  'ローカル試遊版のため、コピー文には未公開のURLを含めません。';
+  '正式公開前の試遊版では、共有文にURLを含めません。';
  $('clear-share-status').textContent='';
  const nextStage=entries[number]??null;
  const view=clearPresentation({stage,nextStage,rank:grade?.rank??'clear',adventureMode,comparisonMode});

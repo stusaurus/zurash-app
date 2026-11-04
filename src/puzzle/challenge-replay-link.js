@@ -28,8 +28,12 @@ export function shareableChallengeUrl(currentUrl,relativePath){
  try{location=new URL(currentUrl);}catch{return null;}
  // A ZIP preview uses loopback HTTP. Never put that unopenable address in a
  // public shared message. A published HTTPS site can use its own live origin.
- if(location.protocol!=='https:'||location.username||location.password||
-    !location.hostname||location.hostname==='localhost'||location.hostname.endsWith('.localhost'))
+ // Never copy ephemeral HTTPS preview links. Only the designated
+ // GitHub Pages origin and repo path can issue public invitation URLs.
+ // Pages is not enabled yet; this becomes usable only after a real deploy.
+ if(location.origin!=='https://stusaurus.github.io'||
+    !location.pathname.startsWith('/zurash-app/')||
+    location.username||location.password)
   return null;
  const url=new URL(relativePath,location);
  if(url.origin!==location.origin)return null;
