@@ -6,7 +6,7 @@ const labels=Object.freeze({none:'そのまま滑る',wall:'壁をずらす',ice
 const arrows=Object.freeze(['↑','→','↓','←']);
 const samePrep=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 
-export function controlGuide({mode,selectedWall=null,selectedPrep=null,options=[],cleared=false}){
+export function controlGuide({mode,selectedWall=null,selectedPrep=null,options=[],cleared=false,tapFirst=false}){
  if(!Object.hasOwn(labels,mode)||!Array.isArray(options))throw Error('Invalid control guide');
  if(cleared)return Object.freeze({title:'クリア！',instruction:'星をぜんぶ集めたよ。次の冒険へ進もう。',directions:'',phase:'clear'});
  const available=options.filter(o=>o?.action?.prep?.type===mode);
@@ -16,7 +16,7 @@ export function controlGuide({mode,selectedWall=null,selectedPrep=null,options=[
  let instruction,phase;
  if(mode==='none'){
   phase='direction';
-  instruction='光る停止マスか、下の矢印を押そう。';
+  instruction=tapFirst?'光る停止マスをタップして滑ろう。':'光る停止マスか、下の矢印を押そう。';
  }else if((mode==='wall'||mode==='glove')&&selectedWall===null){
   phase='wall';
   instruction='光っている動かせる壁をタップしよう。';
@@ -28,7 +28,7 @@ export function controlGuide({mode,selectedWall=null,selectedPrep=null,options=[
   instruction=mode==='ice'?'氷を置ける光るマスをタップしよう。':'ワープ先の光るポータルをタップしよう。';
  }else{
   phase='direction';
-  instruction='準備OK！ 光る停止マスか、下の矢印を押そう。';
+  instruction=tapFirst?'準備OK！ 光る停止マスをタップしよう。':'準備OK！ 光る停止マスか、下の矢印を押そう。';
  }
  if(phase==='direction'&&!directions)instruction='この準備では滑れないよ。別の操作を選んでみよう。';
  return Object.freeze({title,instruction,directions,phase});
