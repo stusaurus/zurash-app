@@ -655,3 +655,20 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
  .fun-goal .fun-best-chase{padding:6px 7px}
  .fun-goal .fun-best-chase-label{font-size:10px}
 }
+
+/* Copyable, spoiler-free clear record on all result screens. */
+.fun-result .clear-share-copy{
+ display:block;width:min(100%,370px);margin:8px auto;
+ padding:11px 14px;min-height:44px;border-radius:12px;
+ border:2px solid #88b8db;color:#185b84;background:#e8f6ff;
+ font:850 13px/1.35 system-ui,-apple-system,sans-serif;
+ cursor:pointer;touch-action:manipulation;
+}
+.fun-result .clear-share-copy:hover{background:#d1efff}
+.fun-result .clear-share-copy:focus-visible{outline:3px solid #e6b65e;outline-offset:3px}
+.fun-result .clear-share-copy:disabled{opacity:.6;cursor:wait}
+.fun-result .clear-share-status{
+ margin:4px 0 8px;font:700 11px/1.45 system-ui,-apple-system,sans-serif;
+ color:#285c77;text-align:center;min-height:0;
+}
+.fun-result .clear-share-status:empty{display:none}

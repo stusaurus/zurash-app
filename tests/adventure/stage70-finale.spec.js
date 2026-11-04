@@ -5,6 +5,11 @@ const pack=JSON.parse(fs.readFileSync(new URL('../../data/chapters/chapter-02/st
 for(const width of [320,390]){
  test('stage70 finale: A/B complete gate and 3 items with S rank '+width+'px',async({page})=>{
   await page.setViewportSize({width,height:844});
+  await page.addInitScript(()=>{
+   Object.defineProperty(navigator,'clipboard',{configurable:true,value:{
+    writeText:async text=>{window.__clearCopy=text;}
+   }});
+  });
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});
   await page.goto('/stage70-finale-lab.html');
@@ -56,6 +61,15 @@ for(const width of [320,390]){
    await expect(page.locator('#clear-personal-record')).toHaveAttribute('data-record-state','first');
    await expect(page.locator('#clear-personal-record')).toContainText('初クリア！');
    await expect(page.locator('#clear-personal-record')).toContainText(s.proof.length+'手');
+   await expect(page.locator('#clear-share-copy')).toBeVisible();
+   await page.locator('#clear-share-copy').click();
+   await expect(page.locator('#clear-share-status')).toContainText('コピーしました');
+   const shared=await page.evaluate(()=>window.__clearCopy);
+   expect(shared).toContain('研究候補（正式採用前）');
+   expect(shared).toContain(s.chapter.title);
+   expect(shared).toContain(s.proof.length+'手でSランク');
+   expect(shared).not.toContain('prep');
+   expect(shared).not.toContain('ワープで島へ');
    await expect(page.locator('#fun-next')).toHaveText(j===0?'次の候補へ':'最初からもう一度');
    await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');
    await expect(page.locator('#move-history-summary')).toContainText(s.proof.length+'手');

@@ -16,6 +16,7 @@ import {starJourney} from './puzzle/star-journey.js';
 import {clearPresentation} from './puzzle/clear-presentation.js';
 import {describePersonalRecord} from './puzzle/clear-record.js';
 import {personalBestPace} from './puzzle/personal-best-pace.js';
+import {formatClearShare} from './puzzle/clear-share.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -140,6 +141,50 @@ function updateClearPresentation(grade,recordContext=null){
   record.dataset.recordState=resultView.state;
   record.textContent=resultView.text;
  }else if(record)record.hidden=true;
+
+ // A result is shared only on explicit tap after a real clear. In particular,
+ // never include solution moves, saved identifiers or a URL not yet published.
+ let share=$('clear-share-copy');
+ if(!share){
+  share=document.createElement('button');
+  share.type='button';share.id='clear-share-copy';
+  share.className='clear-share-copy';
+  share.textContent='✧ クリア記録をコピー';
+  result.insertBefore(share,result.querySelector('.fun-result-buttons'));
+  const feedback=document.createElement('p');
+  feedback.id='clear-share-status';feedback.className='clear-share-status';
+  feedback.setAttribute('role','status');
+  feedback.setAttribute('aria-live','polite');
+  share.insertAdjacentElement('afterend',feedback);
+  share.addEventListener('click',async()=>{
+   if(!stage||!solved(state)||share.disabled)return;
+   share.disabled=true;
+   const status=$('clear-share-status');
+   try{
+    const kind=adventureMode?(saveOptions.practice?'practice':'adventure'):
+      comparisonMode?'candidate':'research';
+    const text=formatClearShare({stage,turns:trace.length,mode:kind});
+    let copied=false;
+    if(navigator.clipboard?.writeText){
+     try{await navigator.clipboard.writeText(text);copied=true;}catch(_){}
+    }
+    if(!copied){
+     const input=document.createElement('textarea');
+     input.value=text;input.readOnly=true;
+     input.setAttribute('aria-hidden','true');
+     input.style.cssText='position:fixed;left:-9999px;top:0;opacity:0';
+     document.body.append(input);
+     try{input.focus();input.select();copied=document.execCommand?.('copy')===true;}
+     finally{input.remove();}
+    }
+    status.textContent=copied?'クリア記録をコピーしました。友達に貼り付けて共有できます。':
+     'コピーできませんでした。端末の設定を確認してください。';
+   }catch(_){
+    status.textContent='コピーできませんでした。端末の設定を確認してください。';
+   }finally{share.disabled=false;}
+  });
+ }
+ $('clear-share-status').textContent='';
  const nextStage=entries[number]??null;
  const view=clearPresentation({stage,nextStage,rank:grade?.rank??'clear',adventureMode,comparisonMode});
  result.dataset.clearRank=view.rank;

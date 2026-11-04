@@ -139,6 +139,52 @@ for(const width of [320,390]){
 }
 
 for(const width of [320,390]){
+ test('packaged clear share works without leaking a move sequence at '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  await page.addInitScript(()=>{
+   Object.defineProperty(navigator,'clipboard',{configurable:true,value:{
+    writeText:async text=>{window.__clearCopy=text;}
+   }});
+  });
+  const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('/fun-lab.html?stage=1');
+  await expect(page.locator('#clear-share-copy')).toHaveCount(0);
+  await page.locator('[data-fun-mode="none"]').click();
+  await page.locator('[data-fun-dir="1"]').click();
+  await expect(page.locator('#clear-share-copy')).toBeVisible();
+  const before=await page.evaluate(()=>JSON.stringify(localStorage));
+  await page.locator('#clear-share-copy').click();
+  await expect(page.locator('#clear-share-status')).toContainText('コピーしました');
+  const shared=await page.evaluate(()=>window.__clearCopy);
+  expect(shared).toContain('すべってみよう');
+  expect(shared).toContain('1手でクリア');
+  expect(shared).toContain('研究パズル');
+  expect(shared).not.toContain('Sランク');
+  expect(shared).not.toContain('prep');
+  expect(await page.evaluate(()=>JSON.stringify(localStorage))).toBe(before);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  expect(errors).toEqual([]);
+ });
+}
+test('packaged clear share never claims success if clipboard access is blocked',async({page})=>{
+ await page.setViewportSize({width:320,height:844});
+ await page.addInitScript(()=>{
+  Object.defineProperty(navigator,'clipboard',{configurable:true,value:{
+   writeText:async()=>{throw Error('Clipboard denied by browser');}
+  }});
+  Object.defineProperty(document,'execCommand',{configurable:true,value:()=>false});
+ });
+ const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ await page.goto('/fun-lab.html?stage=1');
+ await page.locator('[data-fun-mode="none"]').click();
+ await page.locator('[data-fun-dir="1"]').click();
+ await page.locator('#clear-share-copy').click();
+ await expect(page.locator('#clear-share-status')).toContainText('コピーできませんでした');
+ await expect(page.locator('#clear-share-status')).not.toContainText('コピーしました');
+ await expect(page.locator('#fun-result')).toBeVisible();
+ expect(errors).toEqual([]);
+});
+for(const width of [320,390]){
  test('packaged preview: first puzzle clear shows reward, next preview and seamless stage entry '+width+'px',async({page})=>{
   await page.setViewportSize({width,height:844});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
