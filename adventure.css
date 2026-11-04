@@ -742,3 +742,27 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
 @media(prefers-reduced-motion:reduce){
  .fun-invite,.fun-invite *{transition:none!important;animation:none!important}
 }
+
+/* STEP 30: A spoiler-free reminder that stays available after the one-shot
+ * invitation closes. Native details needs no localStorage or JS state. */
+.fun-quick-help{
+ margin:0 0 5px;border:1px solid #8ac3e1;border-radius:12px;
+ background:#edf9ff;color:#154c74;overflow:hidden;
+}
+.fun-quick-help summary{
+ display:flex;align-items:center;justify-content:center;
+ min-height:44px;padding:7px 13px;
+ color:#155d89;font:850 12px/1.4 system-ui,-apple-system,sans-serif;
+ cursor:pointer;touch-action:manipulation;
+}
+.fun-quick-help summary:focus-visible{outline:3px solid #e6ad43;outline-offset:-3px}
+.fun-quick-help[open] summary{border-bottom:1px solid #aad5ea;background:#d9f1ff}
+.fun-quick-help-body{padding:7px 11px 9px}
+.fun-quick-help-body p{margin:6px 0;font:700 12px/1.6 system-ui,-apple-system,sans-serif}
+.fun-quick-help-body strong{color:#165a93}
+.fun-quick-help-body .fun-quick-help-tip{color:#41687e;font-size:11px}
+@media(max-width:360px){
+ .fun-quick-help summary{font-size:11px}
+ .fun-quick-help-body{padding:6px 9px 8px}
+ .fun-quick-help-body p{font-size:11px}
+}

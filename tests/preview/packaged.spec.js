@@ -274,12 +274,26 @@ for(const width of [320,390]){
   await expect(page.locator('#fun-invite')).toHaveCount(0);
   await expect(page.locator('#fun-board')).toBeFocused();
   await expect(page.locator('#fun-moves')).toHaveText('0');
+  // The one-shot letter is gone, but a compact reminder is always available.
+  const help=page.locator('#fun-quick-help');
+  await expect(help).not.toHaveAttribute('open','');
+  await expect(help.locator('summary')).toHaveCSS('min-height','44px');
+  await help.locator('summary').click();
+  await expect(help).toHaveAttribute('open','');
+  await expect(help).toContainText('通りすぎるだけでは取れない');
+  await expect(help).toContainText('光る場所をタップ');
+  await expect(help).toContainText('1手戻す');
+  await expect(page.locator('[data-fun-mode="none"]')).toBeEnabled();
+  await help.locator('summary').click();
+  await expect(help).not.toHaveAttribute('open','');
   expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(original);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.reload();
   await expect(page.locator('#fun-count')).toHaveText('STAGE 70');
   await expect(page.locator('#fun-moves')).toHaveText('0');
   await expect(page.locator('#fun-invite')).toHaveCount(0);
+  await expect(page.locator('#fun-quick-help summary')).toBeVisible();
+  await expect(page.locator('#fun-quick-help')).not.toHaveAttribute('open','');
   expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(original);
   expect(errors).toEqual([]);
  });
@@ -291,6 +305,9 @@ for(const width of [320,390]){
   await expect(page.locator('#fun-count')).toHaveText('STAGE 51');
   await expect(page.locator('#fun-invite')).toHaveCount(0);
   await expect(page.locator('#fun-board')).toBeVisible();
+  await expect(page.locator('#fun-quick-help')).not.toHaveAttribute('open','');
+  await page.locator('#fun-quick-help summary').click();
+  await expect(page.locator('#fun-quick-help')).toContainText('星のマスで止まる');
   await expect(page.locator('[data-fun-mode="none"]')).toBeEnabled();
  });
 }
