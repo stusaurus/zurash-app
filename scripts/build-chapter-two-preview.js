@@ -58,7 +58,7 @@ small{display:block;opacity:.92;margin-top:25px;line-height:1.8}
 <a href="./stage57-remix-lab.html">▦ 第57面・ゲート切替改良A/Bを試す</a>
 <a href="./chapter-two.html?trial=1&practice=1&stage=59">第59面を評価する</a>
 <a href="./stage59-return-lab.html">✧ 第59面・往復ワープ改良A/Bを試す</a>
-<a href="./chapter-two.html?trial=1&practice=1&stage=70&tap=1">✦ 第70面・盤面タップ中心の操作を試す（実験版）</a>
+<a href="./chapter-two.html?trial=1&practice=1&stage=51&tap=1">✦ 第51面から盤面タップで遊ぶ（実験版）</a>
 <a href="./chapter-two.html?trial=1&practice=1&stage=70">第70面の現行フィナーレ</a>
 <a href="./stage70-finale-lab.html">✦ 第70面・光のフィナーレA/Bを試す</a>
 <a href="./adventure.html">トリケンの家・第1章</a>
