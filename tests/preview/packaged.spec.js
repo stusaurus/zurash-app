@@ -262,6 +262,11 @@ for(const width of [320,390]){
   await expect(page.locator('#fun-moves')).toHaveText('0');
   await expect(page.locator('#save-status')).toContainText('自由試遊');
   await expect(page.locator('#fun-invite')).toBeVisible();
+  await expect(page.locator('#fun-action-title')).toHaveText('選んだ操作：そのまま滑る');
+  await expect(page.locator('#fun-action-guide')).toHaveAttribute('data-phase','direction');
+  const legalDirs=await page.locator('[data-fun-dir][data-legal="true"]').count();
+  expect(legalDirs).toBeGreaterThan(0);
+  await expect(page.locator('#fun-action-directions')).not.toBeEmpty();
   await expect(page.locator('#fun-invite')).toContainText('トリケンからの挑戦状');
   await expect(page.locator('#fun-invite')).toContainText('STAGE 70');
   await expect(page.locator('#fun-invite')).toContainText(completedJourneyStages[19].chapter.title);
@@ -306,11 +311,43 @@ for(const width of [320,390]){
   await expect(page.locator('#fun-invite')).toHaveCount(0);
   await expect(page.locator('#fun-board')).toBeVisible();
   await expect(page.locator('#fun-quick-help')).not.toHaveAttribute('open','');
+  await expect(page.locator('#fun-action-guide')).toHaveAttribute('data-phase','direction');
   await page.locator('#fun-quick-help summary').click();
   await expect(page.locator('#fun-quick-help')).toContainText('星のマスで止まる');
   await expect(page.locator('[data-fun-mode="none"]')).toBeEnabled();
  });
 }
+
+for(const width of [320,390]){
+ test('packaged stage70: legal wall selection, destination and directions are explained without spoilers '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('/chapter-two.html?trial=1&practice=1&stage=70');
+  await expect(page.locator('#fun-action-guide')).toHaveAttribute('data-phase','direction');
+  const before=await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'));
+  const wall=page.locator('[data-fun-mode="wall"]');
+  await expect(wall).toBeEnabled();
+  await wall.click();
+  await expect(page.locator('#fun-action-guide')).toHaveAttribute('data-phase','wall');
+  await expect(page.locator('#fun-action-next')).toContainText('動かせる壁');
+  await expect(page.locator('#fun-board .cell.wall.hot').first()).toBeVisible();
+  await expect(page.locator('[data-fun-dir][data-legal="true"]')).toHaveCount(0);
+  await page.locator('#fun-board .cell.wall.hot').first().click();
+  await expect(page.locator('#fun-action-guide')).toHaveAttribute('data-phase','target');
+  await expect(page.locator('#fun-action-next')).toContainText('移動先');
+  await page.locator('#fun-board .cell.hot').first().click();
+  await expect(page.locator('#fun-action-guide')).toHaveAttribute('data-phase','direction');
+  await expect(page.locator('#fun-action-directions')).not.toBeEmpty();
+  expect(await page.locator('[data-fun-dir][data-legal="true"]').count()).toBeGreaterThan(0);
+  await page.locator('[data-fun-mode="none"]').click();
+  await expect(page.locator('#fun-action-title')).toHaveText('選んだ操作：そのまま滑る');
+  await expect(page.locator('#fun-action-guide')).toHaveAttribute('data-phase','direction');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  expect(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'))).toBe(before);
+  expect(errors).toEqual([]);
+ });
+}
+
 for(const width of [320,390]){
  test('packaged adventure: earned S-best pace tracks retry, move, Undo without resetting best '+width+'px',async({page})=>{
   await page.setViewportSize({width,height:844});

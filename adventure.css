@@ -766,3 +766,27 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
  .fun-quick-help-body{padding:6px 9px 8px}
  .fun-quick-help-body p{font-size:11px}
 }
+
+/* STEP 31: dynamic, solution-free control coach and legal-action affordances. */
+.fun-action-guide{
+ display:grid;grid-template-columns:minmax(0,1fr);gap:2px;
+ margin:6px 0 3px;padding:8px 10px;
+ border:1px solid #80bbda;border-left:4px solid #2c95c4;
+ border-radius:10px;background:#eaf8ff;color:#174e75;
+}
+.fun-action-guide strong{font:850 12px/1.35 system-ui,-apple-system,sans-serif}
+.fun-action-guide span{font:750 12px/1.5 system-ui,-apple-system,sans-serif}
+.fun-action-guide small{font:850 11px/1.45 system-ui,-apple-system,sans-serif;color:#196f92}
+.fun-action-guide small:empty{display:none}
+.fun-action-guide[data-phase="wall"],
+.fun-action-guide[data-phase="target"]{border-left-color:#d59a35;background:#fff9e8}
+.fun-action-guide[data-phase="clear"]{border-left-color:#4aab80;background:#e8f9ee}
+.fun-board .cell.wall.hot{outline:3px solid #ffd264;outline-offset:-2px}
+.fun-controls .dpad button[data-legal="true"]:not(:disabled){
+ box-shadow:inset 0 0 0 2px #b9f8ff,0 0 0 2px #1986bf;
+}
+@media(max-width:360px){
+ .fun-action-guide{padding:6px 8px}
+ .fun-action-guide strong,.fun-action-guide span{font-size:11px}
+ .fun-action-guide small{font-size:10px}
+}

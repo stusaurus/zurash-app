@@ -19,6 +19,7 @@ import {personalBestPace} from './puzzle/personal-best-pace.js';
 import {formatClearShare} from './puzzle/clear-share.js';
 import {challengeReplayPath,shareableChallengeUrl} from './puzzle/challenge-replay-link.js';
 import {invitationGuide} from './puzzle/invitation-guide.js';
+import {controlGuide} from './puzzle/control-guide.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -517,7 +518,9 @@ function paintBoard(options){
  if(selectedPrep?.type==='warp')visual.position=selectedPrep.to;
  if(selectedPrep?.type==='ice')visual.ice.push(selectedPrep.to);
  const optionsOfMode=options.filter(o=>o.action.prep.type===mode).map(o=>o.action.prep);
- const hotspots=new Set(optionsOfMode.filter(p=>!['wall','glove'].includes(mode)||p.from===selectedWall).map(p=>p.to));
+ const choosingWall=['wall','glove'].includes(mode)&&selectedWall===null;
+ const hotspots=new Set(choosingWall?optionsOfMode.map(p=>p.from):
+  optionsOfMode.filter(p=>!['wall','glove'].includes(mode)||p.from===selectedWall).map(p=>p.to));
  const matches=options.filter(o=>same(o.action.prep,selectedPrep));
  const arrivals=new Set(matches.map(o=>o.state.position));
  let cells='';
@@ -526,7 +529,7 @@ function paintBoard(options){
   const wall=visual.walls.includes(c),fixed=stage.fixed.includes(c),portal=stage.portals.some(pair=>pair.includes(c)),gate=gateMode&&c===stage.gate.tile,switchTile=gateMode&&c===stage.gate.switch,ice=visual.ice.includes(c),star=state.stars.includes(c),player=visual.position===c,arrive=arrivals.has(c)&&!player;
   const socket=stage.iceSockets.includes(c)&&!ice;
   const klass=['cell',wall?'wall':'',fixed?'wall fixed-wall':'',portal?'portal-cell':'',gate?'gate-tile':'',gate&&!state.gateOpen?'gate-closed':'',switchTile?'switch-tile':'',ice?'ice':'',socket?'socket':'',hotspots.has(c)?'hot':'',selectedWall===c?'selected':'',arrive?'arrival':''].filter(Boolean).join(' ');
-  const label=['左から'+(c%w+1)+'、上から'+(Math.floor(c/w)+1),wall?'動く壁':'',fixed?'動かせない壁':'',portal?'転送門':'',gate?(state.gateOpen?'開いた氷扉':'閉じた氷扉'):'',switchTile?'扉を切り替えるスイッチ':'',player?'トリケン':'',star?'星':'',socket?'氷を置ける':'',hotspots.has(c)?'準備の移動先':'',arrive?'ここへ滑る':''].filter(Boolean).join('・');
+  const label=['左から'+(c%w+1)+'、上から'+(Math.floor(c/w)+1),wall?'動く壁':'',fixed?'動かせない壁':'',portal?'転送門':'',gate?(state.gateOpen?'開いた氷扉':'閉じた氷扉'):'',switchTile?'扉を切り替えるスイッチ':'',player?'トリケン':'',star?'星':'',socket?'氷を置ける':'',hotspots.has(c)?(choosingWall?'ここから動かせる壁':'準備の移動先'):'',arrive?'ここへ滑る':''].filter(Boolean).join('・');
   cells+='<button type="button" class="'+klass+'" data-cell="'+c+'" aria-label="'+label+'" '+(busy?'disabled':'')+'>'+
    (star?'<span class="star" aria-hidden="true">★</span>':'')+
    (portal?'<span class="portal-indicator" aria-hidden="true">✧</span>':'')+
@@ -595,6 +598,14 @@ function render(){
  if(gateStatus)gateStatus.textContent='氷の扉：'+(state.gateOpen?'開いている ◇':'閉じている ▦')+' ／ ✦スイッチで開閉';
  paintBoard(options);
  renderMoveHistory();
+ const coach=$('fun-action-guide');
+ if(coach){
+  const guide=controlGuide({mode,selectedWall,selectedPrep,options,cleared:solved(state)});
+  coach.dataset.phase=guide.phase;
+  $('fun-action-title').textContent=guide.title;
+  $('fun-action-next').textContent=guide.instruction;
+  $('fun-action-directions').textContent=guide.directions?'いま滑れる方向：'+guide.directions:'';
+ }
  for(const button of document.querySelectorAll('[data-fun-mode]')){
   const key=button.dataset.funMode;
   button.hidden=['ice','glove','warp'].includes(key)&&!stage.inventory[{ice:'iceBlock',glove:'powerGlove',warp:'warpCrystal'}[key]];
@@ -604,6 +615,7 @@ function render(){
  for(const button of document.querySelectorAll('[data-fun-dir]')){
   const dir=Number(button.dataset.funDir);
   button.disabled=busy||!selectedPrep||!options.some(o=>same(o.action.prep,selectedPrep)&&o.action.dir===dir);
+  button.dataset.legal=String(!button.disabled);
  }
  $('fun-undo').disabled=busy||trace.length===0;
  $('fun-retry').disabled=busy;
