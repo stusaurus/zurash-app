@@ -322,6 +322,45 @@ for(const width of [320,390]){
 
 
 
+
+for(const [width,height] of [[320,568],[390,844]]){
+ test('tap-first compact layout keeps board, tools and Undo together, not a new button row '+width+'x'+height,async({page})=>{
+  await page.setViewportSize({width,height});
+  await page.goto('/chapter-two.html?trial=1&practice=1&stage=70&tap=1');
+  await expect(page.locator('#fun-dpad')).toBeHidden();
+  await expect(page.locator('#fun-tools #fun-direction-toggle')).toBeVisible();
+  await expect(page.locator('.fun-controls > #fun-direction-toggle')).toHaveCount(0);
+  await expect(page.locator('#fun-quick-help')).not.toHaveAttribute('open','');
+  const target=page.locator('#fun-direction-toggle');
+  const size=await target.boundingBox();
+  expect(size).not.toBeNull();
+  expect(size.width).toBeGreaterThanOrEqual(44);
+  expect(size.height).toBeGreaterThanOrEqual(44);
+  await page.locator('#fun-board').evaluate(el=>el.scrollIntoView({block:'start',behavior:'instant'}));
+  const measure=await page.evaluate(()=>{
+   const board=document.querySelector('#fun-board').getBoundingClientRect();
+   const actions=document.querySelector('.fun-actions').getBoundingClientRect();
+   const tools=document.querySelector('#fun-tools').getBoundingClientRect();
+   return {boardTop:board.top,actionsBottom:actions.bottom,toolsHeight:tools.height,overflow:document.documentElement.scrollWidth>innerWidth};
+  });
+  expect(measure.overflow).toBe(false);
+  expect(measure.boardTop).toBeGreaterThanOrEqual(-5);
+  expect(measure.actionsBottom).toBeLessThanOrEqual(height+5);
+  // Up to five available item tools + one fallback fit in only three rows.
+  expect(measure.toolsHeight).toBeLessThanOrEqual(175);
+ });
+}
+test('packaged welcome offers a beginner stage51 tap-first entry',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/');
+ const entry=page.getByRole('link',{name:/第51面から盤面タップで遊ぶ/});
+ await expect(entry).toHaveAttribute('href','./chapter-two.html?trial=1&practice=1&stage=51&tap=1');
+ await entry.click();
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 51');
+ await expect(page.locator('#fun-dpad')).toBeHidden();
+ await expect(page.locator('#fun-action-next')).toContainText('タップ');
+});
+
 for(const width of [320,390]){
  test('tap-first prototype starts without D-pad, moves by landing tap, offers optional directions '+width+'px',async({page})=>{
   await page.setViewportSize({width,height:844});
