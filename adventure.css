@@ -832,3 +832,15 @@ html.fun-tap-first .fun-board .cell.tap-ambiguous{outline-color:#9b56bf}
  color:#215e89;font:800 11px/1.4 system-ui,-apple-system,sans-serif;
 }
 .fun-direction-toggle[hidden]{display:none!important}
+
+/* STEP34: the optional fallback occupies an existing tool-grid slot instead
+ * of adding a fourth control row on compact phones. */
+html.fun-tap-first .fun-tools .fun-direction-toggle{
+ margin:0;width:100%;min-width:0;min-height:44px;
+ padding:4px 6px;background:linear-gradient(#f9fcff,#d9ecf9);
+ border:1px solid #8abbd7;border-bottom:3px solid #589abf;
+ border-radius:11px;color:#185a85;font-size:11px;
+}
+html.fun-tap-first .fun-tools .fun-direction-toggle[aria-expanded="true"]{
+ color:#fff;background:linear-gradient(#349dd4,#176aa9);
+}
