@@ -1,6 +1,8 @@
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
 import {CHAPTER_TWO_KEY,newChapterTwo,checkpointTwo} from '../../src/puzzle/chapter-two-progress.js';
+import {initialGate,applyGate,gateSuccessors} from '../../src/puzzle/gate-v2.js';
+import {tapLanding} from '../../src/puzzle/tap-landing.js';
 const completedJourneyStages=JSON.parse(fs.readFileSync(new URL('../../data/chapters/chapter-02/adventure-v1.json',import.meta.url),'utf8')).stages;
 for(const width of [320,390]){
  test('packaged preview boots and preserves chapter two and home at '+width+'px',async({page})=>{
@@ -318,6 +320,74 @@ for(const width of [320,390]){
  });
 }
 
+
+
+for(const width of [320,390]){
+ test('tap-first prototype starts without D-pad, moves by landing tap, offers optional directions '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('/chapter-two.html?trial=1&practice=1&stage=51&tap=1');
+  await expect(page.locator('#fun-board')).toBeVisible();
+  await expect(page.locator('#fun-dpad')).toBeHidden();
+  await expect(page.locator('#fun-direction-toggle')).toBeVisible();
+  await expect(page.locator('#fun-direction-toggle')).toHaveAttribute('aria-expanded','false');
+  await expect(page.locator('#fun-action-next')).toContainText('タップ');
+  await expect(page.locator('#fun-action-directions')).toBeEmpty();
+  expect(await page.locator('#fun-board .cell.arrival').count()).toBeGreaterThan(0);
+  await page.locator('#fun-board .cell.arrival').first().click();
+  await expect(page.locator('#fun-moves')).toHaveText('1');
+  await expect(page.locator('#fun-dpad')).toBeHidden();
+  await page.locator('#fun-direction-toggle').click();
+  await expect(page.locator('#fun-dpad')).toBeVisible();
+  await expect(page.locator('#fun-direction-toggle')).toHaveAttribute('aria-expanded','true');
+  await page.locator('#fun-direction-toggle').click();
+  await expect(page.locator('#fun-dpad')).toBeHidden();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  expect(errors).toEqual([]);
+ });
+}
+test('tap-first stage70 can finish all 18 proven actions using board taps and safe fallback only if needed',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ const stage=completedJourneyStages.at(-1);
+ let state=initialGate(stage);
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('/chapter-two.html?trial=1&practice=1&stage=70&tap=1');
+ await expect(page.locator('#fun-dpad')).toBeHidden();
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(null);
+ let fallbackUses=0;
+ for(let i=0;i<stage.proof.length;i++){
+  const action=stage.proof[i],next=applyGate(stage,state,action);
+  await page.locator('[data-fun-mode="'+action.prep.type+'"]').click();
+  if(action.prep.type==='wall'||action.prep.type==='glove'){
+   await page.locator('[data-cell="'+action.prep.from+'"]').click();
+   await page.locator('[data-cell="'+action.prep.to+'"]').click();
+  }else if(action.prep.type==='ice'||action.prep.type==='warp'){
+   await page.locator('[data-cell="'+action.prep.to+'"]').click();
+  }
+  const targets=page.locator('[data-cell="'+next.position+'"]');
+  await expect(targets).toHaveClass(/arrival/);
+  // The tested pure resolver selects a tap only when the actual next state
+  // is unambiguous. The browser never writes to internal state directly.
+  const candidates=gateSuccessors(stage,state);
+  const landing=tapLanding(candidates,action.prep,next.position);
+  if(landing?.kind==='direction-required'){
+   await targets.click();
+   await expect(page.locator('#fun-dpad')).toBeVisible();
+   await page.locator('[data-fun-dir="'+action.dir+'"]').click();
+   fallbackUses++;
+  }else{
+   await targets.click();
+  }
+  await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+  state=next;
+ }
+ await expect(page.locator('#fun-result')).toBeVisible();
+ await expect(page.locator('#fun-rank')).toContainText('Sランク');
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(null);
+ expect(fallbackUses).toBeGreaterThanOrEqual(0);
+ expect(errors).toEqual([]);
+});
 
 for(const [width,height] of [[320,568],[320,844],[390,667],[390,844]]){
  test('packaged mobile controls: 44px arrows and board-to-pad visible after focusing play area '+width+'x'+height,async({page})=>{
