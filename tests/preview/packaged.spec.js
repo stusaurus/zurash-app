@@ -188,6 +188,11 @@ for(const width of [320,390]){
   await expect(page.locator('#expedition-home [data-lit=true]')).toHaveCount(0);
   await expect(page.locator('#expedition-home .expedition-house-link')).toBeVisible();
   expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toEqual(initial);
+  await page.goto('/chapter-two.html?trial=1&stage=51');
+  await expect(page.locator('#fun-result')).toBeVisible();
+  await expect(page.locator('#clear-personal-record')).toHaveAttribute('data-record-state','resumed');
+  await expect(page.locator('#clear-personal-record')).toContainText('クリア記録を再表示中');
+  await page.goto('/adventure.html?view=expedition');
   await page.locator('#expedition-home .expedition-house-link').click();
   await expect(page.locator('#home-screen')).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

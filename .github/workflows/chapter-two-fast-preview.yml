@@ -37,7 +37,7 @@ jobs:
         run: |
           node --check src/chapter-fun-lab.js
           node --check src/chapter-two-review.js
-          node --test tests/chapter-two-review-summary.test.js tests/chapter-two-playtest.test.js tests/move-history.test.js tests/move-effects.test.js tests/board-cues.test.js tests/star-journey.test.js tests/clear-presentation.test.js tests/expedition-album.test.js
+          node --test tests/chapter-two-review-summary.test.js tests/chapter-two-playtest.test.js tests/move-history.test.js tests/move-effects.test.js tests/board-cues.test.js tests/star-journey.test.js tests/clear-presentation.test.js tests/clear-record.test.js tests/expedition-album.test.js
       - name: Build the isolated chapter two static preview
         run: node scripts/build-chapter-two-preview.js
       - name: Install Chromium and WebKit

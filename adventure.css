@@ -609,3 +609,18 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
 @media(prefers-reduced-motion:reduce){
  .fun-result:not([hidden]) .clear-hero,.fun-result:not([hidden]) .clear-hero-sparks,.fun-board.stage-entry{animation:none}
 }
+
+/* An honest personal-best ribbon, without inventing rewards. */
+.fun-result .clear-personal-record{
+ margin:8px 0 10px;padding:9px 10px;border:1px solid #aaceda;
+ border-radius:11px;background:#e7f5ff;color:#275b7b;
+ font:850 12px/1.5 system-ui,-apple-system,sans-serif;
+ text-align:center;overflow-wrap:anywhere;
+}
+.fun-result .clear-personal-record[data-record-state="first"],
+.fun-result .clear-personal-record[data-record-state="improved"]{
+ background:#fff1c7;border-color:#dcb45f;color:#7d5318;
+}
+.fun-result .clear-personal-record[data-record-state="resumed"]{
+ background:#eef6f9;color:#527082;border-color:#c0d4dc;
+}

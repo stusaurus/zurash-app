@@ -14,6 +14,7 @@ import {describeMoveEffects} from './puzzle/move-effects.js';
 import {describeBoardCues} from './puzzle/board-cues.js';
 import {starJourney} from './puzzle/star-journey.js';
 import {clearPresentation} from './puzzle/clear-presentation.js';
+import {describePersonalRecord} from './puzzle/clear-record.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -93,7 +94,7 @@ function renderStarJourney(){
 
 /* Completion presentation is shared by the normal adventure and A/B study.
  * It reads the proven grade; it never changes it or writes progression. */
-function updateClearPresentation(grade){
+function updateClearPresentation(grade,recordContext=null){
  const result=$('fun-result');
  if(!result||!stage)return;
  let hero=$('clear-hero');
@@ -120,6 +121,19 @@ function updateClearPresentation(grade){
   teaser=document.createElement('p');
   teaser.id='clear-next-preview';teaser.className='clear-next-preview';
   result.insertBefore(teaser,result.querySelector('.fun-result-buttons'));
+ }
+ let record=$('clear-personal-record');
+ if(!record){
+  record=document.createElement('p');
+  record.id='clear-personal-record';
+  record.className='clear-personal-record';
+  $('fun-benchmark').insertAdjacentElement('afterend',record);
+ }
+ record.hidden=!grade||!recordContext;
+ if(grade&&recordContext){
+  const result=describePersonalRecord(recordContext);
+  record.dataset.recordState=result.state;
+  record.textContent=result.text;
  }
  const nextStage=entries[number]??null;
  const view=clearPresentation({stage,nextStage,rank:grade?.rank??'clear',adventureMode,comparisonMode});
@@ -349,7 +363,13 @@ function setStage(n,{resume=false,preserveReviewOpen=false}={}){
  if(solved(state)){
   const result=evaluateChallenge(stage,trace.length);
   if(result)$('fun-next-objective').textContent=result.rank==='S'?'最短手数で完全攻略！':result.passed?'Sランクまであと'+result.extraTurns+'手！ 別の止まり方を探そう。':'Bランク合格まであと'+(result.turns-result.passThrough)+'手！';
-  updateClearPresentation(result);
+  updateClearPresentation(result,result?{
+   turns:trace.length,
+   previousBest:sessionBestTurns.get(stage.id)??null,
+   resumed:true,
+   scope:adventureMode?(saveOptions.practice?'practice':'adventure'):'session',
+   saved:!saveReadOnly
+  }:null);
  }
  playStageEntry();
  say(solved(state)?'クリアした記録から再開しました。':gateMode?(state.gateOpen?'氷扉が開いている。続きの1手を考えよう。':'氷扉は閉じている。✦スイッチの上に止まる方法を考えよう。'):number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
@@ -511,8 +531,8 @@ async function takeStep(action){
    $('fun-result').hidden=false;
    const elapsed=activeTime();activeMs=elapsed;activeSince=null;
    const grade=evaluateChallenge(stage,trace.length);
+   const previousBest=grade?sessionBestTurns.get(stage.id):undefined;
    if(grade){
-    const previousBest=sessionBestTurns.get(stage.id);
     if(previousBest===undefined||trace.length<previousBest)sessionBestTurns.set(stage.id,trace.length);
     showSelection();
     $('fun-rank').textContent=grade.passed?grade.rank+'ランク合格！':'星は全部獲得！ 合格は次の挑戦';
@@ -529,7 +549,13 @@ async function takeStep(action){
    }
    $('fun-finish').textContent=trace.length+'手でクリア！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回 ／ 考える＋操作する時間 '+formattedTime(elapsed)+' ／ Undo '+undoUses+'回 ／ ヒント '+hintUses+'回';
    $('fun-next').textContent=nextButtonLabel();
-   updateClearPresentation(grade);
+   updateClearPresentation(grade,grade?{
+    turns:trace.length,
+    previousBest:previousBest??null,
+    resumed:false,
+    scope:adventureMode?(saveOptions.practice?'practice':'adventure'):'session',
+    saved:!saveReadOnly
+   }:null);
   }else say(gateMode&&state.gateOpen!==gateWasOpen?(state.gateOpen?'カチッ！氷扉が開いた！ 通れる道が変わったよ。':'カチッ！氷扉が閉じた！ 止まる場所を考え直そう。'):'次の1手を考えよう。');
  }catch(e){console.error(e);say('操作を続けられませんでした。最初からやり直してみてください。',true);}
  finally{

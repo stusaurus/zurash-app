@@ -40,6 +40,9 @@ for(const width of [320,390,1440]){
     await page.screenshot({path:'test-results/chapter-two-'+test.info().project.name+'-'+width+'.png',fullPage:true});
     await page.reload();
     await expect(page.locator('#fun-result')).toBeVisible();
+    await expect(page.locator('#clear-personal-record')).toHaveAttribute('data-record-state','resumed');
+    await expect(page.locator('#clear-personal-record')).toContainText('クリア記録を再表示中');
+    await expect(page.locator('#clear-personal-record')).not.toContainText('初クリア');
     await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');
     await expect(page.locator('#clear-next-preview')).toContainText('家で道しるべの思い出');
     await page.locator('#fun-next').click();

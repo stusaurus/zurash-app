@@ -53,6 +53,9 @@ for(const width of [320,390]){
    await expect(page.locator('#clear-hero-label')).toHaveText('最短ルートを発見！');
    await expect(page.locator('#clear-next-preview')).toContainText(j===0?'次の比較候補':'最後の候補まで到達');
    await expect(page.locator('#fun-result')).toHaveAttribute('data-clear-rank','S');
+   await expect(page.locator('#clear-personal-record')).toHaveAttribute('data-record-state','first');
+   await expect(page.locator('#clear-personal-record')).toContainText('初クリア！');
+   await expect(page.locator('#clear-personal-record')).toContainText(s.proof.length+'手');
    await expect(page.locator('#fun-next')).toHaveText(j===0?'次の候補へ':'最初からもう一度');
    await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');
    await expect(page.locator('#move-history-summary')).toContainText(s.proof.length+'手');
