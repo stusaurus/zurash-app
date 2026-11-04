@@ -56,3 +56,15 @@ test('invalid turn counts and impossible certified claims are rejected',()=>{
   {stage:{chapter:{title:'?',number:'70'}},turns:8}
  ])assert.throws(()=>formatClearShare(request));
 });
+
+test('share text includes only a validated HTTPS invitation when explicitly provided',()=>{
+ const stage=chapter2[0];
+ const path='https://stusaurus.github.io/zurash-app/chapter-two.html?trial=1&practice=1&replay=1&stage=51';
+ const share=formatClearShare({stage,turns:8,mode:'adventure',playUrl:path});
+ assert.match(share,/8手でSランクを達成/);
+ assert.match(share,/この面に挑戦：/);
+ assert.ok(share.includes(path));
+ assert.doesNotMatch(share,/proof|token|active.actions/);
+ for(const playUrl of ['http://localhost:4173/chapter-two.html?stage=51','javascript:alert(1)','https://user:password@stusaurus.github.io/zurash-app/chapter-two.html?stage=51'])
+  assert.throws(()=>formatClearShare({stage,turns:8,mode:'adventure',playUrl}),/Invalid share URL/);
+});

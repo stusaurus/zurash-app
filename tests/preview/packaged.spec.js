@@ -160,6 +160,9 @@ for(const width of [320,390]){
   expect(shared).toContain('1手でクリア');
   expect(shared).toContain('研究パズル');
   expect(shared).not.toContain('Sランク');
+  expect(shared).not.toContain('http://');
+  await expect(page.locator('#clear-challenge-play')).toHaveAttribute('href','./fun-lab.html?stage=1');
+  await expect(page.locator('#clear-challenge-info')).toContainText('未公開のURL');
   expect(shared).not.toContain('prep');
   expect(await page.evaluate(()=>JSON.stringify(localStorage))).toBe(before);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
@@ -246,6 +249,29 @@ for(const width of [320,390]){
 }
 
 for(const width of [320,390]){
+ test('packaged invitation to stage 70 begins fresh in separate practice without touching official ledger '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  const stage=completedJourneyStages[0];
+  const saved=checkpointTwo(newChapterTwo(),completedJourneyStages,stage,stage.proof);
+  const original=JSON.stringify(saved);
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.addInitScript(({key,value})=>localStorage.setItem(key,value),{key:CHAPTER_TWO_KEY,value:original});
+  await page.goto('/chapter-two.html?trial=1&practice=1&replay=1&stage=70');
+  await expect(page.locator('#fun-count')).toHaveText('STAGE 70');
+  await expect(page.locator('#fun-result')).toBeHidden();
+  await expect(page.locator('#fun-moves')).toHaveText('0');
+  await expect(page.locator('#save-status')).toContainText('自由試遊');
+  await expect(page).not.toHaveURL(/replay=1/);
+  expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(original);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.reload();
+  await expect(page.locator('#fun-count')).toHaveText('STAGE 70');
+  await expect(page.locator('#fun-moves')).toHaveText('0');
+  expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(original);
+  expect(errors).toEqual([]);
+ });
+}
+for(const width of [320,390]){
  test('packaged adventure: earned S-best pace tracks retry, move, Undo without resetting best '+width+'px',async({page})=>{
   await page.setViewportSize({width,height:844});
   const stage=completedJourneyStages[0];
@@ -257,6 +283,7 @@ for(const width of [320,390]){
   await page.goto('/chapter-two.html?trial=1&stage=51');
   await expect(page.locator('#fun-result')).toBeVisible();
   await expect(page.locator('#fun-best-chase')).toBeHidden();
+  await expect(page.locator('#clear-challenge-play')).toHaveAttribute('href','./chapter-two.html?trial=1&practice=1&replay=1&stage=51');
   await page.locator('#fun-again').click();
   await expect(page.locator('#fun-result')).toBeHidden();
   await expect(page.locator('#fun-best-chase')).toBeVisible();

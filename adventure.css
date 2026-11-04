@@ -672,3 +672,18 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
  color:#285c77;text-align:center;min-height:0;
 }
 .fun-result .clear-share-status:empty{display:none}
+
+/* Recipient can open the exact stage, without editing campaign progress. */
+.fun-result .clear-challenge-play{
+ display:block;width:min(100%,370px);box-sizing:border-box;margin:8px auto 3px;
+ padding:11px 14px;min-height:44px;border-radius:12px;
+ border:1px solid #82bca5;color:#175941;background:#e8fcf1;
+ font:850 13px/1.4 system-ui,-apple-system,sans-serif;
+ text-align:center;text-decoration:none;touch-action:manipulation;
+}
+.fun-result .clear-challenge-play:hover{background:#d2f4e2}
+.fun-result .clear-challenge-play:focus-visible{outline:3px solid #e6b65e;outline-offset:3px}
+.fun-result .clear-challenge-info{
+ max-width:370px;margin:2px auto 8px;color:#527380;
+ text-align:center;font:650 10px/1.5 system-ui,-apple-system,sans-serif;
+}

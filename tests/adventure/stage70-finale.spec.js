@@ -62,6 +62,7 @@ for(const width of [320,390]){
    await expect(page.locator('#clear-personal-record')).toContainText('初クリア！');
    await expect(page.locator('#clear-personal-record')).toContainText(s.proof.length+'手');
    await expect(page.locator('#clear-share-copy')).toBeVisible();
+   await expect(page.locator('#clear-challenge-play')).toHaveAttribute('href','./stage70-finale-lab.html?stage='+(j+1));
    await page.locator('#clear-share-copy').click();
    await expect(page.locator('#clear-share-status')).toContainText('コピーしました');
    const shared=await page.evaluate(()=>window.__clearCopy);

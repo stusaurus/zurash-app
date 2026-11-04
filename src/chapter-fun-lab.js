@@ -17,6 +17,7 @@ import {clearPresentation} from './puzzle/clear-presentation.js';
 import {describePersonalRecord} from './puzzle/clear-record.js';
 import {personalBestPace} from './puzzle/personal-best-pace.js';
 import {formatClearShare} from './puzzle/clear-share.js';
+import {challengeReplayPath,shareableChallengeUrl} from './puzzle/challenge-replay-link.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -163,7 +164,12 @@ function updateClearPresentation(grade,recordContext=null){
    try{
     const kind=adventureMode?(saveOptions.practice?'practice':'adventure'):
       comparisonMode?'candidate':'research';
-    const text=formatClearShare({stage,turns:trace.length,mode:kind});
+    const link=challengeReplayPath({
+     page:pagePath.split('/').pop()+'.html',
+     stageNumber:stage.chapter.number,index:number,adventureMode
+    });
+    const playUrl=shareableChallengeUrl(location.href,link);
+    const text=formatClearShare({stage,turns:trace.length,mode:kind,playUrl});
     let copied=false;
     if(navigator.clipboard?.writeText){
      try{await navigator.clipboard.writeText(text);copied=true;}catch(_){}
@@ -177,13 +183,40 @@ function updateClearPresentation(grade,recordContext=null){
      try{input.focus();input.select();copied=document.execCommand?.('copy')===true;}
      finally{input.remove();}
     }
-    status.textContent=copied?'クリア記録をコピーしました。友達に貼り付けて共有できます。':
+    status.textContent=copied?
+     (shareableChallengeUrl(location.href,challengeReplayPath({
+      page:pagePath.split('/').pop()+'.html',
+      stageNumber:stage.chapter.number,index:number,adventureMode
+     }))?'クリア記録をコピーしました。挑戦リンクも含まれています。':'クリア記録をコピーしました。公開URLがないため、この試遊版のリンクは含めていません。'):
      'コピーできませんでした。端末の設定を確認してください。';
    }catch(_){
     status.textContent='コピーできませんでした。端末の設定を確認してください。';
    }finally{share.disabled=false;}
   });
  }
+ let play=$('clear-challenge-play');
+ if(!play){
+  play=document.createElement('a');
+  play.id='clear-challenge-play';play.className='clear-challenge-play';
+  $('clear-share-status').insertAdjacentElement('afterend',play);
+ }
+ // The recipient opens the same stage. Chapter-two links always enter
+ // separate practice storage, so friends never inherit the sender's rewards.
+ const invite=challengeReplayPath({
+  page:pagePath.split('/').pop()+'.html',
+  stageNumber:stage.chapter.number,index:number,adventureMode
+ });
+ play.href=invite;
+ play.textContent=adventureMode?'この面を自由試遊で挑戦する':'この研究面を最初から遊ぶ';
+ let info=$('clear-challenge-info');
+ if(!info){
+  info=document.createElement('p');
+  info.id='clear-challenge-info';info.className='clear-challenge-info';
+  play.insertAdjacentElement('afterend',info);
+ }
+ info.textContent=shareableChallengeUrl(location.href,invite)?
+  '公開ページのURLがある場合、コピー文にもこの面の挑戦リンクを付けます。':
+  'ローカル試遊版のため、コピー文には未公開のURLを含めません。';
  $('clear-share-status').textContent='';
  const nextStage=entries[number]??null;
  const view=clearPresentation({stage,nextStage,rank:grade?.rank??'clear',adventureMode,comparisonMode});
@@ -400,6 +433,8 @@ function setStage(n,{resume=false,preserveReviewOpen=false}={}){
  mode='none';selectedWall=null;selectedPrep={type:'none'};busy=false;
  const query=new URL(location.href);
  query.searchParams.set('stage',String(adventureMode?stage.chapter.number:n));
+ // One-shot invitation flag. A reload after entry resumes practice normally.
+ if(saveOptions.practice)query.searchParams.delete('replay');
  history.replaceState(null,'',query.pathname+query.search);
  $('fun-result').hidden=true;$('fun-feedback').hidden=true;
  $('fun-feedback').replaceChildren();
@@ -809,7 +844,10 @@ try{
  const activeIndex=entries.findIndex(s=>s.id===chapterSave.active?.id);
  const desired=adventureMode?entries.findIndex(s=>s.chapter.number===selected)+1:selected;
  const n=adventureMode?(desired>0&&canEnterTwo(entries,chapterSave,desired-1)?desired:activeIndex>=0?activeIndex+1:1):(Number.isInteger(desired)&&desired>=1&&desired<=entries.length?desired:1);
- setStage(n,{resume:adventureMode});
+ // Visiting a shared challenge starts from turn 0, never from an unrelated
+ // unfinished practice attempt. Once entered, subsequent reloads can resume.
+ const freshInvite=adventureMode&&saveOptions.practice&&new URLSearchParams(location.search).get('replay')==='1';
+ setStage(n,{resume:adventureMode&&!freshInvite});
  }
 }catch(error){
  console.error(error);
