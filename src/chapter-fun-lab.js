@@ -18,6 +18,7 @@ import {describePersonalRecord} from './puzzle/clear-record.js';
 import {personalBestPace} from './puzzle/personal-best-pace.js';
 import {formatClearShare} from './puzzle/clear-share.js';
 import {challengeReplayPath,shareableChallengeUrl} from './puzzle/challenge-replay-link.js';
+import {invitationGuide} from './puzzle/invitation-guide.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -418,10 +419,50 @@ function persistAdventure(){
  try{chapterSave=checkpointTwo(chapterSave,entries,stage,trace,saveOptions);if(!saveReadOnly)writeChapterTwo(localStorage,chapterSave,saveOptions);}
  catch(e){saveReadOnly=true;$('save-status').textContent='保存できませんでした。この画面では遊べますが、再読み込みで進行が失われる場合があります。';}
 }
-function setStage(n,{resume=false,preserveReviewOpen=false}={}){
+
+// Only a one-time invitation carries this guide. It never blocks controls,
+// awards crystals, or changes the challenge being played.
+function showFirstInvitation(){
+ if(!adventureMode||!saveOptions.practice||!stage)return;
+ const guide=invitationGuide(stage);
+ const card=document.createElement('section');
+ card.id='fun-invite';card.className='fun-invite';
+ card.setAttribute('aria-labelledby','fun-invite-title');
+ const title=document.createElement('h2');
+ title.id='fun-invite-title';title.textContent=guide.headline;
+ const name=document.createElement('p');
+ name.className='fun-invite-stage';name.textContent=guide.stageLabel;
+ const steps=document.createElement('div');
+ steps.className='fun-invite-steps';
+ for(const step of guide.steps){
+  const line=document.createElement('p');line.textContent=step;steps.append(line);
+ }
+ const privacy=document.createElement('p');
+ privacy.className='fun-invite-privacy';privacy.textContent=guide.privacy;
+ const start=document.createElement('button');
+ start.id='fun-invite-start';start.type='button';
+ start.textContent=guide.action;
+ start.addEventListener('click',()=>{
+  card.remove();
+  const board=$('fun-board');
+  if(!board)return;
+  board.tabIndex=-1;
+  board.focus({preventScroll:true});
+  board.scrollIntoView({
+   behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
+   block:'start'
+  });
+ });
+ card.append(title,name,steps,privacy,start);
+ const anchor=document.querySelector('.fun-meta');
+ if(anchor)anchor.insertAdjacentElement('afterend',card);
+}
+
+function setStage(n,{resume=false,preserveReviewOpen=false,invited=false}={}){
  if(busy||!entries[n-1]||(adventureMode&&!canEnterTwo(entries,chapterSave,n-1)))return;
  clearMoveEffect();
  clearBoardCue();
+ $('fun-invite')?.remove();
  // Switching candidates through the selector should not force an evaluator
  // to reopen the panel every time; the Next/Retry actions still collapse it.
  const keepReviewOpen=preserveReviewOpen&&Boolean($('playtest-review')?.open);
@@ -440,6 +481,7 @@ function setStage(n,{resume=false,preserveReviewOpen=false}={}){
  $('fun-feedback').replaceChildren();
  if(challengeMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
  showSelection();render();updateReviewForm();
+ if(invited)showFirstInvitation();
  if($('move-history'))$('move-history').open=false;
  // Keep deliberate A/B review sessions open while resetting the inputs to the
  // newly selected stage. Ordinary progression, retry and reload start closed.
@@ -847,7 +889,7 @@ try{
  // Visiting a shared challenge starts from turn 0, never from an unrelated
  // unfinished practice attempt. Once entered, subsequent reloads can resume.
  const freshInvite=adventureMode&&saveOptions.practice&&new URLSearchParams(location.search).get('replay')==='1';
- setStage(n,{resume:adventureMode&&!freshInvite});
+ setStage(n,{resume:adventureMode&&!freshInvite,invited:freshInvite});
  }
 }catch(error){
  console.error(error);

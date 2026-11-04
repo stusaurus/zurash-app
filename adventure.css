@@ -687,3 +687,58 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
  max-width:370px;margin:2px auto 8px;color:#527380;
  text-align:center;font:650 10px/1.5 system-ui,-apple-system,sans-serif;
 }
+
+/* First-time invitation: an in-world challenge letter, not a blocking modal.
+ * Shown only when entering through a friend's one-shot practice replay link. */
+.fun-invite{
+ margin:8px 0 10px;padding:11px 12px;
+ border-radius:15px;border:2px solid #86cfee;
+ background:linear-gradient(145deg,#164677,#2877a1);
+ color:#fff;box-shadow:0 3px 0 #17436188;
+ text-align:left;
+}
+.fun-invite h2{
+ margin:0 0 4px;color:#ffe5a1;
+ font:900 clamp(14px,4vw,17px)/1.4 system-ui,-apple-system,sans-serif;
+}
+.fun-invite .fun-invite-stage{
+ margin:0 0 7px;color:#fff;
+ font:850 13px/1.4 system-ui,-apple-system,sans-serif;
+ overflow-wrap:anywhere;
+}
+.fun-invite .fun-invite-steps{
+ display:grid;grid-template-columns:1fr;gap:3px;
+ margin:6px 0 7px;
+}
+.fun-invite .fun-invite-steps p{
+ margin:0;padding:3px 7px;border-radius:7px;
+ background:#ffffff1a;color:#f4faff;
+ font:750 11px/1.45 system-ui,-apple-system,sans-serif;
+}
+.fun-invite .fun-invite-privacy{
+ margin:6px 0;color:#d8f0ff;
+ font:700 10px/1.5 system-ui,-apple-system,sans-serif;
+}
+.fun-invite #fun-invite-start{
+ display:block;width:100%;min-height:44px;margin-top:8px;
+ padding:8px 12px;border-radius:11px;
+ border:2px solid #dca446;
+ background:linear-gradient(#ffe69e,#ffc75a);
+ color:#633f12;font:900 14px/1.35 system-ui,-apple-system,sans-serif;
+ cursor:pointer;touch-action:manipulation;
+}
+.fun-invite #fun-invite-start:focus-visible{
+ outline:3px solid white;outline-offset:3px;
+}
+.fun-board:focus{outline:2px solid #f6bb54;outline-offset:3px}
+@media(min-width:600px){
+ .fun-invite .fun-invite-steps{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:360px){
+ .fun-invite{padding:9px 10px}
+ .fun-invite .fun-invite-stage{font-size:12px}
+ .fun-invite .fun-invite-steps p{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .fun-invite,.fun-invite *{transition:none!important;animation:none!important}
+}

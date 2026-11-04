@@ -261,14 +261,37 @@ for(const width of [320,390]){
   await expect(page.locator('#fun-result')).toBeHidden();
   await expect(page.locator('#fun-moves')).toHaveText('0');
   await expect(page.locator('#save-status')).toContainText('自由試遊');
+  await expect(page.locator('#fun-invite')).toBeVisible();
+  await expect(page.locator('#fun-invite')).toContainText('トリケンからの挑戦状');
+  await expect(page.locator('#fun-invite')).toContainText('STAGE 70');
+  await expect(page.locator('#fun-invite')).toContainText(completedJourneyStages[19].chapter.title);
+  await expect(page.locator('#fun-invite .fun-invite-steps p')).toHaveCount(3);
+  await expect(page.locator('#fun-invite')).toContainText('結晶や家の記録は変わりません');
+  await expect(page.locator('#fun-invite-start')).toBeVisible();
+  await expect(page.locator('#fun-invite-start')).toHaveCSS('min-height','44px');
   await expect(page).not.toHaveURL(/replay=1/);
+  await page.locator('#fun-invite-start').click();
+  await expect(page.locator('#fun-invite')).toHaveCount(0);
+  await expect(page.locator('#fun-board')).toBeFocused();
+  await expect(page.locator('#fun-moves')).toHaveText('0');
   expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(original);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.reload();
   await expect(page.locator('#fun-count')).toHaveText('STAGE 70');
   await expect(page.locator('#fun-moves')).toHaveText('0');
+  await expect(page.locator('#fun-invite')).toHaveCount(0);
   expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(original);
   expect(errors).toEqual([]);
+ });
+}
+for(const width of [320,390]){
+ test('ordinary chapter-two practice does not show an unsolicited invitation at '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  await page.goto('/chapter-two.html?trial=1&practice=1&stage=51');
+  await expect(page.locator('#fun-count')).toHaveText('STAGE 51');
+  await expect(page.locator('#fun-invite')).toHaveCount(0);
+  await expect(page.locator('#fun-board')).toBeVisible();
+  await expect(page.locator('[data-fun-mode="none"]')).toBeEnabled();
  });
 }
 for(const width of [320,390]){
