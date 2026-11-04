@@ -178,6 +178,9 @@ for(const width of [320,390]){
   await expect(page.locator('#expedition-album-progress')).toContainText('冒険 1/20面クリア');
   await expect(page.locator('#expedition-album-progress')).toContainText('Sランク 1/20面');
   await expect(page.locator('#expedition-memory-album [data-album-stop]')).toHaveCount(4);
+  await expect(page.locator('#expedition-home .expedition-route li[data-lit]')).toHaveCount(4);
+  await expect(page.locator('#expedition-memory-album [data-album-lit]')).toHaveCount(4);
+  await expect(page.locator('#expedition-memory-album [data-lit]')).toHaveCount(0);
   await page.locator('#expedition-memory-album [data-album-stop="trail"] summary').click();
   await expect(page.locator('#expedition-memory-album [data-album-stop="trail"] .expedition-album-replay')).toHaveAttribute('href',/stage=52/);
   await page.locator('#expedition-memory-album [data-album-stop="gate"] summary').click();

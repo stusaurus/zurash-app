@@ -28,9 +28,9 @@
 .expedition-album-hint{font-size:11px;line-height:1.6;text-align:center;margin:4px 0 11px;color:#5b6c70}
 .expedition-album-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .expedition-album-card{min-width:0;border:1px solid #bdd3df;border-radius:11px;background:#ecf7fc;overflow:hidden}
-.expedition-album-card[data-lit=true]{border-color:#ecc16c;background:linear-gradient(155deg,#fff5cb,#fffded)}
+.expedition-album-card[data-album-lit=true]{border-color:#ecc16c;background:linear-gradient(155deg,#fff5cb,#fffded)}
 .expedition-album-card summary{cursor:pointer;min-height:50px;display:flex;align-items:center;padding:9px 7px;line-height:1.55;font-size:11px;font-weight:850;color:#316085;overflow-wrap:anywhere}
-.expedition-album-card[data-lit=true] summary{color:#896118}
+.expedition-album-card[data-album-lit=true] summary{color:#896118}
 .expedition-album-card summary:focus-visible{outline:3px solid #1488c0;outline-offset:-3px}
 .expedition-album-card .expedition-album-rank,.expedition-album-card .expedition-album-story{margin:5px 9px;font-size:11px;line-height:1.65;color:#435e70}
 .expedition-album-card .expedition-album-rank{font-weight:850;color:#95621a}

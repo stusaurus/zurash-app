@@ -23,6 +23,9 @@ for(const width of [320,390]){
    }
    await page.locator('[data-fun-dir="'+dir+'"]').click();
    await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+   // The move counter updates before slide animation finishes; prevent the
+   // next click from being discarded during WebKit's temporary input lock.
+   await expect(page.locator('#fun-retry')).toBeEnabled();
    if(i===1)await expect(page.locator('#fun-gate-status')).toContainText('開いている');
    if(i===15){
     await expect(page.locator('#fun-gate-status')).toContainText('閉じている');
@@ -34,6 +37,7 @@ for(const width of [320,390]){
     await page.locator('[data-fun-mode="none"]').click();
     await page.locator('[data-fun-dir="2"]').click();
     await expect(page.locator('#fun-moves')).toHaveText('16');
+    await expect(page.locator('#fun-retry')).toBeEnabled();
     await expect(page.locator('#fun-gate-status')).toContainText('閉じている');
    }
   }

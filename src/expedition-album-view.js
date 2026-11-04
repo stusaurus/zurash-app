@@ -21,7 +21,7 @@ export function renderExpeditionAlbum(element,entries,save){
   const card=document.createElement('details');
   card.className='expedition-album-card';
   card.dataset.albumStop=stop.id;
-  card.dataset.lit=String(stop.lit);
+  card.dataset.albumLit=String(stop.lit);
   const title=document.createElement('summary');
   title.textContent=(stop.lit?'✦ ':'◇ ')+stop.name+'（'+stop.cleared+'/5面）';
   const rank=document.createElement('p');
