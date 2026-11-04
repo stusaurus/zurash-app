@@ -175,6 +175,13 @@ for(const width of [320,390]){
   await expect(page.locator('#expedition-home h2')).toHaveText('氷海の冒険の思い出');
   await expect(page.locator('#expedition-home h2')).toBeFocused();
   await expect(page.locator('#expedition-home')).toContainText('道しるべの結晶 1/20個');
+  await expect(page.locator('#expedition-album-progress')).toContainText('冒険 1/20面クリア');
+  await expect(page.locator('#expedition-album-progress')).toContainText('Sランク 1/20面');
+  await expect(page.locator('#expedition-memory-album [data-album-stop]')).toHaveCount(4);
+  await page.locator('#expedition-memory-album [data-album-stop="trail"] summary').click();
+  await expect(page.locator('#expedition-memory-album [data-album-stop="trail"] .expedition-album-replay')).toHaveAttribute('href',/stage=52/);
+  await page.locator('#expedition-memory-album [data-album-stop="gate"] summary').click();
+  await expect(page.locator('#expedition-memory-album [data-album-stop="gate"] .expedition-album-replay')).toHaveCount(0);
   await expect(page.locator('#expedition-home [data-lit=true]')).toHaveCount(0);
   await expect(page.locator('#expedition-home .expedition-house-link')).toBeVisible();
   expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toEqual(initial);

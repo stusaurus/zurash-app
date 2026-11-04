@@ -1,5 +1,6 @@
 import {CHAPTER_TWO_KEY,loadChapterTwo} from './puzzle/chapter-two-progress.js';
 import {renderExpedition} from './expedition-view.js';
+import {renderExpeditionAlbum} from './expedition-album-view.js';
 import {loadHome,saveHome} from './puzzle/house.js';
 import {createHouseView} from './house-view.js';
 import {itemsAvailableAt} from './puzzle/campaign.js';
@@ -61,6 +62,10 @@ async function refreshHomeExpedition(){
   const title=document.createElement('h2');
   title.textContent=journey.complete?'おかえり！ 氷海の冒険の思い出':'氷海の冒険の思い出';
   title.tabIndex=-1;panel.prepend(title);
+  const album=document.createElement('section');
+  album.id='expedition-memory-album';
+  renderExpeditionAlbum(album,entries,save);
+  panel.append(album);
   const link=document.createElement('a');link.href='./chapter-two.html?trial=1';link.textContent='氷海の冒険へ戻る';panel.append(link);
   const houseLink=document.createElement('a');houseLink.href='#home-screen';houseLink.className='expedition-house-link';houseLink.textContent='トリケンの家を眺める';panel.append(houseLink);
   if(showExpeditionOnArrival){
