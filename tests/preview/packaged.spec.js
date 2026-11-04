@@ -318,6 +318,42 @@ for(const width of [320,390]){
  });
 }
 
+
+for(const [width,height] of [[320,568],[320,844],[390,667],[390,844]]){
+ test('packaged mobile controls: 44px arrows and board-to-pad visible after focusing play area '+width+'x'+height,async({page})=>{
+  await page.setViewportSize({width,height});
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('/chapter-two.html?trial=1&practice=1&stage=70');
+  await expect(page.locator('#fun-board')).toBeVisible();
+  await expect(page.locator('#fun-action-guide')).toBeVisible();
+  await expect(page.locator('#fun-quick-help')).not.toHaveAttribute('open','');
+  const sizes=await page.locator('[data-fun-dir]').evaluateAll(buttons=>buttons.map(el=>({
+   width:el.getBoundingClientRect().width,height:el.getBoundingClientRect().height
+  })));
+  expect(sizes).toHaveLength(4);
+  for(const size of sizes){
+   expect(size.width).toBeGreaterThanOrEqual(44);
+   expect(size.height).toBeGreaterThanOrEqual(44);
+  }
+  await page.locator('#fun-board').evaluate(el=>el.scrollIntoView({block:'start',behavior:'instant'}));
+  const geometry=await page.evaluate(()=>{
+   const b=document.querySelector('#fun-board').getBoundingClientRect();
+   const pad=document.querySelector('#fun-dpad').getBoundingClientRect();
+   return {boardTop:b.top,padBottom:pad.bottom,viewport:innerHeight,overflow:document.documentElement.scrollWidth>innerWidth};
+  });
+  expect(geometry.overflow).toBe(false);
+  expect(geometry.boardTop).toBeGreaterThanOrEqual(-5);
+  expect(geometry.padBottom).toBeLessThanOrEqual(geometry.viewport+5);
+  // Inline help is still reusable; opening it cannot hide the actual puzzle.
+  await page.locator('#fun-quick-help summary').click();
+  await expect(page.locator('#fun-quick-help')).toHaveAttribute('open','');
+  await expect(page.locator('#fun-board')).toBeVisible();
+  await page.locator('#fun-quick-help summary').click();
+  await expect(page.locator('#fun-quick-help')).not.toHaveAttribute('open','');
+  expect(errors).toEqual([]);
+ });
+}
+
 for(const width of [320,390]){
  test('packaged stage70: legal wall selection, destination and directions are explained without spoilers '+width+'px',async({page})=>{
   await page.setViewportSize({width,height:844});

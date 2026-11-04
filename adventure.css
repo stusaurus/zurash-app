@@ -790,3 +790,29 @@ body:has(#home-screen:not([hidden])) footer{color:#728575;padding:16px 12px}
  .fun-action-guide strong,.fun-action-guide span{font-size:11px}
  .fun-action-guide small{font-size:10px}
 }
+
+/* STEP32: integrate the reopenable instructions into the selected-action
+ * header. Collapsed help no longer consumes a separate 44px row on phones. */
+.fun-action-guide .fun-quick-help{
+ margin:0;border:0;border-radius:0;background:transparent;color:inherit;overflow:visible;
+}
+.fun-action-guide .fun-quick-help summary{
+ display:flex;align-items:center;justify-content:space-between;gap:6px;
+ min-height:44px;padding:0;
+ color:#155d89;cursor:pointer;touch-action:manipulation;
+}
+.fun-action-guide .fun-quick-help summary strong{
+ flex:1;min-width:0;overflow-wrap:anywhere;font:850 12px/1.35 system-ui,-apple-system,sans-serif;
+}
+.fun-action-guide .fun-quick-help .fun-quick-help-label{
+ flex:none;display:grid;place-items:center;min-height:44px;
+ padding:4px 8px;border:1px solid #8ebfdd;border-radius:9px;
+ background:#f5fcff;color:#145b88;
+ font:850 11px/1.3 system-ui,-apple-system,sans-serif;
+}
+.fun-action-guide .fun-quick-help[open] summary{border-bottom:1px solid #aad5ea;background:transparent}
+.fun-action-guide .fun-quick-help-body{padding:7px 1px 9px}
+@media(max-width:360px){
+ .fun-action-guide .fun-quick-help summary strong{font-size:11px}
+ .fun-action-guide .fun-quick-help .fun-quick-help-label{font-size:10px;padding:4px 6px}
+}
