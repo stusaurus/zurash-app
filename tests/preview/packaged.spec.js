@@ -326,7 +326,11 @@ for(const width of [320,390]){
 for(const [width,height] of [[320,568],[390,844]]){
  test('tap-first compact layout keeps board, tools and Undo together, not a new button row '+width+'x'+height,async({page})=>{
   await page.setViewportSize({width,height});
+  await page.goto('/chapter-two.html?trial=1&practice=1&stage=70');
+  const legacyBoardWidth=(await page.locator('#fun-board').boundingBox()).width;
   await page.goto('/chapter-two.html?trial=1&practice=1&stage=70&tap=1');
+  const tapBoardWidth=(await page.locator('#fun-board').boundingBox()).width;
+  expect(tapBoardWidth).toBeGreaterThan(legacyBoardWidth);
   await expect(page.locator('#fun-dpad')).toBeHidden();
   await expect(page.locator('#fun-tools #fun-direction-toggle')).toBeVisible();
   await expect(page.locator('.fun-controls > #fun-direction-toggle')).toHaveCount(0);
