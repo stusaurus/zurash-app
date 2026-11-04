@@ -123,18 +123,22 @@ function updateClearPresentation(grade,recordContext=null){
   result.insertBefore(teaser,result.querySelector('.fun-result-buttons'));
  }
  let record=$('clear-personal-record');
- if(!record){
-  record=document.createElement('p');
-  record.id='clear-personal-record';
-  record.className='clear-personal-record';
-  $('fun-benchmark').insertAdjacentElement('afterend',record);
- }
- record.hidden=!grade||!recordContext;
  if(grade&&recordContext){
-  const result=describePersonalRecord(recordContext);
-  record.dataset.recordState=result.state;
-  record.textContent=result.text;
- }
+  // Early research puzzles do not have a certified benchmark. Never make the
+  // shared completion screen depend on that optional element.
+  if(!record){
+   record=document.createElement('p');
+   record.id='clear-personal-record';
+   record.className='clear-personal-record';
+   const anchor=$('fun-benchmark')??$('fun-finish');
+   if(anchor)anchor.insertAdjacentElement('afterend',record);
+   else result.append(record);
+  }
+  const resultView=describePersonalRecord(recordContext);
+  record.hidden=false;
+  record.dataset.recordState=resultView.state;
+  record.textContent=resultView.text;
+ }else if(record)record.hidden=true;
  const nextStage=entries[number]??null;
  const view=clearPresentation({stage,nextStage,rank:grade?.rank??'clear',adventureMode,comparisonMode});
  result.dataset.clearRank=view.rank;
