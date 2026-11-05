@@ -1,9 +1,9 @@
 // Reproducible, paired CPU-vs-CPU audit for the independent Chapter Two rival.
 // No DOM, localStorage, stage proofs, game-rule edits, or progress writes.
 import {performance} from 'node:perf_hooks';
-import {initial,apply} from './engine.js';
+import {initial,apply,key} from './engine.js';
 import {seeded} from './ai.js';
-import {CPU_PRESETS,cpuAction} from './boss-cpu-settings.js';
+import {CPU_PRESETS,cpuAction,CHALLENGE_SCORELESS_THRESHOLD} from './boss-cpu-settings.js';
 
 export const MATCHUP_LEVELS=Object.freeze(['practice','normal','challenge']);
 function assertPositiveInteger(value,label,allowZero=false){
@@ -24,27 +24,38 @@ export function pairedSchedule({layouts=[0,1],samples=1,seed=261105}={}){
   }
  return matches;
 }
-export function runBossMatch({layout=0,players,maxPlies=48,seed=261105}){
+export function runBossMatch({layout=0,players,maxPlies=48,seed=261105,antiStall=true}){
  if(!Array.isArray(players)||players.length!==2||players.some(x=>!Object.hasOwn(CPU_PRESETS,x)))
   throw Error('Exactly two known CPU profiles are required');
  assertPositiveInteger(maxPlies,'maxPlies');
  assertPositiveInteger(seed,'seed',true);
+ if(typeof antiStall!=='boolean')throw Error('Invalid antiStall');
  let state=initial(layout,0);
  const rng=players.map((level)=>seeded(CPU_PRESETS[level].seed+seed));
+ const visited=new Map([[key(state),1]]);
  const start=performance.now();
- let reason=null;
+ let reason=null,lastScorePly=0,longestScoreless=0,guardedTurns=0,repeatedStates=0;
  while(state.winner===null&&state.ply<maxPlies){
-  const move=cpuAction(state,players[state.turn],rng[state.turn]);
+  const noScore=state.ply-lastScorePly;
+  if(antiStall&&players[state.turn]==='challenge'&&noScore>=CHALLENGE_SCORELESS_THRESHOLD)guardedTurns++;
+  const move=cpuAction(state,players[state.turn],rng[state.turn],{scorelessPlies:antiStall?noScore:0});
   if(move===null){reason='no-legal-move';break;}
   const next=apply(state,move);
   if(next.ply!==state.ply+1)throw Error('CPU game did not advance exactly one turn');
+  const scored=next.scores[0]+next.scores[1]>state.scores[0]+state.scores[1];
+  if(scored)lastScorePly=next.ply;
+  longestScoreless=Math.max(longestScoreless,next.ply-lastScorePly);
+  const nextKey=key(next);
+  if(visited.has(nextKey))repeatedStates++;
+  visited.set(nextKey,(visited.get(nextKey)??0)+1);
   state=next;
  }
  if(state.winner!==null)reason='finished';
  else if(reason===null)reason='turn-cap';
  const elapsedMs=Math.round(performance.now()-start);
  return {
-  layout,players:[...players],seed,maxPlies,reason,
+  layout,players:[...players],seed,maxPlies,antiStall,reason,
+  guardedTurns,repeatedStates,longestScoreless,
   winnerSeat:state.winner,
   winnerLevel:state.winner===null?null:players[state.winner],
   plies:state.ply,scores:[...state.scores],starsRemaining:state.stars.length,
@@ -85,6 +96,9 @@ export function summarizeBossMatches(matches){
   secondSeatWins:resolved.filter(m=>m.winnerSeat===1).length,
   meanFinishedPlies:resolved.length?round(resolved.reduce((s,m)=>s+m.plies,0)/resolved.length):null,
   elapsedSeconds:round(matches.reduce((s,m)=>s+m.elapsedMs,0)/1000),
+  guardedTurns:matches.reduce((s,m)=>s+(m.guardedTurns??0),0),
+  repeatedStates:matches.reduce((s,m)=>s+(m.repeatedStates??0),0),
+  meanLongestScoreless:round(matches.reduce((s,m)=>s+(m.longestScoreless??0),0)/matches.length),
   matchups
  };
 }
