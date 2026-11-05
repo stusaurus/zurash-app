@@ -27,12 +27,24 @@ for (const width of [320, 390]) {
         expect(rect.height).toBeGreaterThanOrEqual(40);
       }
       await expect(nav.locator('a[aria-current="page"]')).toHaveCount(1);
-      // Capture the rendered page for side-by-side visual inspection in CI artifacts.
-      // This does not replace human visual approval or real-device testing.
-      await page.screenshot({
-        path: `test-results/ice-v3-${route.replace('.html', '')}-${width}-${test.info().project.name}.png`,
-        fullPage: true,
-        animations: 'disabled',
+      // The two puzzle modes must keep the actual game board on screen,
+      // not merely the chapter navigation rail.
+      const boardSelector = route === 'chapter-two.html'
+        ? '#fun-board-viewport'
+        : route === 'duel-boss.html' ? '.boss-board' : null;
+      if (boardSelector) {
+        const board = page.locator(boardSelector);
+        await expect(board).toBeVisible();
+        const box = await board.boundingBox();
+        expect(box, `${route} board must have layout bounds`).not.toBeNull();
+        expect(box.x, `${route} board left edge`).toBeGreaterThanOrEqual(-1);
+        expect(box.x + box.width, `${route} board right edge`).toBeLessThanOrEqual(width + 1);
+      }
+      // Attach screenshots to the Playwright result itself, so passing tests
+      // also retain visual evidence in the HTML report/artifact.
+      await test.info().attach(`ice-v3-${route}-${width}`, {
+        body: await page.screenshot({ fullPage: true, animations: 'disabled' }),
+        contentType: 'image/png',
       });
     });
   }
