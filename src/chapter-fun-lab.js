@@ -677,13 +677,13 @@ function selectCell(cell){
  if(mode==='wall'||mode==='glove'){
   if(selectedWall!==null){
    const prep=preps.find(p=>p.from===selectedWall&&p.to===cell);
-   if(prep){selectedPrep=prep;render();say('壁をずらす準備ができた！ 光る停止マスか方向を選ぼう。');return;}
+   if(prep){selectedPrep=prep;render();say('壁をずらす準備ができた！ '+(tapFirst?'光る停止マスをタップしよう。':'光る停止マスか方向を選ぼう。'));return;}
   }
   if(preps.some(p=>p.from===cell)){selectedWall=cell;selectedPrep=null;render();say('光る移動先をタップしよう。');return;}
  }
  if(mode==='ice'||mode==='warp'){
   const prep=preps.find(p=>p.to===cell);
-  if(prep){selectedPrep=prep;render();say('氷を置く準備ができた！ 滑る方向を決めよう。');return;}
+  if(prep){selectedPrep=prep;render();say((mode==='warp'?'ワープ':'氷を置く')+'準備ができた！ '+(tapFirst?'光る停止マスをタップしよう。':'滑る方向を決めよう。'));return;}
  }
  if(mode==='none'&&state.walls.includes(cell)){changeMode('wall');selectCell(cell);return;}
  if(mode==='none'&&stage.iceSockets.includes(cell)&&stage.inventory.iceBlock){changeMode('ice');selectCell(cell);return;}
