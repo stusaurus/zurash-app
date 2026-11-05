@@ -361,6 +361,45 @@ for(const [width,height] of [[320,568],[390,844]]){
   expect(errors).toEqual([]);
  });
 }
+test('zoomed board follows player on real move and Undo but allows manual horizontal exploration',async({page})=>{
+ await page.setViewportSize({width:320,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ const stage=completedJourneyStages.at(-1),action=stage.proof[0],next=applyGate(stage,initialGate(stage),action);
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('/chapter-two.html?trial=1&practice=1&stage=70&tap=1');
+ await page.locator('#fun-board-zoom').click();
+ const frame=page.locator('#fun-board-viewport');
+ const max=await frame.evaluate(el=>el.scrollWidth-el.clientWidth);
+ expect(max).toBeGreaterThan(0);
+ await frame.evaluate(el=>el.scrollLeft=el.scrollWidth);
+ expect(await frame.evaluate(el=>el.scrollLeft)).toBeGreaterThan(0);
+ await page.locator('[data-fun-mode="'+action.prep.type+'"]').click();
+ await page.locator('[data-cell="'+action.prep.from+'"]').click();
+ await page.locator('[data-cell="'+action.prep.to+'"]').click();
+ await page.locator('[data-cell="'+next.position+'"]').click();
+ await expect(page.locator('#fun-moves')).toHaveText('1');
+ const readPan=()=>page.evaluate(()=>{
+  const viewport=document.querySelector('#fun-board-viewport');
+  const player=document.querySelector('#fun-board .cell img').closest('.cell').getBoundingClientRect();
+  const rect=viewport.getBoundingClientRect();
+  const expected=Math.max(0,Math.min(viewport.scrollWidth-viewport.clientWidth,
+   viewport.scrollLeft+player.left+player.width/2-rect.left-rect.width/2));
+  return {scroll:viewport.scrollLeft,expected};
+ });
+ const after=await readPan();
+ expect(Math.abs(after.scroll-after.expected)).toBeLessThanOrEqual(2);
+ // Manual panning works until the next deliberate move or Undo.
+ await frame.evaluate(el=>el.scrollLeft=el.scrollWidth);
+ expect(await frame.evaluate(el=>el.scrollLeft)).toBeGreaterThan(0);
+ await page.locator('#fun-undo').click();
+ await expect(page.locator('#fun-moves')).toHaveText('0');
+ const reverted=await readPan();
+ expect(Math.abs(reverted.scroll-reverted.expected)).toBeLessThanOrEqual(2);
+ await expect(page.locator('#fun-board-zoom')).toHaveAttribute('aria-pressed','true');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ expect(errors).toEqual([]);
+});
+
 test('beginner 4-column stage 51 keeps full-size tiles without extra zoom controls',async({page})=>{
  await page.setViewportSize({width:320,height:844});
  await page.goto('/chapter-two.html?trial=1&practice=1&stage=51&tap=1');
