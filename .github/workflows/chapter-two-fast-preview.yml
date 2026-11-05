@@ -10,6 +10,7 @@ on:
       - 'data/**'
       - 'scripts/build-chapter-two-preview.js'
       - 'tests/preview/**'
+      - 'tests/cpu-encounter.test.js'
       - 'playwright.preview-bundle.config.js'
       - 'package*.json'
       - '.github/workflows/chapter-two-fast-preview.yml'
@@ -39,7 +40,7 @@ jobs:
           node --check src/chapter-two-review.js
           node --check src/boss-duel.js
           node --check src/boss-cpu-worker.js
-          node --test tests/chapter-two-review-summary.test.js tests/chapter-two-playtest.test.js tests/move-history.test.js tests/move-effects.test.js tests/board-cues.test.js tests/star-journey.test.js tests/clear-presentation.test.js tests/clear-record.test.js tests/personal-best-pace.test.js tests/clear-share.test.js tests/challenge-replay-link.test.js tests/invitation-guide.test.js tests/control-guide.test.js tests/tap-landing.test.js tests/boss-duel.test.js tests/boss-cpu-settings.test.js tests/boss-cpu-benchmark.test.js tests/expedition-album.test.js
+          node --test tests/chapter-two-review-summary.test.js tests/chapter-two-playtest.test.js tests/move-history.test.js tests/move-effects.test.js tests/board-cues.test.js tests/star-journey.test.js tests/clear-presentation.test.js tests/clear-record.test.js tests/personal-best-pace.test.js tests/clear-share.test.js tests/challenge-replay-link.test.js tests/invitation-guide.test.js tests/control-guide.test.js tests/tap-landing.test.js tests/boss-duel.test.js tests/boss-cpu-settings.test.js tests/boss-cpu-benchmark.test.js tests/cpu-encounter.test.js tests/expedition-album.test.js
       - name: Audit paired CPU difficulty with honest unresolved outcomes
         timeout-minutes: 7
         run: |
