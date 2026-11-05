@@ -736,7 +736,7 @@ for(const width of [320,390]){
   await expect(page.locator('#fun-result')).toBeVisible();
   await expect(page.locator('#fun-moves')).toHaveText(String(stage.proof.length));
   await expect(page.locator('#save-write-actions')).toBeHidden();
-  expect(await page.evaluate(k=>JSON.parse(localStorage.getItem(k)).completed[stage.id].bestTurns,CHAPTER_TWO_KEY)).toBe(stage.proof.length);
+  expect(await page.evaluate(({key,id})=>JSON.parse(localStorage.getItem(key)).completed[id].bestTurns,{key:CHAPTER_TWO_KEY,id:stage.id})).toBe(stage.proof.length);
   expect(errors).toEqual([]);
  });
 }
