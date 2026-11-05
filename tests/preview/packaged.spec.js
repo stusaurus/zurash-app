@@ -519,8 +519,9 @@ test('stage60 earned clear optionally invites a rival and returns to unlocked st
  expect(errors).toEqual([]);
 });
 
-test('real 18-move stage70 finale earns fourth light once, then CPU bonus returns to complete home album',async({page})=>{
- await page.setViewportSize({width:390,height:844});
+for(const width of [320,390]){
+ test('real 18-move stage70 finale and CPU bonus return to complete home album '+width+'px',async({page})=>{
+ await page.setViewportSize({width,height:844});
  await page.emulateMedia({reducedMotion:'reduce'});
  const errors=[];page.on('pageerror',error=>errors.push(error.message));
  const stage=completedJourneyStages.find(s=>s.chapter.number===70);
@@ -534,6 +535,13 @@ test('real 18-move stage70 finale earns fourth light once, then CPU bonus return
  await expect(page.locator('#fun-count')).toHaveText('STAGE 70');
  await expect(page.locator('#cpu-encounter-slot')).toBeHidden();
  await expect(page.locator('#fun-result')).toBeHidden();
+ const zoom=page.locator('#fun-board-zoom');
+ if(width===320){
+  await expect(zoom).toBeVisible();
+  await zoom.click();
+  await expect(zoom).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('#fun-board-viewport')).toHaveAttribute('data-zoomed','true');
+ }
  let position=initialGate(stage);
  for(let i=0;i<stage.proof.length;i++){
   const action=stage.proof[i],next=applyGate(stage,position,action);
@@ -551,6 +559,10 @@ test('real 18-move stage70 finale earns fourth light once, then CPU bonus return
   if(landing?.kind==='direction-required')
    await page.locator('[data-fun-dir="'+action.dir+'"]').click();
   await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+  if(width===320){
+   await expect(zoom).toHaveAttribute('aria-pressed','true');
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  }
   if(i<stage.proof.length-1){
    await expect(page.locator('#cpu-encounter-slot')).toBeHidden();
    await expect(page.locator('#fun-result')).toBeHidden();
@@ -587,7 +599,8 @@ test('real 18-move stage70 finale earns fourth light once, then CPU bonus return
  await expect(page.locator('#expedition-reward')).not.toContainText('初クリア！');
  expect(await page.evaluate(key=>JSON.stringify(JSON.parse(localStorage.getItem(key)).completed),CHAPTER_TWO_KEY)).toBe(record);
  expect(errors).toEqual([]);
-});
+ });
+}
 
 test('stage70 earned clear offers optional finale rival then goes home with unchanged crystals',async({page})=>{
  await page.setViewportSize({width:390,height:844});
