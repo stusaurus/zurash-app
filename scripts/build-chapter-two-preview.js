@@ -59,6 +59,7 @@ small{display:block;opacity:.92;margin-top:25px;line-height:1.8}
 <a href="./chapter-two.html?trial=1&practice=1&stage=59">第59面を評価する</a>
 <a href="./stage59-return-lab.html">✧ 第59面・往復ワープ改良A/Bを試す</a>
 <a href="./chapter-two.html?trial=1&practice=1&stage=51&tap=1">✦ 第51面から盤面タップで遊ぶ（実験版）</a>
+<a href="./duel-boss.html?cpu=normal">⚔ CPUと対戦（強さ3段階・独立練習）</a>
 <a href="./chapter-two.html?trial=1&practice=1&stage=70">第70面の現行フィナーレ</a>
 <a href="./stage70-finale-lab.html">✦ 第70面・光のフィナーレA/Bを試す</a>
 <a href="./adventure.html">トリケンの家・第1章</a>
@@ -72,7 +73,7 @@ fs.writeFileSync(path.join(output,'_redirects'),'/chapter-two /chapter-two.html 
 fs.writeFileSync(path.join(output,'_headers'),'/*\n  X-Robots-Tag: noindex, nofollow\n');
 // Fail before publishing any artifact if essential runtime files are incomplete.
 const required=[
-'index.html','chapter-two.html','chapter-two-review.html','chapter-two-review.css','stage54-remix-lab.html','stage59-return-lab.html','stage57-remix-lab.html','stage70-finale-lab.html','adventure.html','legacy-duel.html',
+'index.html','chapter-two.html','chapter-two-review.html','chapter-two-review.css','stage54-remix-lab.html','stage59-return-lab.html','stage57-remix-lab.html','stage70-finale-lab.html','adventure.html','duel-boss.html','src/boss-duel.js','src/boss-cpu-settings.js','legacy-duel.html',
 'expedition.css','src/chapter-fun-lab.js','src/puzzle/expedition.js',
 'src/puzzle/chapter-two-progress.js','src/puzzle/chapter-two-playtest.js',
 'src/expedition-view.js','assets/zurash-approved-logo.webp','data/chapters/chapter-02/adventure-v1.json'
