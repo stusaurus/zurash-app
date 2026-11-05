@@ -48,6 +48,28 @@ test('guided beginner CPU avoids the old random-vs-random stall in twelve repeat
  for(const game of games)assert.ok(game.plies<=80);
 });
 
+test('eight-turn scoreless safeguard resolves the three observed strong-CPU stalls without inventing wins',()=>{
+ const guarded=[],legacy=[];
+ for(let layout=0;layout<3;layout++)for(let sample=0;sample<4;sample++){
+  const args={
+   layout,players:['challenge','challenge'],
+   seed:261105+layout*101+sample*7919,maxPlies:80
+  };
+  guarded.push(runBossMatch(args));
+  legacy.push(runBossMatch({...args,antiStall:false}));
+ }
+ assert.equal(legacy.filter(m=>m.reason==='turn-cap').length,3,
+  'frozen baseline is the original three 80-turn unresolved fixtures');
+ assert.equal(guarded.filter(m=>m.reason==='finished').length,12);
+ assert.equal(guarded.filter(m=>m.reason!=='finished').length,0);
+ assert.ok(guarded.some(m=>m.guardedTurns>0));
+ assert.ok(guarded.every(m=>m.plies<=80));
+ assert.ok(legacy.every(m=>m.guardedTurns===0));
+ assert.ok(legacy.filter(m=>m.reason==='turn-cap').every(m=>m.winnerSeat===null));
+ assert.ok(guarded.every(m=>Number.isInteger(m.longestScoreless)&&m.longestScoreless>=0));
+ assert.ok(guarded.every(m=>Number.isInteger(m.repeatedStates)&&m.repeatedStates>=0));
+});
+
 test('CPU audit summarises resolved and unresolved games without treating a turn-cap as a draw or victory',()=>{
  const data=[
   {players:['practice','normal'],reason:'finished',winnerSeat:0,winnerLevel:'practice',plies:21,elapsedMs:110},
