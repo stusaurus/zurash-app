@@ -1,5 +1,6 @@
 import {initial,actions,apply,DIRS} from './engine.js';
 import {CPU_PRESETS,resolveCpuLevel,cpuAction,cpuRng} from './boss-cpu-settings.js';
+import {returnFromCpuEncounter} from './puzzle/cpu-encounter.js';
 
 const $=id=>document.getElementById(id);
 let state=initial(0,0),turnSerial=0,cpuTimer=null,busy=false;
@@ -156,6 +157,15 @@ $('boss-directions').addEventListener('click',e=>{
  const button=e.target.closest('[data-boss-dir]');
  if(button&&!button.disabled)humanTurn(Number(button.dataset.bossDir));
 });
+const fromAdventure=returnFromCpuEncounter(new URLSearchParams(location.search));
+const returnLink=$('boss-return');
+if(returnLink){
+ returnLink.hidden=!fromAdventure;
+ if(fromAdventure){
+  returnLink.href=fromAdventure.href;
+  returnLink.textContent='← '+fromAdventure.label;
+ }
+}
 $('boss-difficulty').value=cpuLevel;
 $('boss-difficulty').addEventListener('change',()=>{
  cpuLevel=resolveCpuLevel($('boss-difficulty').value);
