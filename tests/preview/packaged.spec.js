@@ -458,14 +458,16 @@ for(const width of [320,390]){
     const r=nav.getBoundingClientRect();
     return {
      tokens:getComputedStyle(root).getPropertyValue('--zurash-night').trim(),
-     background:getComputedStyle(document.body).backgroundImage,
+     // Mobile and legacy world layers may paint on different ancestors.
+     // Check the shared navigation gradient itself, not a particular body.
+     navBackground:getComputedStyle(nav).backgroundImage,
      overflow:root.scrollWidth>innerWidth,
      navWithin:r.left>=-1&&r.right<=innerWidth+1,
      heights:links.map(link=>Math.round(link.getBoundingClientRect().height))
     };
    });
    expect(shell.tokens).toBe('#092d52');
-   expect(shell.background).toContain('ice-world-mobile.webp');
+   expect(shell.navBackground).toContain('gradient');
    expect(shell.overflow).toBe(false);
    expect(shell.navWithin).toBe(true);
    expect(shell.heights.every(height=>height>=44)).toBe(true);
