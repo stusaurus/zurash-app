@@ -68,11 +68,11 @@ test('every local href or src in primary release routes is present in the bundle
 test('public landing exposes a real stage campaign entry and does not bypass chapter unlocks',()=>{
  withBundle(out=>{
   const home=readFileSync(join(out,'index.html'),'utf8');
-  assert.match(home,/<a\\s+id="campaign-entry"\\s+href="\\.\\/adventure\\.html"/);
+  assert.match(home,/<a\s+id="campaign-entry"\s+href="\.\/adventure\.html"/);
   const chapterOne=readFileSync(join(out,'adventure.html'),'utf8');
   assert.match(chapterOne,/id="chapter-two-link"/);
   const controller=readFileSync(join(out,'src/adventure.js'),'utf8');
-  assert.match(controller,/chapter-two-link'\\)\\.hidden=!unlocked/);
+  assert.match(controller,/chapter-two-link'\)\.hidden=!unlocked/);
   assert.match(controller,/chapter\.stageIds\.every/);
   assert.ok(existsSync(join(out,'data/chapters/chapter-02/adventure-v1.json')));
  });
