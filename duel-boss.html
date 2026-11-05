@@ -36,7 +36,10 @@ button{font-family:inherit;cursor:pointer}button:disabled{opacity:.42;cursor:not
 .pad [data-boss-dir="0"]{grid-area:1/2}.pad [data-boss-dir="1"]{grid-area:2/3}
 .pad [data-boss-dir="2"]{grid-area:3/2}.pad [data-boss-dir="3"]{grid-area:2/1}
 .pad .snow{grid-area:2/2;display:grid;place-items:center;font-size:24px}
-.actions{text-align:center;margin:12px 0}.actions button,.replay{border:1px solid #6ca6cc;border-radius:11px;background:linear-gradient(#fff,#d7ecff);padding:9px 19px;font-weight:800;color:#145783;min-height:44px}
+.actions{text-align:center;margin:12px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px}
+.actions label{font-weight:800;font-size:12px}
+.actions select{min-height:44px;padding:7px;border:1px solid #6ca6cc;border-radius:9px;background:#fff;color:#145783;font-weight:800}
+.actions button,.replay{border:1px solid #6ca6cc;border-radius:11px;background:linear-gradient(#fff,#d7ecff);padding:9px 19px;font-weight:800;color:#145783;min-height:44px}
 .result{text-align:center;border:2px solid #edc75e;border-radius:14px;margin:11px 0;padding:12px;background:linear-gradient(#fff8d7,#d7f2ff);scroll-margin:100px}
 .result h2{font-size:23px;color:#b26a0a}.result p{font-size:13px;font-weight:750}
 footer{text-align:center;font-size:11px;line-height:1.7;margin:12px;color:#356786}
@@ -69,13 +72,21 @@ footer a{color:#155f98;font-weight:800}
   <button type="button" data-boss-dir="2" aria-label="下へ">▼</button>
  </div>
 </div>
-<div class="actions"><button id="boss-reset" type="button">新しい対戦</button></div>
+<div class="actions">
+ <label for="boss-difficulty">CPUの強さ</label>
+ <select id="boss-difficulty" aria-label="CPUの強さ">
+  <option value="practice">れんしゅう</option>
+  <option value="normal">ふつう</option>
+  <option value="challenge">じっくり考える</option>
+ </select>
+ <button id="boss-reset" type="button">新しい対戦</button>
+</div>
 <section class="result" id="boss-result" hidden>
  <h2 id="boss-result-title"></h2>
  <p id="boss-result-message"></p>
  <button class="replay" id="boss-again" type="button">もう一度挑戦</button>
 </section>
-<footer>CPUは「ふつう」難易度で、既存の2人対戦エンジンを利用しています。これは第2章の独立試遊であり、パズルの星・修復・セーブには影響しません。<br>
+<footer>CPUの強さを3段階から選べます。既存の2人対戦エンジンを利用しています。これは第2章の独立試遊であり、パズルの星・修復・セーブには影響しません。<br>
 <a href="./item-lab.html">道具が必須のパズルを試す</a> ／ <a href="./long-lab.html">長編パズルへ戻る</a></footer>
 </main>
 <script type="module" src="./src/boss-duel.js"></script>
