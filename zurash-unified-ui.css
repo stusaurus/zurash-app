@@ -398,3 +398,9 @@ html.zurash-unified .boss-ui .intro strong {color:#a85b18}
  html.zurash-unified .zurash-route-nav > a {font-size:10px;letter-spacing:0}
  html.zurash-unified .boss-ui .intro {padding:10px 11px}
 }
+
+/* Chapter 1 shows two routes until Chapter 2 is unlocked.
+   Expand both visible buttons instead of leaving an empty third column. */
+html.zurash-unified #chapter-navigation:has(#chapter-two-link[hidden]) {
+ grid-template-columns:repeat(2,minmax(0,1fr));
+}
