@@ -456,12 +456,20 @@ function persistAdventure(){
  // Only the explicit retry control may write the current in-memory trace.
  if(saveReadOnly)return;
  try{
+  const key=saveOptions.practice?practiceSaveKey:CHAPTER_TWO_KEY;
+  if(localStorage.getItem(key)!==persistedRaw){
+   const conflict=new Error('Chapter-two save changed externally');
+   conflict.code='SAVE_CHANGED';
+   throw conflict;
+  }
   writeChapterTwo(localStorage,chapterSave,saveOptions);
   persistedChapterSave=structuredClone(chapterSave);
   persistedRaw=JSON.stringify(chapterSave);
  }catch(e){
   saveReadOnly=true;saveRetryable=true;refreshSaveRetry();
-  $('save-status').textContent='保存できませんでした。記録はこの画面に残っています。空き容量を確認して「保存をもう一度試す」を押してください。';
+  $('save-status').textContent=e.code==='SAVE_CHANGED'?
+   '別のタブで保存記録が変更されたため上書きを停止しました。未保存の記録を保管してください。':
+   '保存できませんでした。記録はこの画面に残っています。空き容量を確認して「保存をもう一度試す」を押してください。';
  }
 }
 
@@ -903,6 +911,11 @@ if(reviewPanel&&reviewActions){
  reviewActions.append(reviewButton);
 }
 $('fun-next').addEventListener('click',()=>{
+ if(adventureMode&&saveReadOnly){
+  $('save-status').textContent='記録がまだ保存されていません。先に「保存をもう一度試す」か「未保存の記録を保管」を選んでください。';
+  $('retry-chapter-two-save')?.focus({preventScroll:true});
+  return;
+ }
  if(adventureMode&&number===entries.length){
   // A genuine final adventure clear returns directly to the earned home memory.
   // Practice play does not claim rewards or trigger an earned-memory arrival.
