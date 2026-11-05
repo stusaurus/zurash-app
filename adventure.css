@@ -844,3 +844,40 @@ html.fun-tap-first .fun-tools .fun-direction-toggle{
 html.fun-tap-first .fun-tools .fun-direction-toggle[aria-expanded="true"]{
  color:#fff;background:linear-gradient(#349dd4,#176aa9);
 }
+
+/* STEP35: optional board magnification for narrow, dense chapter-two stages.
+ * Never enlarge automatically: ordinary tap controls remain one-screen. */
+html.fun-tap-first .fun-board-viewport[data-zoomed="true"]{
+ max-width:100%;overflow-x:auto;overflow-y:hidden;
+ overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+ scrollbar-width:thin;scrollbar-color:#3384b7 #d5ecf9;
+ border-radius:14px;
+}
+html.fun-tap-first .fun-board-viewport[data-zoomed="true"]:focus-visible{
+ outline:3px solid #efa82a;outline-offset:2px;
+}
+html.fun-tap-first .fun-action-guide{
+ grid-template-columns:minmax(0,1fr) auto;
+}
+html.fun-tap-first .fun-action-guide .fun-quick-help{
+ grid-column:1 / -1;
+}
+html.fun-tap-first .fun-action-guide #fun-action-next{
+ grid-column:1;align-self:center;
+}
+html.fun-tap-first .fun-action-guide #fun-action-directions{
+ grid-column:1 / -1;
+}
+html.fun-tap-first .fun-action-guide .fun-board-zoom{
+ grid-column:2;grid-row:2;min-width:44px;min-height:44px;
+ padding:5px 9px;border:1px solid #8dbad1;border-radius:10px;
+ background:linear-gradient(#fff,#d2ebfc);color:#135c88;
+ font:850 11px/1.35 system-ui,-apple-system,sans-serif;
+ touch-action:manipulation;
+}
+html.fun-tap-first .fun-action-guide .fun-board-zoom[aria-pressed="true"]{
+ background:linear-gradient(#2f93cf,#1265a4);color:#fff;
+}
+html.fun-tap-first .fun-action-guide .fun-board-zoom[hidden]{
+ display:none!important;
+}
