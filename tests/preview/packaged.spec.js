@@ -518,6 +518,77 @@ test('stage60 earned clear optionally invites a rival and returns to unlocked st
  expect(after.active.id).toBe(completedJourneyStages[10].id);
  expect(errors).toEqual([]);
 });
+
+test('real 18-move stage70 finale earns fourth light once, then CPU bonus returns to complete home album',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ const stage=completedJourneyStages.find(s=>s.chapter.number===70);
+ let saved=newChapterTwo();
+ for(const earlier of completedJourneyStages.filter(s=>s.chapter.number<70))
+  saved=checkpointTwo(saved,completedJourneyStages,earlier,earlier.proof);
+ await page.goto('/');
+ await page.evaluate(({key,value})=>localStorage.setItem(key,value),
+  {key:CHAPTER_TWO_KEY,value:JSON.stringify(saved)});
+ await page.goto('/chapter-two.html?trial=1&stage=70&tap=1');
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 70');
+ await expect(page.locator('#cpu-encounter-slot')).toBeHidden();
+ await expect(page.locator('#fun-result')).toBeHidden();
+ let position=initialGate(stage);
+ for(let i=0;i<stage.proof.length;i++){
+  const action=stage.proof[i],next=applyGate(stage,position,action);
+  await page.locator('[data-fun-mode="'+action.prep.type+'"]').click();
+  if(action.prep.type==='wall'||action.prep.type==='glove'){
+   await page.locator('[data-cell="'+action.prep.from+'"]').click();
+   await page.locator('[data-cell="'+action.prep.to+'"]').click();
+  }else if(action.prep.type==='ice'||action.prep.type==='warp'){
+   await page.locator('[data-cell="'+action.prep.to+'"]').click();
+  }
+  const target=page.locator('[data-cell="'+next.position+'"]');
+  await expect(target).toHaveClass(/arrival/);
+  const landing=tapLanding(gateSuccessors(stage,position),action.prep,next.position);
+  await target.click();
+  if(landing?.kind==='direction-required')
+   await page.locator('[data-fun-dir="'+action.dir+'"]').click();
+  await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+  if(i<stage.proof.length-1){
+   await expect(page.locator('#cpu-encounter-slot')).toBeHidden();
+   await expect(page.locator('#fun-result')).toBeHidden();
+  }
+  position=next;
+ }
+ await expect(page.locator('#fun-result')).toBeVisible();
+ await expect(page.locator('#fun-rank')).toContainText('Sランク');
+ await expect(page.locator('#expedition-reward')).toContainText('初クリア');
+ await expect(page.locator('#expedition-reward')).toContainText('第2章クリア');
+ await expect(page.locator('#cpu-encounter-link')).toBeVisible();
+ await expect(page.locator('#cpu-encounter-link')).toHaveAttribute('href',
+  './duel-boss.html?cpu=normal&from=70&tap=1');
+ const earned=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),CHAPTER_TWO_KEY);
+ expect(Object.keys(earned.completed)).toHaveLength(20);
+ expect(earned.completed[stage.id].bestTurns).toBe(18);
+ const record=JSON.stringify(earned.completed);
+ await page.locator('#cpu-encounter-link').click();
+ await expect(page.locator('#boss-difficulty')).toHaveValue('normal');
+ await expect(page.locator('#boss-return')).toHaveAttribute('href',
+  './adventure.html?view=expedition');
+ expect(await page.evaluate(key=>JSON.stringify(JSON.parse(localStorage.getItem(key)).completed),CHAPTER_TWO_KEY)).toBe(record);
+ await page.locator('#boss-return').click();
+ await expect(page).toHaveURL(/adventure\.html\?view=expedition/);
+ await expect(page.locator('#expedition-home')).toBeVisible();
+ await expect(page.locator('#expedition-home')).toContainText('道しるべの結晶 20/20個');
+ await expect(page.locator('#expedition-home')).toContainText('灯り 4/4か所');
+ await expect(page.locator('#expedition-memory-album [data-album-lit="true"]')).toHaveCount(4);
+ await expect(page.locator('#expedition-album-progress')).toContainText('冒険 20/20面クリア');
+ expect(await page.evaluate(key=>JSON.stringify(JSON.parse(localStorage.getItem(key)).completed),CHAPTER_TWO_KEY)).toBe(record);
+ await page.goto('/chapter-two.html?trial=1&stage=70&tap=1');
+ await expect(page.locator('#fun-result')).toBeVisible();
+ await expect(page.locator('#cpu-encounter-link')).toBeVisible();
+ await expect(page.locator('#expedition-reward')).not.toContainText('初クリア！');
+ expect(await page.evaluate(key=>JSON.stringify(JSON.parse(localStorage.getItem(key)).completed),CHAPTER_TWO_KEY)).toBe(record);
+ expect(errors).toEqual([]);
+});
+
 test('stage70 earned clear offers optional finale rival then goes home with unchanged crystals',async({page})=>{
  await page.setViewportSize({width:390,height:844});
  let save=newChapterTwo();
