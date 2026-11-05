@@ -431,6 +431,90 @@ test('the packaged preview home links directly to CPU trial',async({page})=>{
  await expect(page.locator('#boss-board .boss-cell')).toHaveCount(49);
 });
 
+
+test('stage60 earned clear optionally invites a rival and returns to unlocked stage61 without new rewards',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('/chapter-two.html?trial=1&stage=60');
+ await expect(page.locator('#cpu-encounter-slot')).toBeHidden();
+ let save=newChapterTwo();
+ for(const stage of completedJourneyStages.filter(s=>s.chapter.number<=60)){
+  save=checkpointTwo(save,completedJourneyStages,stage,stage.proof);
+ }
+ await page.evaluate(({key,value})=>localStorage.setItem(key,value),
+  {key:CHAPTER_TWO_KEY,value:JSON.stringify(save)});
+ await page.goto('/chapter-two.html?trial=1&stage=60&tap=1');
+ await expect(page.locator('#fun-result')).toBeVisible();
+ const event=page.locator('#cpu-encounter-link');
+ await expect(event).toBeVisible();
+ await expect(event).toHaveAttribute('href','./duel-boss.html?cpu=practice&from=60&tap=1');
+ const before=await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY);
+ await event.click();
+ await expect(page.locator('#boss-board .boss-cell')).toHaveCount(49);
+ await expect(page.locator('#boss-difficulty')).toHaveValue('practice');
+ await expect(page.locator('#boss-return')).toBeVisible();
+ await expect(page.locator('#boss-return')).toHaveAttribute('href',
+  './chapter-two.html?trial=1&stage=61&tap=1');
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(before);
+ await page.locator('#boss-return').click();
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 61');
+ await expect(page.locator('#fun-result')).toBeHidden();
+ const after=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),CHAPTER_TWO_KEY);
+ expect(after.completed).toEqual(save.completed);
+ expect(after.active.id).toBe(completedJourneyStages[10].id);
+ expect(errors).toEqual([]);
+});
+test('stage70 earned clear offers optional finale rival then goes home with unchanged crystals',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ let save=newChapterTwo();
+ for(const stage of completedJourneyStages)
+  save=checkpointTwo(save,completedJourneyStages,stage,stage.proof);
+ await page.goto('/');
+ await page.evaluate(({key,value})=>localStorage.setItem(key,value),
+  {key:CHAPTER_TWO_KEY,value:JSON.stringify(save)});
+ await page.goto('/chapter-two.html?trial=1&stage=70');
+ await expect(page.locator('#fun-result')).toBeVisible();
+ const event=page.locator('#cpu-encounter-link');
+ await expect(event).toBeVisible();
+ await expect(event).toHaveAttribute('href','./duel-boss.html?cpu=normal&from=70');
+ const before=await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY);
+ await event.click();
+ await expect(page.locator('#boss-difficulty')).toHaveValue('normal');
+ await expect(page.locator('#boss-return')).toHaveAttribute('href','./adventure.html?view=expedition');
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(before);
+ await page.locator('#boss-return').click();
+ await expect(page).toHaveURL(/adventure\.html\?view=expedition/);
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(before);
+});
+test('practice mode keeps a separate ledger and returns to practice after a bonus duel',async({page})=>{
+ await page.setViewportSize({width:320,height:844});
+ const stage=completedJourneyStages.find(s=>s.chapter.number===60);
+ const save=checkpointTwo(newChapterTwo(),completedJourneyStages,stage,stage.proof,{practice:true});
+ await page.goto('/');
+ await page.evaluate(({key,value})=>localStorage.setItem(key,value),
+  {key:CHAPTER_TWO_KEY+':practice',value:JSON.stringify(save)});
+ await page.goto('/chapter-two.html?trial=1&practice=1&stage=60&tap=1');
+ await expect(page.locator('#cpu-encounter-link')).toHaveAttribute('href',
+  './duel-boss.html?cpu=practice&from=60&practice=1&tap=1');
+ const prior=await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY+':practice');
+ await page.locator('#cpu-encounter-link').click();
+ await expect(page.locator('#boss-return')).toHaveAttribute('href',
+  './chapter-two.html?trial=1&practice=1&stage=61&tap=1');
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY+':practice')).toBe(prior);
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBeNull();
+ await page.locator('#boss-return').click();
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 61');
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBeNull();
+});
+test('direct CPU practice and malformed milestone links never show an adventure redirect',async({page})=>{
+ await page.goto('/duel-boss.html?cpu=normal');
+ await expect(page.locator('#boss-return')).toBeHidden();
+ await page.goto('/duel-boss.html?cpu=normal&from=https%3A%2F%2Fevil.example');
+ await expect(page.locator('#boss-return')).toBeHidden();
+ await page.goto('/duel-boss.html?cpu=challenge&from=65');
+ await expect(page.locator('#boss-return')).toBeHidden();
+});
+
 for(const [width,height] of [[320,568],[390,844]]){
  test('tap-first crowded stages offer optional 44px board targets without horizontal page overflow '+width+'x'+height,async({page})=>{
   await page.setViewportSize({width,height});
