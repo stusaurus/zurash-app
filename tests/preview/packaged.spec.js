@@ -454,7 +454,7 @@ for(const width of [320,390]){
    const shell=await page.evaluate(()=>{
     const root=document.documentElement;
     const nav=document.querySelector('.zurash-route-nav');
-    const links=[...nav.querySelectorAll('a')];
+    const links=[...nav.querySelectorAll('a')].filter(link=>getComputedStyle(link).display!=='none');
     const r=nav.getBoundingClientRect();
     return {
      tokens:getComputedStyle(root).getPropertyValue('--zurash-night').trim(),
