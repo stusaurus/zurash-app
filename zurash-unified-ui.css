@@ -208,3 +208,17 @@ html.zurash-unified .zurash-route-nav a[aria-current='page']{
  html.zurash-unified .game-panel button,
  html.zurash-unified .fun-card button {transition:none}
 }
+
+/* Consistent stage heading surfaces across both chapters. */
+html.zurash-unified .fun-card .fun-meta,
+html.zurash-unified .game-panel .stage-heading {
+ border:1px solid #b4dbf1;
+ border-radius:14px;
+ padding:8px 10px;
+ background:linear-gradient(155deg,#f8fdff,#dcefff);
+ box-shadow:inset 0 1px 0 #fff,0 2px 0 #9dc9e0;
+}
+@media(max-width:360px){
+ html.zurash-unified .fun-card .fun-meta,
+ html.zurash-unified .game-panel .stage-heading {padding:6px 7px;gap:5px}
+}
