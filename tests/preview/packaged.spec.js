@@ -370,6 +370,45 @@ for(const width of [320,390]){
   expect(errors).toEqual([]);
  });
 }
+for(const width of [320,390]){
+ test('CPU search runs in isolated worker and reset cancels its reply '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('/duel-boss.html?cpu=challenge');
+  const workerStarted=page.waitForEvent('worker',{timeout:15000});
+  await page.locator('#boss-skip').click();
+  await page.locator('#boss-directions [data-boss-dir]:not(:disabled)').first().click();
+  await expect(page.locator('#boss-turns')).toHaveText('1');
+  const cpuWorker=await workerStarted;
+  expect(cpuWorker.url()).toContain('/src/boss-cpu-worker.js');
+  // Reset always remains usable while a background CPU is thinking.
+  await page.locator('#boss-reset').click();
+  await expect(page.locator('#boss-turns')).toHaveText('0');
+  await page.waitForTimeout(600);
+  await expect(page.locator('#boss-turns')).toHaveText('0');
+  await expect(page.locator('#boss-side')).toHaveText('あなたの番');
+  await page.locator('#boss-skip').click();
+  await page.locator('#boss-directions [data-boss-dir]:not(:disabled)').first().click();
+  await expect(page.locator('#boss-turns')).toHaveText('2',{timeout:15000});
+  await expect(page.locator('#boss-side')).toHaveText('あなたの番');
+  expect(errors).toEqual([]);
+ });
+}
+test('CPU falls back to valid main-thread opponent when module Workers are unavailable',async({page})=>{
+ await page.setViewportSize({width:320,height:844});
+ await page.addInitScript(()=>{Object.defineProperty(window,'Worker',{configurable:true,value:undefined});});
+ const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ await page.goto('/duel-boss.html?cpu=challenge');
+ await page.locator('#boss-skip').click();
+ await page.locator('#boss-directions [data-boss-dir]:not(:disabled)').first().click();
+ await expect(page.locator('#boss-turns')).toHaveText('2',{timeout:15000});
+ await expect(page.locator('#boss-side')).toHaveText('あなたの番');
+ await page.locator('#boss-reset').click();
+ await expect(page.locator('#boss-turns')).toHaveText('0');
+ expect(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'))).toBeNull();
+ expect(errors).toEqual([]);
+});
+
 test('CPU switching while opponent thinks aborts stale delayed response',async({page})=>{
  await page.setViewportSize({width:390,height:844});
  await page.goto('/duel-boss.html?cpu=practice');
