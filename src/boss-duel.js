@@ -1,10 +1,11 @@
 import {initial,actions,apply,DIRS} from './engine.js';
-import {choose,seeded} from './ai.js';
+import {CPU_PRESETS,resolveCpuLevel,cpuAction,cpuRng} from './boss-cpu-settings.js';
 
 const $=id=>document.getElementById(id);
 let state=initial(0,0),turnSerial=0,cpuTimer=null,busy=false;
 let pendingWall=null,preparedWall=undefined,history=[],lastAction=null;
-let rng=seeded(261101);
+let cpuLevel=resolveCpuLevel(new URLSearchParams(location.search).get('cpu'));
+let rng=cpuRng(cpuLevel);
 const sameWall=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const legal=()=>actions(state);
 const notice=text=>{$('boss-message').textContent=text;};
@@ -42,9 +43,9 @@ function paint(){
   preparedWall===null?'壁を動かさずに滑る方向を選ぼう。':'壁をずらした！ 滑る方向を選ぼう。';
 }
 function reset(){
- ++turnSerial;clearTimeout(cpuTimer);state=initial(0,0);rng=seeded(261101);busy=false;history=[];
+ ++turnSerial;clearTimeout(cpuTimer);state=initial(0,0);rng=cpuRng(cpuLevel);busy=false;history=[];
  pendingWall=null;preparedWall=undefined;lastAction=null;$('boss-result').hidden=true;
- notice('最初はトリケンの番。壁をずらすか、そのまま滑ろう！');paint();
+ notice('CPU：'+CPU_PRESETS[cpuLevel].label+'。最初はトリケンの番。壁をずらすか、そのまま滑ろう！');paint();
 }
 function finishBattle(){
  if(state.winner===null)return;
@@ -57,7 +58,7 @@ function finishBattle(){
 }
 function cpuTurn(serial){
  if(serial!==turnSerial||state.winner!==null)return;
- const act=choose(state,{level:'greedy',rng});
+ const act=cpuAction(state,cpuLevel,rng);
  if(!act){busy=false;notice('合法な行動がありません。新しい対戦を始めてください。');paint();return;}
  try{state=apply(state,act);}catch(error){console.error(error);busy=false;notice('CPUの操作に失敗しました。対戦をやり直してください。');paint();return;}
  history.push(act);busy=false;
@@ -91,6 +92,14 @@ $('boss-skip').addEventListener('click',()=>{
 $('boss-directions').addEventListener('click',e=>{
  const button=e.target.closest('[data-boss-dir]');
  if(button&&!button.disabled)humanTurn(Number(button.dataset.bossDir));
+});
+$('boss-difficulty').value=cpuLevel;
+$('boss-difficulty').addEventListener('change',()=>{
+ cpuLevel=resolveCpuLevel($('boss-difficulty').value);
+ const url=new URL(location.href);
+ url.searchParams.set('cpu',cpuLevel);
+ history.replaceState(null,'',url.pathname+url.search);
+ reset();
 });
 $('boss-reset').addEventListener('click',reset);
 $('boss-again').addEventListener('click',reset);
