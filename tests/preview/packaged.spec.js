@@ -653,6 +653,8 @@ for(const width of [320,390]){
   await expect(reward).toContainText('結晶と道しるべは未確定');
   await expect(reward).not.toContainText('初クリア');
   await expect(reward).not.toContainText('結晶 +1');
+  await expect(page.locator('#fun-progress')).toContainText('端末に未保存の仮記録');
+  await expect(page.locator('#expedition-map')).toContainText('道しるべの結晶 0/20個');
   const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),CHAPTER_TWO_KEY);
   expect(saved.completed[stage.id]).toBeUndefined();
   expect(saved.active.actions).toHaveLength(stage.proof.length-1);
@@ -664,6 +666,38 @@ for(const width of [320,390]){
   expect(errors).toEqual([]);
  });
 }
+
+
+test('corrupt chapter-two save is never overwritten automatically and recovery backs up its original bytes',async({page})=>{
+ await page.setViewportSize({width:320,height:844});
+ const original='{"version":999,"future":"do not modify this data"}';
+ await page.goto('/');
+ await page.evaluate(({key,value})=>localStorage.setItem(key,value),
+  {key:CHAPTER_TWO_KEY,value:original});
+ await page.goto('/chapter-two.html?trial=1&tap=1');
+ await expect(page.locator('#save-recovery')).toBeVisible();
+ await expect(page.locator('#save-status')).toContainText('元の記録は保持しています');
+ await expect(page.locator('#expedition-map')).toContainText('道しるべの結晶 0/20個');
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(original);
+ page.once('dialog',dialog=>dialog.accept());
+ await page.locator('#reset-invalid-save').click();
+ await expect(page.locator('#save-recovery')).toBeHidden();
+ await expect(page.locator('#save-status')).toContainText('元の記録はこの端末の');
+ const after=await page.evaluate(key=>({
+  current:JSON.parse(localStorage.getItem(key)),
+  backups:Object.keys(localStorage)
+   .filter(k=>k.startsWith(key+':invalid-backup:'))
+   .map(k=>({key:k,content:localStorage.getItem(k)}))
+ }),CHAPTER_TWO_KEY);
+ expect(after.current.version).toBe(1);
+ expect(after.current.completed).toEqual({});
+ expect(after.backups).toHaveLength(1);
+ expect(after.backups[0].content).toBe(original);
+ await page.reload();
+ await expect(page.locator('#save-recovery')).toBeHidden();
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 51');
+ expect(await page.evaluate(k=>localStorage.getItem(k),after.backups[0].key)).toBe(original);
+});
 
 test('stage70 earned clear offers optional finale rival then goes home with unchanged crystals',async({page})=>{
  await page.setViewportSize({width:390,height:844});
