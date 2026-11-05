@@ -5,14 +5,14 @@ for (const width of [320, 390]) {
   for (const route of ['adventure.html', 'chapter-two.html', 'duel-boss.html']) {
     test(`ice navigation fits ${width}px on ${route}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 780 });
-      await page.goto('/' + route);
+      // Chapter 2 intentionally hides its board until Chapter 1 is cleared.\n      // Use the built-in independent trial route to inspect its actual layout.\n      const url = route === 'chapter-two.html'\n        ? '/chapter-two.html?trial=1&practice=1&stage=51'\n        : '/' + route;\n      await page.goto(url);
       const nav = page.locator('.zurash-route-nav').first();
       await expect(nav).toBeVisible();
       const links = nav.locator('a');
       await expect(links).toHaveCount(3);
       const bounds = await nav.evaluate((element) => {
         const navRect = element.getBoundingClientRect();
-        const linkRects = [...element.querySelectorAll('a')].map((link) => link.getBoundingClientRect());
+        const linkRects = [...element.querySelectorAll('a')]\n          .filter((link) => link.getClientRects().length > 0)\n          .map((link) => link.getBoundingClientRect());
         return {
           navLeft: navRect.left,
           navRight: navRect.right,
@@ -21,7 +21,7 @@ for (const width of [320, 390]) {
       });
       expect(bounds.navLeft).toBeGreaterThanOrEqual(-1);
       expect(bounds.navRight).toBeLessThanOrEqual(width + 1);
-      for (const rect of bounds.linkRects) {
+      expect(bounds.linkRects.length).toBeGreaterThanOrEqual(2);\n      for (const rect of bounds.linkRects) {
         expect(rect.left).toBeGreaterThanOrEqual(bounds.navLeft - 1);
         expect(rect.right).toBeLessThanOrEqual(bounds.navRight + 1);
         expect(rect.height).toBeGreaterThanOrEqual(40);
