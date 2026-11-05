@@ -444,7 +444,12 @@ for(const width of [320,390]){
    await expect(rail).toBeVisible();
    await expect(rail.locator('a')).toHaveCount(3);
    await expect(rail.locator('a[href="./adventure.html"]')).toBeVisible();
-   await expect(rail.locator('a[href="./chapter-two.html"]')).toBeVisible();
+   // Chapter one intentionally hides the Chapter Two link until all 50
+   // stages are earned. The theme must never bypass that unlock gate.
+   const chapterLink=rail.locator('a[href="./chapter-two.html"]');
+   await expect(chapterLink).toHaveCount(1);
+   if(route==='/adventure.html')await expect(chapterLink).toBeHidden();
+   else await expect(chapterLink).toBeVisible();
    await expect(rail.locator('a[href="./duel-boss.html"]')).toBeVisible();
    const shell=await page.evaluate(()=>{
     const root=document.documentElement;
