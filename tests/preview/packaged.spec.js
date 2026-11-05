@@ -424,6 +424,57 @@ test('CPU switching while opponent thinks aborts stale delayed response',async({
  await expect(page.locator('#boss-side')).toHaveText('あなたの番');
  await expect(page.locator('#boss-message')).toContainText('ふつう');
 });
+// Shared design covers the release homepage (legacy-duel in this isolated
+// preview), both chapters, CPU bonus and human-review screens. The theme does
+// not touch rules, save ledgers, canvas geometry or existing board input.
+for(const width of [320,390]){
+ test('unified ice HUD keeps five playable routes accessible and within viewport '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  const errors=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  for(const route of [
+   '/legacy-duel.html',
+   '/adventure.html',
+   '/chapter-two.html?trial=1&stage=51',
+   '/duel-boss.html?cpu=practice',
+   '/chapter-two-review.html'
+  ]){
+   await page.goto(route);
+   const rail=page.locator('.zurash-route-nav');
+   await expect(rail).toBeVisible();
+   await expect(rail.locator('a')).toHaveCount(3);
+   await expect(rail.locator('a[href="./adventure.html"]')).toBeVisible();
+   await expect(rail.locator('a[href="./chapter-two.html"]')).toBeVisible();
+   await expect(rail.locator('a[href="./duel-boss.html"]')).toBeVisible();
+   const shell=await page.evaluate(()=>{
+    const root=document.documentElement;
+    const nav=document.querySelector('.zurash-route-nav');
+    const links=[...nav.querySelectorAll('a')];
+    const r=nav.getBoundingClientRect();
+    return {
+     tokens:getComputedStyle(root).getPropertyValue('--zurash-night').trim(),
+     background:getComputedStyle(document.body).backgroundImage,
+     overflow:root.scrollWidth>innerWidth,
+     navWithin:r.left>=-1&&r.right<=innerWidth+1,
+     heights:links.map(link=>Math.round(link.getBoundingClientRect().height))
+    };
+   });
+   expect(shell.tokens).toBe('#092d52');
+   expect(shell.background).toContain('ice-world-mobile.webp');
+   expect(shell.overflow).toBe(false);
+   expect(shell.navWithin).toBe(true);
+   expect(shell.heights.every(height=>height>=44)).toBe(true);
+  }
+  await page.goto('/chapter-two.html?trial=1&stage=51');
+  const before=await page.evaluate(()=>Object.keys(localStorage));
+  await page.locator('.zurash-route-nav a[href="./duel-boss.html"]').click();
+  await expect(page.locator('#boss-board .boss-cell')).toHaveCount(49);
+  await expect(page.locator('.zurash-route-nav a[href="./duel-boss.html"]')).toHaveAttribute('aria-current','page');
+  expect(await page.evaluate(()=>Object.keys(localStorage))).toEqual(before);
+  expect(errors).toEqual([]);
+ });
+}
+
 test('the packaged preview home links directly to CPU trial',async({page})=>{
  await page.goto('/');
  const cpu=page.getByRole('link',{name:/CPUと対戦/});
