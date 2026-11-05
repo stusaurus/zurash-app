@@ -22,6 +22,7 @@ import {invitationGuide} from './puzzle/invitation-guide.js';
 import {controlGuide} from './puzzle/control-guide.js';
 import {tapLanding,ambiguousTapCells} from './puzzle/tap-landing.js';
 import {cpuEncounterForClear} from './puzzle/cpu-encounter.js';
+import {retryChapterTwoSave} from './puzzle/chapter-two-save-retry.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -32,7 +33,7 @@ const saveOptions={practice:new URLSearchParams(location.search).get('practice')
 const tapFirst=adventureMode&&new URLSearchParams(location.search).get('tap')==='1';
 if(tapFirst)document.documentElement.classList.add('fun-tap-first');
 const canEnterTwo=(entries,save,index)=>canEnterTwoBase(entries,save,index,saveOptions);
-let chapterSave=newChapterTwo(),persistedChapterSave=newChapterTwo(),saveReadOnly=false;
+let chapterSave=newChapterTwo(),persistedChapterSave=newChapterTwo(),persistedRaw=null,saveReadOnly=false,saveRetryable=false;
 const longMode=pagePath.endsWith('/long-lab');
 const itemMode=pagePath.endsWith('/item-lab');
 const itemLongMode=pagePath.endsWith('/item-long-lab');
@@ -438,10 +439,30 @@ function updateReviewForm(){
   }else $('review-status').textContent='この感想は端末内だけに保存されます。ステージを途中でやめても記録できます。';
  }catch(e){$('review-status').textContent='以前の感想データを読み込めません。元の内容を上書きしないよう、新しい評価の保存を停止しています。';}
 }
+function refreshSaveRetry(){
+ const actions=$('save-write-actions');
+ if(actions)actions.hidden=!adventureMode||!saveRetryable;
+}
 function persistAdventure(){
  if(!adventureMode)return;
- try{chapterSave=checkpointTwo(chapterSave,entries,stage,trace,saveOptions);if(!saveReadOnly){writeChapterTwo(localStorage,chapterSave,saveOptions);persistedChapterSave=structuredClone(chapterSave);}}
- catch(e){saveReadOnly=true;$('save-status').textContent='保存できませんでした。この画面では遊べますが、再読み込みで進行が失われる場合があります。';}
+ try{chapterSave=checkpointTwo(chapterSave,entries,stage,trace,saveOptions);}
+ catch(e){
+  console.error('Chapter-two checkpoint rejected',e);
+  saveReadOnly=true;saveRetryable=false;refreshSaveRetry();
+  $('save-status').textContent='進行記録を検証できませんでした。元のセーブは上書きせず保持しています。';
+  return;
+ }
+ // A rejected browser write must never be silently retried on a later move.
+ // Only the explicit retry control may write the current in-memory trace.
+ if(saveReadOnly)return;
+ try{
+  writeChapterTwo(localStorage,chapterSave,saveOptions);
+  persistedChapterSave=structuredClone(chapterSave);
+  persistedRaw=JSON.stringify(chapterSave);
+ }catch(e){
+  saveReadOnly=true;saveRetryable=true;refreshSaveRetry();
+  $('save-status').textContent='保存できませんでした。記録はこの画面に残っています。空き容量を確認して「保存をもう一度試す」を押してください。';
+ }
 }
 
 // Only a one-time invitation carries this guide. It never blocks controls,
@@ -926,11 +947,54 @@ $('export-playtest-reviews')?.addEventListener('click',()=>{
   $('review-status').textContent='感想をJSONファイルに保存しました。このファイルをチャットに添付すると、ステージ改善の評価資料として利用できます。';
  }catch(e){$('review-status').textContent='感想を書き出せませんでした。元のデータは変更していません。';}
 });
+$('retry-chapter-two-save')?.addEventListener('click',()=>{
+ if(!adventureMode||!saveReadOnly||!saveRetryable||!stage)return;
+ const before=structuredClone(persistedChapterSave);
+ try{
+  const saved=retryChapterTwoSave(localStorage,entries,chapterSave,persistedRaw,saveOptions);
+  chapterSave=saved.save;persistedChapterSave=structuredClone(saved.save);
+  persistedRaw=saved.raw;saveReadOnly=false;saveRetryable=false;
+  refreshSaveRetry();
+  $('save-status').textContent='未保存の進行とクリア記録を保存しました。画面を閉じても続きから遊べます。';
+  showSelection();render();
+  if(solved(state)){
+   showExpeditionReward(before);
+   const grade=evaluateChallenge(stage,trace.length);
+   updateClearPresentation(grade,grade?{
+    turns:trace.length,
+    previousBest:before.completed[stage.id]?.bestTurns??null,
+    resumed:false,
+    scope:saveOptions.practice?'practice':'adventure',
+    saved:true
+   }:null);
+  }
+  updateCpuEncounter();
+ }catch(error){
+  saveReadOnly=true;saveRetryable=true;refreshSaveRetry();
+  $('save-status').textContent=error.code==='SAVE_CHANGED'?
+   '別のタブなどで保存記録が変更されました。上書きせず保護しています。「未保存の記録を保管」からコピーを残してください。':
+   '再保存できませんでした。この画面の記録は残しています。空き容量を確認し、再試行するか記録を保管してください。';
+ }
+});
+$('download-unsaved-chapter-two')?.addEventListener('click',()=>{
+ if(!adventureMode||!saveRetryable)return;
+ try{
+  const json=JSON.stringify(chapterSave,null,2);
+  const url=URL.createObjectURL(new Blob([json],{type:'application/json;charset=utf-8'}));
+  const link=document.createElement('a');
+  link.href=url;link.download='zurash-chapter-two-unsaved-'+(saveOptions.practice?'practice-':'')+'backup.json';
+  document.body.append(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  $('save-status').textContent='未保存の進行をJSONファイルに保管しました。端末内への保存はまだ完了していません。';
+ }catch(error){
+  $('save-status').textContent='未保存の記録を書き出せませんでした。元のセーブは変更していません。';
+ }
+});
 $('reset-invalid-save')?.addEventListener('click',()=>{
  if(!confirm('第2章の記録を作り直しますか？ 元の記録は別のキーへ退避します。第1章の家や星には影響しません。'))return;
  try{
   const {save,backupKey}=recoverInvalidChapterTwo(localStorage,entries,saveOptions);
-  chapterSave=save;persistedChapterSave=structuredClone(save);saveReadOnly=false;sessionBestTurns.clear();
+  chapterSave=save;persistedChapterSave=structuredClone(save);persistedRaw=localStorage.getItem(saveOptions.practice?practiceSaveKey:CHAPTER_TWO_KEY);saveReadOnly=false;saveRetryable=false;refreshSaveRetry();sessionBestTurns.clear();
   $('save-recovery').hidden=true;
   $('save-status').textContent='第2章の記録を復旧しました。元の記録はこの端末の '+backupKey+' に退避しました。';
   setStage(1);
@@ -991,7 +1055,7 @@ try{
  }
  if(adventureMode){
   if(saveOptions.practice)$('save-status').textContent='自由試遊：好きな面を選べます。冒険の進行とは別に記録します。';
-  try{chapterSave=loadChapterTwo(localStorage,entries,saveOptions);persistedChapterSave=structuredClone(chapterSave);}
+  try{chapterSave=loadChapterTwo(localStorage,entries,saveOptions);persistedChapterSave=structuredClone(chapterSave);persistedRaw=localStorage.getItem(saveOptions.practice?practiceSaveKey:CHAPTER_TWO_KEY);}
   catch(e){saveReadOnly=true;$('save-status').textContent='第2章の保存データを読み込めませんでした。元の記録は保持しています。復旧操作を選ぶまで上書きしません。';if($('save-recovery'))$('save-recovery').hidden=false;}
   for(const [id,r]of Object.entries(chapterSave.completed))sessionBestTurns.set(id,r.bestTurns);
  }
