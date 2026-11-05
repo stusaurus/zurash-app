@@ -2,6 +2,17 @@ name: Publish GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    paths:
+      - '*.html'
+      - '*.css'
+      - 'src/**'
+      - 'data/**'
+      - 'assets/**'
+      - 'scripts/build-public-site.js'
+      - 'tests/public-site-bundle.test.js'
+      - '.github/workflows/pages.yml'
+      - 'package*.json'
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,6 +22,20 @@ concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
+  verify-static-bundle:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verify published chapter routes, worker, data and art
+        run: |
+          node --test tests/public-site-bundle.test.js
+          node scripts/build-public-site.js dist
   deploy:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -23,25 +48,13 @@ jobs:
         with:
           node-version: 22
       - run: npm test && npm run check
-      - name: Prepare static files only
+      - name: Prepare and validate complete static adventure bundle
         run: |
-          mkdir -p dist/src dist/assets
-          # Publish all root-level stylesheets. The ice-world and mobile
-          # HUD are loaded dynamically, so omitting them silently breaks the UI.
-          cp index.html *.css dist/
+          node --test tests/public-site-bundle.test.js
+          node scripts/build-public-site.js dist
           for stylesheet in style.css world.css world-mobile.css mobile-hud.css mobile-focus.css mobile-tap.css; do
             test -s "dist/${stylesheet}"
           done
-          cp src/*.js dist/src/
-          # Publish every committed visual asset, including future sprite frames.
-          cp -a assets/. dist/assets/
-          # Fail the deployment if any approved character color is missing.
-          for color in orange aqua lime purple; do
-            test -s "dist/assets/triken-${color}-80.png"
-          done
-          test -s dist/assets/triken-reference.jpeg
-          test -s dist/assets/triken-four-colors.webp
-          touch dist/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
