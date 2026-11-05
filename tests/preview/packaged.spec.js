@@ -720,6 +720,7 @@ for(const width of [320,390]){
   await page.locator('#fun-retry').click();
   await expect(page.locator('#fun-moves')).toHaveText(String(stage.proof.length));
   await expect(page.locator('#save-status')).toContainText('未保存のプレイ記録');
+  await page.locator('.chapter-map summary').click();
   await page.locator('[data-stage-choice="1"]').click();
   await expect(page.locator('#fun-moves')).toHaveText(String(stage.proof.length));
   await page.locator('.fun-head a').click();
