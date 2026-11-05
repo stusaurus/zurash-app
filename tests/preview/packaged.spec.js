@@ -496,6 +496,28 @@ for(const width of [320,390]){
   expect(errors).toEqual([]);
  });
 }
+test('the chosen preparation is highlighted only in tap-first mode, without consuming a turn',async({page})=>{
+ await page.setViewportSize({width:320,height:844});
+ const stage=completedJourneyStages.at(-1),prep=stage.proof[0].prep;
+ await page.goto('/chapter-two.html?trial=1&practice=1&stage=70&tap=1');
+ await page.locator('[data-fun-mode="wall"]').click();
+ await page.locator('[data-cell="'+prep.from+'"]').click();
+ await page.locator('[data-cell="'+prep.to+'"]').click();
+ const selected=page.locator('[data-cell="'+prep.to+'"]');
+ await expect(selected).toHaveClass(/prepared-target/);
+ await expect(selected).toHaveAttribute('aria-pressed','true');
+ await expect(selected).toHaveAttribute('aria-label',/ここに準備した/);
+ await expect(page.locator('#fun-moves')).toHaveText('0');
+ await page.locator('[data-fun-mode="none"]').click();
+ await expect(page.locator('#fun-board .prepared-target')).toHaveCount(0);
+ await page.goto('/chapter-two.html?trial=1&practice=1&stage=70');
+ await page.locator('[data-fun-mode="wall"]').click();
+ await page.locator('[data-cell="'+prep.from+'"]').click();
+ await page.locator('[data-cell="'+prep.to+'"]').click();
+ await expect(page.locator('#fun-board .prepared-target')).toHaveCount(0);
+ await expect(page.locator('#fun-moves')).toHaveText('0');
+});
+
 test('tap-first stage70 can finish all 18 proven actions using board taps and safe fallback only if needed',async({page})=>{
  await page.setViewportSize({width:390,height:844});
  await page.emulateMedia({reducedMotion:'reduce'});
@@ -515,6 +537,13 @@ test('tap-first stage70 can finish all 18 proven actions using board taps and sa
   }else if(action.prep.type==='ice'||action.prep.type==='warp'){
    await page.locator('[data-cell="'+action.prep.to+'"]').click();
   }
+  if(action.prep.type!=='none'){
+   const prepared=page.locator('[data-cell="'+action.prep.to+'"]');
+   await expect(prepared).toHaveClass(/prepared-target/);
+   await expect(prepared).toHaveAttribute('aria-pressed','true');
+   await expect(prepared).toHaveAttribute('aria-label',/ここに準備した/);
+   await expect(page.locator('#fun-moves')).toHaveText(String(i));
+  }
   const targets=page.locator('[data-cell="'+next.position+'"]');
   await expect(targets).toHaveClass(/arrival/);
   // The tested pure resolver selects a tap only when the actual next state
@@ -530,6 +559,7 @@ test('tap-first stage70 can finish all 18 proven actions using board taps and sa
    await targets.click();
   }
   await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+  await expect(page.locator('#fun-board .prepared-target')).toHaveCount(0);
   state=next;
  }
  await expect(page.locator('#fun-result')).toBeVisible();
