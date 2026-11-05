@@ -335,3 +335,35 @@ html.zurash-unified .home-screen #repair-menu:not(:disabled):active {transform:t
  html.zurash-unified .home-screen #play-next,
  html.zurash-unified .home-screen #repair-menu {transition:none}
 }
+
+/* v3 chapter-two mission and boss battle HUD; board tiles remain untouched. */
+html.zurash-unified .fun-card .fun-stats,
+html.zurash-unified .boss-ui .score {
+ border:1px solid #92c8e4;
+ border-radius:15px;
+ background:linear-gradient(160deg,#f8fdff,#d9effb);
+ box-shadow:inset 0 1px 0 #fff,0 3px 0 #86b9d7;
+}
+html.zurash-unified .fun-card .fun-goal,
+html.zurash-unified .boss-ui .prompt {
+ border-radius:14px;
+ background:linear-gradient(160deg,#fff7df,#f5e2ad);
+ border:1px solid #e0bb6c;
+ color:#65471b;
+}
+html.zurash-unified .boss-ui .actions button,
+html.zurash-unified .boss-ui .controls button {
+ min-height:44px;
+ border-radius:12px;
+ transition:filter .15s ease,transform .12s ease;
+}
+@media(hover:hover){
+ html.zurash-unified .boss-ui .actions button:not(:disabled):hover,
+ html.zurash-unified .boss-ui .controls button:not(:disabled):hover {filter:brightness(1.06)}
+}
+html.zurash-unified .boss-ui .actions button:not(:disabled):active,
+html.zurash-unified .boss-ui .controls button:not(:disabled):active {transform:translateY(1px)}
+@media(prefers-reduced-motion:reduce){
+ html.zurash-unified .boss-ui .actions button,
+ html.zurash-unified .boss-ui .controls button {transition:none}
+}
