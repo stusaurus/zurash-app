@@ -474,6 +474,20 @@ for(const width of [320,390]){
    expect(shell.overflow).toBe(false);
    expect(shell.navWithin).toBe(true);
    expect(shell.heights.every(height=>height>=44)).toBe(true);
+   if(route==='/legacy-duel.html'){
+    // Root duel is still an immediately playable board. The secondary
+    // chapter rail must never push it below the 320px first-screen limit.
+    const layout=await page.evaluate(()=>{
+     const board=document.querySelector('#board').getBoundingClientRect();
+     const rail=document.querySelector('.zurash-route-nav').getBoundingClientRect();
+     const adventure=document.querySelector('#campaign-entry').getBoundingClientRect();
+     return {boardTop:board.top,boardBottom:board.bottom,railTop:rail.top,
+      adventureTapHeight:adventure.height};
+    });
+    expect(layout.railTop).toBeGreaterThanOrEqual(layout.boardBottom);
+    if(width===320)expect(layout.boardTop).toBeLessThan(360);
+    expect(layout.adventureTapHeight).toBeGreaterThanOrEqual(44);
+   }
   }
   await page.goto('/chapter-two.html?trial=1&stage=51');
   await expect(page.locator('#fun-count')).toHaveText('STAGE 51');
