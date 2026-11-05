@@ -409,7 +409,14 @@ function updateCpuEncounter(){
 }
 function showExpeditionReward(before=null){
  if(!adventureMode)return;
- const panel=$('expedition-reward'),journey=expeditionProgress(entries,chapterSave,saveOptions);
+ const panel=$('expedition-reward');
+ // An in-memory clear is not an earned, persistent reward. If browser storage
+ // rejected the checkpoint, never claim crystals, lights or an earned finale.
+ if(saveReadOnly){
+  panel.textContent='ステージはクリアしましたが、記録を保存できませんでした。結晶と道しるべは未確定です。保存容量を確認してからもう一度挑戦してください。';
+  return;
+ }
+ const journey=expeditionProgress(entries,chapterSave,saveOptions);
  if(saveOptions.practice){panel.textContent='自由試遊のクリア！ 冒険では初クリアで結晶が集まる。';return;}
  const reward=before?expeditionReward(entries,before,chapterSave,stage,saveOptions):null;
  panel.textContent=reward?.crystals?'✧ 初クリア！ 道しるべの結晶 +1':'この面の結晶は獲得済み。最短記録に挑戦しよう。';
