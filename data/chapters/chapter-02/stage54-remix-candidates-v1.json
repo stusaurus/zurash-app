@@ -1,0 +1,426 @@
+{
+  "version": 1,
+  "collection": "ch02-stage54-remix",
+  "release": "experimental-unapproved",
+  "rulesVersion": "solo-v1",
+  "saveWrites": false,
+  "notes": "第54面の2つの改善研究候補。元の54面は変更せず、星/灯りや章の記録には一切加算しません。",
+  "stages": [
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "ch02-54-remix-a-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 7,
+        "height": 4,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          7,
+          9,
+          10,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          19,
+          20,
+          21,
+          23,
+          24,
+          26,
+          27
+        ]
+      },
+      "start": 10,
+      "walls": [
+        1
+      ],
+      "fixed": [
+        3
+      ],
+      "stars": [
+        23,
+        7,
+        0,
+        16,
+        12,
+        27
+      ],
+      "iceSockets": [
+        24
+      ],
+      "portals": [
+        [
+          2,
+          19
+        ]
+      ],
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "chapter": {
+        "id": "chapter-02-54-remix-research",
+        "number": 54,
+        "title": "氷海の壁リレー",
+        "focus": "氷の停止位置をつくり、壁を4回動かして本土の星へ。ワープの向こうにも星が待っている。",
+        "hint": "氷の置き場所、動かせる壁、最後のワープをそれぞれ役立てよう。壁を動かす位置は止まる場所を変える鍵。"
+      },
+      "challenge": {
+        "minimumTurns": 16,
+        "aThrough": 18,
+        "passThrough": 21,
+        "verifiedBy": "complete-bfs-solo-v1"
+      },
+      "requiredItems": [
+        "iceBlock",
+        "warpCrystal"
+      ],
+      "requiresWallMovement": true,
+      "proof": [
+        {
+          "prep": {
+            "type": "ice",
+            "to": 24
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 1,
+            "to": 0
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 0,
+            "to": 7
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 7,
+            "to": 14
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 14,
+            "to": 15
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 19
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        }
+      ],
+      "provenance": {
+        "status": "candidate-unapproved",
+        "project": "stage54-comparative-remix",
+        "searchEngine": "independent-exhaustive-BFS-plus-official-solver-crosscheck",
+        "humanPlaytested": false,
+        "originalStageId": "ch02-dual-ice-warp-v1",
+        "originalMinimumTurns": 19,
+        "originalWallActions": 0,
+        "counterfactual": "Without any wall move, ice action or warp action, all reachable states are exhausted without clearing.",
+        "doNotReplaceCampaign": true
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "ch02-54-remix-b-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 7,
+        "height": 4,
+        "playableCells": [
+          0,
+          1,
+          2,
+          7,
+          9,
+          10,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          23,
+          26,
+          27
+        ]
+      },
+      "start": 17,
+      "walls": [
+        1
+      ],
+      "fixed": [
+        15,
+        23
+      ],
+      "stars": [
+        22,
+        9,
+        14,
+        2,
+        12,
+        26
+      ],
+      "iceSockets": [
+        21
+      ],
+      "portals": [
+        [
+          7,
+          20
+        ]
+      ],
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "chapter": {
+        "id": "chapter-02-54-remix-research",
+        "number": 54,
+        "title": "雪道の遠回りの鍵",
+        "focus": "壁を7回ずらしながら星の通り道を組み立てる。氷を置くタイミングも重要な、少し長い比較版。",
+        "hint": "序盤は壁を急いで動かさなくてもよい。途中の壁の配置を何手も使い、氷の置き場所からワープへつなげよう。"
+      },
+      "challenge": {
+        "minimumTurns": 17,
+        "aThrough": 19,
+        "passThrough": 22,
+        "verifiedBy": "complete-bfs-solo-v1"
+      },
+      "requiredItems": [
+        "iceBlock",
+        "warpCrystal"
+      ],
+      "requiresWallMovement": true,
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 1,
+            "to": 2
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 9
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 9,
+            "to": 10
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 10,
+            "to": 9
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 9,
+            "to": 2
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 1
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 21
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 1,
+            "to": 0
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 20
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        }
+      ],
+      "provenance": {
+        "status": "candidate-unapproved",
+        "project": "stage54-comparative-remix",
+        "searchEngine": "independent-exhaustive-BFS-plus-official-solver-crosscheck",
+        "humanPlaytested": false,
+        "originalStageId": "ch02-dual-ice-warp-v1",
+        "originalMinimumTurns": 19,
+        "originalWallActions": 0,
+        "counterfactual": "Without any wall move, ice action or warp action, all reachable states are exhausted without clearing.",
+        "doNotReplaceCampaign": true
+      }
+    }
+  ]
+}

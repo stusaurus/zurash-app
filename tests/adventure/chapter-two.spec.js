@@ -36,8 +36,26 @@ for(const width of [320,390,1440]){
    if(n===stages.length-1){await expect(page.locator('#expedition-reward')).toContainText('第2章クリア');await expect(page.locator('#expedition-map [data-lit=true]')).toHaveCount(4);}
    await expect(page.locator('#fun-finish')).toContainText('壁移動'+s.proof.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回');
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-   if(n===stages.length-1){await page.screenshot({path:'test-results/chapter-two-'+test.info().project.name+'-'+width+'.png',fullPage:true});await page.reload();await expect(page.locator('#fun-result')).toBeVisible();await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');}
-   else await page.locator('#fun-next').click();
+   if(n===stages.length-1){
+    await page.screenshot({path:'test-results/chapter-two-'+test.info().project.name+'-'+width+'.png',fullPage:true});
+    await page.reload();
+    await expect(page.locator('#fun-result')).toBeVisible();
+    await expect(page.locator('#clear-personal-record')).toHaveAttribute('data-record-state','resumed');
+    await expect(page.locator('#clear-personal-record')).toContainText('クリア記録を再表示中');
+    await expect(page.locator('#clear-personal-record')).not.toContainText('初クリア');
+    await expect(page.locator('#fun-benchmark')).toContainText('最短 '+s.challenge.minimumTurns+'手');
+    await expect(page.locator('#clear-next-preview')).toContainText('家で道しるべの思い出');
+    await page.locator('#fun-next').click();
+    await expect(page).toHaveURL(/adventure\.html\?view=expedition$/);
+    await expect(page.locator('#expedition-home')).toBeVisible();
+    await expect(page.locator('#expedition-home h2')).toContainText('おかえり！');
+    await expect(page.locator('#expedition-home [data-lit=true]')).toHaveCount(4);
+    await expect(page.locator('#expedition-home')).toHaveAttribute('data-arrival','true');
+    await expect(page.locator('#expedition-home h2')).toBeFocused();
+    await expect(page.locator('#expedition-home .expedition-house-link')).toBeVisible();
+    await page.getByRole('link',{name:'氷海の冒険へ戻る'}).click();
+    await expect(page.locator('#fun-title')).toHaveText(s.chapter.title);
+   }else await page.locator('#fun-next').click();
   }
   expect(await page.evaluate(()=>localStorage.getItem('zurash-app:home-preview:ice-town:v2'))).toBe(before);
   await page.locator('#fun-retry').click();await expect(page.locator('#fun-moves')).toHaveText('0');
@@ -76,4 +94,62 @@ test('chapter two adventure: deployed clean URL keeps chapter mode and direct pr
  await page.goto('/chapter-two?trial=1&practice=1&stage=70');
  await expect(page.locator('#fun-title')).toHaveText(stages.find(s=>s.chapter.number===70).chapter.title);
  await expect(page.locator('#fun-count')).toHaveText('STAGE 70');
+});
+
+test('chapter two adventure: invalid save can be downloaded then deliberately recovered without touching house',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/chapter-two.html?trial=1');
+ const invalid='{"version":999,"opaque":"do not destroy"}';
+ await page.evaluate(({raw})=>{
+  localStorage.setItem('zurash-app:chapter-two-preview:v1',raw);
+  localStorage.setItem('zurash-app:home-preview:ice-town:v2','keep-chapter-one');
+ },{raw:invalid});
+ await page.reload();
+ await expect(page.locator('#save-recovery')).toBeVisible();
+ await expect(page.locator('#save-status')).toContainText('上書きしません');
+ const output=page.waitForEvent('download');
+ await page.locator('#download-invalid-save').click();
+ const downloaded=await output;expect(downloaded.suggestedFilename()).toContain('original-record.txt');
+ expect(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'))).toBe(invalid);
+ page.once('dialog',dialog=>dialog.accept());
+ await page.locator('#reset-invalid-save').click();
+ await expect(page.locator('#save-recovery')).toBeHidden();
+ await expect(page.locator('#fun-title')).toHaveText(stages[0].chapter.title);
+ await expect(page.locator('#save-status')).toContainText('元の記録は');
+ const result=await page.evaluate(()=>{
+  const key='zurash-app:chapter-two-preview:v1';
+  const backupKey=Object.keys(localStorage).find(s=>s.startsWith(key+':invalid-backup:'));
+  return {saved:localStorage.getItem(key),backup:backupKey?localStorage.getItem(backupKey):null,house:localStorage.getItem('zurash-app:home-preview:ice-town:v2')};
+ });
+ expect(JSON.parse(result.saved)).toEqual({version:1,completed:{},active:{id:stages[0].id,revision:stages[0].revision,actions:[]}});
+ expect(result.backup).toBe(invalid);
+ expect(result.house).toBe('keep-chapter-one');
+ await page.reload();
+ await expect(page.locator('#fun-title')).toHaveText(stages[0].chapter.title);
+ await expect(page.locator('#save-recovery')).toBeHidden();
+});
+
+test('chapter two adventure: a human review is optional, local-only, persistent and exportable',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/chapter-two.html?trial=1&practice=1&stage=54');
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 54');
+ const campaignBefore=await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'));
+ await page.locator('#playtest-review summary').click();
+ await page.locator('#review-enjoyment').selectOption('poor');
+ await page.locator('#review-difficulty').selectOption('hard');
+ await page.locator('#review-note').fill('54面は壁移動が少なくて、滑走が長く感じた。');
+ await page.locator('#playtest-form button[type=submit]').click();
+ await expect(page.locator('#review-status')).toContainText('端末内に保存しました');
+ await page.reload();
+ await page.locator('#playtest-review summary').click();
+ await expect(page.locator('#review-enjoyment')).toHaveValue('poor');
+ await expect(page.locator('#review-difficulty')).toHaveValue('hard');
+ await expect(page.locator('#review-note')).toHaveValue('54面は壁移動が少なくて、滑走が長く感じた。');
+ expect(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-preview:v1'))).toBe(campaignBefore);
+ const download=page.waitForEvent('download');
+ await page.locator('#export-playtest-reviews').click();
+ const file=await download;expect(file.suggestedFilename()).toBe('zurash-chapter-two-playtest-reviews.json');
+ const data=JSON.parse(await page.evaluate(()=>localStorage.getItem('zurash-app:chapter-two-playtest-review:v1')));
+ const stage=stages.find(s=>s.chapter.number===54);
+ expect(data.reviews[stage.id]).toMatchObject({enjoyment:'poor',difficulty:'hard',note:'54面は壁移動が少なくて、滑走が長く感じた。'});
 });

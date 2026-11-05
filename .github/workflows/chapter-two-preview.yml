@@ -12,9 +12,31 @@ on:
       - 'gate-glove-lab.html'
       - 'tests/gate-glove.test.js'
       - 'tests/chapter-two-progress.test.js'
+      - 'tests/chapter-two-playtest.test.js'
+      - 'tests/chapter-two-review-summary.test.js'
+      - 'tests/chapter-two-pattern-audit.test.js'
+      - 'tests/stage54-remix.test.js'
+      - 'tests/adventure/stage54-remix.spec.js'
+      - 'stage54-remix-lab.html'
+      - 'stage59-return-lab.html'
+      - 'stage57-remix-lab.html'
+      - 'stage70-finale-lab.html'
+      - 'tests/stage70-finale.test.js'
+      - 'tests/adventure/stage70-finale.spec.js'
+      - 'tests/stage57-remix.test.js'
+      - 'tests/adventure/stage57-remix.spec.js'
+      - 'tests/stage59-return.test.js'
+      - 'tests/adventure/stage59-return.spec.js'
+      - 'scripts/chapter-two-pattern-audit.js'
+      - 'tests/adventure/review-hub.spec.js'
+      - 'chapter-two-review.html'
+      - 'chapter-two-review.css'
       - 'tests/chapter-two-stages.test.js'
       - 'tests/adventure/chapter-two.spec.js'
       - 'scripts/chapter-two-certify.js'
+      - 'scripts/build-chapter-two-preview.js'
+      - 'playwright.preview-bundle.config.js'
+      - 'tests/preview/packaged.spec.js'
       - 'item-lab.html'
       - 'item-long-lab.html'
       - 'dual-item-lab.html'
@@ -27,6 +49,14 @@ on:
       - 'duel-boss.html'
       - 'chapter-02-preview.html'
       - 'src/boss-duel.js'
+      - 'src/boss-cpu-settings.js'
+      - 'src/boss-cpu-benchmark.js'
+      - 'scripts/boss-cpu-benchmark.js'
+      - 'tests/boss-cpu-benchmark.test.js'
+      - 'tests/cpu-encounter.test.js'
+      - 'tests/chapter-two-save-retry.test.js'
+      - 'tests/boss-cpu-settings.test.js'
+      - 'tests/boss-duel.test.js'
       - 'src/chapter-fun-lab.js'
       - 'src/puzzle/**'
       - 'data/chapters/chapter-02/**'
@@ -61,18 +91,48 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js tests/gate-long.test.js tests/gate-cycle.test.js tests/gate-closure.test.js tests/gate-warp.test.js tests/gate-glove.test.js tests/chapter-two-progress.test.js tests/chapter-two-stages.test.js tests/expedition.test.js
+      - run: node --test tests/item-required.test.js tests/item-long-required.test.js tests/dual-item-required.test.js tests/gate-v2.test.js tests/gate-long.test.js tests/gate-cycle.test.js tests/gate-closure.test.js tests/gate-warp.test.js tests/gate-glove.test.js tests/chapter-two-progress.test.js tests/chapter-two-playtest.test.js tests/chapter-two-review-summary.test.js tests/move-history.test.js tests/move-effects.test.js tests/board-cues.test.js tests/star-journey.test.js tests/clear-presentation.test.js tests/clear-record.test.js tests/personal-best-pace.test.js tests/clear-share.test.js tests/challenge-replay-link.test.js tests/invitation-guide.test.js tests/control-guide.test.js tests/tap-landing.test.js tests/boss-duel.test.js tests/boss-cpu-settings.test.js tests/boss-cpu-benchmark.test.js tests/cpu-encounter.test.js tests/chapter-two-save-retry.test.js tests/chapter-two-pattern-audit.test.js tests/stage54-remix.test.js tests/stage59-return.test.js tests/stage57-remix.test.js tests/stage70-finale.test.js tests/chapter-two-stages.test.js tests/expedition.test.js tests/expedition-album.test.js
       - run: node scripts/chapter-two-certify.js
+      - name: Audit human-review-priority patterns without altering stage data
+        run: node scripts/chapter-two-pattern-audit.js
       - run: npx playwright install --with-deps chromium webkit
+      - name: Verify stage54 three-way human feedback in actual browsers
+        run: npx playwright test -c playwright.chapter.config.js -g "stage54 review" --output=test-results-stage54-review
+      - name: Verify stage59 return remixes, both winning routes and local reviews
+        run: npx playwright test -c playwright.chapter.config.js -g "stage59 return" --output=test-results-stage59-return
+      - name: Verify stage57 A/B full browser playthroughs and reviews
+        run: npx playwright test -c playwright.chapter.config.js -g "stage57 remix" --output=test-results-stage57-remix
+      - name: Verify stage70 research full UI wins and independent feedback
+        run: npx playwright test -c playwright.chapter.config.js -g "stage70 finale" --output=test-results-stage70-finale
       - name: Test item, switch gate and CPU trial pages (Chromium / WebKit)
-        run: npx playwright test -c playwright.chapter.config.js -g "expedition rewards|chapter two adventure|item laboratory|CPU rival|switch gate|item long trials|dual item trials|gate long trials|gate cycle trials|gate closure trials|gate warp trials" --output=test-results-chapter-two
+        run: npx playwright test -c playwright.chapter.config.js -g "expedition rewards|chapter two adventure|review hub|stage54 remix|item laboratory|CPU rival|switch gate|item long trials|dual item trials|gate long trials|gate cycle trials|gate closure trials|gate warp trials" --output=test-results-chapter-two
         env:
           PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-chapter-two-report
+      - name: Build isolated static preview bundle (no deployment)
+        run: node scripts/build-chapter-two-preview.js
+      - name: Test bundled preview on Chromium / WebKit
+        run: npx playwright test -c playwright.preview-bundle.config.js --output=test-results-preview-bundle
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-preview-report
+      - name: Save deploy-ready private-preview files
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: chapter-two-static-preview
+          path: preview-dist/
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: chapter-two-preview-qa
           path: |
             playwright-chapter-two-report/
+            playwright-preview-report/
             test-results-chapter-two/
+            test-results-stage54-review/
+            test-results-stage59-return/
+            test-results-stage57-remix/
+            test-results-stage70-finale/
+            test-results-preview-bundle/
+          if-no-files-found: warn
           retention-days: 14

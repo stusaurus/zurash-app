@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="zurash-unified">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -14,6 +14,7 @@
     <title>ズラッシュ！ | ZURASH!</title>
     <link rel="stylesheet" href="style.css?v=20261030-tap-first-v25" />
     <link rel="stylesheet" href="world.css?v=20261028" />
+    <link rel="stylesheet" href="zurash-unified-ui.css" />
     <!-- Approved art only loads when both images exist; game logic is unchanged. -->
     <script type="module" src="src/mobile-world.js?v=20261031-board-press-v33"></script>
   </head>
@@ -28,7 +29,7 @@
         <div>
           <p class="eyebrow">TRIKEN’S ICE ADVENTURE</p>
           <h1>ズラッシュ<span>！</span></h1>
-          <p class="tagline">壁をずらして、氷の上をかけぬけよう！</p>
+          <p class="tagline"><a id="campaign-entry" href="./adventure.html" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;max-width:100%;padding:4px 7px;border:1px solid currentColor;border-radius:8px;font-size:12px;letter-spacing:0;text-decoration:none;font-weight:800">❄ ステージ攻略であそぶ</a></p>
         </div>
         <div class="mascot">
           <img
@@ -117,6 +118,13 @@
           <button id="reviewFinal" class="quiet">最後の盤面を見る</button>
         </dialog>
       </section>
+      <!-- Keep the board above the first fold on 320px devices.
+           The adventure is already accessible from the mast CTA. -->
+      <nav class="zurash-route-nav" aria-label="ズラッシュ！の遊び方を選ぶ">
+        <a href="./adventure.html">🏠 第1章・家</a>
+        <a href="./chapter-two.html">❄ 第2章・氷海</a>
+        <a href="./duel-boss.html">⚔ CPU対戦</a>
+      </nav>
       <footer>
         ずらして、すべって、ひらめいて。<span>ZURASH! · TIRANON GAMES</span>
       </footer>

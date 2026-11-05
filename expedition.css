@@ -10,3 +10,30 @@
 .expedition-home h2{font-size:18px;margin:0;text-align:center}.expedition-home a{display:block;min-height:44px;line-height:44px;text-align:center;font-weight:800;color:#185e98}
 .expedition-story{font-size:11px;line-height:1.5;text-align:center;color:#295e83;margin:5px 0}
 @media(prefers-reduced-motion:no-preference){.expedition-route li[data-lit=true] .expedition-light{animation:expedition-glow 3s ease-in-out infinite alternate}@keyframes expedition-glow{to{box-shadow:0 0 20px #ffcf7599,0 3px 0 #ad782b}}}
+
+/* Coming home after the real chapter finale: arrive at the earned expedition memory. */
+.expedition-home[data-arrival="true"]{
+ border:2px solid #e4b962;
+ background:linear-gradient(150deg,#fff5d8,#c3e4f7dd);
+ box-shadow:0 4px 22px #d0a34a44;
+ scroll-margin-top:18px;
+}
+.expedition-home h2:focus{outline:none}
+.expedition-home .expedition-house-link{border:1px solid #9bbdc9;border-radius:10px;background:#ffffffb9;line-height:1.5;padding:12px 8px;margin-top:5px}
+
+/* A compact, optional four-chapter replay album; no new stored progress. */
+.expedition-album{margin:14px 0;padding:10px 9px;border-radius:14px;background:#fffaf0b8;border:1px solid #e0c78d}
+.expedition-album h3{text-align:center;font-size:15px;line-height:1.5;margin:1px 0 5px;color:#72551e}
+.expedition-album-progress{text-align:center;font-weight:850;color:#1e5680;font-size:13px;margin:0 0 5px}
+.expedition-album-hint{font-size:11px;line-height:1.6;text-align:center;margin:4px 0 11px;color:#5b6c70}
+.expedition-album-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.expedition-album-card{min-width:0;border:1px solid #bdd3df;border-radius:11px;background:#ecf7fc;overflow:hidden}
+.expedition-album-card[data-album-lit=true]{border-color:#ecc16c;background:linear-gradient(155deg,#fff5cb,#fffded)}
+.expedition-album-card summary{cursor:pointer;min-height:50px;display:flex;align-items:center;padding:9px 7px;line-height:1.55;font-size:11px;font-weight:850;color:#316085;overflow-wrap:anywhere}
+.expedition-album-card[data-album-lit=true] summary{color:#896118}
+.expedition-album-card summary:focus-visible{outline:3px solid #1488c0;outline-offset:-3px}
+.expedition-album-card .expedition-album-rank,.expedition-album-card .expedition-album-story{margin:5px 9px;font-size:11px;line-height:1.65;color:#435e70}
+.expedition-album-card .expedition-album-rank{font-weight:850;color:#95621a}
+.expedition-album-card .expedition-album-replay{display:block;margin:7px;padding:10px 7px;border:1px solid #8db8d4;border-radius:8px;background:#f8fdff;color:#1b5e92;line-height:1.55;min-height:44px;font-size:11px;text-align:center;font-weight:850;overflow-wrap:anywhere}
+.expedition-album-card .expedition-album-replay:focus-visible{outline:3px solid #1488c0;outline-offset:2px}
+@media(max-width:360px){.expedition-album-grid{grid-template-columns:minmax(0,1fr)}}

@@ -24,6 +24,18 @@ for(const width of [320,390,1440])test('expedition rewards: milestone, replay, r
  const normal=await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY);
  await page.goto('/adventure.html');await expect(page.locator('#expedition-home')).toBeVisible();await expect(page.locator('#expedition-home [data-lit=true]')).toHaveCount(1);
  await page.screenshot({path:test.info().outputPath('home-memory.png'),fullPage:true});
+ await expect(page.locator('#expedition-album-progress')).toContainText('冒険 5/20面クリア');
+ await expect(page.locator('#expedition-memory-album [data-album-stop]')).toHaveCount(4);
+ await expect(page.locator('#expedition-memory-album [data-album-lit=true]')).toHaveCount(1);
+ // The milestone route and the memory album must never share the same lit-state selector.
+ await expect(page.locator('#expedition-memory-album [data-lit]')).toHaveCount(0);
+ await page.locator('#expedition-memory-album [data-album-stop="trail"] summary').click();
+ await expect(page.locator('#expedition-memory-album [data-album-stop="trail"]')).toContainText('雪の向こうに、小さな灯り');
+ await expect(page.locator('#expedition-memory-album [data-album-stop="trail"]')).toContainText('Sランク 5/5面');
+ await expect(page.locator('#expedition-memory-album [data-album-stop="trail"] .expedition-album-replay')).toHaveAttribute('href',/stage=51/);
+ await page.locator('#expedition-memory-album [data-album-stop="gate"] summary').click();
+ await expect(page.locator('#expedition-memory-album [data-album-stop="gate"]')).not.toContainText('大きな氷扉に灯り');
+ await expect(page.locator('#expedition-memory-album [data-album-stop="gate"] .expedition-album-replay')).toHaveAttribute('href',/stage=56/);
  expect(await page.evaluate(key=>localStorage.getItem(key),HOME_KEY)).toBe(homeRaw);
  await page.goto('/chapter-two.html?trial=1&practice=1&stage=55');for(const a of stage.proof)await act(page,a);
  await expect(page.locator('#expedition-reward')).toContainText('自由試遊');

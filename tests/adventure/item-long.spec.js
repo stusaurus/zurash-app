@@ -32,6 +32,9 @@ test('item long trials replay 19,16,20-turn shortest routes and preserve existin
    if(prep.type==='glove')used++;
    await page.locator('[data-fun-dir="'+dir+'"]').click();
    await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+   // The counter updates before WebKit finishes the slide animation.
+   // Do not fire the next preparation while controls are temporarily locked.
+   await expect(page.locator('#fun-retry')).toBeEnabled();
   }
   expect(used).toBe(1);
   await expect(page.locator('#fun-stars')).toHaveText('0');

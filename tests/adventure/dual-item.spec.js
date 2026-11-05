@@ -27,6 +27,9 @@ for(const width of [320,390]){
     if(used[prep.type]!==undefined)used[prep.type]++;
     await page.locator('[data-fun-dir="'+dir+'"]').click();
     await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+    // The move counter updates before WebKit finishes its slide animation.
+    // Wait until controls unlock before preparing the following action.
+    await expect(page.locator('#fun-retry')).toBeEnabled();
    }
    for(const item of stage.requiredItems)expect(used[{iceBlock:'ice',powerGlove:'glove',warpCrystal:'warp'}[item]]).toBe(1);
    await expect(page.locator('#fun-stars')).toHaveText('0');
@@ -34,6 +37,7 @@ for(const width of [320,390]){
    await expect(page.locator('#fun-benchmark')).toContainText('最短 '+stage.challenge.minimumTurns+'手');
    await expect(page.locator('#fun-progress')).toContainText('Sランク '+(j+1)+'/2面');
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+   await expect(page.locator('#fun-retry')).toBeEnabled();
    await page.locator('#fun-next').click();
   }
   await expect(page.locator('#fun-title')).toHaveText(pack.stages[0].chapter.title);

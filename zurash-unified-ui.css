@@ -1,0 +1,280 @@
+/* ZURASH! unified interface shell — Phase 1
+ * Approved art, board geometry, puzzle input and all reward/save logic remain
+ * in their existing styles/modules. Only shared navigation and surrounding HUD.
+ */
+html.zurash-unified {
+ --zurash-night:#092d52;
+ --zurash-deep:#123c68;
+ --zurash-sea:#1e6696;
+ --zurash-ice:#e6f8ff;
+ --zurash-ice-edge:#8bcce8;
+ --zurash-ink:#123c5e;
+ --zurash-gold:#ffcb5e;
+ --zurash-orange:#e87929;
+ --zurash-shadow:#06264b70;
+ font-synthesis:none;
+}
+html.zurash-unified body {
+ background-color:var(--zurash-night);
+ background-image:linear-gradient(180deg,#08294cc9 0%,#154d7e9e 40%,#082a50d1 100%),url('./assets/ice-world-mobile.webp');
+ background-size:cover;
+ background-position:center top;
+ background-attachment:scroll;
+}
+html.zurash-unified *:focus-visible {
+ outline:3px solid var(--zurash-gold);
+ outline-offset:3px;
+}
+/* Compact cross-mode rail. No new game input and no layout changes inside boards. */
+html.zurash-unified .zurash-route-nav {
+ display:grid !important;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ align-items:stretch;
+ gap:6px;
+ max-width:700px;
+ margin:6px auto 12px;
+ padding:6px !important;
+ border:1px solid #a7d9f4a6;
+ border-radius:16px;
+ background:linear-gradient(145deg,#0c416eec,#185889e8);
+ box-shadow:inset 0 1px 0 #b7e9ff5c,0 5px 0 #08284575;
+}
+html.zurash-unified .zurash-route-nav a {
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ min-height:44px;
+ min-width:0;
+ padding:7px 5px;
+ border:1px solid #7cbfe3;
+ border-bottom:3px solid #337baa;
+ border-radius:11px;
+ background:linear-gradient(165deg,#f8fdff,#c5e8fa);
+ color:#12476f;
+ text-decoration:none;
+ font-size:clamp(10px,2.7vw,13px);
+ font-weight:900;
+ line-height:1.2;
+ text-align:center;
+ overflow-wrap:anywhere;
+ box-shadow:0 1px 0 #fff9;
+ touch-action:manipulation;
+}
+html.zurash-unified .zurash-route-nav a[aria-current='page'] {
+ color:#59300b;
+ border-color:#ffe6a4;
+ border-bottom-color:#b87a24;
+ background:linear-gradient(#ffe9a8,#f6b752);
+}
+html.zurash-unified .zurash-route-nav small {
+ grid-column:1/-1;
+ color:#eef9ff;
+ font-size:11px;
+ line-height:1.35;
+ padding:3px 6px;
+ text-align:center;
+}
+/* Reuse the same typography and depth on chapter HUD panels. */
+html.zurash-unified .game-panel,
+html.zurash-unified .fun-card {
+ border-color:#d6f2ff;
+ box-shadow:inset 0 1px 0 #ffffffbd,0 5px 0 #5c98be,0 16px 32px var(--zurash-shadow);
+}
+html.zurash-unified .fun-card .fun-meta,
+html.zurash-unified .game-panel .stage-heading {
+ border-bottom-color:#c4e5fa;
+}
+html.zurash-unified .fun-card .fun-meta h1,
+html.zurash-unified .game-panel .stage-heading h2 {
+ color:#174c7c;
+ text-shadow:0 1px 0 #fff;
+}
+html.zurash-unified .fun-progress,
+html.zurash-unified .fun-goal,
+html.zurash-unified .fun-stats,
+html.zurash-unified .score-strip {
+ box-shadow:inset 0 1px 0 #ffffffb9;
+}
+html.zurash-unified .fun-card .fun-tools button:focus-visible,
+html.zurash-unified .fun-card .fun-actions button:focus-visible,
+html.zurash-unified .fun-card button:focus-visible {
+ outline-color:#e89922;
+}
+html.zurash-unified .fun-card #fun-next,
+html.zurash-unified .fun-card #retry-chapter-two-save,
+html.zurash-unified .boss-ui .primary,
+html.zurash-unified .boss-ui #boss-again {
+ border:2px solid #efac54;
+ border-bottom:4px solid #a9541e;
+ background:linear-gradient(170deg,#ffcf7c,#ed852a);
+ color:#532e0f;
+ font-weight:900;
+ box-shadow:inset 0 1px 0 #fff5b1;
+}
+html.zurash-unified #save-write-actions {
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ justify-content:center;
+ margin:10px auto;
+}
+html.zurash-unified #save-write-actions[hidden] {display:none}
+html.zurash-unified #save-write-actions button {
+ min-height:44px;
+ padding:9px 12px;
+ border:2px solid #6aa9cd;
+ border-bottom-width:4px;
+ border-radius:12px;
+ background:linear-gradient(#f6fdff,#cce9f9);
+ color:#144873;
+ font-weight:850;
+}
+html.zurash-unified .fun-result,
+html.zurash-unified .boss-ui .result {
+ border:2px solid #f3ce69;
+ box-shadow:inset 0 1px 0 #fff9,0 5px 0 #c99b3e,0 12px 24px #2e577350;
+ background:linear-gradient(160deg,#fff9df,#d9f4ff);
+}
+html.zurash-unified .boss-ui main {
+ border-color:#bfe9fb;
+ background:linear-gradient(165deg,#f0fcff,#caeafa);
+ box-shadow:inset 0 1px 0 #fff,0 7px 0 #558fbb,0 20px 32px var(--zurash-shadow);
+}
+html.zurash-unified .boss-ui .score,
+html.zurash-unified .boss-ui .prompt {
+ border-color:#a3d3ed;
+ background:#f1fbff;
+}
+html.zurash-unified .boss-ui #boss-return {
+ display:block;
+ min-height:44px;
+ margin:10px 0;
+ padding:11px;
+ border:1px solid #8bc4e3;
+ border-radius:11px;
+ background:linear-gradient(#fff,#d6eefb);
+ color:#134d79;
+ font-weight:900;
+ text-align:center;
+ text-decoration:none;
+}
+html.zurash-unified .boss-ui #boss-return[hidden] {display:none}
+html.zurash-unified .review-ui .guide,
+html.zurash-unified .review-ui .comparison,
+html.zurash-unified .review-ui .card {
+ border-color:#bbdef0;
+ background:linear-gradient(150deg,#f8fdff,#d7effb);
+}
+html.zurash-unified .review-ui .review-row a.primary,
+html.zurash-unified .review-ui .next-trial {
+ background:linear-gradient(#ffe9af,#f2b65d);
+ border-color:#dcad58;
+ color:#6a400d;
+}
+/* Navigation never steals space from the actual board or thumb controls. */
+@media(max-width:360px){
+ html.zurash-unified .zurash-route-nav{gap:4px;padding:5px !important;margin:4px auto 9px;border-radius:12px}
+ html.zurash-unified .zurash-route-nav a{font-size:10px;padding:6px 3px;border-radius:9px}
+ html.zurash-unified .boss-ui main{padding:9px}
+}
+@media(prefers-reduced-motion:reduce){
+ html.zurash-unified .zurash-route-nav a,
+ html.zurash-unified #save-write-actions button{transition:none;animation:none}
+}
+
+/* Phase 2: consistent tactile controls, without touching board geometry or input. */
+html.zurash-unified .zurash-route-nav a,
+html.zurash-unified .game-panel .quiet,
+html.zurash-unified .game-panel .primary,
+html.zurash-unified .fun-card .fun-tools button,
+html.zurash-unified .fun-card .fun-actions button {
+ transition:filter .15s ease,box-shadow .15s ease,transform .12s ease;
+}
+@media(hover:hover){
+ html.zurash-unified .zurash-route-nav a:hover,
+ html.zurash-unified .game-panel button:not(:disabled):hover,
+ html.zurash-unified .fun-card button:not(:disabled):hover {filter:brightness(1.06)}
+}
+html.zurash-unified .zurash-route-nav a:active,
+html.zurash-unified .game-panel button:not(:disabled):active,
+html.zurash-unified .fun-card button:not(:disabled):active {
+ transform:translateY(1px);
+}
+html.zurash-unified .zurash-route-nav a[aria-current='page']{
+ box-shadow:inset 0 2px 0 #fff2c1,0 0 0 1px #ffe5a155;
+}
+@media(prefers-reduced-motion:reduce){
+ html.zurash-unified .zurash-route-nav a,
+ html.zurash-unified .game-panel button,
+ html.zurash-unified .fun-card button {transition:none}
+}
+
+/* Consistent stage heading surfaces across both chapters. */
+html.zurash-unified .fun-card .fun-meta,
+html.zurash-unified .game-panel .stage-heading {
+ border:1px solid #b4dbf1;
+ border-radius:14px;
+ padding:8px 10px;
+ background:linear-gradient(155deg,#f8fdff,#dcefff);
+ box-shadow:inset 0 1px 0 #fff,0 2px 0 #9dc9e0;
+}
+@media(max-width:360px){
+ html.zurash-unified .fun-card .fun-meta,
+ html.zurash-unified .game-panel .stage-heading {padding:6px 7px;gap:5px}
+}
+
+/* Ice stage selector: chapter one and chapter two share the same tactile language. */
+html.zurash-unified .fun-selector button,
+html.zurash-unified .stage-grid button {
+ border:1px solid #7fb7d8;
+ border-bottom:3px solid #659fc6;
+ border-radius:11px;
+ background:linear-gradient(160deg,#fff,#d6efff);
+ color:#174f79;
+ box-shadow:inset 0 1px 0 #fff;
+}
+html.zurash-unified .fun-selector button[aria-current='step'],
+html.zurash-unified .stage-grid button.current {
+ background:linear-gradient(#ffe9aa,#f4bb59);
+ border-color:#dba85a;
+ border-bottom-color:#a97828;
+ color:#653d10;
+}
+html.zurash-unified .boss-ui .score {
+ box-shadow:inset 0 1px 0 #fff,0 3px 0 #91bdd9;
+}
+html.zurash-unified .boss-ui .score strong {
+ color:#ad5a12;
+ text-shadow:0 1px 0 #fff5ce;
+}
+
+/* House HUD only: preserve all illustrated rooms and restoration hit targets. */
+html.zurash-unified .home-screen .room-tabs {
+ background:linear-gradient(180deg,#e9f7ff,#d4eaf7);
+ border-bottom:1px solid #9fc8df;
+}
+html.zurash-unified .home-screen .room-tabs button {
+ color:#245678;
+ border:1px solid transparent;
+}
+html.zurash-unified .home-screen .room-tabs button[aria-pressed="true"] {
+ background:linear-gradient(#fff6d6,#f4d38c);
+ border-color:#d6ad5e;
+ color:#654415;
+ box-shadow:inset 0 1px 0 #fff8e2,0 2px 0 #b68c4a;
+}
+html.zurash-unified .home-screen #play-next {
+ background:linear-gradient(#ffc777,#e98630);
+ border-color:#ce7025;
+ box-shadow:inset 0 1px 0 #fff0ba,0 3px 0 #a95722;
+ color:#512d11;
+}
+html.zurash-unified .home-screen #repair-menu {
+ background:linear-gradient(#f8fdff,#d4eafa);
+ border-color:#8bbad5;
+ color:#174c75;
+}
+html.zurash-unified .home-screen #repair-menu[aria-expanded="true"] {
+ background:linear-gradient(#e4f6ff,#a8d8f2);
+ box-shadow:inset 0 0 0 1px #6ca9cf;
+}
