@@ -165,6 +165,10 @@ body{margin:0}
 <section class="game-panel fun-card" aria-label="実験パズル">
 <details class="chapter-map"><summary>ステージを選ぶ・冒険の記録</summary><nav class="fun-selector" id="stage-choices" aria-label="ステージ選択"></nav><a href="./chapter-two.html?trial=1&practice=1&stage=60">新しい60〜70面を自由試遊</a> <a href="./chapter-two-review.html">54・57・59・70面を比較試遊</a> <a href="./duel-boss.html?cpu=normal">⚔ CPUとの対戦を試す（独立練習）</a><div id="expedition-map"></div></details>
 <p id="save-status" role="status" class="fun-warning"></p>
+<div id="save-write-actions" hidden aria-label="第2章の未保存記録">
+ <button type="button" id="retry-chapter-two-save" class="fun-again">保存をもう一度試す</button>
+ <button type="button" id="download-unsaved-chapter-two" class="fun-again">未保存の記録を保管</button>
+</div>
 <section id="save-recovery" class="save-recovery" hidden aria-label="保存データを安全に復旧">
  <strong>第2章の保存記録を読み込めませんでした</strong>
  <p>古い形式や壊れた記録は勝手に削除しません。記録を書き出すか、元の内容を別に退避して第2章だけ最初から始められます。第1章の家や星には影響しません。</p>
