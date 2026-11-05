@@ -15,12 +15,32 @@ const matches=schedule.map((match,i)=>{
  return row;
 });
 const summary=summarizeBossMatches(matches);
+// An equal-strength counterfactual separates CPU stall prevention from
+// pairwise difficulty. Both sides use the same profile and fixed seeds.
+const sameProfileSeeds=(full?[0,1,2]:[0]).flatMap(layout=>
+ Array.from({length:full?4:1},(_,sample)=>({layout,seed:261105+layout*101+sample*7919}))
+);
+const selfPlayStudy=['practice','normal','challenge'].map(level=>{
+ const guarded=sameProfileSeeds.map(row=>runBossMatch({...row,players:[level,level],maxPlies:80}));
+ const legacy=level==='challenge'?sameProfileSeeds.map(row=>runBossMatch({...row,players:[level,level],maxPlies:80,antiStall:false})):null;
+ const summarise=games=>({
+  games:games.length,finished:games.filter(g=>g.reason==='finished').length,
+  unresolved:games.filter(g=>g.reason!=='finished').length,
+  firstSeatWins:games.filter(g=>g.winnerSeat===0).length,
+  secondSeatWins:games.filter(g=>g.winnerSeat===1).length,
+  meanPlies:Math.round(games.reduce((s,g)=>s+g.plies,0)/games.length*100)/100,
+  totalGuardedTurns:games.reduce((s,g)=>s+g.guardedTurns,0),
+  exactRepeatedStates:games.reduce((s,g)=>s+g.repeatedStates,0)
+ });
+ return {level,guarded:summarise(guarded),legacy:legacy?summarise(legacy):null};
+});
 const output={
  ...summary,
  setting:full?'full':'quick',
  maxPlies:preset.maxPlies,
  layouts:preset.layouts,
  samplesPerLayoutPerMatchupSide:preset.samples,
+ selfPlayStudy,
  caution:'Unresolved matches are not wins, draws or decisive evidence of equal skill. Small samples must not justify a difficulty claim.',
  matches
 };
@@ -42,7 +62,16 @@ const markdown=[
  '- Unresolved reason: turn-cap '+summary.unresolvedByReason.turnCap+', no legal move '+summary.unresolvedByReason.noLegalMove,
  '- First seat wins: '+summary.firstSeatWins+', second seat wins: '+summary.secondSeatWins,
  '- Mean finished plies: '+(summary.meanFinishedPlies??'N/A'),
- '- CPU calculation elapsed total: '+summary.elapsedSeconds+' seconds (runner dependent)',
+ '- Guarded CPU turns: '+summary.guardedTurns+', exact repeated states: '+summary.repeatedStates,
+ '- Mean longest score drought: '+summary.meanLongestScoreless+' plies',
+ '',
+ '### Equal-strength self-play (80-ply audit cap; not a game rule)',
+ '',
+ '| CPU | Games | Finished after guard | Unresolved after guard | Legacy unresolved | Avg plies after guard |',
+ '| :-- | --: | --: | --: | --: | --: |',
+ ...selfPlayStudy.map(row=>'| '+row.level+' | '+row.guarded.games+' | '+row.guarded.finished+' | '+row.guarded.unresolved+' | '+(row.legacy?.unresolved??'not compared')+' | '+row.guarded.meanPlies+' |'),
+ '',
+ '- CPU calculation elapsed total: '+summary.elapsedSeconds+' seconds for mixed matchups (runner dependent)',
  '',
  '**Interpretation guard:** No winner is assigned to a cap or stalemate. Full multi-seed runs and real human play are needed before claiming three verified skill tiers.',
  ''
