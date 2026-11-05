@@ -553,9 +553,12 @@ function paintBoard(options){
   if(!playable.has(c)){cells+='<span class="hole" aria-hidden="true"></span>';continue;}
   const wall=visual.walls.includes(c),fixed=stage.fixed.includes(c),portal=stage.portals.some(pair=>pair.includes(c)),gate=gateMode&&c===stage.gate.tile,switchTile=gateMode&&c===stage.gate.switch,ice=visual.ice.includes(c),star=state.stars.includes(c),player=visual.position===c,arrive=arrivals.has(c)&&!player;
   const socket=stage.iceSockets.includes(c)&&!ice;
-  const klass=['cell',wall?'wall':'',fixed?'wall fixed-wall':'',portal?'portal-cell':'',gate?'gate-tile':'',gate&&!state.gateOpen?'gate-closed':'',switchTile?'switch-tile':'',ice?'ice':'',socket?'socket':'',hotspots.has(c)?'hot':'',selectedWall===c?'selected':'',arrive?'arrival':'',ambiguous.has(c)?'tap-ambiguous':''].filter(Boolean).join(' ');
-  const label=['左から'+(c%w+1)+'、上から'+(Math.floor(c/w)+1),wall?'動く壁':'',fixed?'動かせない壁':'',portal?'転送門':'',gate?(state.gateOpen?'開いた氷扉':'閉じた氷扉'):'',switchTile?'扉を切り替えるスイッチ':'',player?'トリケン':'',star?'星':'',socket?'氷を置ける':'',hotspots.has(c)?(choosingWall?'ここから動かせる壁':'準備の移動先'):'',arrive?(ambiguous.has(c)?'方向ボタンで選んで滑る':'ここへ滑る'):''].filter(Boolean).join('・');
-  cells+='<button type="button" class="'+klass+'" data-cell="'+c+'" aria-label="'+label+'" '+(busy?'disabled':'')+'>'+
+  // A prepared placement changes the preview but is not yet a committed turn.
+  // Mark exactly that destination, separately from the next landing choices.
+  const prepared=tapFirst&&selectedPrep?.type!=='none'&&selectedPrep?.to===c;
+  const klass=['cell',wall?'wall':'',fixed?'wall fixed-wall':'',portal?'portal-cell':'',gate?'gate-tile':'',gate&&!state.gateOpen?'gate-closed':'',switchTile?'switch-tile':'',ice?'ice':'',socket?'socket':'',hotspots.has(c)?'hot':'',selectedWall===c?'selected':'',prepared?'prepared-target':'',arrive?'arrival':'',ambiguous.has(c)?'tap-ambiguous':''].filter(Boolean).join(' ');
+  const label=['左から'+(c%w+1)+'、上から'+(Math.floor(c/w)+1),wall?'動く壁':'',fixed?'動かせない壁':'',portal?'転送門':'',gate?(state.gateOpen?'開いた氷扉':'閉じた氷扉'):'',switchTile?'扉を切り替えるスイッチ':'',player?'トリケン':'',star?'星':'',socket?'氷を置ける':'',prepared?'ここに準備した':'',hotspots.has(c)?(choosingWall?'ここから動かせる壁':'準備の移動先'):'',arrive?(ambiguous.has(c)?'方向ボタンで選んで滑る':'ここへ滑る'):''].filter(Boolean).join('・');
+  cells+='<button type="button" class="'+klass+'" data-cell="'+c+'" aria-label="'+label+'" '+(prepared?'aria-pressed="true" ':'')+(busy?'disabled':'')+'>'+
    (star?'<span class="star" aria-hidden="true">★</span>':'')+
    (portal?'<span class="portal-indicator" aria-hidden="true">✧</span>':'')+
    (gate?'<span class="gate-indicator" aria-hidden="true">'+(state.gateOpen?'◇':'▦')+'</span>':'')+
