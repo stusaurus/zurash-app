@@ -432,6 +432,60 @@ test('the packaged preview home links directly to CPU trial',async({page})=>{
 });
 
 
+test('real 17-move stage60 clear unlocks optional CPU challenge only after completion',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ const stage=completedJourneyStages.find(s=>s.chapter.number===60);
+ let saved=newChapterTwo();
+ for(const earlier of completedJourneyStages.filter(s=>s.chapter.number<60))
+  saved=checkpointTwo(saved,completedJourneyStages,earlier,earlier.proof);
+ await page.goto('/');
+ await page.evaluate(({key,value})=>localStorage.setItem(key,value),
+  {key:CHAPTER_TWO_KEY,value:JSON.stringify(saved)});
+ await page.goto('/chapter-two.html?trial=1&stage=60&tap=1');
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 60');
+ await expect(page.locator('#cpu-encounter-slot')).toBeHidden();
+ await expect(page.locator('#fun-result')).toBeHidden();
+ let state=initialGate(stage);
+ for(let i=0;i<stage.proof.length;i++){
+  const action=stage.proof[i],next=applyGate(stage,state,action);
+  await page.locator('[data-fun-mode="'+action.prep.type+'"]').click();
+  if(action.prep.type==='wall'||action.prep.type==='glove'){
+   await page.locator('[data-cell="'+action.prep.from+'"]').click();
+   await page.locator('[data-cell="'+action.prep.to+'"]').click();
+  }else if(action.prep.type==='ice'||action.prep.type==='warp'){
+   await page.locator('[data-cell="'+action.prep.to+'"]').click();
+  }
+  const target=page.locator('[data-cell="'+next.position+'"]');
+  await expect(target).toHaveClass(/arrival/);
+  const landing=tapLanding(gateSuccessors(stage,state),action.prep,next.position);
+  await target.click();
+  if(landing?.kind==='direction-required')
+   await page.locator('[data-fun-dir="'+action.dir+'"]').click();
+  await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+  if(i+1<stage.proof.length)await expect(page.locator('#cpu-encounter-slot')).toBeHidden();
+  state=next;
+ }
+ await expect(page.locator('#fun-result')).toBeVisible();
+ await expect(page.locator('#fun-rank')).toContainText('Sランク');
+ await expect(page.locator('#cpu-encounter-link')).toBeVisible();
+ await expect(page.locator('#cpu-encounter-link')).toHaveAttribute('href',
+  './duel-boss.html?cpu=practice&from=60&tap=1');
+ const earned=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),CHAPTER_TWO_KEY);
+ expect(earned.completed[stage.id].bestTurns).toBe(stage.proof.length);
+ expect(Object.keys(earned.completed)).toHaveLength(10);
+ const recordBefore=JSON.stringify(earned.completed);
+ await page.locator('#cpu-encounter-link').click();
+ await expect(page.locator('#boss-difficulty')).toHaveValue('practice');
+ await expect(page.locator('#boss-return')).toBeVisible();
+ expect(await page.evaluate(key=>JSON.stringify(JSON.parse(localStorage.getItem(key)).completed),CHAPTER_TWO_KEY)).toBe(recordBefore);
+ await page.locator('#boss-return').click();
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 61');
+ expect(await page.evaluate(key=>JSON.stringify(JSON.parse(localStorage.getItem(key)).completed),CHAPTER_TWO_KEY)).toBe(recordBefore);
+ expect(errors).toEqual([]);
+});
+
 test('stage60 earned clear optionally invites a rival and returns to unlocked stage61 without new rewards',async({page})=>{
  await page.setViewportSize({width:390,height:844});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
