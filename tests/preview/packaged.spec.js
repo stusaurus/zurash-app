@@ -542,6 +542,9 @@ test('tap-first stage70 can finish all 18 proven actions using board taps and sa
    await expect(prepared).toHaveClass(/prepared-target/);
    await expect(prepared).toHaveAttribute('aria-pressed','true');
    await expect(prepared).toHaveAttribute('aria-label',/ここに準備した/);
+   await expect(page.locator('#fun-prompt')).toContainText('光る停止マスをタップしよう');
+   if(action.prep.type==='warp')await expect(page.locator('#fun-prompt')).toContainText('ワープの準備');
+   if(action.prep.type==='ice')await expect(page.locator('#fun-prompt')).toContainText('氷を置く準備');
    await expect(page.locator('#fun-moves')).toHaveText(String(i));
   }
   const targets=page.locator('[data-cell="'+next.position+'"]');
