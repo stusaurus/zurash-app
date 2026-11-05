@@ -63,22 +63,40 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Verify published Triken images
+      - name: Verify live adventure pages, data, CPU worker and approved characters
         env:
           SITE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           set -euo pipefail
-          base="${SITE_URL%/}/assets"
-          for color in orange aqua lime purple; do
-            asset="triken-${color}-80.png"
-            # The Pages CDN may need a short propagation window after deployment.
+          base="${SITE_URL%/}"
+          # Compare live bytes to the exact approved build. A successful
+          # artifact upload is not proof that both chapters are accessible.
+          for asset in \
+            index.html \
+            adventure.html \
+            chapter-two.html \
+            duel-boss.html \
+            data/campaign.json \
+            data/chapters/chapter-01/manifest.json \
+            data/chapters/chapter-02/adventure-v1.json \
+            src/chapter-fun-lab.js \
+            src/boss-cpu-worker.js \
+            assets/triken-orange-80.png \
+            assets/triken-aqua-80.png \
+            assets/triken-lime-80.png \
+            assets/triken-purple-80.png; do
             ok=false
             for attempt in $(seq 1 12); do
-              if curl --fail --silent --show-error --location --max-time 10                 "${base}/${asset}?build=${GITHUB_SHA}" -o "/tmp/${asset}"                 && cmp -s "dist/assets/${asset}" "/tmp/${asset}"; then
-                echo "Confirmed live image: ${asset}"
+              tmp="$(mktemp)"
+              if curl --fail --silent --show-error --location --max-time 10 \
+                "${base}/${asset}?build=${GITHUB_SHA}" -o "${tmp}" \
+                && cmp -s "dist/${asset}" "${tmp}"; then
+                echo "Confirmed published file: ${asset}"
                 ok=true
+                rm -f "${tmp}"
                 break
               fi
+              rm -f "${tmp}"
               sleep 5
             done
             test "${ok}" = true
