@@ -32,7 +32,7 @@ for (const width of [320, 390]) {
         // occupy two equal columns, without an unused third column.
         await expect(nav.locator('#chapter-two-link')).toBeHidden();
         const columns = await nav.evaluate((el) =>
-          getComputedStyle(el).gridTemplateColumns.trim().split(/\\s+/).length
+          getComputedStyle(el).gridTemplateColumns.trim().split(/\s+/).length
         );
         expect(columns).toBe(2);
       }
