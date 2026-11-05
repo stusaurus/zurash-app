@@ -511,7 +511,24 @@ function showFirstInvitation(){
  if(anchor)anchor.insertAdjacentElement('afterend',card);
 }
 
+function warnUnsavedNavigation(){
+ $('save-status').textContent='未保存のプレイ記録があります。ステージを変える前に「保存をもう一度試す」か「未保存の記録を保管」を選んでください。';
+ $('retry-chapter-two-save')?.focus({preventScroll:true});
+}
+// A visible hyperlink can navigate away even while the game has a failed
+// write. Guard same-tab navigation as well as stage buttons; downloads are
+// handled by the explicit unsaved-record export control.
+document.addEventListener('click',event=>{
+ if(!adventureMode||!saveRetryable)return;
+ const link=event.target instanceof Element?event.target.closest('a[href]'):null;
+ if(!link||link.hasAttribute('download')||link.target==='_blank')return;
+ event.preventDefault();
+ warnUnsavedNavigation();
+},true);
 function setStage(n,{resume=false,preserveReviewOpen=false,invited=false}={}){
+ // setStage() resets the active trace before writing its new checkpoint.
+ // Prevent a retry or stage-picker action from destroying a recoverable clear.
+ if(adventureMode&&saveRetryable){warnUnsavedNavigation();return;}
  if(busy||!entries[n-1]||(adventureMode&&!canEnterTwo(entries,chapterSave,n-1)))return;
  clearMoveEffect();
  clearBoardCue();
