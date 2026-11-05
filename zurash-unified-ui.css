@@ -367,3 +367,34 @@ html.zurash-unified .boss-ui .controls button:not(:disabled):active {transform:t
  html.zurash-unified .boss-ui .actions button,
  html.zurash-unified .boss-ui .controls button {transition:none}
 }
+
+/* v3 route clarity: one navigation pattern across all three playable screens. */
+html.zurash-unified .zurash-route-nav > a {
+ min-width:0;
+ overflow-wrap:anywhere;
+ text-decoration:none;
+ -webkit-tap-highlight-color:transparent;
+}
+html.zurash-unified .zurash-route-nav > a:focus-visible {
+ outline:3px solid #ffcb5e;
+ outline-offset:2px;
+}
+html.zurash-unified .zurash-route-nav > small {
+ grid-column:1/-1;
+ justify-self:center;
+ max-width:100%;
+ text-align:center;
+ line-height:1.4;
+}
+html.zurash-unified .boss-ui .intro {
+ border:1px solid #9ac9e2;
+ border-radius:16px;
+ padding:12px 14px;
+ background:linear-gradient(160deg,#f8fdff,#e0f2fc);
+ color:#194c70;
+}
+html.zurash-unified .boss-ui .intro strong {color:#a85b18}
+@media(max-width:360px) {
+ html.zurash-unified .zurash-route-nav > a {font-size:10px;letter-spacing:0}
+ html.zurash-unified .boss-ui .intro {padding:10px 11px}
+}
