@@ -32,7 +32,7 @@ const saveOptions={practice:new URLSearchParams(location.search).get('practice')
 const tapFirst=adventureMode&&new URLSearchParams(location.search).get('tap')==='1';
 if(tapFirst)document.documentElement.classList.add('fun-tap-first');
 const canEnterTwo=(entries,save,index)=>canEnterTwoBase(entries,save,index,saveOptions);
-let chapterSave=newChapterTwo(),saveReadOnly=false;
+let chapterSave=newChapterTwo(),persistedChapterSave=newChapterTwo(),saveReadOnly=false;
 const longMode=pagePath.endsWith('/long-lab');
 const itemMode=pagePath.endsWith('/item-lab');
 const itemLongMode=pagePath.endsWith('/item-long-lab');
@@ -394,8 +394,8 @@ function showSelection(){
   $('stage-choices').append(button);
  }
  const progress=$('fun-progress');
- if(adventureMode){const journey=renderExpedition($('expedition-map'),entries,chapterSave,saveOptions);$('expedition-story').textContent=saveOptions.practice?'道具をつなぐ謎を、好きな順番で試そう。':journey.complete?'4つの灯りをつないだ！ トリケンの家へ帰ろう。':journey.lit?journey.stops[journey.lit-1].story:'4つの道しるべに、灯りを戻そう。';}
- if(progress)progress.textContent=(adventureMode?'冒険の記録：クリア ':'この試遊中の記録：クリア ')+completed+'/'+entries.length+'面 ／ Sランク '+fullRank+'/'+entries.length+'面';
+ if(adventureMode){const journey=renderExpedition($('expedition-map'),entries,saveReadOnly?persistedChapterSave:chapterSave,saveOptions);$('expedition-story').textContent=saveOptions.practice?'道具をつなぐ謎を、好きな順番で試そう。':journey.complete?'4つの灯りをつないだ！ トリケンの家へ帰ろう。':journey.lit?journey.stops[journey.lit-1].story:'4つの道しるべに、灯りを戻そう。';}
+ if(progress)progress.textContent=(adventureMode?'冒険の記録：クリア ':'この試遊中の記録：クリア ')+completed+'/'+entries.length+'面 ／ Sランク '+fullRank+'/'+entries.length+'面'+(adventureMode&&saveReadOnly?' ／ ※端末に未保存の仮記録':'');
 }
 // Optional clear event; it never writes storage, unlocks a stage, or grants
 // crystals. An unsaved result cannot invite a user away from their only copy.
@@ -440,7 +440,7 @@ function updateReviewForm(){
 }
 function persistAdventure(){
  if(!adventureMode)return;
- try{chapterSave=checkpointTwo(chapterSave,entries,stage,trace,saveOptions);if(!saveReadOnly)writeChapterTwo(localStorage,chapterSave,saveOptions);}
+ try{chapterSave=checkpointTwo(chapterSave,entries,stage,trace,saveOptions);if(!saveReadOnly){writeChapterTwo(localStorage,chapterSave,saveOptions);persistedChapterSave=structuredClone(chapterSave);}}
  catch(e){saveReadOnly=true;$('save-status').textContent='保存できませんでした。この画面では遊べますが、再読み込みで進行が失われる場合があります。';}
 }
 
@@ -930,7 +930,7 @@ $('reset-invalid-save')?.addEventListener('click',()=>{
  if(!confirm('第2章の記録を作り直しますか？ 元の記録は別のキーへ退避します。第1章の家や星には影響しません。'))return;
  try{
   const {save,backupKey}=recoverInvalidChapterTwo(localStorage,entries,saveOptions);
-  chapterSave=save;saveReadOnly=false;sessionBestTurns.clear();
+  chapterSave=save;persistedChapterSave=structuredClone(save);saveReadOnly=false;sessionBestTurns.clear();
   $('save-recovery').hidden=true;
   $('save-status').textContent='第2章の記録を復旧しました。元の記録はこの端末の '+backupKey+' に退避しました。';
   setStage(1);
@@ -991,7 +991,7 @@ try{
  }
  if(adventureMode){
   if(saveOptions.practice)$('save-status').textContent='自由試遊：好きな面を選べます。冒険の進行とは別に記録します。';
-  try{chapterSave=loadChapterTwo(localStorage,entries,saveOptions);}
+  try{chapterSave=loadChapterTwo(localStorage,entries,saveOptions);persistedChapterSave=structuredClone(chapterSave);}
   catch(e){saveReadOnly=true;$('save-status').textContent='第2章の保存データを読み込めませんでした。元の記録は保持しています。復旧操作を選ぶまで上書きしません。';if($('save-recovery'))$('save-recovery').hidden=false;}
   for(const [id,r]of Object.entries(chapterSave.completed))sessionBestTurns.set(id,r.bestTurns);
  }
