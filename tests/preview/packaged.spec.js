@@ -18,9 +18,13 @@ for(const width of [320,390]){
   await expect(page.locator('#review-summary')).toContainText('12案中 0案の感想');
   await expect(page.locator('#stage54-remix-compare a')).toHaveCount(3);
   await page.locator('[data-variant="a"] a').click();
-  await page.locator('#playtest-review summary').click();
-  await expect(page.locator('#review-insight')).toBeVisible();
+  // Finish async stage initialization before opening the review disclosure.
+  // Previously the summary click could race setStage(), which closes it.
   await expect(page.locator('#fun-title')).toHaveText('氷海の壁リレー');
+  await expect(page.locator('#playtest-review')).not.toHaveAttribute('open','');
+  await page.locator('#playtest-review summary').click();
+  await expect(page.locator('#playtest-review')).toHaveAttribute('open','');
+  await expect(page.locator('#review-insight')).toBeVisible();
   await page.goto('/chapter-two-review.html');
   await expect(page.locator('[data-variant59]')).toHaveCount(3);
   await page.locator('[data-variant59="a"] a').click();
