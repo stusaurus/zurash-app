@@ -324,6 +324,70 @@ for(const width of [320,390]){
 
 
 
+
+for(const width of [320,390]){
+ test('CPU practice offers selectable three strengths, legal turns and a fresh isolated reset '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  const errors=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('/duel-boss.html?cpu=unrecognized');
+  await expect(page.locator('#boss-board .boss-cell')).toHaveCount(49);
+  const difficulty=page.locator('#boss-difficulty');
+  await expect(difficulty).toHaveValue('normal');
+  await expect(difficulty.locator('option')).toHaveCount(3);
+  await difficulty.selectOption('practice');
+  await expect(difficulty).toHaveValue('practice');
+  await expect(page).toHaveURL(/cpu=practice/);
+  await expect(page.locator('#boss-message')).toContainText('れんしゅう');
+  await expect(page.locator('#boss-turns')).toHaveText('0');
+  await page.locator('#boss-skip').click();
+  const legalDirection=page.locator('#boss-directions [data-boss-dir]:not(:disabled)').first();
+  await expect(legalDirection).toBeEnabled();
+  await legalDirection.click();
+  // CPU is a genuine opponent: it must produce a second legal engine turn.
+  await expect(page.locator('#boss-turns')).toHaveText('2',{timeout:15000});
+  await expect(page.locator('#boss-side')).toHaveText('あなたの番');
+  await difficulty.selectOption('challenge');
+  await expect(page).toHaveURL(/cpu=challenge/);
+  await expect(page.locator('#boss-message')).toContainText('じっくり考える');
+  await expect(page.locator('#boss-turns')).toHaveText('0');
+  await expect(page.locator('#boss-score-human')).toHaveText('0');
+  await expect(page.locator('#boss-score-cpu')).toHaveText('0');
+  await expect(page.locator('#boss-result')).toBeHidden();
+  await page.locator('#boss-reset').click();
+  await expect(page.locator('#boss-difficulty')).toHaveValue('challenge');
+  await expect(page.locator('#boss-turns')).toHaveText('0');
+  const saves=await page.evaluate(()=>({
+   adventure:localStorage.getItem('zurash-app:chapter-two-preview:v1'),
+   practice:localStorage.getItem('zurash-app:chapter-two-preview:v1:practice')
+  }));
+  expect(saves).toEqual({adventure:null,practice:null});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  expect(errors).toEqual([]);
+ });
+}
+test('CPU switching while opponent thinks aborts stale delayed response',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/duel-boss.html?cpu=practice');
+ await page.locator('#boss-skip').click();
+ await page.locator('#boss-directions [data-boss-dir]:not(:disabled)').first().click();
+ await expect(page.locator('#boss-turns')).toHaveText('1');
+ await page.locator('#boss-difficulty').selectOption('normal');
+ await expect(page.locator('#boss-turns')).toHaveText('0');
+ await page.waitForTimeout(650);
+ await expect(page.locator('#boss-turns')).toHaveText('0');
+ await expect(page.locator('#boss-side')).toHaveText('あなたの番');
+ await expect(page.locator('#boss-message')).toContainText('ふつう');
+});
+test('the packaged preview home links directly to CPU trial',async({page})=>{
+ await page.goto('/');
+ const cpu=page.getByRole('link',{name:/CPUと対戦/});
+ await expect(cpu).toHaveAttribute('href','./duel-boss.html?cpu=normal');
+ await cpu.click();
+ await expect(page.locator('#boss-difficulty')).toHaveValue('normal');
+ await expect(page.locator('#boss-board .boss-cell')).toHaveCount(49);
+});
+
 for(const [width,height] of [[320,568],[390,844]]){
  test('tap-first crowded stages offer optional 44px board targets without horizontal page overflow '+width+'x'+height,async({page})=>{
   await page.setViewportSize({width,height});
