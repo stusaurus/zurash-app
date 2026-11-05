@@ -73,7 +73,7 @@ fs.writeFileSync(path.join(output,'_redirects'),'/chapter-two /chapter-two.html 
 fs.writeFileSync(path.join(output,'_headers'),'/*\n  X-Robots-Tag: noindex, nofollow\n');
 // Fail before publishing any artifact if essential runtime files are incomplete.
 const required=[
-'index.html','chapter-two.html','chapter-two-review.html','chapter-two-review.css','stage54-remix-lab.html','stage59-return-lab.html','stage57-remix-lab.html','stage70-finale-lab.html','adventure.html','duel-boss.html','src/boss-duel.js','src/boss-cpu-settings.js','legacy-duel.html',
+'index.html','chapter-two.html','chapter-two-review.html','chapter-two-review.css','stage54-remix-lab.html','stage59-return-lab.html','stage57-remix-lab.html','stage70-finale-lab.html','adventure.html','duel-boss.html','src/boss-duel.js','src/boss-cpu-settings.js','src/boss-cpu-worker.js','legacy-duel.html',
 'expedition.css','src/chapter-fun-lab.js','src/puzzle/expedition.js',
 'src/puzzle/chapter-two-progress.js','src/puzzle/chapter-two-playtest.js',
 'src/expedition-view.js','assets/zurash-approved-logo.webp','data/chapters/chapter-02/adventure-v1.json'
