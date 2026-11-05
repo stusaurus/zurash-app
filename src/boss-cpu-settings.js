@@ -31,11 +31,16 @@ function guidedPracticeMove(state,rng){
  const index=Math.min(top.length-1,Math.floor(Math.pow(rng(),2.2)*top.length));
  return top[index].a;
 }
-export function cpuAction(state,level,rng){
+// If eight consecutive turns fail to earn a star, escape defensive stalling
+// by temporarily choosing the strongest one-ply scoring prospect.
+export const CHALLENGE_SCORELESS_THRESHOLD=8;
+export function cpuAction(state,level,rng,{scorelessPlies=0}={}){
+ if(!Number.isSafeInteger(scorelessPlies)||scorelessPlies<0)throw Error('Invalid scorelessPlies');
  const preset=CPU_PRESETS[resolveCpuLevel(level)];
  const available=actions(state);
  if(!available.length)return null;
- const move=preset.policy==='guided'?guidedPracticeMove(state,rng):choose(state,{level:preset.policy,rng});
+ const policy=preset.policy==='search'&&scorelessPlies>=CHALLENGE_SCORELESS_THRESHOLD?'greedy':preset.policy;
+ const move=policy==='guided'?guidedPracticeMove(state,rng):choose(state,{level:policy,rng});
  if(!available.some(a=>JSON.stringify(a)===JSON.stringify(move)))throw Error('CPU returned an illegal action');
  return move;
 }
