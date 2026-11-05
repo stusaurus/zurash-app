@@ -34,6 +34,20 @@ test('running a seeded CPU encounter produces legal reproducible transitions wit
  assert.throws(()=>runBossMatch({...input,maxPlies:0}),/maxPlies/);
 });
 
+test('guided beginner CPU avoids the old random-vs-random stall in twelve repeatable self-plays',()=>{
+ const games=[];
+ for(let layout=0;layout<3;layout++)for(let sample=0;sample<4;sample++){
+  games.push(runBossMatch({
+   layout,players:['practice','practice'],seed:261105+layout*101+sample*7919,maxPlies:80
+  }));
+ }
+ assert.equal(games.length,12);
+ assert.ok(games.every(g=>g.reason==='finished'),'beginner vs beginner should resolve without an arbitrary win assignment');
+ assert.ok(games.some(g=>g.winnerSeat===0));
+ assert.ok(games.some(g=>g.winnerSeat===1));
+ for(const game of games)assert.ok(game.plies<=80);
+});
+
 test('CPU audit summarises resolved and unresolved games without treating a turn-cap as a draw or victory',()=>{
  const data=[
   {players:['practice','normal'],reason:'finished',winnerSeat:0,winnerLevel:'practice',plies:21,elapsedMs:110},
