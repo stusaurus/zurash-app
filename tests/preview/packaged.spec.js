@@ -476,6 +476,7 @@ for(const width of [320,390]){
    expect(shell.heights.every(height=>height>=44)).toBe(true);
   }
   await page.goto('/chapter-two.html?trial=1&stage=51');
+  await expect(page.locator('#fun-count')).toHaveText('STAGE 51');
   const before=await page.evaluate(()=>Object.keys(localStorage));
   await page.locator('.zurash-route-nav a[href="./duel-boss.html"]').click();
   await expect(page.locator('#boss-board .boss-cell')).toHaveCount(49);
