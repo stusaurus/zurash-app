@@ -715,6 +715,9 @@ for(const width of [320,390]){
   await expect(page.locator('#save-write-actions')).toBeVisible();
   await expect(page.locator('#expedition-reward')).toContainText('結晶と道しるべは未確定');
   await expect(page.locator('#cpu-encounter-slot')).toBeHidden();
+  await page.locator('#fun-next').click();
+  await expect(page.locator('#fun-count')).toHaveText('STAGE 51');
+  await expect(page.locator('#save-status')).toContainText('記録がまだ保存されていません');
   const old=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),CHAPTER_TWO_KEY);
   expect(old.completed[stage.id]).toBeUndefined();
   expect(old.active.actions).toHaveLength(stage.proof.length-1);
@@ -737,6 +740,33 @@ for(const width of [320,390]){
   expect(errors).toEqual([]);
  });
 }
+
+test('another tab changing the ledger mid-stage never gets silently overwritten',async({page})=>{
+ await page.setViewportSize({width:320,height:844});
+ const stage=completedJourneyStages[0];
+ await page.goto('/chapter-two.html?trial=1&stage=51&tap=1');
+ await expect(page.locator('#fun-count')).toHaveText('STAGE 51');
+ const original=await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY);
+ expect(JSON.parse(original).active.id).toBe(stage.id);
+ const externallySaved=JSON.stringify(newChapterTwo());
+ await page.evaluate(({key,raw})=>localStorage.setItem(key,raw),
+  {key:CHAPTER_TWO_KEY,raw:externallySaved});
+ const before=initialPuzzle(stage),action=stage.proof[0],next=applyPuzzle(stage,before,action);
+ await page.locator('[data-fun-mode="none"]').click();
+ const target=page.locator('[data-cell="'+next.position+'"]');
+ await expect(target).toHaveClass(/arrival/);
+ const landing=tapLanding(successors(stage,before),action.prep,next.position);
+ await target.click();
+ if(landing?.kind==='direction-required')
+  await page.locator('[data-fun-dir="'+action.dir+'"]').click();
+ await expect(page.locator('#fun-moves')).toHaveText('1');
+ await expect(page.locator('#save-write-actions')).toBeVisible();
+ await expect(page.locator('#save-status')).toContainText('別のタブで保存記録が変更');
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(externallySaved);
+ await page.locator('#retry-chapter-two-save').click();
+ await expect(page.locator('#save-status')).toContainText('上書きせず保護しています');
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(externallySaved);
+});
 
 test('a changed on-disk ledger blocks retry and the in-memory clear remains exportable',async({page})=>{
  await page.setViewportSize({width:320,height:844});
