@@ -278,3 +278,60 @@ html.zurash-unified .home-screen #repair-menu[aria-expanded="true"] {
  background:linear-gradient(#e4f6ff,#a8d8f2);
  box-shadow:inset 0 0 0 1px #6ca9cf;
 }
+
+/* Visual system v3 — consistent shell, no board/cell geometry changes. */
+html.zurash-unified {
+ --zurash-panel-top:#f8fdff;
+ --zurash-panel-bottom:#d7effb;
+ --zurash-control-edge:#78b4d8;
+ --zurash-focus:#ffcb5e;
+}
+html.zurash-unified .zurash-route-nav {
+ border:1px solid #8bcce8;
+ border-radius:18px;
+ padding:6px;
+ background:linear-gradient(180deg,#194e7de8,#0b335de8);
+ box-shadow:inset 0 1px 0 #ffffff55,0 8px 22px #051e3b44;
+}
+html.zurash-unified .zurash-route-nav a {
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ min-height:48px;
+ border-radius:12px;
+ text-align:center;
+ line-height:1.3;
+}
+html.zurash-unified .zurash-route-nav a[aria-current='page'] {
+ background:linear-gradient(180deg,#ffe9ad,#f5b94e);
+ color:#573714;
+ border-color:#c68c31;
+ font-weight:850;
+}
+html.zurash-unified .game-panel,
+html.zurash-unified .fun-card {
+ border-color:#8bcce8;
+ box-shadow:inset 0 1px 0 #fff,0 8px 0 #0a365e55,0 18px 30px #031b3555;
+}
+html.zurash-unified .home-screen .home-bottom {
+ border-top:1px solid #9fc8df;
+ background:linear-gradient(180deg,#f8fdff,#e1f1fa);
+}
+html.zurash-unified .home-screen #play-next,
+html.zurash-unified .home-screen #repair-menu {
+ transition:filter .15s ease,transform .12s ease;
+}
+@media(hover:hover) {
+ html.zurash-unified .home-screen #play-next:not(:disabled):hover,
+ html.zurash-unified .home-screen #repair-menu:not(:disabled):hover {filter:brightness(1.07)}
+}
+html.zurash-unified .home-screen #play-next:not(:disabled):active,
+html.zurash-unified .home-screen #repair-menu:not(:disabled):active {transform:translateY(2px)}
+@media(max-width:360px) {
+ html.zurash-unified .zurash-route-nav {padding:4px;gap:4px}
+ html.zurash-unified .zurash-route-nav a {min-height:44px;padding:7px 3px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce) {
+ html.zurash-unified .home-screen #play-next,
+ html.zurash-unified .home-screen #repair-menu {transition:none}
+}
