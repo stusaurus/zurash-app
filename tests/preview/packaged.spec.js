@@ -463,7 +463,10 @@ for(const width of [320,390]){
      navBackground:getComputedStyle(nav).backgroundImage,
      overflow:root.scrollWidth>innerWidth,
      navWithin:r.left>=-1&&r.right<=innerWidth+1,
-     heights:links.map(link=>Math.round(link.getBoundingClientRect().height))
+     // A locked Chapter Two entry is intentionally hidden on Chapter One.
+     // Measure only real, visible touch targets, never hidden links at 0px.
+     heights:links.filter(link=>link.getClientRects().length>0)
+      .map(link=>Math.round(link.getBoundingClientRect().height))
     };
    });
    expect(shell.tokens).toBe('#092d52');
