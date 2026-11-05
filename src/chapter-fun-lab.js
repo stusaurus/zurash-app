@@ -718,6 +718,7 @@ async function takeStep(action){
     await animation.finished.catch(()=>{});
    }
   }
+  revealPlayerInZoom();
   if(state.stars.length<oldStarCount){
    const box=afterSprite?.closest('.cell');
    box?.classList.add('land');
@@ -772,6 +773,19 @@ async function takeStep(action){
   }
  }
 }
+/**
+ * Keep Triken within the visible part of an optionally enlarged board.
+ * Only the board's scrollLeft changes; no puzzle or page state changes.
+ */
+function revealPlayerInZoom(){
+ const viewport=$('fun-board-viewport');
+ if(!tapFirst||!boardMagnified||viewport?.dataset.zoomed!=='true')return;
+ const cell=$('fun-board')?.querySelector('.cell img')?.closest('.cell');
+ if(!cell)return;
+ const frame=viewport.getBoundingClientRect(),target=cell.getBoundingClientRect();
+ const centered=viewport.scrollLeft+(target.left+target.width/2)-(frame.left+frame.width/2);
+ viewport.scrollLeft=Math.max(0,Math.min(viewport.scrollWidth-viewport.clientWidth,centered));
+}
 function undo(){
  if(busy||!trace.length)return;
  clearMoveEffect();
@@ -779,7 +793,7 @@ function undo(){
  const wasSolved=solved(state);
  trace.pop();undoUses++;state=(gateMode?replayGate(stage,trace):replay(stage,trace)).state;mode='none';selectedWall=null;selectedPrep={type:'none'};
  if(wasSolved&&!document.hidden&&activeSince===null)activeSince=performance.now();
- $('fun-result').hidden=true;persistAdventure();render();say('1手戻しました。');
+ $('fun-result').hidden=true;persistAdventure();render();revealPlayerInZoom();say('1手戻しました。');
 }
 $('fun-tools').addEventListener('click',e=>{
  const b=e.target.closest('[data-fun-mode]');
@@ -918,6 +932,7 @@ if(tapFirst){
   render();
   const viewport=$('fun-board-viewport');
   if(viewport)viewport.scrollLeft=0;
+  revealPlayerInZoom();
  });
  const toggle=$('fun-direction-toggle');
  if(toggle){
