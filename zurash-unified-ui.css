@@ -247,3 +247,34 @@ html.zurash-unified .boss-ui .score strong {
  color:#ad5a12;
  text-shadow:0 1px 0 #fff5ce;
 }
+
+/* House HUD only: preserve all illustrated rooms and restoration hit targets. */
+html.zurash-unified .home-screen .room-tabs {
+ background:linear-gradient(180deg,#e9f7ff,#d4eaf7);
+ border-bottom:1px solid #9fc8df;
+}
+html.zurash-unified .home-screen .room-tabs button {
+ color:#245678;
+ border:1px solid transparent;
+}
+html.zurash-unified .home-screen .room-tabs button[aria-pressed="true"] {
+ background:linear-gradient(#fff6d6,#f4d38c);
+ border-color:#d6ad5e;
+ color:#654415;
+ box-shadow:inset 0 1px 0 #fff8e2,0 2px 0 #b68c4a;
+}
+html.zurash-unified .home-screen #play-next {
+ background:linear-gradient(#ffc777,#e98630);
+ border-color:#ce7025;
+ box-shadow:inset 0 1px 0 #fff0ba,0 3px 0 #a95722;
+ color:#512d11;
+}
+html.zurash-unified .home-screen #repair-menu {
+ background:linear-gradient(#f8fdff,#d4eafa);
+ border-color:#8bbad5;
+ color:#174c75;
+}
+html.zurash-unified .home-screen #repair-menu[aria-expanded="true"] {
+ background:linear-gradient(#e4f6ff,#a8d8f2);
+ box-shadow:inset 0 0 0 1px #6ca9cf;
+}
