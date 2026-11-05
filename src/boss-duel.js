@@ -5,7 +5,7 @@ const $=id=>document.getElementById(id);
 let state=initial(0,0),turnSerial=0,cpuTimer=null,busy=false;
 let pendingWall=null,preparedWall=undefined,history=[],lastAction=null;
 let cpuLevel=resolveCpuLevel(new URLSearchParams(location.search).get('cpu'));
-let rng=cpuRng(cpuLevel);
+let rng=cpuRng(cpuLevel),lastScorePly=0;
 const sameWall=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const legal=()=>actions(state);
 const notice=text=>{$('boss-message').textContent=text;};
@@ -43,7 +43,7 @@ function paint(){
   preparedWall===null?'壁を動かさずに滑る方向を選ぼう。':'壁をずらした！ 滑る方向を選ぼう。';
 }
 function reset(){
- ++turnSerial;clearTimeout(cpuTimer);state=initial(0,0);rng=cpuRng(cpuLevel);busy=false;history=[];
+ ++turnSerial;clearTimeout(cpuTimer);state=initial(0,0);rng=cpuRng(cpuLevel);lastScorePly=0;busy=false;history=[];
  pendingWall=null;preparedWall=undefined;lastAction=null;$('boss-result').hidden=true;
  notice('CPU：'+CPU_PRESETS[cpuLevel].label+'。最初はトリケンの番。壁をずらすか、そのまま滑ろう！');paint();
 }
@@ -58,9 +58,9 @@ function finishBattle(){
 }
 function cpuTurn(serial){
  if(serial!==turnSerial||state.winner!==null)return;
- const act=cpuAction(state,cpuLevel,rng);
+ const act=cpuAction(state,cpuLevel,rng,{scorelessPlies:state.ply-lastScorePly});
  if(!act){busy=false;notice('合法な行動がありません。新しい対戦を始めてください。');paint();return;}
- try{state=apply(state,act);}catch(error){console.error(error);busy=false;notice('CPUの操作に失敗しました。対戦をやり直してください。');paint();return;}
+ try{const before=state.scores[0]+state.scores[1];state=apply(state,act);if(state.scores[0]+state.scores[1]>before)lastScorePly=state.ply;}catch(error){console.error(error);busy=false;notice('CPUの操作に失敗しました。対戦をやり直してください。');paint();return;}
  history.push(act);busy=false;
  notice(state.winner!==null?'対戦終了！': 'ライバルが'+(act.wall?'壁をずらして':'壁を動かさずに')+DIRS[act.dir].name+'へ滑った。あなたの番！');
  paint();finishBattle();
@@ -69,7 +69,7 @@ function humanTurn(dir){
  if(busy||state.turn!==0||state.winner!==null||preparedWall===undefined)return;
  const act=legal().find(a=>a.dir===dir&&sameWall(a.wall,preparedWall));
  if(!act)return;
- try{state=apply(state,act);}catch(error){console.error(error);notice('その手は実行できませんでした。');return;}
+ try{const before=state.scores[0]+state.scores[1];state=apply(state,act);if(state.scores[0]+state.scores[1]>before)lastScorePly=state.ply;}catch(error){console.error(error);notice('その手は実行できませんでした。');return;}
  history.push(act);pendingWall=null;preparedWall=undefined;
  if(state.winner!==null){paint();finishBattle();return;}
  busy=true;paint();notice('ライバルが考えています…');
