@@ -715,6 +715,16 @@ for(const width of [320,390]){
   await expect(page.locator('#save-write-actions')).toBeVisible();
   await expect(page.locator('#expedition-reward')).toContainText('結晶と道しるべは未確定');
   await expect(page.locator('#cpu-encounter-slot')).toBeHidden();
+  // Retrying the stage, selecting its number, or following a home link
+  // must not reset the in-memory eight-move clear before it is saved.
+  await page.locator('#fun-retry').click();
+  await expect(page.locator('#fun-moves')).toHaveText(String(stage.proof.length));
+  await expect(page.locator('#save-status')).toContainText('未保存のプレイ記録');
+  await page.locator('[data-stage-choice="1"]').click();
+  await expect(page.locator('#fun-moves')).toHaveText(String(stage.proof.length));
+  await page.locator('.fun-head a').click();
+  await expect(page).toHaveURL(/chapter-two\.html/);
+  await expect(page.locator('#fun-moves')).toHaveText(String(stage.proof.length));
   await page.locator('#fun-next').click();
   await expect(page.locator('#fun-count')).toHaveText('STAGE 51');
   await expect(page.locator('#save-status')).toContainText('記録がまだ保存されていません');
