@@ -98,7 +98,7 @@ $('boss-difficulty').addEventListener('change',()=>{
  cpuLevel=resolveCpuLevel($('boss-difficulty').value);
  const url=new URL(location.href);
  url.searchParams.set('cpu',cpuLevel);
- history.replaceState(null,'',url.pathname+url.search);
+ window.history.replaceState(null,'',url.pathname+url.search);
  reset();
 });
 $('boss-reset').addEventListener('click',reset);
