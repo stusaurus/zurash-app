@@ -323,6 +323,74 @@ for(const width of [320,390]){
 
 
 
+
+for(const [width,height] of [[320,568],[390,844]]){
+ test('tap-first crowded stages offer optional 44px board targets without horizontal page overflow '+width+'x'+height,async({page})=>{
+  await page.setViewportSize({width,height});
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('/chapter-two.html?trial=1&practice=1&stage=70&tap=1');
+  const zoom=page.locator('#fun-board-zoom');
+  await expect(zoom).toBeVisible();
+  await expect(zoom).toHaveAttribute('aria-pressed','false');
+  await expect(page.locator('#fun-board-viewport')).toHaveAttribute('data-zoomed','false');
+  const normalCell=(await page.locator('#fun-board .cell').first().boundingBox()).width;
+  expect(normalCell).toBeLessThan(44);
+  await zoom.click();
+  await expect(zoom).toHaveText('元の大きさ');
+  await expect(zoom).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('#fun-board-viewport')).toHaveAttribute('data-zoomed','true');
+  const sizes=await page.evaluate(()=>{
+   const board=document.querySelector('#fun-board');
+   const frame=document.querySelector('#fun-board-viewport');
+   const cell=board.querySelector('.cell').getBoundingClientRect();
+   return {cellWidth:cell.width,cellHeight:cell.height,frameWidth:frame.clientWidth,frameScroll:frame.scrollWidth,pageScroll:document.documentElement.scrollWidth,screen:innerWidth};
+  });
+  expect(sizes.cellWidth).toBeGreaterThanOrEqual(44);
+  expect(sizes.cellHeight).toBeGreaterThanOrEqual(44);
+  expect(sizes.frameScroll).toBeGreaterThan(sizes.frameWidth);
+  expect(sizes.pageScroll).toBeLessThanOrEqual(sizes.screen);
+  await page.locator('#fun-board-viewport').evaluate(el=>{el.scrollLeft=el.scrollWidth;});
+  expect(await page.locator('#fun-board-viewport').evaluate(el=>el.scrollLeft)).toBeGreaterThan(0);
+  // The magnification changes only presentation, never the puzzle position.
+  await expect(page.locator('#fun-moves')).toHaveText('0');
+  await zoom.click();
+  await expect(page.locator('#fun-board-viewport')).toHaveAttribute('data-zoomed','false');
+  await expect(page.locator('#fun-board-zoom')).toHaveAttribute('aria-pressed','false');
+  expect((await page.locator('#fun-board .cell').first().boundingBox()).width).toBeLessThan(44);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  expect(errors).toEqual([]);
+ });
+}
+test('beginner 4-column stage 51 keeps full-size tiles without extra zoom controls',async({page})=>{
+ await page.setViewportSize({width:320,height:844});
+ await page.goto('/chapter-two.html?trial=1&practice=1&stage=51&tap=1');
+ await expect(page.locator('#fun-board-zoom')).toBeHidden();
+ await expect(page.locator('#fun-dpad')).toBeHidden();
+ const cell=await page.locator('#fun-board .cell').first().boundingBox();
+ expect(cell.width).toBeGreaterThanOrEqual(44);
+ await page.locator('#fun-board .cell.arrival').first().click();
+ await expect(page.locator('#fun-moves')).toHaveText('1');
+});
+test('magnification preserves stage70 legal moves and Undo without choosing a solution',async({page})=>{
+ await page.setViewportSize({width:320,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ const stage=completedJourneyStages.at(-1),action=stage.proof[0],initial=initialGate(stage),next=applyGate(stage,initial,action);
+ await page.goto('/chapter-two.html?trial=1&practice=1&stage=70&tap=1');
+ const zoom=page.locator('#fun-board-zoom');
+ await zoom.click();
+ await page.locator('[data-fun-mode="'+action.prep.type+'"]').click();
+ await page.locator('[data-cell="'+action.prep.from+'"]').click();
+ await page.locator('[data-cell="'+action.prep.to+'"]').click();
+ await expect(page.locator('[data-cell="'+next.position+'"]')).toHaveClass(/arrival/);
+ await page.locator('[data-cell="'+next.position+'"]').click();
+ await expect(page.locator('#fun-moves')).toHaveText('1');
+ await expect(zoom).toHaveAttribute('aria-pressed','true');
+ await page.locator('#fun-undo').click();
+ await expect(page.locator('#fun-moves')).toHaveText('0');
+ await expect(zoom).toHaveAttribute('aria-pressed','true');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+
 for(const [width,height] of [[320,568],[390,844]]){
  test('tap-first compact layout keeps board, tools and Undo together, not a new button row '+width+'x'+height,async({page})=>{
   await page.setViewportSize({width,height});
