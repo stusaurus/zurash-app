@@ -183,7 +183,9 @@ body{margin:0}
  <span id="fun-best" class="fun-best"></span>
 </div>
 <div class="fun-stats"><span>手数 <b id="fun-moves">0</b></span><span>のこりの星 <b id="fun-stars">—</b></span><span>壁をずらした回数 <b id="fun-shifts">0</b></span></div>
-<div id="fun-board" class="board fun-board" aria-label="パズル盤面"></div>
+<div id="fun-board-viewport" class="fun-board-viewport" aria-label="パズル盤面の表示領域">
+ <div id="fun-board" class="board fun-board" aria-label="パズル盤面"></div>
+</div>
 <p id="fun-prompt" class="fun-prompt" role="status" aria-live="polite">長編パズルを準備しています…</p>
 <div class="fun-action-guide" id="fun-action-guide">
  <details class="fun-quick-help" id="fun-quick-help">
@@ -196,6 +198,7 @@ body{margin:0}
   </div>
  </details>
  <span id="fun-action-next" aria-live="polite">準備しています…</span>
+ <button type="button" id="fun-board-zoom" class="fun-board-zoom" aria-pressed="false" aria-controls="fun-board-viewport" hidden>マスを拡大</button>
  <small id="fun-action-directions"></small>
 </div>
 <div class="fun-controls">
