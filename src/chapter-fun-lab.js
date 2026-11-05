@@ -49,6 +49,7 @@ const comparisonMode=stage54RemixMode||stage57RemixMode||gateWarpReturnMode||fin
 let gateMode=gateGloveMode||gateLongMode||gateCycleMode||stage57RemixMode||gateClosureMode||gateWarpMode||gateWarpReturnMode||finaleMode||pagePath.endsWith('/gate-lab');
 const challengeMode=adventureMode||longMode||itemMode||gateMode||itemLongMode||dualItemMode||stage54RemixMode;
 let entries=[],stage,state,number=1,trace=[],mode='none',selectedWall=null,selectedPrep={type:'none'},busy=false;
+let boardMagnified=false;
 let activeMs=0,activeSince=null,hintUses=0,undoUses=0,hintLevel=0;
 let activeMoveEffect=null,effectTimeout=null;
 let activeBoardCue=null,boardCueTimeout=null;
@@ -468,6 +469,8 @@ function setStage(n,{resume=false,preserveReviewOpen=false,invited=false}={}){
  clearMoveEffect();
  clearBoardCue();
  $('fun-invite')?.remove();
+ boardMagnified=false;
+ const boardViewport=$('fun-board-viewport');if(boardViewport)boardViewport.scrollLeft=0;
  // Switching candidates through the selector should not force an evaluator
  // to reopen the panel every time; the Next/Retry actions still collapse it.
  const keepReviewOpen=preserveReviewOpen&&Boolean($('playtest-review')?.open);
@@ -512,8 +515,19 @@ function paintBoard(options){
  // Tap mode has no permanent direction pad; reclaim the safe inner panel
  // margin for slightly larger target cells on narrow mobile screens.
  const availableWidth=Math.min(innerWidth-(tapFirst?40:52),460);
- const width=Math.min(availableWidth,((maxH-26)/h)*w+26);
- const board=$('fun-board');
+ const normalWidth=Math.min(availableWidth,((maxH-26)/h)*w+26);
+ // A 44px tile on a 9-10 column board needs horizontal panning. Opt-in only.
+ const minComfortWidth=Math.ceil(w*44+(w-1)*4+28);
+ const canZoom=tapFirst&&innerWidth<600&&normalWidth<minComfortWidth;
+ if(!canZoom)boardMagnified=false;
+ const width=boardMagnified&&canZoom?minComfortWidth:normalWidth;
+ const board=$('fun-board'),viewport=$('fun-board-viewport'),zoom=$('fun-board-zoom');
+ if(viewport)viewport.dataset.zoomed=String(boardMagnified&&canZoom);
+ if(zoom){
+  zoom.hidden=!canZoom;
+  zoom.setAttribute('aria-pressed',String(boardMagnified&&canZoom));
+  zoom.textContent=boardMagnified&&canZoom?'元の大きさ':'マスを拡大';
+ }
  board.style.width=Math.floor(width)+'px';
  board.style.gridTemplateColumns='repeat('+w+',minmax(0,1fr))';
  board.setAttribute('data-stage',String(number));
@@ -893,6 +907,14 @@ function showDirectionPad(open){
  toggle.textContent=open?'方向ボタンを閉じる':'方向ボタンを使う（補助）';
 }
 if(tapFirst){
+ const zoomButton=$('fun-board-zoom');
+ if(zoomButton)zoomButton.addEventListener('click',()=>{
+  if(!stage)return;
+  boardMagnified=!boardMagnified;
+  render();
+  const viewport=$('fun-board-viewport');
+  if(viewport)viewport.scrollLeft=0;
+ });
  const toggle=$('fun-direction-toggle');
  if(toggle){
   toggle.hidden=false;
