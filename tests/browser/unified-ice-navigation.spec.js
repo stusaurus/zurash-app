@@ -27,6 +27,13 @@ for (const width of [320, 390]) {
         expect(rect.height).toBeGreaterThanOrEqual(40);
       }
       await expect(nav.locator('a[aria-current="page"]')).toHaveCount(1);
+      // Capture the rendered page for side-by-side visual inspection in CI artifacts.
+      // This does not replace human visual approval or real-device testing.
+      await page.screenshot({
+        path: `test-results/ice-v3-${route.replace('.html', '')}-${width}-${test.info().project.name}.png`,
+        fullPage: true,
+        animations: 'disabled',
+      });
     });
   }
 }
