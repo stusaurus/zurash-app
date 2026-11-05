@@ -683,7 +683,7 @@ function selectCell(cell){
  }
  if(mode==='ice'||mode==='warp'){
   const prep=preps.find(p=>p.to===cell);
-  if(prep){selectedPrep=prep;render();say((mode==='warp'?'ワープ':'氷を置く')+'準備ができた！ '+(tapFirst?'光る停止マスをタップしよう。':'滑る方向を決めよう。'));return;}
+  if(prep){selectedPrep=prep;render();say((mode==='warp'?'ワープの':'氷を置く')+'準備ができた！ '+(tapFirst?'光る停止マスをタップしよう。':'滑る方向を決めよう。'));return;}
  }
  if(mode==='none'&&state.walls.includes(cell)){changeMode('wall');selectCell(cell);return;}
  if(mode==='none'&&stage.iceSockets.includes(cell)&&stage.inventory.iceBlock){changeMode('ice');selectCell(cell);return;}
