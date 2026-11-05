@@ -222,3 +222,28 @@ html.zurash-unified .game-panel .stage-heading {
  html.zurash-unified .fun-card .fun-meta,
  html.zurash-unified .game-panel .stage-heading {padding:6px 7px;gap:5px}
 }
+
+/* Ice stage selector: chapter one and chapter two share the same tactile language. */
+html.zurash-unified .fun-selector button,
+html.zurash-unified .stage-grid button {
+ border:1px solid #7fb7d8;
+ border-bottom:3px solid #659fc6;
+ border-radius:11px;
+ background:linear-gradient(160deg,#fff,#d6efff);
+ color:#174f79;
+ box-shadow:inset 0 1px 0 #fff;
+}
+html.zurash-unified .fun-selector button[aria-current='step'],
+html.zurash-unified .stage-grid button.current {
+ background:linear-gradient(#ffe9aa,#f4bb59);
+ border-color:#dba85a;
+ border-bottom-color:#a97828;
+ color:#653d10;
+}
+html.zurash-unified .boss-ui .score {
+ box-shadow:inset 0 1px 0 #fff,0 3px 0 #91bdd9;
+}
+html.zurash-unified .boss-ui .score strong {
+ color:#ad5a12;
+ text-shadow:0 1px 0 #fff5ce;
+}
