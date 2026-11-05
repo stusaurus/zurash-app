@@ -668,6 +668,109 @@ for(const width of [320,390]){
 }
 
 
+async function completeFirstStageByTaps(page,stage){
+ let state=initialPuzzle(stage);
+ for(let i=0;i<stage.proof.length;i++){
+  const action=stage.proof[i],next=applyPuzzle(stage,state,action);
+  await page.locator('[data-fun-mode="'+action.prep.type+'"]').click();
+  if(action.prep.type==='wall'||action.prep.type==='glove'){
+   await page.locator('[data-cell="'+action.prep.from+'"]').click();
+   await page.locator('[data-cell="'+action.prep.to+'"]').click();
+  }else if(action.prep.type==='ice'||action.prep.type==='warp'){
+   await page.locator('[data-cell="'+action.prep.to+'"]').click();
+  }
+  const target=page.locator('[data-cell="'+next.position+'"]');
+  await expect(target).toHaveClass(/arrival/);
+  const landing=tapLanding(successors(stage,state),action.prep,next.position);
+  await target.click();
+  if(landing?.kind==='direction-required')
+   await page.locator('[data-fun-dir="'+action.dir+'"]').click();
+  await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+  state=next;
+ }
+ await expect(page.locator('#fun-result')).toBeVisible();
+}
+
+for(const width of [320,390]){
+ test('failed stage51 save can recover in place without losing its clear '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  await page.emulateMedia({reducedMotion:'reduce'});
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const stage=completedJourneyStages[0];
+  await page.goto('/');
+  await page.addInitScript(({key,stageId})=>{
+   const original=Storage.prototype.setItem;
+   Storage.prototype.setItem=function(k,value){
+    if(k===key&&sessionStorage.getItem('permit-final-save')!=='yes'){
+     let current;
+     try{current=JSON.parse(value);}catch(_){}
+     if(current?.completed&&Object.prototype.hasOwnProperty.call(current.completed,stageId))
+      throw new DOMException('Storage full','QuotaExceededError');
+    }
+    return original.call(this,k,value);
+   };
+  },{key:CHAPTER_TWO_KEY,stageId:stage.id});
+  await page.goto('/chapter-two.html?trial=1&stage=51&tap=1');
+  await completeFirstStageByTaps(page,stage);
+  await expect(page.locator('#save-write-actions')).toBeVisible();
+  await expect(page.locator('#expedition-reward')).toContainText('結晶と道しるべは未確定');
+  await expect(page.locator('#cpu-encounter-slot')).toBeHidden();
+  const old=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),CHAPTER_TWO_KEY);
+  expect(old.completed[stage.id]).toBeUndefined();
+  expect(old.active.actions).toHaveLength(stage.proof.length-1);
+  await page.evaluate(()=>sessionStorage.setItem('permit-final-save','yes'));
+  await page.locator('#retry-chapter-two-save').click();
+  await expect(page.locator('#save-write-actions')).toBeHidden();
+  await expect(page.locator('#save-status')).toContainText('クリア記録を保存しました');
+  await expect(page.locator('#expedition-reward')).toContainText('初クリア');
+  await expect(page.locator('#expedition-reward')).toContainText('結晶 +1');
+  await expect(page.locator('#expedition-map')).toContainText('道しるべの結晶 1/20個');
+  await expect(page.locator('#fun-progress')).not.toContainText('未保存の仮記録');
+  const restored=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),CHAPTER_TWO_KEY);
+  expect(restored.completed[stage.id].bestTurns).toBe(stage.proof.length);
+  expect(restored.active.actions).toHaveLength(stage.proof.length);
+  await page.reload();
+  await expect(page.locator('#fun-result')).toBeVisible();
+  await expect(page.locator('#fun-moves')).toHaveText(String(stage.proof.length));
+  await expect(page.locator('#save-write-actions')).toBeHidden();
+  expect(await page.evaluate(k=>JSON.parse(localStorage.getItem(k)).completed[stage.id].bestTurns,CHAPTER_TWO_KEY)).toBe(stage.proof.length);
+  expect(errors).toEqual([]);
+ });
+}
+
+test('a changed on-disk ledger blocks retry and the in-memory clear remains exportable',async({page})=>{
+ await page.setViewportSize({width:320,height:844});
+ const stage=completedJourneyStages[0];
+ await page.goto('/');
+ await page.addInitScript(({key,stageId})=>{
+  const original=Storage.prototype.setItem;
+  Storage.prototype.setItem=function(k,value){
+   if(k===key){
+    let current;
+    try{current=JSON.parse(value);}catch(_){}
+    if(current?.completed&&Object.prototype.hasOwnProperty.call(current.completed,stageId))
+     throw new DOMException('Storage full','QuotaExceededError');
+   }
+   return original.call(this,k,value);
+  };
+ },{key:CHAPTER_TWO_KEY,stageId:stage.id});
+ await page.goto('/chapter-two.html?trial=1&stage=51&tap=1');
+ await completeFirstStageByTaps(page,stage);
+ await expect(page.locator('#save-write-actions')).toBeVisible();
+ const external=JSON.stringify(newChapterTwo());
+ await page.evaluate(({key,value})=>localStorage.setItem(key,value),{key:CHAPTER_TWO_KEY,value:external});
+ await page.locator('#retry-chapter-two-save').click();
+ await expect(page.locator('#save-status')).toContainText('別のタブなどで保存記録が変更');
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(external);
+ const downloadPromise=page.waitForEvent('download');
+ await page.locator('#download-unsaved-chapter-two').click();
+ const download=await downloadPromise;
+ expect(download.suggestedFilename()).toContain('zurash-chapter-two-unsaved-');
+ const unsaved=JSON.parse(fs.readFileSync(await download.path(),'utf8'));
+ expect(unsaved.completed[stage.id].bestTurns).toBe(stage.proof.length);
+ expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(external);
+});
+
 test('corrupt chapter-two save is never overwritten automatically and recovery backs up its original bytes',async({page})=>{
  await page.setViewportSize({width:320,height:844});
  const original='{"version":999,"future":"do not modify this data"}';
@@ -676,6 +779,7 @@ test('corrupt chapter-two save is never overwritten automatically and recovery b
   {key:CHAPTER_TWO_KEY,value:original});
  await page.goto('/chapter-two.html?trial=1&tap=1');
  await expect(page.locator('#save-recovery')).toBeVisible();
+ await expect(page.locator('#save-write-actions')).toBeHidden();
  await expect(page.locator('#save-status')).toContainText('元の記録は保持しています');
  await expect(page.locator('#expedition-map')).toContainText('道しるべの結晶 0/20個');
  expect(await page.evaluate(key=>localStorage.getItem(key),CHAPTER_TWO_KEY)).toBe(original);
