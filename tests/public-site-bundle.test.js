@@ -31,9 +31,8 @@ function files(dir,ext){
 
 test('Pages bundle contains all chapter-1 and chapter-2 stages, worker, scripts and every image',()=>{
  withBundle(out=>{
-  for(const name of files(root,'.html'))
-   if(!name.includes('/')&&!name.includes('\\'))
-    assert.ok(existsSync(join(out,name)),'Missing root page '+name);
+  for(const name of readdirSync(root).filter(name=>extname(name)==='.html'))
+   assert.ok(existsSync(join(out,name)),'Missing root page '+name);
   for(const name of files(join(root,'data'),'.json'))
    assert.ok(existsSync(join(out,'data',name)),'Missing chapter data '+name);
   for(const name of files(join(root,'src'),'.js'))
@@ -52,7 +51,7 @@ test('every local href or src in primary release routes is present in the bundle
  withBundle(out=>{
   for(const filename of ['index.html','adventure.html','chapter-two.html','chapter-two-review.html','duel-boss.html']){
    const html=readFileSync(join(out,filename),'utf8');
-   const attrs=[...html.matchAll(/\\b(?:src|href)\s*=\s*["']([^"']+)["']/g)];
+   const attrs=[...html.matchAll(/\b(?:src|href)\s*=\s*["']([^"']+)["']/g)];
    for(const [,value] of attrs){
     if(/^(?:https?:|data:|mailto:|tel:|#|\/\/|javascript:)/i.test(value))continue;
     const pathname=value.split(/[?#]/)[0];
