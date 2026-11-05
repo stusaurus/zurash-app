@@ -40,7 +40,9 @@ jobs:
           node --test tests/chapter-two-review-summary.test.js tests/chapter-two-playtest.test.js tests/move-history.test.js tests/move-effects.test.js tests/board-cues.test.js tests/star-journey.test.js tests/clear-presentation.test.js tests/clear-record.test.js tests/personal-best-pace.test.js tests/clear-share.test.js tests/challenge-replay-link.test.js tests/invitation-guide.test.js tests/control-guide.test.js tests/tap-landing.test.js tests/boss-duel.test.js tests/boss-cpu-settings.test.js tests/boss-cpu-benchmark.test.js tests/expedition-album.test.js
       - name: Audit paired CPU difficulty with honest unresolved outcomes
         timeout-minutes: 7
-        run: node scripts/boss-cpu-benchmark.js --quick
+        run: |
+          node scripts/boss-cpu-benchmark.js --quick
+          node scripts/boss-cpu-benchmark.js --full
       - name: Save reproducible CPU audit result
         if: always()
         uses: actions/upload-artifact@v4
@@ -49,6 +51,8 @@ jobs:
           path: |
             reports/boss-cpu-step39-quick.json
             reports/boss-cpu-step39-quick.md
+            reports/boss-cpu-step39-full.json
+            reports/boss-cpu-step39-full.md
           if-no-files-found: warn
           retention-days: 14
       - name: Build the isolated chapter two static preview
