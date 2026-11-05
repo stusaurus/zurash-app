@@ -25,6 +25,10 @@ for(const width of [320,390]){
    if(prep.type==='warp')await page.locator('#fun-board [data-cell="'+prep.to+'"]').click();
    await page.locator('[data-fun-dir="'+dir+'"]').click();
    await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+   // The move counter updates before its Web Animations glide has finished.
+   // Under mobile WebKit the next tap can be lost while busy===true.
+   // Wait for the visible controls to be enabled before issuing another move.
+   await expect(page.locator('#fun-retry')).toBeEnabled();
    if(i===7)await expect(page.locator('#fun-gate-status')).toContainText('開いている');
    if(i===19){
     await expect(page.locator('#fun-warp-remaining')).toHaveText('0');
