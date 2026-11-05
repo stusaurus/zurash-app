@@ -21,6 +21,7 @@ import {challengeReplayPath,shareableChallengeUrl} from './puzzle/challenge-repl
 import {invitationGuide} from './puzzle/invitation-guide.js';
 import {controlGuide} from './puzzle/control-guide.js';
 import {tapLanding,ambiguousTapCells} from './puzzle/tap-landing.js';
+import {cpuEncounterForClear} from './puzzle/cpu-encounter.js';
 
 const $=id=>document.getElementById(id);
 const modeNames={none:'そのまま滑る',wall:'壁をずらす',ice:'氷を置く',glove:'グローブ',warp:'ワープ'};
@@ -396,6 +397,16 @@ function showSelection(){
  if(adventureMode){const journey=renderExpedition($('expedition-map'),entries,chapterSave,saveOptions);$('expedition-story').textContent=saveOptions.practice?'道具をつなぐ謎を、好きな順番で試そう。':journey.complete?'4つの灯りをつないだ！ トリケンの家へ帰ろう。':journey.lit?journey.stops[journey.lit-1].story:'4つの道しるべに、灯りを戻そう。';}
  if(progress)progress.textContent=(adventureMode?'冒険の記録：クリア ':'この試遊中の記録：クリア ')+completed+'/'+entries.length+'面 ／ Sランク '+fullRank+'/'+entries.length+'面';
 }
+// Optional clear event; it never writes storage, unlocks a stage, or grants
+// crystals. An unsaved result cannot invite a user away from their only copy.
+function updateCpuEncounter(){
+ const slot=$('cpu-encounter-slot'),link=$('cpu-encounter-link');
+ if(!slot||!link)return;
+ const encounter=adventureMode&&!saveReadOnly&&stage&&solved(state)?
+  cpuEncounterForClear(stage.chapter.number,{practice:saveOptions.practice,tapFirst}):null;
+ slot.hidden=!encounter;
+ if(encounter){link.href=encounter.href;link.textContent=encounter.label;}
+}
 function showExpeditionReward(before=null){
  if(!adventureMode)return;
  const panel=$('expedition-reward'),journey=expeditionProgress(entries,chapterSave,saveOptions);
@@ -506,6 +517,7 @@ function setStage(n,{resume=false,preserveReviewOpen=false,invited=false}={}){
    saved:!saveReadOnly
   }:null);
  }
+ updateCpuEncounter();
  playStageEntry();
  say(solved(state)?'クリアした記録から再開しました。':gateMode?(state.gateOpen?'氷扉が開いている。続きの1手を考えよう。':'氷扉は閉じている。✦スイッチの上に止まる方法を考えよう。'):number===1?'右へ滑って星を取ろう。':'光る停止マスをタップ。壁は選んで1マス動かせるよ。');
 }
@@ -756,6 +768,7 @@ async function takeStep(action){
     scope:adventureMode?(saveOptions.practice?'practice':'adventure'):'session',
     saved:!saveReadOnly
    }:null);
+   updateCpuEncounter();
   }else say(gateMode&&state.gateOpen!==gateWasOpen?(state.gateOpen?'カチッ！氷扉が開いた！ 通れる道が変わったよ。':'カチッ！氷扉が閉じた！ 止まる場所を考え直そう。'):'次の1手を考えよう。');
  }catch(e){console.error(e);say('操作を続けられませんでした。最初からやり直してみてください。',true);}
  finally{
