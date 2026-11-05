@@ -2,6 +2,8 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
 import {CHAPTER_TWO_KEY,newChapterTwo,checkpointTwo} from '../../src/puzzle/chapter-two-progress.js';
 import {initialGate,applyGate,gateSuccessors} from '../../src/puzzle/gate-v2.js';
+import {initialPuzzle} from '../../src/puzzle/schema.js';
+import {applyPuzzle,successors} from '../../src/puzzle/engine.js';
 import {tapLanding} from '../../src/puzzle/tap-landing.js';
 const completedJourneyStages=JSON.parse(fs.readFileSync(new URL('../../data/chapters/chapter-02/adventure-v1.json',import.meta.url),'utf8')).stages;
 for(const width of [320,390]){
@@ -599,6 +601,67 @@ for(const width of [320,390]){
  await expect(page.locator('#expedition-reward')).not.toContainText('初クリア！');
  expect(await page.evaluate(key=>JSON.stringify(JSON.parse(localStorage.getItem(key)).completed),CHAPTER_TWO_KEY)).toBe(record);
  expect(errors).toEqual([]);
+ });
+}
+
+
+for(const width of [320,390]){
+ test('completed moves never claim earned crystals when browser storage rejects the final save '+width+'px',async({page})=>{
+  await page.setViewportSize({width,height:844});
+  await page.emulateMedia({reducedMotion:'reduce'});
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const stage=completedJourneyStages.find(s=>s.chapter.number===51);
+  await page.goto('/');
+  await page.addInitScript(({key,stageId})=>{
+   const original=Storage.prototype.setItem;
+   Storage.prototype.setItem=function(k,value){
+    if(k===key){
+     try{
+      const parsed=JSON.parse(value);
+      if(Object.prototype.hasOwnProperty.call(parsed.completed,stageId))
+       throw new DOMException('No space left','QuotaExceededError');
+     }catch(e){if(e?.name==='QuotaExceededError')throw e;}
+    }
+    return original.call(this,k,value);
+   };
+  },{key:CHAPTER_TWO_KEY,stageId:stage.id});
+  await page.goto('/chapter-two.html?trial=1&stage=51&tap=1');
+  await expect(page.locator('#fun-result')).toBeHidden();
+  let state=initialPuzzle(stage);
+  for(let i=0;i<stage.proof.length;i++){
+   const action=stage.proof[i],next=applyPuzzle(stage,state,action);
+   await page.locator('[data-fun-mode="'+action.prep.type+'"]').click();
+   if(action.prep.type==='wall'||action.prep.type==='glove'){
+    await page.locator('[data-cell="'+action.prep.from+'"]').click();
+    await page.locator('[data-cell="'+action.prep.to+'"]').click();
+   }else if(action.prep.type==='ice'||action.prep.type==='warp'){
+    await page.locator('[data-cell="'+action.prep.to+'"]').click();
+   }
+   const target=page.locator('[data-cell="'+next.position+'"]');
+   await expect(target).toHaveClass(/arrival/);
+   const landing=tapLanding(successors(stage,state),action.prep,next.position);
+   await target.click();
+   if(landing?.kind==='direction-required')
+    await page.locator('[data-fun-dir="'+action.dir+'"]').click();
+   await expect(page.locator('#fun-moves')).toHaveText(String(i+1));
+   state=next;
+  }
+  await expect(page.locator('#fun-result')).toBeVisible();
+  await expect(page.locator('#save-status')).toContainText('保存できませんでした');
+  const reward=page.locator('#expedition-reward');
+  await expect(reward).toContainText('記録を保存できませんでした');
+  await expect(reward).toContainText('結晶と道しるべは未確定');
+  await expect(reward).not.toContainText('初クリア');
+  await expect(reward).not.toContainText('結晶 +1');
+  const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),CHAPTER_TWO_KEY);
+  expect(saved.completed[stage.id]).toBeUndefined();
+  expect(saved.active.actions).toHaveLength(stage.proof.length-1);
+  await page.reload();
+  await expect(page.locator('#fun-result')).toBeHidden();
+  await expect(page.locator('#fun-moves')).toHaveText(String(stage.proof.length-1));
+  const after=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),CHAPTER_TWO_KEY);
+  expect(after.completed[stage.id]).toBeUndefined();
+  expect(errors).toEqual([]);
  });
 }
 
