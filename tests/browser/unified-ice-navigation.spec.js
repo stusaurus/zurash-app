@@ -27,6 +27,15 @@ for (const width of [320, 390]) {
         expect(rect.height).toBeGreaterThanOrEqual(40);
       }
       await expect(nav.locator('a[aria-current="page"]')).toHaveCount(1);
+      if (route === 'adventure.html') {
+        // Fresh players have Chapter 2 locked. The remaining links should
+        // occupy two equal columns, without an unused third column.
+        await expect(nav.locator('#chapter-two-link')).toBeHidden();
+        const columns = await nav.evaluate((el) =>
+          getComputedStyle(el).gridTemplateColumns.trim().split(/\\s+/).length
+        );
+        expect(columns).toBe(2);
+      }
       // The two puzzle modes must keep the actual game board on screen,
       // not merely the chapter navigation rail.
       const boardSelector = route === 'chapter-two.html'
