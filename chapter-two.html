@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="zurash-unified">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -154,6 +154,7 @@ body{margin:0}
  .fun-tools button{overflow-wrap:anywhere;line-height:1.2}
 }
 </style>
+<link rel="stylesheet" href="./zurash-unified-ui.css">
 </head>
 <body>
 <main class="fun-shell">
@@ -162,6 +163,11 @@ body{margin:0}
 <img src="./assets/zurash-approved-logo.webp" alt="ズラッシュ！">
 <a href="./adventure.html">トリケンの家へ</a>
 </header>
+<nav class="zurash-route-nav" aria-label="ズラッシュ！の章と対戦">
+ <a href="./adventure.html">🏠 第1章・家</a>
+ <a href="./chapter-two.html" aria-current="page">❄ 第2章・氷海</a>
+ <a href="./duel-boss.html">⚔ CPU対戦</a>
+</nav>
 <section class="game-panel fun-card" aria-label="実験パズル">
 <details class="chapter-map"><summary>ステージを選ぶ・冒険の記録</summary><nav class="fun-selector" id="stage-choices" aria-label="ステージ選択"></nav><a href="./chapter-two.html?trial=1&practice=1&stage=60">新しい60〜70面を自由試遊</a> <a href="./chapter-two-review.html">54・57・59・70面を比較試遊</a> <a href="./duel-boss.html?cpu=normal">⚔ CPUとの対戦を試す（独立練習）</a><div id="expedition-map"></div></details>
 <p id="save-status" role="status" class="fun-warning"></p>
