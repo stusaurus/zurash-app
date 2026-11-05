@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="zurash-unified">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -47,12 +47,18 @@ footer a{color:#155f98;font-weight:800}
 @media(max-width:350px){.pad{grid-template-columns:repeat(3,35px);grid-template-rows:repeat(3,36px);gap:2px}.primary{font-size:12px}.score{padding:5px}.score img{width:26px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
+<link rel="stylesheet" href="./zurash-unified-ui.css">
 </head>
-<body>
+<body class="boss-ui">
 <main>
 <img class="logo" src="./assets/zurash-approved-logo.webp" alt="ズラッシュ！">
 <p class="label">第2章につながる特別試遊・ボードゲームへの伏線</p>
 <h1>ライバルからの挑戦状！</h1>
+<nav class="zurash-route-nav" aria-label="ズラッシュ！の章と対戦">
+ <a href="./adventure.html">🏠 第1章・家</a>
+ <a href="./chapter-two.html">❄ 第2章・氷海</a>
+ <a href="./duel-boss.html" aria-current="page">⚔ CPU対戦</a>
+</nav>
 <p class="intro">「星を集めるのは、きみだけじゃない！」<br>トリケン（オレンジ）とライバル（水色）が交互に行動。<strong>先に星3個を取った方が勝ち！</strong> 壁を1マスずらしてから滑走する、ボードゲーム版につながる対戦ルールです。</p>
 <div class="score" aria-live="polite">
  <span><img src="./assets/triken-orange-80.png" alt=""><b>トリケン</b><strong id="boss-score-human">0</strong></span>
