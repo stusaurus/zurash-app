@@ -522,7 +522,11 @@ function paintBoard(options){
  if(!canZoom)boardMagnified=false;
  const width=boardMagnified&&canZoom?minComfortWidth:normalWidth;
  const board=$('fun-board'),viewport=$('fun-board-viewport'),zoom=$('fun-board-zoom');
- if(viewport)viewport.dataset.zoomed=String(boardMagnified&&canZoom);
+ if(viewport){
+  viewport.dataset.zoomed=String(boardMagnified&&canZoom);
+  viewport.tabIndex=boardMagnified&&canZoom?0:-1;
+  viewport.setAttribute('aria-label',boardMagnified&&canZoom?'拡大した盤面。左右にスクロールしてマスを選べます。':'パズル盤面の表示領域');
+ }
  if(zoom){
   zoom.hidden=!canZoom;
   zoom.setAttribute('aria-pressed',String(boardMagnified&&canZoom));
