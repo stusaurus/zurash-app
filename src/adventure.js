@@ -1,4 +1,5 @@
 import {CHAPTER_TWO_KEY,loadChapterTwo} from './puzzle/chapter-two-progress.js';
+import {validateChapterOneChallenges,challengeForChapterOneStage,gradeChapterOneClear,gradeChapterOneBest,chapterOneRankLabel} from './puzzle/chapter-one-challenges.js';
 import {renderExpedition} from './expedition-view.js';
 import {renderExpeditionAlbum} from './expedition-album-view.js';
 import {loadHome,saveHome} from './puzzle/house.js';
@@ -17,19 +18,29 @@ const itemNames={iceBlock:'アイスブロック',powerGlove:'パワーグロー
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 let homeSave,houseView;
 let showExpeditionOnArrival=new URLSearchParams(location.search).get('view')==='expedition';
-let campaign,chapter,catalog,stage,state,progress,trace=[],mode='none',selectedPrep={type:'none'},selectedWall=null,busy=false,saveError=false;
+let campaign,chapter,catalog,chapterChallenges=null,stage,state,progress,trace=[],mode='none',selectedPrep={type:'none'},selectedWall=null,busy=false,saveError=false;
 const json=async url=>{const r=await fetch(url);if(!r.ok)throw Error(`HTTP ${r.status}`);return r.json();};
 function tell(message,error=false){$('message').textContent=message;$('message').classList.toggle('saving-error',error);}
 function persist(){
   try{homeSave.progress=progress;saveHome(localStorage,homeSave);saveError=false;}
   catch{saveError=true;tell('この端末に保存できませんでした。画面を閉じる前に保存容量を確認してください。',true);}
 }
-function showNotice(kicker,title,text,label,action,secondary=null) {
+function showNotice(kicker,title,text,label,action,secondary=null,grade=null) {
   if($('notice').open)$('notice').close();
   $('notice-kicker').textContent=kicker;$('notice-title').textContent=title;$('notice-text').textContent=text;
   $('notice-primary').textContent=label;$('notice-primary').onclick=()=>{$('notice').close();action?.();};
   $('notice-secondary').hidden=!secondary;
-  $('notice-secondary').onclick=()=>{$('notice').close();secondary?.();};$('notice').showModal();
+  $('notice-secondary').onclick=()=>{$('notice').close();secondary?.();};
+  const rankPanel=$('notice-rank');
+  rankPanel.hidden=!grade;
+  if(grade){
+    rankPanel.dataset.rank=grade.rank;
+    $('notice-rank-label').textContent=chapterOneRankLabel(grade);
+    $('notice-rank-detail').textContent=grade.rank==='S'
+      ? `最短${grade.minimumTurns}手でクリア！`
+      : `最短は${grade.minimumTurns}手。もう一度挑戦してみよう！`;
+  }
+  $('notice').showModal();
 }
 async function openStage(number) {
   if(busy)return;busy=true;
@@ -152,6 +163,9 @@ function render(){
   $('stage-number').textContent=`STAGE ${String(stage.chapter.number).padStart(2,'0')} / ${chapter.count}`;
   $('stage-title').textContent=stage.chapter.title;$('focus').textContent=stage.chapter.focus;
   $('moves').textContent=trace.length;$('remaining').textContent=state.stars.length;$('balance').textContent=balance(progress);
+  const best=gradeChapterOneBest(chapterChallenges,stage,progress.completed[stage.id]);
+  $('chapter-one-best').hidden=!best;
+  if(best)$('chapter-one-best').textContent=`ベスト ${chapterOneRankLabel(best)}（${best.turns}手）`;
   $('stage-list').disabled=false;$('retry').disabled=false;$('hint').disabled=false;$('undo').disabled=!trace.length||solved(state);
   renderModes(options);renderBoard(options);renderTown();
   $('ice-legend').hidden=!stage.iceSockets.length;$('warp-legend').hidden=!stage.portals.length;
@@ -204,7 +218,8 @@ function move(dir){
     const already=Object.hasOwn(progress.completed,stage.id);
     progress=clearChapterStage(campaign,chapter,stage,progress,trace,{preview,houseMode:true}).progress;persist();render();
     const last=stage.chapter.number===chapter.firstStage+chapter.count-1;
-    showNotice(last?'CHAPTER CLEAR':'STAGE CLEAR',last?'50ステージクリア！':'クリア！',`${trace.length}手で星を全部集めた！ ${already?'このステージの家づくりの星は獲得済みです。':'家づくりの星を1個獲得しました。'}${saveError?' 今回の記録は端末に保存できていません。':''}`,'家に帰る',()=>showHome(),()=>openStage(stage.chapter.number));
+    const grade=gradeChapterOneClear(chapterChallenges,stage,trace.length);
+    showNotice(last?'CHAPTER CLEAR':'STAGE CLEAR',last?'50ステージクリア！':'クリア！',`${trace.length}手で星を全部集めた！ ${already?'このステージの家づくりの星は獲得済みです。':'家づくりの星を1個獲得しました。'}${saveError?' 今回の記録は端末に保存できていません。':''}`,'家に帰る',()=>showHome(),()=>openStage(stage.chapter.number),grade);
   }else if(!saveError)tell('次の準備と、滑る方向を選ぼう。');
 }
 $('modes').addEventListener('click',e=>{const button=e.target.closest('[data-mode]');if(button&&!button.disabled)selectMode(button.dataset.mode);});
@@ -216,7 +231,10 @@ $('hint').addEventListener('click',()=>tell(stage.chapter.hint));
 $('stage-list').addEventListener('click',()=>{
   $('stage-grid').innerHTML=chapter.stageIds.map((id,i)=>{
     const number=chapter.firstStage+i,event=campaign.unlocks.find(e=>e.stageNumber===number),cleared=Object.hasOwn(progress.completed,id);
-    return `<button data-go="${number}" class="${cleared?'cleared':''} ${stage.chapter.number===number?'current':''}" ${event?'data-unlock="'+event.item+'"':''} ${canEnterChapterStage(chapter,progress,number)?'':'disabled'} aria-label="ステージ${number}${cleared?' クリア済み':''}">${number}${event?'<small>道具解放</small>':''}</button>`;
+    const record=chapterChallenges?.stages[i];
+    const best=record?gradeChapterOneBest(chapterChallenges,{id,revision:record.revision,chapter:{number}},progress.completed[id]):null;
+    const rank=best?chapterOneRankLabel(best):'';
+    return `<button data-go="${number}" class="${cleared?'cleared':''} ${stage.chapter.number===number?'current':''}" ${event?'data-unlock="'+event.item+'"':''} ${canEnterChapterStage(chapter,progress,number)?'':'disabled'} aria-label="ステージ${number}${cleared?' クリア済み':''}${rank?' ランク'+rank:''}">${number}${rank?`<small class="stage-rank" data-rank="${best.rank}">${rank}</small>`:''}${event?'<small>道具解放</small>':''}</button>`;
   }).join('');$('stage-dialog').showModal();
 });
 $('stage-grid').addEventListener('click',e=>{const button=e.target.closest('[data-go]');if(button&&!button.disabled){$('stage-dialog').close();openStage(Number(button.dataset.go));}});
@@ -228,6 +246,14 @@ document.addEventListener('keydown',e=>{
 try{
   [campaign,chapter]=await Promise.all([json(new URL('data/campaign.json',root)),json(new URL('chapter.json',chapterRoot))]);validateCampaign(campaign);
   const manifest=await json(new URL(chapter.catalog,chapterRoot));
+  // Challenge metadata is optional UI enhancement. A failed certificate must
+  // never lock players out of Chapter 1 or change saved stars.
+  try {
+    chapterChallenges=validateChapterOneChallenges(await json(new URL('challenges-v1.json',chapterRoot)));
+  } catch(error) {
+    chapterChallenges=null;
+    console.warn('Chapter 1 challenge grades unavailable:',error);
+  }
   catalog=createCatalog(manifest,async path=>{const r=await fetch(new URL(path,chapterRoot));if(!r.ok)throw Error('Stage request failed');return r.text();},{allowCandidates:preview});
   try{homeSave=loadHome(localStorage);progress=homeSave.progress;}
   catch{throw Error('この章の記録を読み込めません。別のブラウザでお試しください。既存の記録は消去していません。');}
