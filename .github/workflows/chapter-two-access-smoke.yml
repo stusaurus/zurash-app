@@ -1,0 +1,51 @@
+name: Chapter 2 access smoke
+
+on:
+  pull_request:
+    paths:
+      - 'chapter-two.html'
+      - 'src/adventure.js'
+      - 'src/chapter-fun-lab.js'
+      - 'zurash-unified-ui.css'
+      - 'tests/browser/chapter-two-entry.spec.js'
+      - 'tests/browser/unified-ice-navigation.spec.js'
+      - '.github/workflows/chapter-two-access-smoke.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'chapter-two.html'
+      - 'src/adventure.js'
+      - 'src/chapter-fun-lab.js'
+      - 'zurash-unified-ui.css'
+      - 'tests/browser/chapter-two-entry.spec.js'
+      - 'tests/browser/unified-ice-navigation.spec.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  entry-and-navigation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node --check src/adventure.js && node --check src/chapter-fun-lab.js && node --check tests/browser/chapter-two-entry.spec.js
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify locked entry, independent practice and mobile navigation
+        run: npx playwright test tests/browser/chapter-two-entry.spec.js tests/browser/unified-ice-navigation.spec.js --project=chromium --project=webkit --workers=2
+      - name: Save browser artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-two-access-smoke
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: warn

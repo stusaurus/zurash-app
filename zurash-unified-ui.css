@@ -399,8 +399,27 @@ html.zurash-unified .boss-ui .intro strong {color:#a85b18}
  html.zurash-unified .boss-ui .intro {padding:10px 11px}
 }
 
-/* Chapter 1 shows two routes until Chapter 2 is unlocked.
-   Expand both visible buttons instead of leaving an empty third column. */
-html.zurash-unified #chapter-navigation:has(#chapter-two-link[hidden]) {
- grid-template-columns:repeat(2,minmax(0,1fr));
+/* A clear practice invitation for players who have not completed Chapter 1. */
+html.zurash-unified .chapter-two-try-now {
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ width:min(100%,420px);
+ min-height:54px;
+ margin:12px auto 16px;
+ padding:12px;
+ border:2px solid #ffda86;
+ border-bottom:5px solid #a85d22;
+ border-radius:15px;
+ background:linear-gradient(180deg,#ffedb5,#f9b85b);
+ color:#63370d;
+ font-weight:900;
+ text-decoration:none;
+ text-align:center;
+ box-shadow:0 7px 16px #16436b38;
+}
+html.zurash-unified .chapter-two-try-now[hidden] {display:none}
+html.zurash-unified .chapter-two-try-now:focus-visible {
+ outline:3px solid var(--zurash-gold);
+ outline-offset:3px;
 }
