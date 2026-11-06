@@ -444,12 +444,17 @@ for(const width of [320,390]){
    await expect(rail).toBeVisible();
    await expect(rail.locator('a')).toHaveCount(3);
    await expect(rail.locator('a[href="./adventure.html"]')).toBeVisible();
-   // Chapter one intentionally hides the Chapter Two link until all 50
-   // stages are earned. The theme must never bypass that unlock gate.
-   const chapterLink=rail.locator('a[href="./chapter-two.html"]');
+   // The campaign remains locked until 50 clears, but a separate,
+   // reward-free Stage 51 practice link must always remain discoverable.
+   const chapterLink=route==='/adventure.html'
+    ? rail.locator('#chapter-two-link')
+    : rail.locator('a[href="./chapter-two.html"]');
    await expect(chapterLink).toHaveCount(1);
-   if(route==='/adventure.html')await expect(chapterLink).toBeHidden();
-   else await expect(chapterLink).toBeVisible();
+   await expect(chapterLink).toBeVisible();
+   if(route==='/adventure.html'){
+    await expect(chapterLink).toHaveAttribute('href','./chapter-two.html?trial=1&practice=1&stage=51');
+    await expect(rail.locator('#chapter-two-lock')).toContainText('第1章50面');
+   }
    await expect(rail.locator('a[href="./duel-boss.html"]')).toBeVisible();
    const shell=await page.evaluate(()=>{
     const root=document.documentElement;
@@ -463,7 +468,6 @@ for(const width of [320,390]){
      navBackground:getComputedStyle(nav).backgroundImage,
      overflow:root.scrollWidth>innerWidth,
      navWithin:r.left>=-1&&r.right<=innerWidth+1,
-     // A locked Chapter Two entry is intentionally hidden on Chapter One.
      // Measure only real, visible touch targets, never hidden links at 0px.
      heights:links.filter(link=>link.getClientRects().length>0)
       .map(link=>Math.round(link.getBoundingClientRect().height))
