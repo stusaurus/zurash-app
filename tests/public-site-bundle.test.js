@@ -72,7 +72,13 @@ test('public landing exposes a real stage campaign entry and does not bypass cha
   const chapterOne=readFileSync(join(out,'adventure.html'),'utf8');
   assert.match(chapterOne,/id="chapter-two-link"/);
   const controller=readFileSync(join(out,'src/adventure.js'),'utf8');
-  assert.match(controller,/chapter-two-link'\)\.hidden=!unlocked/);
+   assert.match(controller,/chapterTwoLink\.hidden=false/);
+   assert.match(controller,/chapterTwoLink\.href=unlocked\?/);
+   assert.match(controller,/trial=1&practice=1&stage=51/);
+   const chapterTwoController=readFileSync(join(out,'src/chapter-fun-lab.js'),'utf8');
+   assert.match(chapterTwoController,/clears\(loadHome\(localStorage\)\)<50/);
+   const chapterTwo=readFileSync(join(out,'chapter-two.html'),'utf8');
+   assert.match(chapterTwo,/id="chapter-two-try-now"/);
   assert.match(controller,/chapter\.stageIds\.every/);
   assert.ok(existsSync(join(out,'data/chapters/chapter-02/adventure-v1.json')));
  });
