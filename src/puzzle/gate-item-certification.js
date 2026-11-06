@@ -3,9 +3,9 @@
 import {initialGate,gateKey,gateSuccessors} from './gate-v2.js';
 import {solved} from './engine.js';
 const kinds={iceBlock:'ice',powerGlove:'glove',warpCrystal:'warp'};
-export function verifyGateItemNecessity(stage,item,{maxNodes=180000,maxMs=60000}={}){
+export function verifyGateItemNecessity(stage,item,{maxNodes=180000,maxMs=60000,goal='clear'}={}){
  const type=kinds[item];
- if(!type||!stage.inventory?.[item]||!Number.isInteger(maxNodes)||maxNodes<1||
+ if(!['clear','open'].includes(goal)||!type||!stage.inventory?.[item]||!Number.isInteger(maxNodes)||maxNodes<1||
   !Number.isFinite(maxMs)||maxMs<=0)throw Error('Invalid gate item necessity options');
  const started=performance.now(),root=initialGate(stage),queue=[root],seen=new Set([gateKey(root)]);
  let expanded=0,excluded=0;
@@ -15,7 +15,7 @@ export function verifyGateItemNecessity(stage,item,{maxNodes=180000,maxMs=60000}
   expanded++;
   for(const successor of gateSuccessors(stage,queue[cursor])){
    if(successor.action.prep.type===type){excluded++;continue;}
-   if(solved(successor.state))
+   if(goal==='open'?successor.state.gateOpen:solved(successor.state))
     return {status:'optional',item,expanded,discovered:queue.length,excluded};
    const key=gateKey(successor.state);
    if(seen.has(key))continue;

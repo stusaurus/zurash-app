@@ -1,3 +1,6 @@
+import {CHAPTER_TWO_KEY,loadChapterTwo} from './puzzle/chapter-two-progress.js';
+import {renderExpedition} from './expedition-view.js';
+import {renderExpeditionAlbum} from './expedition-album-view.js';
 import {loadHome,saveHome} from './puzzle/house.js';
 import {createHouseView} from './house-view.js';
 import {itemsAvailableAt} from './puzzle/campaign.js';
@@ -13,6 +16,7 @@ const itemModes={ice:'iceBlock',glove:'powerGlove',warp:'warpCrystal'};
 const itemNames={iceBlock:'アイスブロック',powerGlove:'パワーグローブ',warpCrystal:'ワープクリスタル'};
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 let homeSave,houseView;
+let showExpeditionOnArrival=new URLSearchParams(location.search).get('view')==='expedition';
 let campaign,chapter,catalog,stage,state,progress,trace=[],mode='none',selectedPrep={type:'none'},selectedWall=null,busy=false,saveError=false;
 const json=async url=>{const r=await fetch(url);if(!r.ok)throw Error(`HTTP ${r.status}`);return r.json();};
 function tell(message,error=false){$('message').textContent=message;$('message').classList.toggle('saving-error',error);}
@@ -44,7 +48,39 @@ async function openStage(number) {
   }catch(error){tell('ステージを開けませんでした。通信を確認して、もう一度選んでください。',true);console.error(error);}
   finally{busy=false;}
 }
-function showHome(){document.querySelector('.game-panel').hidden=true;$('home-screen').hidden=false;houseView.renderHome();}
+let expeditionCatalog=null;
+async function refreshHomeExpedition(){
+ const panel=$('expedition-home');
+ try{
+  if(!localStorage.getItem(CHAPTER_TWO_KEY)){panel.hidden=true;return;}
+  expeditionCatalog??=json(new URL('data/chapters/chapter-02/adventure-v1.json',root));
+  const entries=(await expeditionCatalog).stages,save=loadChapterTwo(localStorage,entries);
+  if($('home-screen').hidden)return;
+  if(!Object.keys(save.completed).length){panel.hidden=true;return;}
+  panel.hidden=false;
+  const journey=renderExpedition(panel,entries,save);
+  const title=document.createElement('h2');
+  title.textContent=journey.complete?'おかえり！ 氷海の冒険の思い出':'氷海の冒険の思い出';
+  title.tabIndex=-1;panel.prepend(title);
+  const album=document.createElement('section');
+  album.id='expedition-memory-album';
+  renderExpeditionAlbum(album,entries,save);
+  panel.append(album);
+  const link=document.createElement('a');link.href='./chapter-two.html?trial=1';link.textContent='氷海の冒険へ戻る';panel.append(link);
+  const houseLink=document.createElement('a');houseLink.href='#home-screen';houseLink.className='expedition-house-link';houseLink.textContent='トリケンの家を眺める';panel.append(houseLink);
+  if(showExpeditionOnArrival){
+   showExpeditionOnArrival=false;
+   panel.dataset.arrival='true';
+   requestAnimationFrame(()=>{
+    if(!panel.hidden&&document.contains(panel)){
+     panel.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+     title.focus({preventScroll:true});
+    }
+   });
+  }
+ }catch{panel.hidden=$('home-screen').hidden;panel.textContent='冒険の記録を読み込めませんでした。元の記録は保持しています。';}
+}
+function showHome(){const unlocked=chapter.stageIds.every(id=>Object.hasOwn(progress.completed,id));$('chapter-two-link').hidden=!unlocked;$('chapter-two-lock').textContent=unlocked?'第2章が解放されました！':'第1章50面をクリアすると第2章へ進めます。';document.querySelector('.game-panel').hidden=true;$('home-screen').hidden=false;houseView.renderHome();void refreshHomeExpedition();}
 function currentOptions(){return solved(state)?[]:successors(stage,state);}
 function renderModes(options) {
   const unlocked=itemsAvailableAt(campaign,homeSave.home.reached);
@@ -184,7 +220,7 @@ try{
   try{homeSave=loadHome(localStorage);progress=homeSave.progress;}
   catch{throw Error('この章の記録を読み込めません。別のブラウザでお試しください。既存の記録は消去していません。');}
   houseView=createHouseView({element:$('home-screen'),getSave:()=>homeSave,setSave:n=>{saveHome(localStorage,n);homeSave=n;progress=n.progress;},onPlay:()=>{
-    $('home-screen').hidden=true;document.querySelector('.game-panel').hidden=false;
+    $('home-screen').hidden=true;$('expedition-home').hidden=true;document.querySelector('.game-panel').hidden=false;
     const first=chapter.stageIds.findIndex(id=>!Object.hasOwn(progress.completed,id));openStage(first<0?50:first+1);
   },onComplete:()=>showNotice('CHAPTER COMPLETE','トリケンの家が完成！','50の冒険と、あなたが選んだ家具。ここがトリケンの大切な居場所になりました。次はご近所へ！','家を眺める',()=>{showHome();$('scene-heading')?.focus({preventScroll:true});$('home-screen').scrollIntoView({block:'start',behavior:'instant'});}),onError:e=>showNotice('お知らせ','修復を確認してください',e.message,'閉じる')});
   $('return-home').onclick=showHome;showHome();houseView.resume();

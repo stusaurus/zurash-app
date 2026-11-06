@@ -1,0 +1,30 @@
+[
+  {
+    "path": "/chapter-two.html",
+    "status": 200,
+    "url": "https://zurash-triken-home-playtest.jyoker.chatgpt.site/chapter-two",
+    "bytes": 14249,
+    "matchesLocal": true
+  },
+  {
+    "path": "/data/chapters/chapter-02/adventure-v1.json",
+    "status": 200,
+    "url": "https://zurash-triken-home-playtest.jyoker.chatgpt.site/data/chapters/chapter-02/adventure-v1.json",
+    "bytes": 83963,
+    "matchesLocal": true
+  },
+  {
+    "path": "/src/chapter-fun-lab.js",
+    "status": 200,
+    "url": "https://zurash-triken-home-playtest.jyoker.chatgpt.site/src/chapter-fun-lab.js",
+    "bytes": 24467,
+    "matchesLocal": true
+  },
+  {
+    "path": "/build-info.json",
+    "status": 200,
+    "url": "https://zurash-triken-home-playtest.jyoker.chatgpt.site/build-info.json",
+    "bytes": 173,
+    "matchesLocal": true
+  }
+]

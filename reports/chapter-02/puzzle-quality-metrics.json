@@ -1,0 +1,225 @@
+{
+  "duplicateLayoutsUnderRotationOrReflection": [],
+  "stages": [
+    {
+      "number": 51,
+      "stars": 4,
+      "wallOperations": 0,
+      "gloveOperations": 0,
+      "iceOperations": 1,
+      "warpOperations": 0,
+      "longestNoPreparationRun": 5,
+      "symmetryCanonicalSHA256": "8d1b64dd4f27888027d77aafe33912f3b9e6b644bd0b01ccef176d9864049c78",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 52,
+      "stars": 5,
+      "wallOperations": 10,
+      "gloveOperations": 1,
+      "iceOperations": 0,
+      "warpOperations": 0,
+      "longestNoPreparationRun": 3,
+      "symmetryCanonicalSHA256": "56ac42f869323365a02358e10b951f49cefecfc5cb9b1449498246f714d5ac3d",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 53,
+      "stars": 3,
+      "wallOperations": 0,
+      "gloveOperations": 0,
+      "iceOperations": 0,
+      "warpOperations": 1,
+      "longestNoPreparationRun": 3,
+      "symmetryCanonicalSHA256": "a1fa8fa5242ebf346556f045791bb3d3890078107384b4a94fcad7c686ad4185",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 54,
+      "stars": 8,
+      "wallOperations": 0,
+      "gloveOperations": 0,
+      "iceOperations": 1,
+      "warpOperations": 1,
+      "longestNoPreparationRun": 9,
+      "symmetryCanonicalSHA256": "5339ed175d8649f76f3b68c291068c32211f1df20cc703d05185499547ce5403",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 55,
+      "stars": 6,
+      "wallOperations": 6,
+      "gloveOperations": 1,
+      "iceOperations": 0,
+      "warpOperations": 1,
+      "longestNoPreparationRun": 3,
+      "symmetryCanonicalSHA256": "f6b54a273ba6153de1fa3f791a5e63a1224087048c4add13b74891f0e6dccce3",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 56,
+      "stars": 4,
+      "wallOperations": 8,
+      "gloveOperations": 0,
+      "iceOperations": 0,
+      "warpOperations": 0,
+      "longestNoPreparationRun": 1,
+      "symmetryCanonicalSHA256": "1b32ecd438ee7abab171de0744a97e665b374c99386ae78c75917a6f3569a856",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 57,
+      "stars": 7,
+      "wallOperations": 8,
+      "gloveOperations": 0,
+      "iceOperations": 0,
+      "warpOperations": 0,
+      "longestNoPreparationRun": 3,
+      "symmetryCanonicalSHA256": "5e5d29224e1361a4dc002e284026e461bee32c645046d43c0b75812e424e1053",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 58,
+      "stars": 6,
+      "wallOperations": 8,
+      "gloveOperations": 0,
+      "iceOperations": 0,
+      "warpOperations": 0,
+      "longestNoPreparationRun": 3,
+      "symmetryCanonicalSHA256": "5b5124a735cd56dbe5e11aa11fa6acd756651f09c2ddf367f9ba26901d844109",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 59,
+      "stars": 7,
+      "wallOperations": 9,
+      "gloveOperations": 0,
+      "iceOperations": 0,
+      "warpOperations": 1,
+      "longestNoPreparationRun": 3,
+      "symmetryCanonicalSHA256": "623db454877707cb04838d49d8b2a7cfa6051fbfecdd1ac7da48ed865b08f871",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 60,
+      "stars": 4,
+      "wallOperations": 7,
+      "gloveOperations": 1,
+      "iceOperations": 0,
+      "warpOperations": 0,
+      "longestNoPreparationRun": 6,
+      "symmetryCanonicalSHA256": "d6494e89f39ede555dd43e6fe7c4b1d38f590474a1bf6cfd8d872b74b7301494",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 61,
+      "stars": 3,
+      "wallOperations": 2,
+      "gloveOperations": 0,
+      "iceOperations": 1,
+      "warpOperations": 0,
+      "longestNoPreparationRun": 5,
+      "symmetryCanonicalSHA256": "ed8774b8ae56f701fa2c025227cf58086501ceaad342fdaecaf2b820ee58abc5",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 62,
+      "stars": 3,
+      "wallOperations": 3,
+      "gloveOperations": 0,
+      "iceOperations": 0,
+      "warpOperations": 1,
+      "longestNoPreparationRun": 2,
+      "symmetryCanonicalSHA256": "b69b3fbe6b1337ff2d397bbc53737bece8286cda70a72a82837f9994163b49c0",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 63,
+      "stars": 4,
+      "wallOperations": 6,
+      "gloveOperations": 2,
+      "iceOperations": 0,
+      "warpOperations": 0,
+      "longestNoPreparationRun": 2,
+      "symmetryCanonicalSHA256": "09de9bb84b8ef48a9f2cbfb74891ab30df29204d8418bdf11d6030327bab795a",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 64,
+      "stars": 3,
+      "wallOperations": 5,
+      "gloveOperations": 1,
+      "iceOperations": 1,
+      "warpOperations": 0,
+      "longestNoPreparationRun": 3,
+      "symmetryCanonicalSHA256": "1650167d5329a4873bae8c28409515052330c3942bf650891b3307043339b9af",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 65,
+      "stars": 3,
+      "wallOperations": 4,
+      "gloveOperations": 0,
+      "iceOperations": 1,
+      "warpOperations": 2,
+      "longestNoPreparationRun": 4,
+      "symmetryCanonicalSHA256": "3ae49ba472b61a082a51e04fc2036760234770e10fda20732f80c43431b34d44",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 66,
+      "stars": 4,
+      "wallOperations": 6,
+      "gloveOperations": 0,
+      "iceOperations": 0,
+      "warpOperations": 0,
+      "longestNoPreparationRun": 2,
+      "symmetryCanonicalSHA256": "02dbd00c6b662395014e30761a5a3bbebd1594d5097521a07af78c8bfcedc18c",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 67,
+      "stars": 3,
+      "wallOperations": 5,
+      "gloveOperations": 1,
+      "iceOperations": 0,
+      "warpOperations": 0,
+      "longestNoPreparationRun": 3,
+      "symmetryCanonicalSHA256": "85824dc71a9c54e591a3882563d2ac0224e5042f6a872b5bb9d004c7570174fb",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 68,
+      "stars": 3,
+      "wallOperations": 6,
+      "gloveOperations": 1,
+      "iceOperations": 0,
+      "warpOperations": 1,
+      "longestNoPreparationRun": 2,
+      "symmetryCanonicalSHA256": "404bf45459b12de8b3e6a4b6682df3ef1028929a4b78798e939076e4dd8f390e",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 69,
+      "stars": 4,
+      "wallOperations": 4,
+      "gloveOperations": 0,
+      "iceOperations": 1,
+      "warpOperations": 1,
+      "longestNoPreparationRun": 2,
+      "symmetryCanonicalSHA256": "8512427f9d61b5dcaa95e6d149bdc8347681e8cfd3b745cd8f68b58aa33fe459",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    },
+    {
+      "number": 70,
+      "stars": 3,
+      "wallOperations": 11,
+      "gloveOperations": 1,
+      "iceOperations": 1,
+      "warpOperations": 2,
+      "longestNoPreparationRun": 3,
+      "symmetryCanonicalSHA256": "bc22fc7849c059fbdb16927017130d0b8d51f5f4f96030b5356eb6a6a2bb33bf",
+      "meaning": "Descriptive metrics, not a proof of human enjoyment."
+    }
+  ]
+}

@@ -2,6 +2,17 @@ name: Publish GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    paths:
+      - '*.html'
+      - '*.css'
+      - 'src/**'
+      - 'data/**'
+      - 'assets/**'
+      - 'scripts/build-public-site.js'
+      - 'tests/public-site-bundle.test.js'
+      - '.github/workflows/pages.yml'
+      - 'package*.json'
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,6 +22,20 @@ concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
+  verify-static-bundle:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verify published chapter routes, worker, data and art
+        run: |
+          node --test tests/public-site-bundle.test.js
+          node scripts/build-public-site.js dist
   deploy:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -23,25 +48,13 @@ jobs:
         with:
           node-version: 22
       - run: npm test && npm run check
-      - name: Prepare static files only
+      - name: Prepare and validate complete static adventure bundle
         run: |
-          mkdir -p dist/src dist/assets
-          # Publish all root-level stylesheets. The ice-world and mobile
-          # HUD are loaded dynamically, so omitting them silently breaks the UI.
-          cp index.html *.css dist/
+          node --test tests/public-site-bundle.test.js
+          node scripts/build-public-site.js dist
           for stylesheet in style.css world.css world-mobile.css mobile-hud.css mobile-focus.css mobile-tap.css; do
             test -s "dist/${stylesheet}"
           done
-          cp src/*.js dist/src/
-          # Publish every committed visual asset, including future sprite frames.
-          cp -a assets/. dist/assets/
-          # Fail the deployment if any approved character color is missing.
-          for color in orange aqua lime purple; do
-            test -s "dist/assets/triken-${color}-80.png"
-          done
-          test -s dist/assets/triken-reference.jpeg
-          test -s dist/assets/triken-four-colors.webp
-          touch dist/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -50,22 +63,40 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Verify published Triken images
+      - name: Verify live adventure pages, data, CPU worker and approved characters
         env:
           SITE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           set -euo pipefail
-          base="${SITE_URL%/}/assets"
-          for color in orange aqua lime purple; do
-            asset="triken-${color}-80.png"
-            # The Pages CDN may need a short propagation window after deployment.
+          base="${SITE_URL%/}"
+          # Compare live bytes to the exact approved build. A successful
+          # artifact upload is not proof that both chapters are accessible.
+          for asset in \
+            index.html \
+            adventure.html \
+            chapter-two.html \
+            duel-boss.html \
+            data/campaign.json \
+            data/chapters/chapter-01/manifest.json \
+            data/chapters/chapter-02/adventure-v1.json \
+            src/chapter-fun-lab.js \
+            src/boss-cpu-worker.js \
+            assets/triken-orange-80.png \
+            assets/triken-aqua-80.png \
+            assets/triken-lime-80.png \
+            assets/triken-purple-80.png; do
             ok=false
             for attempt in $(seq 1 12); do
-              if curl --fail --silent --show-error --location --max-time 10                 "${base}/${asset}?build=${GITHUB_SHA}" -o "/tmp/${asset}"                 && cmp -s "dist/assets/${asset}" "/tmp/${asset}"; then
-                echo "Confirmed live image: ${asset}"
+              tmp="$(mktemp)"
+              if curl --fail --silent --show-error --location --max-time 10 \
+                "${base}/${asset}?build=${GITHUB_SHA}" -o "${tmp}" \
+                && cmp -s "dist/${asset}" "${tmp}"; then
+                echo "Confirmed published file: ${asset}"
                 ok=true
+                rm -f "${tmp}"
                 break
               fi
+              rm -f "${tmp}"
               sleep 5
             done
             test "${ok}" = true

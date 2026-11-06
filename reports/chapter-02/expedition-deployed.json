@@ -1,0 +1,61 @@
+{
+  "codeSha": "2054a86762542434dc0506a957c85d414305ca8b",
+  "files": [
+    {
+      "path": "/adventure.html",
+      "status": 200,
+      "bytes": 4556,
+      "sha256": "ed7539e8ce91568425a5c0dbc8db84ed7cc26412d6f6811d53181c455d6cfa8b",
+      "matchesLocal": true
+    },
+    {
+      "path": "/chapter-two.html",
+      "status": 200,
+      "bytes": 14501,
+      "sha256": "e4980248bcb27fe9815bb77136e503272b308101150d37411a2924534b06a116",
+      "matchesLocal": true
+    },
+    {
+      "path": "/expedition.css",
+      "status": 200,
+      "bytes": 1733,
+      "sha256": "0c3869af6ca087e8b4ff3d6d30d5a84c6189a6d81062b04efddc1c8c28c09473",
+      "matchesLocal": true
+    },
+    {
+      "path": "/src/adventure.js",
+      "status": 200,
+      "bytes": 18254,
+      "sha256": "4a147c9afe778c8d5f3c9f09e9f857f503e60853674afd25f91c6f90e7399ca0",
+      "matchesLocal": true
+    },
+    {
+      "path": "/src/chapter-fun-lab.js",
+      "status": 200,
+      "bytes": 26182,
+      "sha256": "a0928c61e6a611c98ef3af5da87ead9bcd21707ab8e0cbe8b7288b3eb161b197",
+      "matchesLocal": true
+    },
+    {
+      "path": "/src/expedition-view.js",
+      "status": 200,
+      "bytes": 1578,
+      "sha256": "2d6cb84ecfa04f5457e37f470cb3990c90a1f9815b6f3141e1cc12eb3151c9c5",
+      "matchesLocal": true
+    },
+    {
+      "path": "/src/puzzle/expedition.js",
+      "status": 200,
+      "bytes": 1848,
+      "sha256": "952241145765875f40207cc91947153b709f7329e3e72d8549064d49ec2f941a",
+      "matchesLocal": true
+    },
+    {
+      "path": "/build-info.json",
+      "status": 200,
+      "bytes": 236,
+      "sha256": "8b56dc4f93acb4e99cc442bdf664572ba97646527d4fdadbdbc0a50b9c9c35cd",
+      "matchesLocal": true
+    }
+  ]
+}

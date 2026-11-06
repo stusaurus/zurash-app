@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ja" class="zurash-unified">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#1360a5">
+<title>ズラッシュ！｜第2章 氷の向こうへ</title>
+<link rel="stylesheet" href="./adventure.css">
+<link rel="stylesheet" href="./expedition.css">
+<script>document.documentElement.classList.add('art-review-approved')</script>
+<link rel="stylesheet" href="./adventure-ice-visual.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0}
+[hidden]{display:none!important}
+.fun-shell{max-width:700px;margin:0 auto;padding:5px 8px 55px}
+.fun-banner{text-align:center;color:white;font-size:11px;font-weight:800;text-shadow:0 2px 3px #1b4d7d;margin:0 0 7px}
+.fun-banner strong{display:block;font-size:14px;letter-spacing:.1em}
+.fun-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 7px}
+.fun-head img{width:min(54vw,245px);max-height:96px;object-fit:contain;filter:drop-shadow(0 5px 7px #092e61)}
+.fun-head a{color:#fff5c5;font-size:12px;text-decoration:underline;font-weight:750}
+.fun-card{padding:clamp(10px,2.8vw,18px)!important}
+.fun-selector{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:4px 0 10px}
+.fun-selector button{min-width:0;padding:4px 1px;min-height:44px;border:1px solid #6ba7d0;border-radius:9px;background:linear-gradient(#fff,#d8eefe);color:#185480;font-size:12px;font-weight:800}
+.fun-selector button[aria-current="step"]{color:white;background:linear-gradient(#f8a83c,#e57523);border-color:#d56b18}
+.fun-selector button{position:relative}
+.fun-selector .fun-rank-mark{position:absolute;right:4px;top:3px;display:grid;place-items:center;
+ min-width:17px;height:17px;padding:0 3px;border-radius:8px;font-size:11px;line-height:1;
+ color:#fff;background:#5d7891;border:1px solid #d6efff}
+.fun-selector .fun-rank-mark[data-rank="S"]{background:#c88a11}
+.fun-selector .fun-rank-mark[data-rank="A"]{background:#2f8cc3}
+.fun-selector .fun-rank-mark[data-rank="B"]{background:#438877}
+.fun-progress{font-size:11px;color:#1b5e89;text-align:center;font-weight:800;margin:0 0 9px;
+ background:#e7f7ffba;border-radius:9px;padding:4px 6px}
+.fun-meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fun-meta h1{font-size:clamp(18px,5vw,24px);margin:0;color:#14518b;letter-spacing:0;transform:none;line-height:1.2}
+.fun-meta .counter{font-size:12px;font-weight:900;color:#5c6682;white-space:nowrap}
+.fun-focus{font-size:12px;font-weight:750;color:#1e5984;margin:8px 0 10px;line-height:1.5}
+.fun-stats{display:flex;align-items:center;justify-content:space-around;gap:10px;margin-bottom:9px;padding:7px 9px;border:1px solid #f0cf70;background:linear-gradient(#fff9df,#f5dca1);color:#84541e;border-radius:13px;font-size:12px;font-weight:750}
+.fun-stats b{font-size:18px;margin-left:3px}
+.fun-board{position:relative;margin:0 auto!important}
+.fun-board .cell{touch-action:manipulation}
+.fun-board .cell.hot{outline:3px solid #f9c52d;outline-offset:-2px}
+.fun-board .cell.arrival{outline:3px solid #feaa2b;outline-offset:-2px}
+.fun-board .cell img{transition:none!important}
+.fun-board .cell.land{animation:landFlash .5s ease-out}
+@keyframes landFlash{0%{box-shadow:0 0 0 2px #ffd139,0 0 4px 12px #ffe878cc}100%{box-shadow:0 0 0 14px #ffe87800}}
+.fun-prompt{font-size:12px;text-align:center;color:#125c9f;font-weight:750;margin:8px 0;padding:7px 9px;border:1px solid #a0cfec;border-radius:13px;background:#ebfaff;min-height:32px}
+.fun-controls{display:grid;grid-template-columns:minmax(0,1fr) 140px;gap:9px;padding:8px 0;border-top:1px solid #9abed9}
+.fun-tools{display:grid;gap:6px;align-content:start}
+.fun-tools button,.fun-actions button{min-height:44px;border:1px solid #85b5d5;border-bottom:3px solid #689fca;border-radius:11px;background:linear-gradient(#fff,#d2e9fb);font-weight:800;color:#154e82;font-size:12px;padding:6px}
+.fun-tools button[aria-pressed="true"]{color:#fff;background:linear-gradient(#389be4,#0e66ac);border-color:#146ba6}
+.fun-tools button:disabled{opacity:.45}
+.fun-controls .dpad{margin:4px auto 0;grid-template-columns:repeat(3,42px);grid-template-rows:repeat(3,42px);gap:4px}
+.fun-controls .dpad button{min-height:42px;font-size:20px}
+.fun-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:8px 0 0}
+.fun-actions button{min-height:43px}
+.fun-warning{font-size:11px;color:#325a79;line-height:1.6;text-align:center;margin:10px 0 4px}
+.fun-feedback{border:1px solid #e8c35c;padding:12px;background:#fff8dc;border-radius:12px;color:#765016;font-size:12px;min-height:34px;scroll-margin:90px}
+.fun-feedback strong{display:block;font-size:15px;color:#865514;margin-bottom:5px}
+.fun-feedback p{margin:6px 0;line-height:1.6}
+.fun-feedback ol{margin:8px 0;padding:9px 10px 9px 30px;max-height:min(48vh,360px);overflow-y:auto;overscroll-behavior:contain;
+ background:#fffef7;border-radius:9px;border:1px solid #ead49a}
+.fun-feedback li{padding:5px 0 5px 2px;line-height:1.55;border-bottom:1px solid #f3e6cb;font-weight:700}
+.fun-feedback li:last-child{border-bottom:0}
+.fun-feedback small{display:block;margin-top:6px;color:#6b6657}
+.fun-result{border-radius:16px;border:2px solid #f5cc4c;background:linear-gradient(#fff8d7,#d4f2ff);padding:18px 12px;text-align:center;margin:10px 0;box-shadow:0 3px 0 #ba9334}
+.fun-result h2{color:#d77615;font-size:22px;margin:4px 0}
+.fun-result p{font-size:12px;color:#255b8a;margin:8px}
+.fun-result button{min-height:44px;padding:8px 20px;background:linear-gradient(#ffa544,#e86b1c);color:white;border:2px solid #dc7c33;border-radius:12px;font-weight:850}
+@media(min-width:600px){.fun-shell{padding-top:15px}.fun-head img{max-height:115px}.fun-controls{grid-template-columns:minmax(0,1fr) 155px}.fun-tools{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:370px){.fun-controls{grid-template-columns:minmax(0,1fr) 116px;gap:5px}.fun-controls .dpad{grid-template-columns:repeat(3,35px);grid-template-rows:repeat(3,38px);gap:3px}.fun-tools button{font-size:11px}.fun-selector{gap:2px}.fun-selector button{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.fun-board .cell.land{animation:none}}
+
+.fun-goal{display:flex;align-items:center;justify-content:center;gap:4px 10px;flex-wrap:wrap;
+ background:linear-gradient(140deg,#e8faff,#c4e9ff);border:1px solid #8cbee4;border-radius:14px;
+ padding:7px 9px;margin:9px 0 8px;color:#155785;}
+.fun-goal-label{font-size:11px;font-weight:900;}
+.fun-goal strong{font-size:19px;color:#a85a11;}
+.fun-goal #fun-remaining{font-size:11px;font-weight:800;}
+.fun-goal #fun-remaining[data-over="true"]{color:#b64c29;}
+.fun-goal small{flex-basis:100%;text-align:center;font-size:10px;}
+.fun-goal .fun-best{font-weight:800;color:#155083;font-size:11px;}
+.fun-goal .fun-best:empty{display:none}
+.fun-result #fun-rank[data-rank="S"]{color:#b3760b}
+.fun-result #fun-rank[data-rank="A"]{color:#227ca0}
+.fun-result #fun-rank[data-rank="B"]{color:#376f65}
+.fun-result #fun-rank[data-rank="unqualified"]{color:#a85027;font-size:17px}
+.fun-result #fun-benchmark{font-size:13px;font-weight:900}
+.fun-result #fun-next-objective{font-size:15px;font-weight:900;color:#a35411;margin:8px 0 12px}
+.fun-result .fun-result-buttons{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.fun-result .fun-again{background:linear-gradient(#4ba9e8,#1b6eb8);border-color:#246eae}
+.fun-result{scroll-margin-block:22vh;}
+.fun-result h2:focus{outline:none;}
+/* Reserve scrolling space for Safari chrome and Netlify's preview toolbar. */
+.fun-shell{padding-bottom:max(190px,calc(150px + env(safe-area-inset-bottom)));}
+@media(max-width:370px){.fun-goal{gap:2px 8px}.fun-goal strong{font-size:17px}}
+
+/* Item trial symbols; all engine rules still come from solo-v1. */
+.fun-board .cell{position:relative}
+.fun-board .cell.fixed-wall{filter:saturate(.55);box-shadow:inset 0 0 0 2px #3c6d86}
+.fun-board .cell .portal-indicator{pointer-events:none;position:absolute;inset:0;display:grid;place-items:center;
+ font-size:clamp(21px,5vw,32px);font-weight:900;color:#bb64f5;text-shadow:0 1px #fff,0 0 7px #fff}
+.fun-board .cell .ice-indicator{pointer-events:none;position:absolute;inset:0;display:grid;place-items:center;
+ color:#62d6ff;font-size:26px;text-shadow:0 0 6px #026a91}
+.fun-board .cell img{position:relative;z-index:3}
+.fun-tools{gap:5px}
+.fun-tools button{min-height:43px}
+
+.fun-gate-status{text-align:center;background:#d8f4ff;color:#185583;border:1px solid #98c4e6;border-radius:11px;padding:6px 8px;font-size:13px;font-weight:900;margin:4px 0 10px}
+.fun-board .gate-tile{position:relative;box-shadow:inset 0 0 0 3px #9470d3!important;background:linear-gradient(145deg,#e5ddff,#bda8ef)!important}
+.fun-board .gate-tile.gate-closed{background:linear-gradient(140deg,#474c97,#222b62)!important;box-shadow:inset 0 0 0 3px #e3cfff!important}
+.fun-board .switch-tile{background:linear-gradient(145deg,#fff5c0,#ffe18a)!important;box-shadow:inset 0 0 0 2px #b78d2f!important}
+.fun-board .gate-indicator,.fun-board .switch-indicator{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;font-size:clamp(22px,7vw,34px);z-index:1;font-weight:900;text-shadow:0 1px 2px #456}
+.fun-board .gate-indicator{color:#f1e2ff}.fun-board .switch-indicator{color:#c48116}
+.fun-board .gate-tile:not(.gate-closed) .gate-indicator{opacity:.5}
+.fun-board .cell img{z-index:4}
+
+/* Keep the ice field and controls close together on a phone. */
+.fun-head img{width:140px;max-height:52px}.fun-banner{margin:0;font-size:10px}.fun-banner strong{font-size:12px}
+.chapter-map summary{min-height:44px;display:flex;align-items:center;justify-content:center;color:#195e90;font-size:12px;font-weight:800;cursor:pointer}
+.fun-progress{font-size:10px;padding:2px;margin-bottom:5px}.fun-focus{font-size:11px;margin:4px 0;line-height:1.4}.fun-gate-status{font-size:11px;padding:3px;margin:3px 0}
+.fun-goal{padding:3px 6px;margin:4px 0}.fun-goal strong{font-size:15px}.fun-goal small{display:none}.fun-goal #fun-remaining{font-size:10px}
+.fun-stats{padding:3px;font-size:10px;margin:4px 0}.fun-stats b{font-size:15px}.fun-prompt{padding:4px;margin:4px 0;font-size:11px}
+.fun-controls{padding:5px 0}.fun-tools{grid-template-columns:repeat(2,minmax(0,1fr))}.fun-tools button{min-height:44px;padding:4px;font-size:11px}.fun-actions{margin-top:4px}.fun-actions button{min-height:44px}
+.fun-meta h1{font-size:19px}.fun-shell{padding-bottom:max(40px,env(safe-area-inset-bottom))}
+.save-recovery{border:2px solid #d69b5b;border-radius:12px;background:#fff6de;padding:12px;margin:7px 0;color:#775021}
+.save-recovery strong{display:block;font-size:14px}
+.save-recovery p{font-size:12px;line-height:1.65;margin:5px 0 9px}
+.save-recovery button{min-height:44px;border-radius:9px;border:1px solid #8c9fb4;background:#fff;color:#1d5683;font-size:12px;font-weight:800;padding:7px 9px;margin:3px}
+.save-recovery #reset-invalid-save{background:#f8e7cf;border-color:#ae8a57;color:#775021}
+.playtest-review{border:1px solid #b4d0e2;border-radius:13px;background:#eaf6ffdb;padding:7px 10px;margin:11px 0;color:#1e5b84}
+.playtest-review summary{min-height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:850}
+.playtest-review p{font-size:11px;line-height:1.6}
+.playtest-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.playtest-review label{font-size:12px;font-weight:800}
+.playtest-review select,.playtest-review textarea{display:block;min-width:0;width:100%;margin:4px 0;padding:10px;border-radius:9px;border:1px solid #91b6d4;background:#fff;color:#214d73;font:inherit;font-size:13px}
+.playtest-review textarea{resize:vertical;min-height:70px}
+.playtest-review button{min-height:44px;border:1px solid #85b2d1;background:#fff;border-radius:9px;padding:8px;font-weight:800;font-size:12px;color:#195c92;margin:3px}
+.playtest-review button[type=submit]{background:#2c8dcc;border-color:#1875aa;color:#fff}
+@media(max-width:370px){.playtest-fields{grid-template-columns:1fr}}
+/* STEP32: preserve right-side arcade D-pad but give every direction a 44px target.
+ * The former 320px fallback shrank controls to 35x38px. */
+@media(max-width:390px){
+ html.art-review-approved .game-panel .fun-controls{grid-template-columns:minmax(0,1fr) 140px;gap:5px}
+ html.art-review-approved .game-panel .fun-controls .dpad{
+  grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:3px;margin:0 auto
+ }
+ html.art-review-approved .game-panel .fun-controls .dpad button{
+  min-width:44px;min-height:44px;padding:0;font-size:20px
+ }
+ .fun-tools button{overflow-wrap:anywhere;line-height:1.2}
+}
+</style>
+<link rel="stylesheet" href="./zurash-unified-ui.css">
+</head>
+<body>
+<main class="fun-shell">
+<div class="fun-banner"><strong>❄ 第2章 氷の向こうへ ❄</strong>道具と氷扉をつないで、新しい冒険へ。</div>
+<header class="fun-head">
+<img src="./assets/zurash-approved-logo.webp" alt="ズラッシュ！">
+<a href="./adventure.html">トリケンの家へ</a>
+</header>
+<nav class="zurash-route-nav" aria-label="ズラッシュ！の章と対戦">
+ <a href="./adventure.html">🏠 第1章・家</a>
+ <a href="./chapter-two.html" aria-current="page">❄ 第2章・氷海</a>
+ <a href="./duel-boss.html">⚔ CPU対戦</a>
+</nav>
+<section class="game-panel fun-card" aria-label="実験パズル">
+<details class="chapter-map"><summary>ステージを選ぶ・冒険の記録</summary><nav class="fun-selector" id="stage-choices" aria-label="ステージ選択"></nav><a href="./chapter-two.html?trial=1&practice=1&stage=60">新しい60〜70面を自由試遊</a> <a href="./chapter-two-review.html">54・57・59・70面を比較試遊</a> <a href="./duel-boss.html?cpu=normal">⚔ CPUとの対戦を試す（独立練習）</a><div id="expedition-map"></div></details>
+<p id="save-status" role="status" class="fun-warning"></p>
+<div id="save-write-actions" hidden aria-label="第2章の未保存記録">
+ <button type="button" id="retry-chapter-two-save" class="fun-again">保存をもう一度試す</button>
+ <button type="button" id="download-unsaved-chapter-two" class="fun-again">未保存の記録を保管</button>
+</div>
+<section id="save-recovery" class="save-recovery" hidden aria-label="保存データを安全に復旧">
+ <strong>第2章の保存記録を読み込めませんでした</strong>
+ <p>古い形式や壊れた記録は勝手に削除しません。記録を書き出すか、元の内容を別に退避して第2章だけ最初から始められます。第1章の家や星には影響しません。</p>
+ <button type="button" id="download-invalid-save">元の記録をダウンロード</button>
+ <button type="button" id="reset-invalid-save">第2章の記録を復旧する</button>
+</section>
+<p id="expedition-story" class="expedition-story">4つの道しるべに、灯りを戻そう。</p>
+<p id="fun-progress" class="fun-progress" role="status">この試遊中の記録：クリア 0/1面 ／ Sランク 0/1面</p>
+<div class="fun-meta"><h1 id="fun-title">読み込み中…</h1><span id="fun-count" class="counter">1 / 1</span></div>
+<p class="fun-focus" id="fun-focus"></p><p id="fun-gate-status" class="fun-gate-status" aria-live="polite">氷の扉：閉じている ▦</p>
+<div class="fun-goal" id="fun-goal" hidden>
+ <span class="fun-goal-label">🎯 合格チャレンジ</span>
+ <strong id="fun-pass-target">—</strong>
+ <span id="fun-remaining"></span>
+ <small>全ての星を取ろう。最短手数はクリア後に発表！</small>
+ <span id="fun-best" class="fun-best"></span>
+</div>
+<div class="fun-stats"><span>手数 <b id="fun-moves">0</b></span><span>のこりの星 <b id="fun-stars">—</b></span><span>壁をずらした回数 <b id="fun-shifts">0</b></span></div>
+<div id="fun-board-viewport" class="fun-board-viewport" aria-label="パズル盤面の表示領域">
+ <div id="fun-board" class="board fun-board" aria-label="パズル盤面"></div>
+</div>
+<p id="fun-prompt" class="fun-prompt" role="status" aria-live="polite">長編パズルを準備しています…</p>
+<div class="fun-action-guide" id="fun-action-guide">
+ <details class="fun-quick-help" id="fun-quick-help">
+  <summary><strong id="fun-action-title">選んだ操作：そのまま滑る</strong><span class="fun-quick-help-label">？ 遊び方</span></summary>
+  <div class="fun-quick-help-body">
+   <p><strong>① 星を集める</strong> 星のマスで止まるとゲット。通りすぎるだけでは取れないよ。</p>
+   <p><strong>② すべる</strong> 「そのまま滑る」を選び、▲ ▶ ▼ ◀ で進もう。光る停止マスをタップしてもOK！</p>
+   <p><strong>③ 道具を使う</strong> 壁・氷・グローブ・ワープを選び、光る場所をタップしてから方向を選ぼう。</p>
+   <p class="fun-quick-help-tip">こまったら「1手戻す」や「ヒント」を使おう。うすい色の矢印は今は使えないよ。</p>
+  </div>
+ </details>
+ <span id="fun-action-next" aria-live="polite">準備しています…</span>
+ <button type="button" id="fun-board-zoom" class="fun-board-zoom" aria-pressed="false" aria-controls="fun-board-viewport" hidden>マスを拡大</button>
+ <small id="fun-action-directions"></small>
+</div>
+<div class="fun-controls">
+<div class="fun-tools" id="fun-tools" role="group" aria-label="滑る前の準備">
+<button type="button" data-fun-mode="none">そのまま滑る</button>
+<button type="button" data-fun-mode="wall">壁をずらす</button>
+<button type="button" data-fun-mode="ice">氷を置く</button><button type="button" data-fun-mode="glove">グローブ</button>
+<button type="button" data-fun-mode="warp">✧ ワープ（1回）</button>
+<button type="button" id="fun-direction-toggle" class="fun-direction-toggle" aria-controls="fun-dpad" aria-expanded="false" hidden>方向ボタンを使う（補助）</button>
+</div>
+<div class="dpad" id="fun-dpad" aria-label="滑る方向">
+<button type="button" data-fun-dir="0" aria-label="上へ">▲</button>
+<button type="button" data-fun-dir="3" aria-label="左へ">◀</button>
+<span class="dpad-center" aria-hidden="true">❄</span>
+<button type="button" data-fun-dir="1" aria-label="右へ">▶</button>
+<button type="button" data-fun-dir="2" aria-label="下へ">▼</button>
+</div>
+</div>
+<div class="fun-actions">
+<button type="button" id="fun-undo">↶ 1手戻す</button>
+<button type="button" id="fun-retry">最初から</button>
+<button type="button" id="fun-hint" data-hint-step="0">ヒント 1/4</button>
+</div>
+<div class="fun-result" id="fun-result" hidden>
+ <div>✨ ⭐ ✨</div>
+ <h2 id="fun-rank" tabindex="-1">ひらめき成功！</h2>
+ <p id="fun-benchmark"></p>
+ <p id="fun-next-objective" aria-live="polite"></p>
+ <p id="fun-finish"></p>
+ <p id="expedition-reward" class="expedition-reward" role="status"></p>
+ <div class="fun-result-buttons">
+  <button type="button" id="fun-again" class="fun-again">もう一度挑戦</button>
+  <button type="button" id="fun-next">次のステージへ</button>
+ </div>
+ <p id="cpu-encounter-slot" hidden>
+  <a id="cpu-encounter-link" href="./duel-boss.html?cpu=normal" style="display:inline-flex;align-items:center;min-height:44px;font-weight:800;color:#155e92"></a>
+  <small style="display:block">任意の対戦です。結晶・星・ランクは増えず、勝敗で次の面を止めません。</small>
+ </p>
+</div>
+<div id="fun-feedback" class="fun-feedback" role="status" aria-live="polite" hidden></div>
+<details class="playtest-review" id="playtest-review">
+ <summary>📝 この面の感想を記録（任意）</summary>
+ <p>正解・不正解とは別に、遊んだ感想を残せます。端末内にだけ保存し、自動送信はしません。クリアできなくても評価できます。</p>
+ <form id="playtest-form">
+  <div class="playtest-fields">
+   <label>面白さ
+    <select id="review-enjoyment" required>
+     <option value="">選んでください</option><option value="fun">面白かった</option><option value="okay">ふつう</option><option value="poor">改善してほしい</option>
+    </select>
+   </label>
+   <label>難しさ（任意）
+    <select id="review-difficulty">
+     <option value="">未評価</option><option value="easy">簡単</option><option value="balanced">ちょうどいい</option><option value="hard">難しい</option>
+    </select>
+   </label>
+  </div>
+  <label>ひらめきの手応え（任意）
+   <select id="review-insight">
+    <option value="">未評価</option><option value="strong">発見があって気持ちよかった</option><option value="some">少し発見があった</option><option value="none">作業に感じた</option>
+   </select>
+  </label>
+  <label>気になった点（任意・300文字まで）
+   <textarea id="review-note" maxlength="300" placeholder="面白かった手順、分かりにくい操作、難しすぎたところなど"></textarea>
+  </label>
+  <button type="submit">この面の感想を保存</button>
+ </form>
+ <button type="button" id="export-playtest-reviews">感想をまとめて保存（共有用JSON）</button>
+ <p id="review-status" role="status" aria-live="polite"></p>
+</details>
+<p class="fun-warning">第2章の先行版です。攻略中の状態とベスト記録はこの端末に保存されます。家づくりの星は第1章の記録を維持します。</p>
+</section>
+</main>
+<script type="module" src="./src/chapter-fun-lab.js"></script>
+</body>
+</html>

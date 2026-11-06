@@ -1,0 +1,467 @@
+{
+  "version": 1,
+  "collection": "ch02-stage70-finale-pacing",
+  "release": "candidate-unapproved",
+  "saveWrites": false,
+  "note": "第70面を変更せず、アイス・グローブ・ワープ・ゲートを必須にした二つのテンポ改善候補を比較する。研究試遊の星・結晶・灯り・家・通常冒険の記録は別扱い。",
+  "stages": [
+    {
+      "schemaVersion": 2,
+      "rulesVersion": "solo-v2-gate",
+      "id": "ch02-70-lights-a-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 9,
+        "height": 4,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          9,
+          12,
+          18,
+          19,
+          21,
+          22,
+          27,
+          28,
+          29,
+          30,
+          6,
+          7,
+          15,
+          16,
+          17,
+          25,
+          26
+        ]
+      },
+      "start": 29,
+      "walls": [
+        3
+      ],
+      "fixed": [],
+      "stars": [
+        2,
+        19,
+        4,
+        7,
+        0
+      ],
+      "gate": {
+        "tile": 12,
+        "switch": 16,
+        "initialOpen": false
+      },
+      "iceSockets": [
+        25
+      ],
+      "portals": [
+        [
+          1,
+          6
+        ]
+      ],
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 2
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 3,
+            "to": 2
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 6
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 25
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 3
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 3,
+            "to": 21
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 1
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 21,
+            "to": 30
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 30,
+            "to": 29
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        }
+      ],
+      "chapter": {
+        "id": "chapter-02-stage70-research",
+        "number": 70,
+        "title": "五つの灯標・光の連鎖",
+        "focus": "離れ島の光を取り戻し、氷・力・ワープの連続技で5つの星へ。短い手数の中で道具の使い分けを考える。",
+        "hint": "星を取りながら近道を探そう。ワープで島へ、氷で止まり、グローブで遠くの壁を動かす手順が鍵。"
+      },
+      "challenge": {
+        "minimumTurns": 14,
+        "aThrough": 16,
+        "passThrough": 19,
+        "verifiedBy": "complete-bfs-gate-v2"
+      },
+      "requiredItems": [
+        "iceBlock",
+        "powerGlove",
+        "warpCrystal"
+      ],
+      "requiredGateOpen": true,
+      "provenance": {
+        "status": "candidate-unapproved",
+        "originalStageId": "ch02-70-v1",
+        "originalMinimumTurns": 18,
+        "originalNoStarStreak": 12,
+        "starPickupTurns": [
+          2,
+          3,
+          6,
+          10,
+          14
+        ],
+        "gateToggleTurns": [
+          7
+        ],
+        "wallOrGloveMoves": 5,
+        "maxConsecutiveNoStar": 3,
+        "verifiedAllThreeItemsRequired": true,
+        "verifiedLockedGateImpossible": true,
+        "humanPlaytested": false,
+        "doNotReplaceCampaign": true
+      }
+    },
+    {
+      "schemaVersion": 2,
+      "rulesVersion": "solo-v2-gate",
+      "id": "ch02-70-lights-b-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 9,
+        "height": 4,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          9,
+          12,
+          18,
+          19,
+          21,
+          22,
+          27,
+          28,
+          29,
+          30,
+          6,
+          7,
+          15,
+          16,
+          17,
+          25,
+          26
+        ]
+      },
+      "start": 29,
+      "walls": [
+        27
+      ],
+      "fixed": [],
+      "stars": [
+        2,
+        19,
+        4,
+        7,
+        0,
+        18
+      ],
+      "gate": {
+        "tile": 12,
+        "switch": 16,
+        "initialOpen": false
+      },
+      "iceSockets": [
+        25
+      ],
+      "portals": [
+        [
+          1,
+          6
+        ]
+      ],
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 1,
+        "warpCrystal": 2
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 27,
+            "to": 18
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 18,
+            "to": 9
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 25
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 9,
+            "to": 0
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 6
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 0,
+            "to": 9
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 9,
+            "to": 18
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 18,
+            "to": 19
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 19,
+            "to": 28
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 28,
+            "to": 29
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 29,
+            "to": 30
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 30,
+            "to": 21
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 1
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 21,
+            "to": 3
+          },
+          "dir": 1
+        }
+      ],
+      "chapter": {
+        "id": "chapter-02-stage70-research",
+        "number": 70,
+        "title": "六つの灯標・氷扉の大冒険",
+        "focus": "6つの星と三度のゲート切替。長い戦略経路でも、離れ島での新しい星が途中の達成感につながるか試そう。",
+        "hint": "島へのワープまでに星を取り、ゲートの切替順序と壁移動をつないで最後のグローブへ進もう。"
+      },
+      "challenge": {
+        "minimumTurns": 18,
+        "aThrough": 20,
+        "passThrough": 23,
+        "verifiedBy": "complete-bfs-gate-v2"
+      },
+      "requiredItems": [
+        "iceBlock",
+        "powerGlove",
+        "warpCrystal"
+      ],
+      "requiredGateOpen": true,
+      "provenance": {
+        "status": "candidate-unapproved",
+        "originalStageId": "ch02-70-v1",
+        "originalMinimumTurns": 18,
+        "originalNoStarStreak": 12,
+        "starPickupTurns": [
+          2,
+          3,
+          4,
+          5,
+          9,
+          18
+        ],
+        "gateToggleTurns": [
+          10,
+          12,
+          14
+        ],
+        "wallOrGloveMoves": 11,
+        "maxConsecutiveNoStar": 8,
+        "verifiedAllThreeItemsRequired": true,
+        "verifiedLockedGateImpossible": true,
+        "humanPlaytested": false,
+        "doNotReplaceCampaign": true
+      }
+    }
+  ]
+}

@@ -4,3 +4,10 @@ test-results/
 dist/
 # Uncompressed intermediate simulation traces; keep reproducible .jsonl.gz files.
 reports/*.jsonl
+
+playwright-chapter-report/
+
+# Generated QA bundle only; source files remain tracked.
+preview-dist/
+playwright-preview-report/
+test-results-preview-bundle/
