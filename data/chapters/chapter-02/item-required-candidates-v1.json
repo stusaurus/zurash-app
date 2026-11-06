@@ -1,0 +1,391 @@
+{
+  "version": 1,
+  "collection": "item-required",
+  "release": "experimental-unapproved",
+  "rulesVersion": "solo-v1",
+  "saveWrites": false,
+  "note": "第2章先行のアイテム必須検証3面。必須性はCIで完全状態探索し、限界到達は証明とみなさない。正式な51〜53面として採用したものではない。",
+  "stages": [
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "item-required-iceblock-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 4,
+        "height": 4,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "start": 0,
+      "walls": [],
+      "fixed": [
+        8
+      ],
+      "stars": [
+        5,
+        3,
+        7,
+        12
+      ],
+      "iceSockets": [
+        6
+      ],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 1,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "chapter": {
+        "id": "chapter-02-item-prototypes",
+        "number": 51,
+        "title": "アイスで止まれ！",
+        "focus": "アイスブロックで停止位置を作ろう。使わないと全星を回収できない。",
+        "hint": "氷は一度置くと最後まで残る。星の隣に置けるソケットに注目しよう。"
+      },
+      "requiredItem": "iceBlock",
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "ice",
+            "to": 6
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        }
+      ],
+      "challenge": {
+        "minimumTurns": 8,
+        "aThrough": 9,
+        "passThrough": 10,
+        "verifiedBy": "complete-bfs-solo-v1"
+      },
+      "provenance": {
+        "status": "unapproved",
+        "method": "exhaustive solo-v1 BFS with item forbidden separately",
+        "itemRequiredProof": "all reachable states exhausted without item",
+        "purpose": "mechanic validation, not final long-puzzle quality"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "item-required-powerglove-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 4,
+        "height": 4,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          6,
+          7,
+          9,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "start": 13,
+      "walls": [
+        1,
+        14
+      ],
+      "fixed": [],
+      "stars": [
+        11,
+        9,
+        2,
+        4,
+        12
+      ],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 1,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "chapter": {
+        "id": "chapter-02-item-prototypes",
+        "number": 52,
+        "title": "グローブの抜け道",
+        "focus": "グローブで壁を2マス動かして、普通の壁移動では作れない道を開こう。",
+        "hint": "普通の1マス移動では届かない壁の位置を探そう。グローブは1回だけ。"
+      },
+      "requiredItem": "powerGlove",
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "glove",
+            "from": 14,
+            "to": 12
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 12,
+            "to": 13
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 13,
+            "to": 14
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 14,
+            "to": 15
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 1,
+            "to": 2
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 6
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        }
+      ],
+      "challenge": {
+        "minimumTurns": 12,
+        "aThrough": 14,
+        "passThrough": 15,
+        "verifiedBy": "complete-bfs-solo-v1"
+      },
+      "provenance": {
+        "status": "unapproved",
+        "method": "exhaustive solo-v1 BFS with item forbidden separately",
+        "itemRequiredProof": "all reachable states exhausted without item",
+        "purpose": "mechanic validation, not final long-puzzle quality"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "item-required-warpcrystal-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 4,
+        "height": 4,
+        "playableCells": [
+          0,
+          1,
+          4,
+          5,
+          10,
+          11,
+          14,
+          15
+        ]
+      },
+      "start": 0,
+      "walls": [],
+      "fixed": [],
+      "stars": [
+        15,
+        4,
+        10
+      ],
+      "iceSockets": [],
+      "portals": [
+        [
+          1,
+          14
+        ]
+      ],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 1
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "chapter": {
+        "id": "chapter-02-item-prototypes",
+        "number": 53,
+        "title": "二つの岸のワープ",
+        "focus": "離れた2つの岸をワープでつなぎ、全星を回収しよう。",
+        "hint": "向こう岸は滑走だけでは行けない。今いる側の星を先に回収しよう。"
+      },
+      "requiredItem": "warpCrystal",
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "warp",
+            "to": 14
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        }
+      ],
+      "challenge": {
+        "minimumTurns": 6,
+        "aThrough": 7,
+        "passThrough": 8,
+        "verifiedBy": "complete-bfs-solo-v1"
+      },
+      "provenance": {
+        "status": "unapproved",
+        "method": "exhaustive solo-v1 BFS with item forbidden separately",
+        "itemRequiredProof": "all reachable states exhausted without item",
+        "purpose": "mechanic validation, not final long-puzzle quality"
+      }
+    }
+  ]
+}

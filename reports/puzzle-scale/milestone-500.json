@@ -1,0 +1,168 @@
+{
+  "count": 500,
+  "validatedPlacements": 500,
+  "invalidPlacements": 0,
+  "exactDuplicates": 0,
+  "symmetryDuplicates": 0,
+  "status": {
+    "solved": 270,
+    "budget": 225,
+    "unsolvable": 5
+  },
+  "replayedCertificates": 270,
+  "notVerifiedAsSolvable": 230,
+  "solvedRate": 0.54,
+  "generationMs": 42.30238100000049,
+  "solverTotalMs": 3096.1580389999986,
+  "solverMs": {
+    "p50": 5.768020999999862,
+    "p95": 15.475014000000101,
+    "max": 28.617220000000003
+  },
+  "nodeCounts": {
+    "p50": 217,
+    "p95": 938
+  },
+  "optimalTurns": {
+    "1": 25,
+    "2": 58,
+    "3": 72,
+    "4": 44,
+    "5": 34,
+    "6": 14,
+    "7": 10,
+    "8": 8,
+    "9": 2,
+    "10": 3
+  },
+  "shapes": {
+    "square": 72,
+    "wide": 72,
+    "tall": 72,
+    "L": 71,
+    "T": 71,
+    "ring": 71,
+    "notched": 71
+  },
+  "profiles": {
+    "base": 252,
+    "ice": 62,
+    "glove": 62,
+    "warp": 62,
+    "mixed": 62
+  },
+  "byShape": {
+    "square": {
+      "solved": 36,
+      "budget": 36
+    },
+    "wide": {
+      "solved": 37,
+      "budget": 35
+    },
+    "tall": {
+      "solved": 35,
+      "budget": 37
+    },
+    "L": {
+      "solved": 43,
+      "budget": 28
+    },
+    "T": {
+      "budget": 20,
+      "solved": 48,
+      "unsolvable": 3
+    },
+    "ring": {
+      "solved": 36,
+      "budget": 34,
+      "unsolvable": 1
+    },
+    "notched": {
+      "solved": 35,
+      "budget": 35,
+      "unsolvable": 1
+    }
+  },
+  "byProfile": {
+    "base": {
+      "solved": 148,
+      "budget": 102,
+      "unsolvable": 2
+    },
+    "ice": {
+      "budget": 29,
+      "unsolvable": 2,
+      "solved": 31
+    },
+    "glove": {
+      "solved": 28,
+      "budget": 34
+    },
+    "warp": {
+      "solved": 38,
+      "budget": 24
+    },
+    "mixed": {
+      "budget": 36,
+      "solved": 25,
+      "unsolvable": 1
+    }
+  },
+  "patterns": {
+    "orientationNormalized": 153,
+    "withDistanceAndScoring": 250,
+    "top10": [
+      [
+        "none:0|none:1",
+        19
+      ],
+      [
+        "none:0",
+        16
+      ],
+      [
+        "wall:0|none:1",
+        11
+      ],
+      [
+        "wall:0|wall:2",
+        10
+      ],
+      [
+        "none:0|wall:1|wall:2",
+        8
+      ],
+      [
+        "wall:0",
+        6
+      ],
+      [
+        "wall:0|wall:2|wall:0",
+        6
+      ],
+      [
+        "none:0|none:1|none:2",
+        6
+      ],
+      [
+        "none:0|wall:1|none:2",
+        5
+      ],
+      [
+        "wall:0|wall:1",
+        5
+      ]
+    ],
+    "top10Share": 0.34074074074074073,
+    "entropyBits": 6.642441032262686
+  },
+  "actions": {
+    "wall": 538,
+    "none": 394,
+    "ice": 14,
+    "glove": 19,
+    "warp": 4
+  },
+  "oneTurnShare": 0.09259259259259259
+}

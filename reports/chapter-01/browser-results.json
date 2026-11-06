@@ -1,0 +1,49 @@
+{
+  "sourceCommit": "9c95c73bb217cb11915d7580c78b941d647ad3f5",
+  "runUrl": "https://github.com/stusaurus/zurash-app/actions/runs/41195944073",
+  "date": "2026-10-31",
+  "cases": [
+    {
+      "browser": "chromium",
+      "width": 320,
+      "duration": "40.8s",
+      "result": "passed"
+    },
+    {
+      "browser": "chromium",
+      "width": 390,
+      "duration": "41.3s",
+      "result": "passed"
+    },
+    {
+      "browser": "chromium",
+      "width": 1440,
+      "duration": "54.5s",
+      "result": "passed"
+    },
+    {
+      "browser": "webkit",
+      "width": 320,
+      "duration": "2.0m",
+      "result": "passed"
+    },
+    {
+      "browser": "webkit",
+      "width": 390,
+      "duration": "1.8m",
+      "result": "passed"
+    },
+    {
+      "browser": "webkit",
+      "width": 1440,
+      "duration": "2.3m",
+      "result": "passed"
+    }
+  ],
+  "allStagesPerCase": 50,
+  "fullChapterPlaythroughs": 6,
+  "pageErrors": 0,
+  "assetErrors": 0,
+  "realIPhone": false,
+  "notes": "All six conditions passed before relocating the identical suite from tests/browser to tests/adventure to avoid running chapter tests twice in the existing versus-game suite."
+}

@@ -1,0 +1,962 @@
+[
+  {
+    "id": "pz-000117",
+    "item": "iceBlock",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 1.0378530000016326
+  },
+  {
+    "id": "pz-000120",
+    "item": "iceBlock",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 1.430134000001999
+  },
+  {
+    "id": "pz-000141",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.8425589999969816
+  },
+  {
+    "id": "pz-000176",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "budget",
+    "withoutTurns": null,
+    "ms": 4.527919000000111
+  },
+  {
+    "id": "pz-000208",
+    "item": "iceBlock",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.8956389999948442
+  },
+  {
+    "id": "pz-000229",
+    "item": "iceBlock",
+    "withTurns": 6,
+    "withoutStatus": "solved",
+    "withoutTurns": 7,
+    "ms": 1.1371030000009341
+  },
+  {
+    "id": "pz-000264",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.3701580000051763
+  },
+  {
+    "id": "pz-000293",
+    "item": "iceBlock",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 3.788044999993872
+  },
+  {
+    "id": "pz-000333",
+    "item": "iceBlock",
+    "withTurns": 1,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.8417379999955301
+  },
+  {
+    "id": "pz-000344",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 1.7145119999986491
+  },
+  {
+    "id": "pz-000413",
+    "item": "iceBlock",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 1.2344589999993332
+  },
+  {
+    "id": "pz-000453",
+    "item": "iceBlock",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 1.3367829999988317
+  },
+  {
+    "id": "pz-000469",
+    "item": "iceBlock",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 2.00927600000432
+  },
+  {
+    "id": "pz-000496",
+    "item": "iceBlock",
+    "withTurns": 6,
+    "withoutStatus": "solved",
+    "withoutTurns": 7,
+    "ms": 2.4794939999992494
+  },
+  {
+    "id": "pz-000517",
+    "item": "iceBlock",
+    "withTurns": 7,
+    "withoutStatus": "solved",
+    "withoutTurns": 9,
+    "ms": 1.0097210000021732
+  },
+  {
+    "id": "pz-000533",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 0.382846000000427
+  },
+  {
+    "id": "pz-000541",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "budget",
+    "withoutTurns": null,
+    "ms": 5.7313820000053965
+  },
+  {
+    "id": "pz-000544",
+    "item": "iceBlock",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 1.9866619999957038
+  },
+  {
+    "id": "pz-000653",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 7.192293000000063
+  },
+  {
+    "id": "pz-000688",
+    "item": "iceBlock",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 2,
+    "ms": 0.6031280000024708
+  },
+  {
+    "id": "pz-000752",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "budget",
+    "withoutTurns": null,
+    "ms": 6.937507999995432
+  },
+  {
+    "id": "pz-000784",
+    "item": "iceBlock",
+    "withTurns": 6,
+    "withoutStatus": "unsolvable",
+    "withoutTurns": null,
+    "ms": 1.5752019999999902
+  },
+  {
+    "id": "pz-000789",
+    "item": "iceBlock",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 8,
+    "ms": 2.6995349999997416
+  },
+  {
+    "id": "pz-000824",
+    "item": "iceBlock",
+    "withTurns": 6,
+    "withoutStatus": "unsolvable",
+    "withoutTurns": null,
+    "ms": 7.004910000003292
+  },
+  {
+    "id": "pz-001045",
+    "item": "iceBlock",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 1.1582940000007511
+  },
+  {
+    "id": "pz-001053",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.5566480000052252
+  },
+  {
+    "id": "pz-001125",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 2.6619690000006813
+  },
+  {
+    "id": "pz-001200",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 1.0213580000054208
+  },
+  {
+    "id": "pz-001221",
+    "item": "iceBlock",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 1.6925990000017919
+  },
+  {
+    "id": "pz-001261",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 2.363539000005403
+  },
+  {
+    "id": "pz-001328",
+    "item": "iceBlock",
+    "withTurns": 4,
+    "withoutStatus": "budget",
+    "withoutTurns": null,
+    "ms": 13.156945000002452
+  },
+  {
+    "id": "pz-001440",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 2.7671880000052624
+  },
+  {
+    "id": "pz-001485",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 2.9601180000026943
+  },
+  {
+    "id": "pz-001533",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.5153859999991255
+  },
+  {
+    "id": "pz-001552",
+    "item": "iceBlock",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 2.258291999998619
+  },
+  {
+    "id": "pz-001616",
+    "item": "iceBlock",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 6.257664000004297
+  },
+  {
+    "id": "pz-001661",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.7497089999960735
+  },
+  {
+    "id": "pz-001720",
+    "item": "iceBlock",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 0.8941070000000764
+  },
+  {
+    "id": "pz-001744",
+    "item": "iceBlock",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.6470449999978882
+  },
+  {
+    "id": "pz-001749",
+    "item": "iceBlock",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 7,
+    "ms": 8.323356000000786
+  },
+  {
+    "id": "pz-000120",
+    "item": "powerGlove",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 1.852549999995972
+  },
+  {
+    "id": "pz-000142",
+    "item": "powerGlove",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 2,
+    "ms": 0.3124309999984689
+  },
+  {
+    "id": "pz-000150",
+    "item": "powerGlove",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.3774279999997816
+  },
+  {
+    "id": "pz-000230",
+    "item": "powerGlove",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 2.3483369999958086
+  },
+  {
+    "id": "pz-000248",
+    "item": "powerGlove",
+    "withTurns": 1,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.6844510000009905
+  },
+  {
+    "id": "pz-000294",
+    "item": "powerGlove",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 2,
+    "ms": 0.8645719999985886
+  },
+  {
+    "id": "pz-000310",
+    "item": "powerGlove",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 1.3139089999967837
+  },
+  {
+    "id": "pz-000320",
+    "item": "powerGlove",
+    "withTurns": 5,
+    "withoutStatus": "budget",
+    "withoutTurns": null,
+    "ms": 8.42440699999861
+  },
+  {
+    "id": "pz-000350",
+    "item": "powerGlove",
+    "withTurns": 3,
+    "withoutStatus": "budget",
+    "withoutTurns": null,
+    "ms": 9.029528999999457
+  },
+  {
+    "id": "pz-000352",
+    "item": "powerGlove",
+    "withTurns": 1,
+    "withoutStatus": "solved",
+    "withoutTurns": 2,
+    "ms": 0.2414329999955953
+  },
+  {
+    "id": "pz-000358",
+    "item": "powerGlove",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 3.8525919999956386
+  },
+  {
+    "id": "pz-000374",
+    "item": "powerGlove",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.8730950000026496
+  },
+  {
+    "id": "pz-000382",
+    "item": "powerGlove",
+    "withTurns": 6,
+    "withoutStatus": "solved",
+    "withoutTurns": 7,
+    "ms": 4.26977999999508
+  },
+  {
+    "id": "pz-000398",
+    "item": "powerGlove",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 2.0708789999989676
+  },
+  {
+    "id": "pz-000414",
+    "item": "powerGlove",
+    "withTurns": 6,
+    "withoutStatus": "solved",
+    "withoutTurns": 8,
+    "ms": 7.445693000001484
+  },
+  {
+    "id": "pz-000422",
+    "item": "powerGlove",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 3.244877000004635
+  },
+  {
+    "id": "pz-000470",
+    "item": "powerGlove",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 1.5144110000037472
+  },
+  {
+    "id": "pz-000488",
+    "item": "powerGlove",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 1.9040380000005825
+  },
+  {
+    "id": "pz-000494",
+    "item": "powerGlove",
+    "withTurns": 7,
+    "withoutStatus": "solved",
+    "withoutTurns": 8,
+    "ms": 9.057981999998447
+  },
+  {
+    "id": "pz-000520",
+    "item": "powerGlove",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 3.301692999993975
+  },
+  {
+    "id": "pz-000566",
+    "item": "powerGlove",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.9224990000002435
+  },
+  {
+    "id": "pz-000606",
+    "item": "powerGlove",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 1.9232370000027004
+  },
+  {
+    "id": "pz-000624",
+    "item": "powerGlove",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.6123030000017025
+  },
+  {
+    "id": "pz-000694",
+    "item": "powerGlove",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 1.7189980000039213
+  },
+  {
+    "id": "pz-000710",
+    "item": "powerGlove",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 1.6307359999991604
+  },
+  {
+    "id": "pz-000758",
+    "item": "powerGlove",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 3.8815860000031535
+  },
+  {
+    "id": "pz-000784",
+    "item": "powerGlove",
+    "withTurns": 6,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 3.4120590000020457
+  },
+  {
+    "id": "pz-000790",
+    "item": "powerGlove",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 1.3708340000011958
+  },
+  {
+    "id": "pz-000830",
+    "item": "powerGlove",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 4.646357999998145
+  },
+  {
+    "id": "pz-000846",
+    "item": "powerGlove",
+    "withTurns": 9,
+    "withoutStatus": "solved",
+    "withoutTurns": 10,
+    "ms": 0.9339269999982207
+  },
+  {
+    "id": "pz-000862",
+    "item": "powerGlove",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 2,
+    "ms": 0.08127200000308221
+  },
+  {
+    "id": "pz-000864",
+    "item": "powerGlove",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 3.336223999998765
+  },
+  {
+    "id": "pz-000894",
+    "item": "powerGlove",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 5.0812129999976605
+  },
+  {
+    "id": "pz-000904",
+    "item": "powerGlove",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.44615199999680044
+  },
+  {
+    "id": "pz-000910",
+    "item": "powerGlove",
+    "withTurns": 6,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 4.672457000000577
+  },
+  {
+    "id": "pz-000934",
+    "item": "powerGlove",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 5.2679839999982505
+  },
+  {
+    "id": "pz-000982",
+    "item": "powerGlove",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 1.6314569999958621
+  },
+  {
+    "id": "pz-001024",
+    "item": "powerGlove",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 2.276667999998608
+  },
+  {
+    "id": "pz-001030",
+    "item": "powerGlove",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 0.8332749999972293
+  },
+  {
+    "id": "pz-001054",
+    "item": "powerGlove",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 0.8886879999990924
+  },
+  {
+    "id": "pz-000120",
+    "item": "warpCrystal",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 2.322007000002486
+  },
+  {
+    "id": "pz-000152",
+    "item": "warpCrystal",
+    "withTurns": 5,
+    "withoutStatus": "unsolvable",
+    "withoutTurns": null,
+    "ms": 11.480790999994497
+  },
+  {
+    "id": "pz-000312",
+    "item": "warpCrystal",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.3127309999981662
+  },
+  {
+    "id": "pz-000479",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 3.4239159999997355
+  },
+  {
+    "id": "pz-000511",
+    "item": "warpCrystal",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 7,
+    "ms": 0.1539919999995618
+  },
+  {
+    "id": "pz-000695",
+    "item": "warpCrystal",
+    "withTurns": 8,
+    "withoutStatus": "solved",
+    "withoutTurns": 10,
+    "ms": 8.898441999997885
+  },
+  {
+    "id": "pz-000704",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "budget",
+    "withoutTurns": null,
+    "ms": 6.067387000002782
+  },
+  {
+    "id": "pz-000743",
+    "item": "warpCrystal",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 1.6812019999997574
+  },
+  {
+    "id": "pz-000831",
+    "item": "warpCrystal",
+    "withTurns": 6,
+    "withoutStatus": "solved",
+    "withoutTurns": 7,
+    "ms": 1.4732490000023972
+  },
+  {
+    "id": "pz-001104",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 4.909663999998884
+  },
+  {
+    "id": "pz-001200",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 1.056931999999506
+  },
+  {
+    "id": "pz-001496",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "budget",
+    "withoutTurns": null,
+    "ms": 7.17246200000227
+  },
+  {
+    "id": "pz-001559",
+    "item": "warpCrystal",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 8,
+    "ms": 1.4295429999983753
+  },
+  {
+    "id": "pz-001671",
+    "item": "warpCrystal",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 0.11054600000352366
+  },
+  {
+    "id": "pz-001720",
+    "item": "warpCrystal",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 8.495223999998416
+  },
+  {
+    "id": "pz-001808",
+    "item": "warpCrystal",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 1.9269619999977294
+  },
+  {
+    "id": "pz-001895",
+    "item": "warpCrystal",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 1.2041339999996126
+  },
+  {
+    "id": "pz-001959",
+    "item": "warpCrystal",
+    "withTurns": 10,
+    "withoutStatus": "solved",
+    "withoutTurns": 13,
+    "ms": 5.132750000004307
+  },
+  {
+    "id": "pz-002159",
+    "item": "warpCrystal",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 2.4510620000000927
+  },
+  {
+    "id": "pz-002263",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 4.020404999995662
+  },
+  {
+    "id": "pz-002287",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.08967500000289874
+  },
+  {
+    "id": "pz-002328",
+    "item": "warpCrystal",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 0.9978830000036396
+  },
+  {
+    "id": "pz-002335",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 2.4757489999974496
+  },
+  {
+    "id": "pz-002384",
+    "item": "warpCrystal",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 2,
+    "ms": 0.35752900000079535
+  },
+  {
+    "id": "pz-002511",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 1.5099240000054124
+  },
+  {
+    "id": "pz-002575",
+    "item": "warpCrystal",
+    "withTurns": 4,
+    "withoutStatus": "unsolvable",
+    "withoutTurns": null,
+    "ms": 2.037919000002148
+  },
+  {
+    "id": "pz-002576",
+    "item": "warpCrystal",
+    "withTurns": 4,
+    "withoutStatus": "unsolvable",
+    "withoutTurns": null,
+    "ms": 1.5214510000005248
+  },
+  {
+    "id": "pz-002591",
+    "item": "warpCrystal",
+    "withTurns": 6,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 3.0394579999992857
+  },
+  {
+    "id": "pz-002615",
+    "item": "warpCrystal",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 0.3619650000036927
+  },
+  {
+    "id": "pz-002616",
+    "item": "warpCrystal",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.3849599999957718
+  },
+  {
+    "id": "pz-002720",
+    "item": "warpCrystal",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 0.36968699999852106
+  },
+  {
+    "id": "pz-002728",
+    "item": "warpCrystal",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 1.0715439999985392
+  },
+  {
+    "id": "pz-002759",
+    "item": "warpCrystal",
+    "withTurns": 2,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.6633489999949234
+  },
+  {
+    "id": "pz-002903",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "budget",
+    "withoutTurns": null,
+    "ms": 11.675333999999566
+  },
+  {
+    "id": "pz-002911",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 1.4780660000033095
+  },
+  {
+    "id": "pz-002999",
+    "item": "warpCrystal",
+    "withTurns": 4,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 10.153431999999157
+  },
+  {
+    "id": "pz-003071",
+    "item": "warpCrystal",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 5,
+    "ms": 7.161104999999225
+  },
+  {
+    "id": "pz-003088",
+    "item": "warpCrystal",
+    "withTurns": 5,
+    "withoutStatus": "solved",
+    "withoutTurns": 6,
+    "ms": 2.944935000006808
+  },
+  {
+    "id": "pz-003119",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 4,
+    "ms": 0.7198939999943832
+  },
+  {
+    "id": "pz-003176",
+    "item": "warpCrystal",
+    "withTurns": 3,
+    "withoutStatus": "solved",
+    "withoutTurns": 3,
+    "ms": 0.6036590000003343
+  }
+]

@@ -51,9 +51,11 @@ test("wall slides exactly one tile without changing the number of cells or rules
   const parts = transform.slice(10, -1).replaceAll("px", "").split(",").map(Number);
   expect(parts).toHaveLength(2);
   expect(parts.every(Number.isFinite)).toBe(true);
-  // Cell spacing and fractional pixel rounding can differ by browser.
-  expect(Math.abs(parts[0] - (destBox.x - sourceBox.x))).toBeLessThan(1);
-  expect(Math.abs(parts[1] - (destBox.y - sourceBox.y))).toBeLessThan(1);
+  // WebKit may differ by just over one CSS pixel in fractional grid layout.
+  // Keep a tight visual tolerance while asserting the rule-level move is one cell.
+  const coordinateTolerancePx = 1.5;
+  expect(Math.abs(parts[0] - (destBox.x - sourceBox.x))).toBeLessThan(coordinateTolerancePx);
+  expect(Math.abs(parts[1] - (destBox.y - sourceBox.y))).toBeLessThan(coordinateTolerancePx);
   // After a wall shift, the game is in slide phase: skip stays disabled,
   // while undo is available to reverse the uncompleted turn.
   await expect(page.locator("#skip")).toBeDisabled();

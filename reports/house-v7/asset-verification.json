@@ -1,0 +1,145 @@
+{
+  "status": "files-and-render-references-verified; browser QA separate",
+  "registeredRepairStates": 60,
+  "repairTasks": 15,
+  "repairBudget": 40,
+  "renderedReferencesChecked": 140,
+  "sceneBudgets": {
+    "exterior": [
+      {
+        "style": -1,
+        "files": 6,
+        "bytes": 879406
+      },
+      {
+        "style": 0,
+        "files": 6,
+        "bytes": 842308
+      },
+      {
+        "style": 1,
+        "files": 6,
+        "bytes": 883902
+      },
+      {
+        "style": 2,
+        "files": 6,
+        "bytes": 878567
+      }
+    ],
+    "entry": [
+      {
+        "style": -1,
+        "files": 5,
+        "bytes": 794846
+      },
+      {
+        "style": 0,
+        "files": 5,
+        "bytes": 710112
+      },
+      {
+        "style": 1,
+        "files": 5,
+        "bytes": 750202
+      },
+      {
+        "style": 2,
+        "files": 5,
+        "bytes": 708733
+      }
+    ],
+    "living": [
+      {
+        "style": -1,
+        "files": 5,
+        "bytes": 478173
+      },
+      {
+        "style": 0,
+        "files": 5,
+        "bytes": 447221
+      },
+      {
+        "style": 1,
+        "files": 5,
+        "bytes": 458261
+      },
+      {
+        "style": 2,
+        "files": 5,
+        "bytes": 465191
+      }
+    ],
+    "kitchen": [
+      {
+        "style": -1,
+        "files": 5,
+        "bytes": 568079
+      },
+      {
+        "style": 0,
+        "files": 5,
+        "bytes": 570355
+      },
+      {
+        "style": 1,
+        "files": 5,
+        "bytes": 589451
+      },
+      {
+        "style": 2,
+        "files": 5,
+        "bytes": 601935
+      }
+    ],
+    "bedroom": [
+      {
+        "style": -1,
+        "files": 5,
+        "bytes": 461049
+      },
+      {
+        "style": 0,
+        "files": 5,
+        "bytes": 493109
+      },
+      {
+        "style": 1,
+        "files": 5,
+        "bytes": 595913
+      },
+      {
+        "style": 2,
+        "files": 5,
+        "bytes": 468991
+      }
+    ],
+    "garden": [
+      {
+        "style": -1,
+        "files": 9,
+        "bytes": 1177260
+      },
+      {
+        "style": 0,
+        "files": 9,
+        "bytes": 1147122
+      },
+      {
+        "style": 1,
+        "files": 9,
+        "bytes": 1180848
+      },
+      {
+        "style": 2,
+        "files": 9,
+        "bytes": 1193567
+      }
+    ]
+  },
+  "uniqueRuntimePaths": 60,
+  "productionImageBytes": 8777961,
+  "formalApproval": false,
+  "iPhoneHardwareVerified": false
+}

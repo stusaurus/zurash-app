@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja" class="zurash-unified">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#075b99">
+<title>ズラッシュ！｜ライバルからの挑戦状（CPU対戦試遊）</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,sans-serif}
+body{color:#19496b;background:linear-gradient(150deg,#1e65a2,#103e79 60%,#276bab);padding:12px 10px max(55px,env(safe-area-inset-bottom))}
+main{max-width:660px;margin:auto;padding:12px;border:2px solid #badbf7;border-radius:19px;background:linear-gradient(#e5f7ff,#bbdcf7);box-shadow:0 8px 22px #09244e77}
+.logo{width:min(220px,67vw);height:58px;object-fit:contain;display:block;margin:auto;filter:drop-shadow(0 2px 5px #2c6288)}
+.label{text-align:center;font-size:12px;font-weight:800;color:#255c8c;margin:6px 0}
+h1{text-align:center;color:#145383;font-size:clamp(20px,5.5vw,27px);margin:4px 0 8px}
+.intro{font-size:12px;line-height:1.6;text-align:center;max-width:420px;margin:5px auto 12px}
+.score{display:flex;align-items:center;justify-content:space-between;gap:6px;border:1px solid #75acd7;border-radius:12px;background:#f6fdff;padding:8px;font-size:12px}
+.score strong{font-size:19px;color:#aa5b16}
+.score span{display:inline-flex;align-items:center;gap:6px}
+.score img{width:30px;height:30px;object-fit:contain}
+.score .center{font-weight:900;color:#286895;text-align:center}
+.boss-board{--cell:calc((min(100vw - 46px, 520px) - 10px) / 7);display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;width:min(100%,520px);margin:12px auto;aspect-ratio:1/1;padding:5px;border:4px solid #6b99bd;border-radius:14px;background:linear-gradient(140deg,#93d7fc,#62a5d5);box-shadow:0 5px #396f9b}
+.boss-cell{position:relative;min-width:0;min-height:0;aspect-ratio:1;border:1px solid #92c6e9;border-radius:6px;background:linear-gradient(145deg,#edfaff,#badcf1);color:#b27c00;display:grid;place-items:center;padding:0;touch-action:manipulation}
+.boss-cell:nth-child(2n){background:linear-gradient(145deg,#e2f5ff,#a7d2ed)}
+.boss-cell.wall{background:linear-gradient(135deg,#226896,#165080);box-shadow:inset 0 0 0 2px #5ea8d3}
+.boss-cell.selected{outline:3px solid #eeb33d;z-index:1}
+.boss-cell.target{outline:3px solid #eec733;outline-offset:-2px;background:#fff3c1}
+.boss-cell img{width:93%;height:93%;object-fit:contain;position:relative;z-index:2;pointer-events:none;filter:drop-shadow(0 1px 3px #345)}
+.boss-star{font-size:clamp(17px,5vw,30px);line-height:1;color:#ffc843;text-shadow:0 1px #fef4ca,0 2px #aa7220}
+.prompt{font-weight:850;color:#164f7d;background:#effaff;border:1px solid #99c9e6;border-radius:9px;text-align:center;margin:9px 0 6px;padding:8px;font-size:12px;min-height:37px}
+.controls{display:flex;align-items:center;justify-content:space-around;gap:6px;padding:9px 4px;background:#d6edffad;border-radius:12px}
+button{font-family:inherit;cursor:pointer}button:disabled{opacity:.42;cursor:not-allowed}
+.primary{min-height:52px;background:linear-gradient(#fbb14f,#e88421);color:#fff;font-weight:900;border:2px solid #d77725;border-radius:12px;flex:1;max-width:225px;padding:7px 12px}
+.pad{display:grid;grid-template-columns:repeat(3,40px);grid-template-rows:repeat(3,40px);gap:4px}
+.pad button{font-size:19px;font-weight:900;border:2px solid #5595c4;border-radius:9px;color:#fff;background:linear-gradient(#6ab7eb,#2b83c4)}
+.pad [data-boss-dir="0"]{grid-area:1/2}.pad [data-boss-dir="1"]{grid-area:2/3}
+.pad [data-boss-dir="2"]{grid-area:3/2}.pad [data-boss-dir="3"]{grid-area:2/1}
+.pad .snow{grid-area:2/2;display:grid;place-items:center;font-size:24px}
+.actions{text-align:center;margin:12px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px}
+.actions label{font-weight:800;font-size:12px}
+.actions select{min-height:44px;padding:7px;border:1px solid #6ca6cc;border-radius:9px;background:#fff;color:#145783;font-weight:800}
+.actions button,.replay{border:1px solid #6ca6cc;border-radius:11px;background:linear-gradient(#fff,#d7ecff);padding:9px 19px;font-weight:800;color:#145783;min-height:44px}
+.result{text-align:center;border:2px solid #edc75e;border-radius:14px;margin:11px 0;padding:12px;background:linear-gradient(#fff8d7,#d7f2ff);scroll-margin:100px}
+.result h2{font-size:23px;color:#b26a0a}.result p{font-size:13px;font-weight:750}
+footer{text-align:center;font-size:11px;line-height:1.7;margin:12px;color:#356786}
+footer a{color:#155f98;font-weight:800}
+@media(max-width:350px){.pad{grid-template-columns:repeat(3,35px);grid-template-rows:repeat(3,36px);gap:2px}.primary{font-size:12px}.score{padding:5px}.score img{width:26px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<link rel="stylesheet" href="./zurash-unified-ui.css">
+</head>
+<body class="boss-ui">
+<main>
+<img class="logo" src="./assets/zurash-approved-logo.webp" alt="ズラッシュ！">
+<p class="label">第2章につながる特別試遊・ボードゲームへの伏線</p>
+<h1>ライバルからの挑戦状！</h1>
+<nav class="zurash-route-nav" aria-label="ズラッシュ！の章と対戦">
+ <a href="./adventure.html">🏠 第1章・家</a>
+ <a href="./chapter-two.html">❄ 第2章・氷海</a>
+ <a href="./duel-boss.html" aria-current="page">⚔ CPU対戦</a>
+</nav>
+<p class="intro">「星を集めるのは、きみだけじゃない！」<br>トリケン（オレンジ）とライバル（水色）が交互に行動。<strong>先に星3個を取った方が勝ち！</strong> 壁を1マスずらしてから滑走する、ボードゲーム版につながる対戦ルールです。</p>
+<div class="score" aria-live="polite">
+ <span><img src="./assets/triken-orange-80.png" alt=""><b>トリケン</b><strong id="boss-score-human">0</strong></span>
+ <div class="center"><span id="boss-side">あなたの番</span><div>通算 <b id="boss-turns">0</b> 手</div></div>
+ <span><strong id="boss-score-cpu">0</strong><b>ライバル</b><img src="./assets/triken-aqua-80.png" alt=""></span>
+</div>
+<div id="boss-board" class="boss-board" role="group" aria-label="CPU対戦7×7の盤面"></div>
+<p id="boss-message" class="prompt" role="status" aria-live="polite">最初はトリケンの番！</p>
+<p id="boss-wall-label" class="label">壁を動かすか、そのまま滑ろう。</p>
+<div class="controls">
+ <button id="boss-skip" class="primary" type="button">壁を動かさずに滑る</button>
+ <div id="boss-directions" class="pad" role="group" aria-label="滑走方向">
+  <button type="button" data-boss-dir="0" aria-label="上へ">▲</button>
+  <button type="button" data-boss-dir="3" aria-label="左へ">◀</button>
+  <span class="snow" aria-hidden="true">❄</span>
+  <button type="button" data-boss-dir="1" aria-label="右へ">▶</button>
+  <button type="button" data-boss-dir="2" aria-label="下へ">▼</button>
+ </div>
+</div>
+<div class="actions">
+ <label for="boss-difficulty">CPUの強さ</label>
+ <select id="boss-difficulty" aria-label="CPUの強さ">
+  <option value="practice">れんしゅう</option>
+  <option value="normal">ふつう</option>
+  <option value="challenge">じっくり考える</option>
+ </select>
+ <button id="boss-reset" type="button">新しい対戦</button>
+</div>
+<section class="result" id="boss-result" hidden>
+ <h2 id="boss-result-title"></h2>
+ <p id="boss-result-message"></p>
+ <button class="replay" id="boss-again" type="button">もう一度挑戦</button>
+</section>
+<footer>
+<a id="boss-return" href="./chapter-two.html?trial=1" hidden style="min-height:44px;padding:10px 0"></a>
+CPUの強さを3段階から選べます。既存の2人対戦エンジンを利用しています。これは第2章の独立試遊であり、パズルの星・修復・セーブには影響しません。<br>
+<a href="./item-lab.html">道具が必須のパズルを試す</a> ／ <a href="./long-lab.html">長編パズルへ戻る</a></footer>
+</main>
+<script type="module" src="./src/boss-duel.js"></script>
+</body>
+</html>

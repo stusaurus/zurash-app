@@ -1,0 +1,50 @@
+{
+  "seed": 941101,
+  "target": 500,
+  "maxAttempts": 5000,
+  "attempts": 2436,
+  "accepted": 500,
+  "acceptanceRate": 0.20525451559934318,
+  "rejections": {
+    "budget": 1119,
+    "unused-item": 175,
+    "under-three-turns": 355,
+    "unsolvable": 24,
+    "item-benefit-unresolved": 5,
+    "no-proven-item-benefit": 63,
+    "pattern-cap": 195
+  },
+  "totalMs": 12811.525378,
+  "patternCount": 387,
+  "maxPerPattern": 3,
+  "optimalTurns": {
+    "3": 106,
+    "4": 138,
+    "5": 91,
+    "6": 69,
+    "7": 52,
+    "8": 26,
+    "9": 8,
+    "10": 6,
+    "11": 3,
+    "12": 1
+  },
+  "profiles": {
+    "base": 424,
+    "mixed": 23,
+    "ice": 14,
+    "glove": 26,
+    "warp": 13
+  },
+  "usedMechanics": {
+    "wall": 464,
+    "none": 383,
+    "glove": 40,
+    "ice": 28,
+    "warp": 15
+  },
+  "allReplayed": true,
+  "productionApproved": 0,
+  "poolSha256": "5c6ac6363a5efba3e2581844ff4036fc032eaef542fb31a3aeaf9b819f7b4a1b",
+  "note": "Independent seed; minimum 3 optimal turns; at most 3 certificates per orientation-normalized action signature; item stages require proved shorter optimum or exhaustive impossibility without all items. Still not human-approved or a proof of experiential diversity."
+}

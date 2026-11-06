@@ -1,0 +1,890 @@
+{
+  "version": 1,
+  "collection": "long",
+  "release": "experimental-unapproved",
+  "rulesVersion": "solo-v1",
+  "saveWrites": false,
+  "note": "長編研究4面。各面の最短手数16/19/16/19はCIで完全BFS再検証。正式50面・家・星報酬・保存素材と無関係。",
+  "stages": [
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-long-01-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 7,
+        "height": 7,
+        "playableCells": [
+          0,
+          2,
+          4,
+          5,
+          7,
+          8,
+          9,
+          11,
+          12,
+          13,
+          15,
+          16,
+          18,
+          21,
+          23,
+          24,
+          25,
+          27,
+          28,
+          29,
+          30,
+          34,
+          35,
+          36,
+          38,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48
+        ]
+      },
+      "start": 28,
+      "walls": [
+        27,
+        42,
+        44
+      ],
+      "stars": [
+        2,
+        11,
+        4,
+        34
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "chapter": {
+        "id": "fun-long-playtest",
+        "number": 1,
+        "title": "氷の回廊",
+        "focus": "星を取る順番を探しながら、壁を次の停止位置に使おう。",
+        "hint": "目の前の星だけでなく、次にどの位置で止まれるかを考えよう。"
+      },
+      "provenance": {
+        "generatedFor": "2026-11-01 long solo playtest",
+        "algorithm": "connected-mask BFS solo-v1",
+        "status": "unapproved",
+        "shortestReported": 16,
+        "wallActionsOnProof": 6,
+        "starPickupTurns": [
+          5,
+          10,
+          13,
+          16
+        ]
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 44,
+            "to": 45
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 45,
+            "to": 38
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 42,
+            "to": 35
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 35,
+            "to": 28
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 28,
+            "to": 29
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 29,
+            "to": 30
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        }
+      ],
+      "challenge": {
+        "minimumTurns": 16,
+        "aThrough": 18,
+        "passThrough": 20,
+        "verifiedBy": "complete-bfs-solo-v1"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-long-02-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 7,
+        "height": 7,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          9,
+          11,
+          13,
+          14,
+          15,
+          18,
+          21,
+          22,
+          23,
+          27,
+          28,
+          30,
+          31,
+          33,
+          34,
+          36,
+          38,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48
+        ]
+      },
+      "start": 22,
+      "walls": [
+        1,
+        27,
+        43
+      ],
+      "stars": [
+        3,
+        31,
+        0,
+        34,
+        11
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "chapter": {
+        "id": "fun-long-playtest",
+        "number": 2,
+        "title": "星をめぐる迷宮",
+        "focus": "5つの星を順番に集めよう。動かした壁が後で役立つ道を探す。",
+        "hint": "まず通れる道から星を集めてみよう。途中で壁を動かすと行ける場所が増える。"
+      },
+      "provenance": {
+        "generatedFor": "2026-11-01 long solo playtest",
+        "algorithm": "connected-mask BFS solo-v1",
+        "status": "unapproved",
+        "shortestReported": 19,
+        "wallActionsOnProof": 6,
+        "starPickupTurns": [
+          3,
+          6,
+          13,
+          15,
+          19
+        ]
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 43,
+            "to": 44
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 1,
+            "to": 2
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 9
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 9,
+            "to": 2
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 3
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 3,
+            "to": 4
+          },
+          "dir": 0
+        }
+      ],
+      "challenge": {
+        "minimumTurns": 19,
+        "aThrough": 21,
+        "passThrough": 24,
+        "verifiedBy": "complete-bfs-solo-v1"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-long-03-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 7,
+        "height": 7,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          13,
+          14,
+          15,
+          18,
+          21,
+          22,
+          23,
+          27,
+          28,
+          29,
+          30,
+          31,
+          33,
+          34,
+          38,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48
+        ]
+      },
+      "start": 22,
+      "walls": [
+        7,
+        27,
+        47
+      ],
+      "stars": [
+        3,
+        31,
+        0,
+        34,
+        11
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "chapter": {
+        "id": "fun-long-playtest",
+        "number": 3,
+        "title": "氷壁のバトン",
+        "focus": "上と下の壁を役割交代。2つの停止装置で5つの星をつなごう。",
+        "hint": "動かす壁は1つだけではないよ。最初の星を取るまで、上の壁の位置に注目。"
+      },
+      "provenance": {
+        "generatedFor": "2026-11-01 quality benchmark follow-up",
+        "algorithm": "connected-mask BFS solo-v1 independently cross-checked in C++",
+        "status": "unapproved",
+        "shortestReported": 16,
+        "wallActionsOnProof": 9,
+        "starPickupTurns": [
+          5,
+          9,
+          11,
+          13,
+          16
+        ]
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 7,
+            "to": 8
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 8,
+            "to": 1
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 1,
+            "to": 2
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 2,
+            "to": 3
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 3,
+            "to": 4
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 4,
+            "to": 5
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 47,
+            "to": 46
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 46,
+            "to": 45
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 45,
+            "to": 44
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        }
+      ],
+      "challenge": {
+        "minimumTurns": 16,
+        "aThrough": 18,
+        "passThrough": 20,
+        "verifiedBy": "complete-bfs-solo-v1"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "rulesVersion": "solo-v1",
+      "id": "fun-long-04-v1",
+      "revision": 1,
+      "status": "candidate",
+      "board": {
+        "width": 7,
+        "height": 7,
+        "playableCells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          18,
+          20,
+          21,
+          23,
+          25,
+          27,
+          28,
+          29,
+          30,
+          31,
+          33,
+          34,
+          37,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          48
+        ]
+      },
+      "start": 23,
+      "walls": [
+        46,
+        20,
+        44
+      ],
+      "stars": [
+        45,
+        15,
+        12,
+        43,
+        4
+      ],
+      "fixed": [],
+      "iceSockets": [],
+      "portals": [],
+      "inventory": {
+        "iceBlock": 0,
+        "powerGlove": 0,
+        "warpCrystal": 0
+      },
+      "goal": {
+        "type": "collect-all"
+      },
+      "chapter": {
+        "id": "fun-long-playtest",
+        "number": 4,
+        "title": "氷壁の三重奏",
+        "focus": "3つの壁で停止位置を作り替え、5つの星を順番につなごう。",
+        "hint": "下側の壁から動かすと、新しい停止位置ができる。最初の星に届いた後も壁は役立つ。"
+      },
+      "provenance": {
+        "generatedFor": "2026-11-01 post S-rank user feedback",
+        "algorithm": "complete BFS shortest path plus constrained BFS (maximum 4 consecutive wall moves), independently replayed",
+        "status": "unapproved",
+        "shortestReported": 19,
+        "wallActionsOnProof": 12,
+        "starPickupTurns": [
+          6,
+          10,
+          15,
+          17,
+          19
+        ]
+      },
+      "proof": [
+        {
+          "prep": {
+            "type": "wall",
+            "from": 44,
+            "to": 37
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 37,
+            "to": 30
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 30,
+            "to": 31
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 31,
+            "to": 30
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 46,
+            "to": 45
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 45,
+            "to": 44
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 44,
+            "to": 45
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 30,
+            "to": 23
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 3
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 20,
+            "to": 13
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 13,
+            "to": 6
+          },
+          "dir": 0
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 6,
+            "to": 5
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "wall",
+            "from": 5,
+            "to": 6
+          },
+          "dir": 1
+        },
+        {
+          "prep": {
+            "type": "none"
+          },
+          "dir": 2
+        }
+      ],
+      "challenge": {
+        "minimumTurns": 19,
+        "aThrough": 21,
+        "passThrough": 24,
+        "verifiedBy": "complete-bfs-solo-v1"
+      }
+    }
+  ]
+}

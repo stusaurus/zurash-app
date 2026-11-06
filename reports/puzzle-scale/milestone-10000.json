@@ -1,0 +1,178 @@
+{
+  "count": 10000,
+  "validatedPlacements": 10000,
+  "invalidPlacements": 0,
+  "exactDuplicates": 0,
+  "symmetryDuplicates": 0,
+  "status": {
+    "solved": 5202,
+    "budget": 4709,
+    "unsolvable": 89
+  },
+  "replayedCertificates": 5202,
+  "notVerifiedAsSolvable": 4798,
+  "solvedRate": 0.5202,
+  "generationMs": 626.656226999738,
+  "solverTotalMs": 57786.55269700019,
+  "solverMs": {
+    "p50": 5.446343000003253,
+    "p95": 14.779661000000488,
+    "max": 37.549543999997695
+  },
+  "nodeCounts": {
+    "p50": 202,
+    "p95": 879
+  },
+  "optimalTurns": {
+    "1": 451,
+    "2": 1141,
+    "3": 1379,
+    "4": 931,
+    "5": 525,
+    "6": 323,
+    "7": 220,
+    "8": 128,
+    "9": 45,
+    "10": 45,
+    "11": 5,
+    "12": 1,
+    "13": 5,
+    "14": 1,
+    "15": 1,
+    "17": 1
+  },
+  "shapes": {
+    "square": 1429,
+    "wide": 1429,
+    "tall": 1429,
+    "L": 1429,
+    "T": 1428,
+    "ring": 1428,
+    "notched": 1428
+  },
+  "profiles": {
+    "base": 5000,
+    "ice": 1250,
+    "glove": 1250,
+    "warp": 1250,
+    "mixed": 1250
+  },
+  "byShape": {
+    "square": {
+      "solved": 700,
+      "budget": 728,
+      "unsolvable": 1
+    },
+    "wide": {
+      "solved": 646,
+      "budget": 783
+    },
+    "tall": {
+      "solved": 640,
+      "budget": 789
+    },
+    "L": {
+      "solved": 810,
+      "budget": 611,
+      "unsolvable": 8
+    },
+    "T": {
+      "budget": 363,
+      "solved": 1030,
+      "unsolvable": 35
+    },
+    "ring": {
+      "solved": 674,
+      "budget": 716,
+      "unsolvable": 38
+    },
+    "notched": {
+      "solved": 702,
+      "budget": 719,
+      "unsolvable": 7
+    }
+  },
+  "byProfile": {
+    "base": {
+      "solved": 2879,
+      "budget": 2077,
+      "unsolvable": 44
+    },
+    "ice": {
+      "budget": 654,
+      "unsolvable": 9,
+      "solved": 587
+    },
+    "glove": {
+      "solved": 584,
+      "budget": 656,
+      "unsolvable": 10
+    },
+    "warp": {
+      "solved": 676,
+      "budget": 555,
+      "unsolvable": 19
+    },
+    "mixed": {
+      "budget": 767,
+      "solved": 476,
+      "unsolvable": 7
+    }
+  },
+  "patterns": {
+    "orientationNormalized": 1531,
+    "withDistanceAndScoring": 3803,
+    "top10": [
+      [
+        "none:0|none:1",
+        399
+      ],
+      [
+        "none:0",
+        310
+      ],
+      [
+        "none:0|none:1|none:2",
+        157
+      ],
+      [
+        "wall:0|wall:1",
+        148
+      ],
+      [
+        "wall:0|none:1",
+        137
+      ],
+      [
+        "wall:0|wall:2",
+        129
+      ],
+      [
+        "wall:0",
+        116
+      ],
+      [
+        "none:0|wall:1",
+        115
+      ],
+      [
+        "none:0|wall:1|wall:2",
+        89
+      ],
+      [
+        "none:0|wall:1|none:2",
+        77
+      ]
+    ],
+    "top10Share": 0.3223760092272203,
+    "entropyBits": 8.262809842251768
+  },
+  "actions": {
+    "wall": 10500,
+    "none": 7507,
+    "ice": 231,
+    "glove": 396,
+    "warp": 120
+  },
+  "oneTurnShare": 0.08669742406766628
+}

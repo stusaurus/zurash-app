@@ -1,0 +1,36 @@
+name: Chapter one playthrough
+on:
+  pull_request:
+    paths: ['adventure.*', 'src/adventure.js', 'src/house*.js', 'assets/house/**', 'tests/fixtures/**', 'src/puzzle/**', 'data/**', 'scripts/chapter-one-*.js', 'tests/chapter-one.test.js', 'tests/adventure/chapter-one.spec.js', 'playwright.chapter.config.js', 'reports/chapter-01/**', '.github/workflows/chapter-one.yml']
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  chapter:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run check && npm test && npm run chapter:verify && npm run puzzle:verify
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npx playwright test -c playwright.chapter.config.js -g "scene controls|art comparisons|v7"
+      - run: npx playwright test -c playwright.chapter.config.js -g "all 50" --output=test-results-full
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-chapter-report-full
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chapter-one-playthrough
+          path: |
+            test-results/
+            test-results-full/
+            playwright-chapter-report-full/
+            playwright-chapter-report/
+            reports/chapter-01/verification.json
+          retention-days: 14

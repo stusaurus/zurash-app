@@ -1,0 +1,428 @@
+[
+  {
+    "path": "/assets/house/v7/backgrounds/house-shell-fixed-v1.webp",
+    "status": 200,
+    "bytes": 241286,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/backgrounds/bedroom-shell-fixed-v1.webp",
+    "status": 200,
+    "bytes": 177424,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/backgrounds/entry-wall-before-fixed-v1.webp",
+    "status": 200,
+    "bytes": 298486,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/backgrounds/garden-shell-fixed-v1.webp",
+    "status": 200,
+    "bytes": 253738,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/backgrounds/entry-shell-fixed-v1.webp",
+    "status": 200,
+    "bytes": 227314,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/backgrounds/entry-wall-b-fixed-v1.webp",
+    "status": 200,
+    "bytes": 250842,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/backgrounds/entry-wall-c-fixed-v1.webp",
+    "status": 200,
+    "bytes": 209264,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/backgrounds/living-shell-fixed-v1.webp",
+    "status": 200,
+    "bytes": 174884,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/exterior/home-entry-1-b-v1.webp",
+    "status": 200,
+    "bytes": 144734,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/exterior/home-entry-1-c-v1.webp",
+    "status": 200,
+    "bytes": 139290,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/backgrounds/kitchen-shell-fixed-v1.webp",
+    "status": 200,
+    "bytes": 280730,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/exterior/home-entry-2-before-v1.webp",
+    "status": 200,
+    "bytes": 80138,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/exterior/home-entry-2-a-v1.webp",
+    "status": 200,
+    "bytes": 72650,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/exterior/home-entry-2-b-v1.webp",
+    "status": 200,
+    "bytes": 81216,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/exterior/home-entry-1-a-v1.webp",
+    "status": 200,
+    "bytes": 119804,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/exterior/home-entry-1-before-v1.webp",
+    "status": 200,
+    "bytes": 143238,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/ice-crane-before-v1.webp",
+    "status": 200,
+    "bytes": 96012,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/backgrounds/forest-fixed-v1.webp",
+    "status": 200,
+    "bytes": 225836,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/ice-crane-c-v1.webp",
+    "status": 200,
+    "bytes": 93552,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/home-living-1-a-v1.webp",
+    "status": 200,
+    "bytes": 104330,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/home-living-1-before-v1.webp",
+    "status": 200,
+    "bytes": 105714,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/home-living-1-b-v1.webp",
+    "status": 200,
+    "bytes": 110142,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/ice-crane-b-v1.webp",
+    "status": 200,
+    "bytes": 89196,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/ice-crane-a-v1.webp",
+    "status": 200,
+    "bytes": 70732,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/home-living-2-b-v1.webp",
+    "status": 200,
+    "bytes": 81324,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/home-living-2-before-v1.webp",
+    "status": 200,
+    "bytes": 98848,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/home-living-1-c-v1.webp",
+    "status": 200,
+    "bytes": 99582,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/exterior/home-entry-2-c-v1.webp",
+    "status": 200,
+    "bytes": 73006,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/home-living-2-c-v1.webp",
+    "status": 200,
+    "bytes": 94458,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/ice-workshop-before-v1.webp",
+    "status": 200,
+    "bytes": 101052,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/ice-workshop-a-v1.webp",
+    "status": 200,
+    "bytes": 81520,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/ice-workshop-b-v1.webp",
+    "status": 200,
+    "bytes": 96342,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/home-kitchen-1-before-v1.webp",
+    "status": 200,
+    "bytes": 94450,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/living/home-living-2-a-v1.webp",
+    "status": 200,
+    "bytes": 94560,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/ice-workshop-c-v1.webp",
+    "status": 200,
+    "bytes": 97924,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/home-kitchen-1-b-v1.webp",
+    "status": 200,
+    "bytes": 99548,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/home-kitchen-1-a-v1.webp",
+    "status": 200,
+    "bytes": 103822,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/home-kitchen-1-c-v1.webp",
+    "status": 200,
+    "bytes": 109628,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/home-kitchen-2-before-v1.webp",
+    "status": 200,
+    "bytes": 89132,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/home-kitchen-2-a-v1.webp",
+    "status": 200,
+    "bytes": 101568,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/home-kitchen-2-b-v1.webp",
+    "status": 200,
+    "bytes": 110116,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-0-before-v1.webp",
+    "status": 200,
+    "bytes": 73138,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-0-b-v1.webp",
+    "status": 200,
+    "bytes": 92564,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/kitchen/home-kitchen-2-c-v1.webp",
+    "status": 200,
+    "bytes": 110938,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-0-a-v1.webp",
+    "status": 200,
+    "bytes": 65130,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-0-c-v1.webp",
+    "status": 200,
+    "bytes": 65578,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-2-a-v1.webp",
+    "status": 200,
+    "bytes": 82718,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-1-a-v1.webp",
+    "status": 200,
+    "bytes": 165122,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-1-c-v1.webp",
+    "status": 200,
+    "bytes": 138452,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-2-before-v1.webp",
+    "status": 200,
+    "bytes": 77742,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-1-before-v1.webp",
+    "status": 200,
+    "bytes": 130030,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-2-b-v1.webp",
+    "status": 200,
+    "bytes": 72368,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-1-b-v1.webp",
+    "status": 200,
+    "bytes": 120746,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/crystal-gate-a-v1.webp",
+    "status": 200,
+    "bytes": 78078,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/bedroom/home-bedroom-2-c-v1.webp",
+    "status": 200,
+    "bytes": 84822,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/crystal-gate-b-v1.webp",
+    "status": 200,
+    "bytes": 73086,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/home-garden-1-before-v1.webp",
+    "status": 200,
+    "bytes": 102622,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/crystal-gate-before-v1.webp",
+    "status": 200,
+    "bytes": 72370,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/crystal-gate-c-v1.webp",
+    "status": 200,
+    "bytes": 90858,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/home-garden-1-a-v1.webp",
+    "status": 200,
+    "bytes": 103432,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/home-garden-1-b-v1.webp",
+    "status": 200,
+    "bytes": 109422,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/home-garden-2-before-v1.webp",
+    "status": 200,
+    "bytes": 94960,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/home-garden-2-b-v1.webp",
+    "status": 200,
+    "bytes": 86536,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/home-garden-1-c-v1.webp",
+    "status": 200,
+    "bytes": 102208,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/home-garden-2-a-v1.webp",
+    "status": 200,
+    "bytes": 95402,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/exterior/door/prototypes/door_crystal_03.png",
+    "status": 200,
+    "bytes": 196434,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/garden/home-garden-2-c-v1.webp",
+    "status": 200,
+    "bytes": 94032,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/exterior/door/prototypes/door_iceblue_03.png",
+    "status": 200,
+    "bytes": 188115,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/exterior/door/prototypes/door_natural_03.png",
+    "status": 200,
+    "bytes": 180017,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/exterior/door/prototypes/door_before_03.png",
+    "status": 200,
+    "bytes": 186193,
+    "matchesLocal": true
+  },
+  {
+    "path": "/assets/house/v7/backgrounds/entry-wall-a-fixed-v1.webp",
+    "status": 200,
+    "bytes": 227416,
+    "matchesLocal": true
+  }
+]

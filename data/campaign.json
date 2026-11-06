@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "id": "ice-town",
+  "title": "トリケンの家から、世界へ",
+  "unlocks": [
+    {
+      "stageNumber": 10,
+      "item": "iceBlock",
+      "projectId": "ice-workshop",
+      "cost": 3,
+      "title": "氷細工工房がオープン！",
+      "story": "集めた星で工房を再建。氷を置いて、止まりたい場所をつくろう。"
+    },
+    {
+      "stageNumber": 20,
+      "item": "powerGlove",
+      "projectId": "ice-crane",
+      "cost": 3,
+      "title": "氷の荷揚げ場が完成！",
+      "story": "星の力で荷揚げ場が復活。グローブで壁を2マス動かせるようになった！"
+    },
+    {
+      "stageNumber": 30,
+      "item": "warpCrystal",
+      "projectId": "crystal-gate",
+      "cost": 3,
+      "title": "クリスタルの転送門が開いた！",
+      "story": "星を使って門を修復。対のポータルをつないで、新しい道をひらこう。"
+    }
+  ],
+  "chapters": [
+    {
+      "id": "ice-town-01",
+      "firstStage": 1,
+      "count": 50,
+      "path": "chapters/chapter-01/chapter.json"
+    }
+  ],
+  "futureScale": [
+    "家",
+    "ご近所",
+    "村",
+    "町",
+    "都市",
+    "国",
+    "世界"
+  ]
+}
