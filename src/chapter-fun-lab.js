@@ -1070,9 +1070,12 @@ document.addEventListener('keydown',e=>{
 });
 try{
  if(adventureMode&&new URLSearchParams(location.search).get('trial')!=='1'&&clears(loadHome(localStorage))<50){
-  $('fun-title').textContent='もうすぐ、新しい冒険へ';$('fun-focus').textContent='第1章50面をクリアすると、第2章が解放されます。';$('fun-board').hidden=true;$('fun-controls')?.setAttribute('hidden','');
+  $('fun-title').textContent='第2章はまだロック中';
+  $('fun-focus').textContent='通常冒険は第1章50面クリアで解放されます。下のボタンから報酬なしで自由に試せます。';
+  $('fun-board').hidden=true;
+  $('fun-controls')?.setAttribute('hidden','');
   for(const el of document.querySelectorAll('.fun-controls,.fun-actions,.fun-stats,.fun-gate-status'))el.hidden=true;
-  const link=document.createElement('a');link.href='./chapter-two.html?trial=1';link.textContent='第2章だけ先行試遊する';$('stage-choices').append(link);$('stage-choices').closest('details')?.setAttribute('open','');
+  $('chapter-two-try-now').hidden=false;
  }else{
  const res=await fetch(new URL(adventureMode?'data/chapters/chapter-02/adventure-v1.json':gateMode?(finaleMode?'data/chapters/chapter-02/stage70-finale-candidates-v1.json':stage57RemixMode?'data/chapters/chapter-02/stage57-remix-candidates-v1.json':gateWarpReturnMode?'data/chapters/chapter-02/stage59-return-candidates-v1.json':gateGloveMode?'data/chapters/chapter-02/gate-glove-candidates-v1.json':gateWarpMode?'data/chapters/chapter-02/gate-warp-candidates-v1.json':gateClosureMode?'data/chapters/chapter-02/gate-closure-candidates-v1.json':gateCycleMode?'data/chapters/chapter-02/gate-cycle-candidates-v1.json':gateLongMode?'data/chapters/chapter-02/gate-long-candidates-v1.json':'data/chapters/chapter-02/gate-candidates-v1.json'):stage54RemixMode?'data/chapters/chapter-02/stage54-remix-candidates-v1.json':dualItemMode?'data/chapters/chapter-02/dual-item-candidates-v1.json':itemLongMode?'data/chapters/chapter-02/item-long-candidates-v1.json':itemMode?'data/chapters/chapter-02/item-required-candidates-v1.json':'data/chapters/chapter-01/'+(longMode?'long-candidates-v1.json':'fun-candidates-v1.json'),root));
  if(!res.ok)throw Error('HTTP '+res.status);
