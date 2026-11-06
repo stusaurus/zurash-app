@@ -21,7 +21,7 @@
       <div class="stage-heading"><div><span id="stage-number" class="eyebrow">読み込み中</span><h2 id="stage-title">トリケンの家へようこそ</h2></div><button id="return-home" class="quiet">家へ</button><button id="stage-list" class="quiet" disabled>ステージ</button></div>
       <p id="focus" class="focus">滑って、壁をずらして、星を集めよう。</p>
       <p class="tap-hint">黄色く光るマスをタップして滑ろう。壁を動かすときは壁をタップ！</p>
-      <div class="score-strip"><span>手数 <b id="moves">0</b></span><span>のこりの星 <b id="remaining">—</b></span><span class="town-stars">家づくりの星 <b id="balance">0</b></span></div>
+      <div class="score-strip"><span>手数 <b id="moves">0</b></span><span>のこりの星 <b id="remaining">—</b></span><span class="town-stars">家づくりの星 <b id="balance">0</b></span><span id="chapter-one-best" class="chapter-one-best" hidden></span></div>
       <div id="board" class="board" aria-label="パズル盤面"></div>
       <div class="legend"><span>● 止まれるマス</span><span><i class="sample wall-sample"></i>動く壁</span><span id="ice-legend" hidden><i class="sample socket-sample"></i>氷のソケット</span><span id="warp-legend" hidden><i class="sample portal-sample"></i>ポータル</span></div>
       <div class="controls">
@@ -35,6 +35,6 @@
     <footer>第1章は全50ステージ。盤面の星は止まったマスで取れます。</footer>
   </main>
   <dialog id="stage-dialog"><div class="dialog-head"><h2>第1章のステージ</h2><button data-close-stages class="quiet">閉じる</button></div><div id="stage-grid" class="stage-grid"></div></dialog>
-  <dialog id="notice"><span id="notice-kicker" class="eyebrow"></span><h2 id="notice-title"></h2><p id="notice-text"></p><div class="notice-actions"><button id="notice-primary" class="primary">つづける</button><button id="notice-secondary" class="quiet" hidden>もう一度</button></div></dialog>
+  <dialog id="notice"><span id="notice-kicker" class="eyebrow"></span><h2 id="notice-title"></h2><p id="notice-text"></p><div id="notice-rank" class="notice-rank" hidden aria-live="polite"><span id="notice-rank-label" class="notice-rank-label"></span><span id="notice-rank-detail" class="notice-rank-detail"></span></div><div class="notice-actions"><button id="notice-primary" class="primary">つづける</button><button id="notice-secondary" class="quiet" hidden>もう一度</button></div></dialog>
 </body>
 </html>
