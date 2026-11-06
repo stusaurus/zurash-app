@@ -64,9 +64,14 @@ for(const width of [320,390,1440]){
  });
  test('chapter two adventure: first chapter requirement and trial entry at '+width,async({page})=>{
   await page.setViewportSize({width,height:844});await page.goto('/chapter-two.html');
-  await expect(page.locator('#fun-title')).toHaveText('もうすぐ、新しい冒険へ');
-  await page.getByRole('link',{name:'第2章だけ先行試遊する'}).click();
+  await expect(page.locator('#fun-title')).toHaveText('第2章はまだロック中');
+  await expect(page.locator('#fun-focus')).toContainText('第1章50面');
+  const practice=page.locator('#chapter-two-try-now');
+  await expect(practice).toBeVisible();
+  await expect(practice).toHaveAttribute('href','./chapter-two.html?trial=1&practice=1&stage=51');
+  await practice.click();
   await expect(page.locator('#fun-title')).toHaveText(stages[0].chapter.title);
+  await expect(page.locator('#save-status')).toContainText('自由試遊');
  });
 }
 for(const width of [320,390,1440])test('chapter two adventure: direct practice70, all tools undo and separate save at '+width,async({page})=>{

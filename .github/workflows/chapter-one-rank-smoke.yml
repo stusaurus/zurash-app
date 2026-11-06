@@ -1,0 +1,55 @@
+name: Chapter 1 shortest-turn ranking smoke
+
+on:
+  pull_request:
+    paths:
+      - 'src/adventure.js'
+      - 'src/puzzle/chapter-one-challenges.js'
+      - 'scripts/chapter-one-grade-catalog.js'
+      - 'data/chapters/chapter-01/challenges-v1.json'
+      - 'tests/chapter-one-challenges.test.js'
+      - 'tests/adventure/chapter-one.spec.js'
+      - 'adventure.html'
+      - 'adventure.css'
+      - '.github/workflows/chapter-one-rank-smoke.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/adventure.js'
+      - 'src/puzzle/chapter-one-challenges.js'
+      - 'data/chapters/chapter-01/challenges-v1.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rank-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Validate all 50 source proofs and grade mapping
+        run: |
+          node --check src/adventure.js
+          node --check src/puzzle/chapter-one-challenges.js
+          node scripts/chapter-one-grade-catalog.js
+          node --test tests/chapter-one-challenges.test.js
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Stage 1 rank smoke on both browsers
+        run: npx playwright test -c playwright.chapter.config.js tests/adventure/chapter-one.spec.js --grep "Chapter 1 introduces S rank" --workers=1
+      - name: Preserve Playwright failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-one-rank-smoke
+          path: |
+            playwright-chapter-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: warn

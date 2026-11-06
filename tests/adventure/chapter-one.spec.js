@@ -644,3 +644,32 @@ test('stage-56 switch gate opens on landing, undo restores closure and 11-turn S
  expect(await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)))).toEqual(original);
  expect(errors).toEqual([]);
 });
+
+
+test('Chapter 1 introduces S rank after clearing stage 1, and replay never double-pays stars',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/adventure.html');
+ await page.locator('#play-next').click();
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','1');
+ await expect(page.locator('#chapter-one-best')).toBeHidden();
+ await page.locator('#board .cell.arrival:has(.star)').click();
+ await expect(page.locator('#notice-rank')).toBeVisible();
+ await expect(page.locator('#notice-rank-label')).toHaveText('S');
+ await expect(page.locator('#notice-rank-detail')).toContainText('最短1手');
+ await expect(page.locator('#balance')).toHaveText('1');
+ await page.locator('#notice-secondary').click();
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','1');
+ await expect(page.locator('#chapter-one-best')).toContainText('ベスト S');
+ await page.locator('#stage-list').click();
+ await expect(page.locator('[data-go="1"] .stage-rank')).toHaveText('S');
+ await page.locator('[data-close-stages]').click();
+ await page.locator('#board .cell.arrival:has(.star)').click();
+ await expect(page.locator('#notice-text')).toContainText('獲得済み');
+ await expect(page.locator('#balance')).toHaveText('1');
+ await page.locator('#notice-primary').click();
+ await page.reload();
+ await page.locator('#play-next').click();
+ await page.locator('#stage-list').click();
+ await expect(page.locator('[data-go="1"] .stage-rank')).toHaveText('S');
+ await page.locator('[data-close-stages]').click();
+});
