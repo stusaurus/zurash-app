@@ -7,7 +7,7 @@ export function validateChapterOneChallenges(bundle) {
   throw Error('Invalid Chapter 1 challenge catalog');
  const ids=new Set();
  for(const [index,record] of bundle.stages.entries()) {
-  if(record?.number!==index+1||!/^pz-\\d{6}$/.test(record.id)||ids.has(record.id)||
+  if(record?.number!==index+1||!/^pz-\d{6}$/.test(record.id)||ids.has(record.id)||
      !Number.isInteger(record.revision)||record.revision<1||
      !/^[a-f0-9]{64}$/.test(record.stageHash))
    throw Error('Invalid Chapter 1 challenge record '+(index+1));
