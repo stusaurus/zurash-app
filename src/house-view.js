@@ -65,7 +65,9 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
   if(!mission.task||mission.state==='building'||mission.state==='complete')return;
   if(mission.state!=='ready'){onPlay();return;}
   await navigate(mission.task.area);
-  if(!element.isConnected)return;
+  // A failed image load or interrupted room switch must not open the wrong
+  // repair screen. Navigate safely before displaying the guided repair.
+  if(!element.isConnected||current!==mission.task.area)return;
   // Navigation can change the view; independently recheck the save after it.
   const now=nextRepairMission(getSave());
   if(now.state==='ready'&&now.task?.id===mission.task.id)openMenu(mission.task.id,true);
