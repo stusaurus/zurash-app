@@ -16,6 +16,14 @@
     <header class="masthead"><img src="./assets/zurash-approved-logo.webp" alt="ズラッシュ！" class="logo"><div><span class="eyebrow">第1章</span><h1>トリケンの家</h1></div></header>
     <nav id="chapter-navigation" class="zurash-route-nav" aria-label="冒険する章"><a href="./adventure.html" aria-current="page">🏠 第1章・家</a><a id="chapter-two-link" href="./chapter-two.html">❄ 第2章・氷海</a><a href="./duel-boss.html">⚔ CPU対戦</a><small id="chapter-two-lock"></small></nav>
     <section id="home-screen" class="home-screen"></section>
+    <section id="chapter-one-rank-hub" class="chapter-one-rank-hub" aria-label="第1章のSランクチャレンジ" hidden>
+      <div class="chapter-one-rank-heading">
+        <div><span class="eyebrow">もうひとつのチャレンジ</span><strong>🏆 Sランク <span id="chapter-one-rank-count">0 / 50</span></strong></div>
+        <span id="chapter-one-rank-clears" class="chapter-one-rank-clears">クリア 0 / 50</span>
+      </div>
+      <p id="chapter-one-rank-guide">クリアしたステージでもっと少ない手数に挑戦しよう！</p>
+      <button id="chapter-one-rank-replay" class="primary" type="button" hidden>もう一度チャレンジ</button>
+    </section>
     <section id="expedition-home" class="expedition-home" aria-label="氷海の冒険の思い出" hidden></section>
     <section hidden class="game-panel" aria-labelledby="stage-title">
       <div class="stage-heading"><div><span id="stage-number" class="eyebrow">読み込み中</span><h2 id="stage-title">トリケンの家へようこそ</h2></div><button id="return-home" class="quiet">家へ</button><button id="stage-list" class="quiet" disabled>ステージ</button></div>
