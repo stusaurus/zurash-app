@@ -673,3 +673,37 @@ test('Chapter 1 introduces S rank after clearing stage 1, and replay never doubl
  await expect(page.locator('[data-go="1"] .stage-rank')).toHaveText('S');
  await page.locator('[data-close-stages]').click();
 });
+
+
+test('home S-rank challenge replays a cleared stage and leaves stars unchanged',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/adventure.html');
+ await expect(page.locator('#chapter-one-rank-hub')).toBeHidden();
+ await page.locator('#play-next').click();
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','1');
+ // A valid detour to the top-right star: down, right, up (3 moves vs best 1).
+ for(const dir of [2,1,0])await page.locator(`[data-dir="${dir}"]`).click();
+ await expect(page.locator('#notice-rank-label')).toHaveText('クリア');
+ await expect(page.locator('#balance')).toHaveText('1');
+ await page.locator('#notice-primary').click();
+ const hub=page.locator('#chapter-one-rank-hub');
+ await expect(hub).toBeVisible();
+ await expect(page.locator('#chapter-one-rank-count')).toHaveText('0 / 50');
+ await expect(page.locator('#chapter-one-rank-clears')).toHaveText('クリア 1 / 50');
+ const retry=page.locator('#chapter-one-rank-replay');
+ await expect(retry).toHaveText('ステージ1を再挑戦');
+ await retry.click();
+ await expect(hub).toBeHidden();
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','1');
+ await expect(page.locator('#chapter-one-best')).toContainText('3手');
+ await page.locator('#board .cell.arrival:has(.star)').click();
+ await expect(page.locator('#notice-rank-label')).toHaveText('S');
+ await expect(page.locator('#balance')).toHaveText('1');
+ await page.locator('#notice-primary').click();
+ await expect(hub).toBeVisible();
+ await expect(page.locator('#chapter-one-rank-count')).toHaveText('1 / 50');
+ await expect(retry).toBeHidden();
+ await page.reload();
+ await expect(page.locator('#chapter-one-rank-count')).toHaveText('1 / 50');
+ await expect(page.locator('#chapter-one-rank-clears')).toHaveText('クリア 1 / 50');
+});
