@@ -25,7 +25,10 @@ export const available=(s,t)=>{
 };
 export function nextRepairMission(s) {
  const doneCount=TASKS.filter(t=>s.home.done[t.id]).length;
- const task=TASKS.find(t=>!s.home.done[t.id])??null;
+ // Legacy saves may contain an in-progress repair from an old free-form route.
+ // Finish the actual pending item before resuming the first incomplete mission.
+ const pendingTask=TASKS.find(t=>t.id===s.home.pending&&!s.home.done[t.id]);
+ const task=pendingTask??TASKS.find(t=>!s.home.done[t.id])??null;
  if(!task)return {task:null,doneCount,total:TASKS.length,state:'complete',missingStages:0,missingStars:0};
  const missingStages=Math.max(0,task.at-clears(s)),missingStars=Math.max(0,task.cost-balance(s.progress));
  const state=s.home.pending?'building':missingStages?'stages':missingStars?'stars':
