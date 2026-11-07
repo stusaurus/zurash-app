@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {readChapter} from '../scripts/chapter-one-verify.js';
 import {deriveChapterOneChallenges} from '../scripts/chapter-one-grade-catalog.js';
-import {validateChapterOneChallenges,challengeForChapterOneStage,gradeChapterOneClear,gradeChapterOneBest} from '../src/puzzle/chapter-one-challenges.js';
+import {validateChapterOneChallenges,challengeForChapterOneStage,gradeChapterOneClear,gradeChapterOneBest,chapterOneRankSummary} from '../src/puzzle/chapter-one-challenges.js';
 
 const catalog=JSON.parse(fs.readFileSync('data/chapters/chapter-01/challenges-v1.json','utf8'));
 
@@ -43,4 +43,25 @@ test('a mismatched stage ID or uncertified minimum never yields a grade',async()
  assert.throws(()=>validateChapterOneChallenges(tampered),/Invalid certified|Uncertified/);
  const duplicate=structuredClone(catalog);duplicate.stages[1].id=duplicate.stages[0].id;
  assert.throws(()=>validateChapterOneChallenges(duplicate),/Invalid Chapter 1 challenge record/);
+});
+
+test('home S-rank summary chooses the earliest non-S clear and preserves old records',async()=>{
+ const {stages}=await readChapter();
+ const save={
+  [stages[0].id]:{reward:1,revision:1,bestTurns:3},
+  [stages[1].id]:{reward:1,revision:1,bestTurns:3},
+  [stages[2].id]:{reward:1,revision:1,bestTurns:1},
+ };
+ const original=structuredClone(save);
+ assert.deepEqual(chapterOneRankSummary(catalog,{}),{
+  cleared:0,s:0,a:0,b:0,other:0,total:50,nextChallenge:null,allS:false
+ });
+ assert.deepEqual(chapterOneRankSummary(catalog,save),{
+  cleared:3,s:1,a:0,b:0,other:2,total:50,nextChallenge:1,allS:false
+ });
+ save[stages[0].id].bestTurns=1;
+ assert.equal(chapterOneRankSummary(catalog,save).nextChallenge,3);
+ assert.equal(chapterOneRankSummary(catalog,save).s,2);
+ assert.deepEqual(original[stages[2].id],save[stages[2].id]);
+ assert.equal(chapterOneRankSummary(null,save),null);
 });
