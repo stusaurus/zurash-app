@@ -913,3 +913,24 @@ html.fun-tap-first .fun-board .cell.prepared-target:focus-visible{
 .stage-grid button .stage-rank[data-rank="A"]{background:#b6e1fa;color:#245879}
 .stage-grid button .stage-rank[data-rank="B"]{background:#c8ead1;color:#255e3e}
 .stage-grid button .stage-rank[data-rank="unqualified"]{background:#e0e7ee;color:#466070;font-size:8px}
+
+/* Guided restoration: one next job, no open-ended construction wall of choices. */
+.house-mission{background:linear-gradient(150deg,#fffdf0,#e7f4e9);border-top:1px solid #d6e2d1;
+ padding:15px 18px 17px;color:#385449}
+.house-mission-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.house-mission-top .eyebrow{color:#567964;font-size:10px;letter-spacing:.05em}
+.house-mission-top strong{font-size:13px;color:#53745c;font-variant-numeric:tabular-nums}
+.house-mission-meter{height:7px;overflow:hidden;background:#d5e1d4;border-radius:99px;margin:9px 0 12px}
+.house-mission-meter>span{display:block;height:100%;background:linear-gradient(90deg,#83b77a,#e5b55b);border-radius:99px;transition:width .25s ease}
+.house-mission h2{font-size:clamp(15px,3.7vw,19px);line-height:1.4;color:#315543}
+.house-mission p{font-size:12px;line-height:1.65;margin:7px 0 12px;color:#597467}
+.house-mission #house-mission-next{width:100%;min-height:50px;border-radius:14px;background:linear-gradient(#72a16e,#487d52);box-shadow:0 3px 0 #375d3b}
+.house-mission .house-mission-meta{display:block;margin:9px 0 0;text-align:right;font-size:10px;color:#698072}
+.home-bottom #repair-menu{font-size:11px;opacity:.88}
+@media(min-width:720px){
+ .home-screen .house-world{grid-row:1/5}
+ .home-screen .house-mission{grid-column:2;grid-row:2}
+ .home-screen .restoration-sheet{grid-column:2;grid-row:3}
+ .home-screen .home-bottom{grid-column:2;grid-row:4}
+}
+@media(prefers-reduced-motion:reduce){.house-mission-meter>span{transition:none}}
