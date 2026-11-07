@@ -1,5 +1,5 @@
 import {CHAPTER_TWO_KEY,loadChapterTwo} from './puzzle/chapter-two-progress.js';
-import {validateChapterOneChallenges,challengeForChapterOneStage,gradeChapterOneClear,gradeChapterOneBest,chapterOneRankLabel} from './puzzle/chapter-one-challenges.js';
+import {validateChapterOneChallenges,challengeForChapterOneStage,gradeChapterOneClear,gradeChapterOneBest,chapterOneRankLabel,chapterOneRankSummary} from './puzzle/chapter-one-challenges.js';
 import {renderExpedition} from './expedition-view.js';
 import {renderExpeditionAlbum} from './expedition-album-view.js';
 import {loadHome,saveHome} from './puzzle/house.js';
@@ -91,6 +91,32 @@ async function refreshHomeExpedition(){
   }
  }catch{panel.hidden=$('home-screen').hidden;panel.textContent='冒険の記録を読み込めませんでした。元の記録は保持しています。';}
 }
+function beginChapterOneStage(number){
+ $('home-screen').hidden=true;
+ $('chapter-one-rank-hub').hidden=true;
+ $('expedition-home').hidden=true;
+ document.querySelector('.game-panel').hidden=false;
+ void openStage(number);
+}
+function renderChapterOneRankHub(){
+ const hub=$('chapter-one-rank-hub');
+ const summary=chapterOneRankSummary(chapterChallenges,progress.completed);
+ hub.hidden=!summary||summary.cleared===0;
+ if(hub.hidden)return;
+ $('chapter-one-rank-count').textContent=`${summary.s} / 50`;
+ $('chapter-one-rank-clears').textContent=`クリア ${summary.cleared} / 50`;
+ const btn=$('chapter-one-rank-replay');
+ btn.hidden=summary.nextChallenge===null;
+ if(summary.allS){
+  $('chapter-one-rank-guide').textContent='全50面Sランク！ 最短手数マスターだね！';
+ }else if(summary.nextChallenge!==null){
+  $('chapter-one-rank-guide').textContent=`クリア済みの${summary.nextChallenge}面で、もっと少ない手数に挑戦しよう！`;
+  btn.textContent=`ステージ${summary.nextChallenge}を再挑戦`;
+  btn.onclick=()=>beginChapterOneStage(summary.nextChallenge);
+ }else{
+  $('chapter-one-rank-guide').textContent='クリアした面はすべてSランク！ 次の冒険へ進もう。';
+ }
+}
 function showHome(){
  const unlocked=chapter.stageIds.every(id=>Object.hasOwn(progress.completed,id));
  const chapterTwoLink=$('chapter-two-link');
@@ -102,6 +128,7 @@ function showHome(){
  document.querySelector('.game-panel').hidden=true;
  $('home-screen').hidden=false;
  houseView.renderHome();
+ renderChapterOneRankHub();
  void refreshHomeExpedition();
 }
 function currentOptions(){return solved(state)?[]:successors(stage,state);}
@@ -258,8 +285,8 @@ try{
   try{homeSave=loadHome(localStorage);progress=homeSave.progress;}
   catch{throw Error('この章の記録を読み込めません。別のブラウザでお試しください。既存の記録は消去していません。');}
   houseView=createHouseView({element:$('home-screen'),getSave:()=>homeSave,setSave:n=>{saveHome(localStorage,n);homeSave=n;progress=n.progress;},onPlay:()=>{
-    $('home-screen').hidden=true;$('expedition-home').hidden=true;document.querySelector('.game-panel').hidden=false;
-    const first=chapter.stageIds.findIndex(id=>!Object.hasOwn(progress.completed,id));openStage(first<0?50:first+1);
+    const first=chapter.stageIds.findIndex(id=>!Object.hasOwn(progress.completed,id));
+    beginChapterOneStage(first<0?50:first+1);
   },onComplete:()=>showNotice('CHAPTER COMPLETE','トリケンの家が完成！','50の冒険と、あなたが選んだ家具。ここがトリケンの大切な居場所になりました。次はご近所へ！','家を眺める',()=>{showHome();$('scene-heading')?.focus({preventScroll:true});$('home-screen').scrollIntoView({block:'start',behavior:'instant'});}),onError:e=>showNotice('お知らせ','修復を確認してください',e.message,'閉じる')});
   $('return-home').onclick=showHome;showHome();houseView.resume();
 
