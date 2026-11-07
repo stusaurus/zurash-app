@@ -1,0 +1,53 @@
+name: Guided house restoration smoke
+
+on:
+  pull_request:
+    paths:
+      - 'src/house-view.js'
+      - 'src/puzzle/house.js'
+      - 'adventure.css'
+      - 'tests/house.test.js'
+      - 'tests/adventure/chapter-one.spec.js'
+      - '.github/workflows/house-guided-smoke.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/house-view.js'
+      - 'src/puzzle/house.js'
+      - 'adventure.css'
+      - 'tests/house.test.js'
+      - 'tests/adventure/chapter-one.spec.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guided-house:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Validate story mission, repaired ledgers and compatibility
+        run: |
+          node --check src/house-view.js
+          node --check src/puzzle/house.js
+          node --test tests/house.test.js
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Follow guided repairs on Chromium and WebKit, 320px and 390px
+        run: npx playwright test -c playwright.chapter.config.js --grep "guided house repairs follow" --workers=2
+      - name: Save screenshots and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: house-guided-smoke
+          path: |
+            playwright-chapter-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: warn
