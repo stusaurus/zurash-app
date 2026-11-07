@@ -42,7 +42,7 @@ jobs:
           node --test tests/chapter-one-challenges.test.js
       - run: npx playwright install --with-deps chromium webkit
       - name: Stage 1 rank smoke on both browsers
-        run: npx playwright test -c playwright.chapter.config.js tests/adventure/chapter-one.spec.js --grep "Chapter 1 introduces S rank" --workers=1
+        run: npx playwright test -c playwright.chapter.config.js tests/adventure/chapter-one.spec.js --grep "Chapter 1 introduces S rank|home S-rank challenge" --workers=1
       - name: Preserve Playwright failures
         if: always()
         uses: actions/upload-artifact@v4

@@ -44,3 +44,26 @@ export function gradeChapterOneBest(bundle,stage,completion) {
 }
 
 export const chapterOneRankLabel=grade=>!grade?'':grade.rank==='unqualified'?'クリア':grade.rank;
+
+/**
+ * Aggregate only recorded clears; never change save data or award more stars.
+ * Historic records with no valid grade remain replayable rather than becoming S.
+ */
+export function chapterOneRankSummary(bundle,completed={}) {
+ if(!bundle)return null;
+ let cleared=0,s=0,a=0,b=0,other=0;
+ let nextChallenge=null;
+ for(const record of bundle.stages){
+  const completion=completed[record.id];
+  if(!completion)continue;
+  cleared++;
+  const stage={id:record.id,revision:record.revision,chapter:{number:record.number}};
+  const grade=gradeChapterOneBest(bundle,stage,completion);
+  if(grade?.rank==='S'){s++;continue;}
+  if(grade?.rank==='A')a++;
+  else if(grade?.rank==='B')b++;
+  else other++;
+  if(nextChallenge===null)nextChallenge=record.number;
+ }
+ return {cleared,s,a,b,other,total:bundle.count,nextChallenge,allS:s===bundle.count};
+}
