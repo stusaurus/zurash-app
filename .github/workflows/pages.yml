@@ -78,6 +78,8 @@ jobs:
             duel-boss.html \
             data/campaign.json \
             data/chapters/chapter-01/manifest.json \
+            data/chapters/chapter-01/challenges-v1.json \
+            src/puzzle/chapter-one-challenges.js \
             data/chapters/chapter-02/adventure-v1.json \
             src/chapter-fun-lab.js \
             src/boss-cpu-worker.js \
