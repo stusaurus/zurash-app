@@ -673,3 +673,45 @@ test('Chapter 1 introduces S rank after clearing stage 1, and replay never doubl
  await expect(page.locator('[data-go="1"] .stage-rank')).toHaveText('S');
  await page.locator('[data-close-stages]').click();
 });
+
+
+for(const width of [320,390])test('guided house repairs follow one mission at a time '+width+'px',async({page},testInfo)=>{
+ const save=newHome();save.home.reached=5;
+ for(let n=1;n<=5;n++)save.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+ await page.addInitScript(({key,s})=>localStorage.setItem(key,JSON.stringify(s)),{key:HOME_KEY,s:save});
+ await page.setViewportSize({width,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.goto('/adventure.html');
+ await expect(page.locator('#home-screen')).toBeVisible();
+ await expect(page.locator('#house-mission-progress')).toHaveText('0 / 15');
+ await expect(page.locator('#house-mission-title')).toContainText('玄関の扉を直す');
+ await expect(page.locator('#house-mission-next')).toHaveText('この場所を直す');
+ await testInfo.attach('house-mission-before-'+width,{body:await page.locator('.house-mission').screenshot({animations:'disabled'}),contentType:'image/png'});
+ await page.locator('#house-mission-next').click();
+ await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','entry');
+ await expect(page.locator('#home-repairs')).toBeVisible();
+ await expect(page.locator('#repair-tasks .repair')).toHaveCount(1);
+ await page.locator('[data-repair="home-entry-0"]').click();
+ await expect(page.locator('#house-mission-progress')).toHaveText('1 / 15');
+ await expect(page.locator('#house-mission-title')).toContainText('外壁を塗る');
+ await expect(page.locator('#home-repairs')).toBeHidden();
+ await expect(page.locator('#home-balance')).toHaveText('2');
+ await page.locator('#house-mission-next').click();
+ await expect(page.locator('#repair-tasks .repair')).toHaveCount(1);
+ await page.locator('[data-repair="home-entry-1"]').click();
+ await expect(page.locator('#house-mission-progress')).toHaveText('2 / 15');
+ await expect(page.locator('#house-mission-copy')).toContainText('ステージ8まであと3面');
+ await expect(page.locator('#home-balance')).toHaveText('0');
+ const bounds=await page.locator('.house-mission').boundingBox();
+ expect(bounds).not.toBeNull();
+ expect(bounds.x).toBeGreaterThanOrEqual(-1);
+ expect(bounds.x+bounds.width).toBeLessThanOrEqual(width+1);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await testInfo.attach('house-mission-next-'+width,{body:await page.locator('.house-mission').screenshot({animations:'disabled'}),contentType:'image/png'});
+ await page.locator('#house-mission-next').click();
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','6');
+ const actual=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),HOME_KEY);
+ expect(Object.keys(actual.home.done)).toEqual(['home-entry-0','home-entry-1']);
+ expect(Object.keys(actual.progress.completed)).toHaveLength(5);
+ expect(actual.progress.town).toEqual({'home-entry-0':3,'home-entry-1':2});
+});
