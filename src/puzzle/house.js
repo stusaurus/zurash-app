@@ -15,7 +15,26 @@ export function validateHome(s){
  return s;
 }
 export const clears=s=>Object.keys(s.progress.completed).filter(id=>/^pz-1000(0[1-9]|[1-4][0-9]|50)$/.test(id)).length;
-export const available=(s,t)=>clears(s)>=t.at&&t.requires.every(id=>s.home.done[id]);
+// The story follows a fixed sequence of 15 repairs (three per room).
+// Existing saved repairs remain credited even if they were completed out of order.
+export const available=(s,t)=>{
+ const index=TASKS.findIndex(task=>task.id===t.id);
+ return index>=0&&clears(s)>=t.at&&
+   TASKS.slice(0,index).every(previous=>s.home.done[previous.id])&&
+   t.requires.every(id=>s.home.done[id]);
+};
+export function nextRepairMission(s) {
+ const doneCount=TASKS.filter(t=>s.home.done[t.id]).length;
+ // Legacy saves may contain an in-progress repair from an old free-form route.
+ // Finish the actual pending item before resuming the first incomplete mission.
+ const pendingTask=TASKS.find(t=>t.id===s.home.pending&&!s.home.done[t.id]);
+ const task=pendingTask??TASKS.find(t=>!s.home.done[t.id])??null;
+ if(!task)return {task:null,doneCount,total:TASKS.length,state:'complete',missingStages:0,missingStars:0};
+ const missingStages=Math.max(0,task.at-clears(s)),missingStars=Math.max(0,task.cost-balance(s.progress));
+ const state=s.home.pending?'building':missingStages?'stages':missingStars?'stars':
+   available(s,task)?'ready':'previous';
+ return {task,doneCount,total:TASKS.length,state,missingStages,missingStars};
+}
 export function beginRepair(s,id){validateHome(s);const t=TASKS.find(t=>t.id===id);if(!t)throw Error('Unknown repair');if(s.home.done[id])return structuredClone(s);if(s.home.pending)throw Error('Repair already in progress');if(!available(s,t))throw Error('Repair locked');const n=structuredClone(s);n.progress=buildTown(n.progress,t.id,t.cost);n.home.pending=id;return validateHome(n);}
 export function finishRepair(s){validateHome(s);const n=structuredClone(s);if(n.home.pending){n.home.done[n.home.pending]=true;n.home.pending=null;}return validateHome(n);}
 export function decorate(s,id,style){validateHome(s);if(!s.home.done[id]||!Number.isInteger(style)||style<0||style>2)throw Error('Decoration unavailable');const n=structuredClone(s);n.home.styles[id]=style;return validateHome(n);}
