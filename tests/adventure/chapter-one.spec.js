@@ -675,8 +675,8 @@ test('Chapter 1 introduces S rank after clearing stage 1, and replay never doubl
 });
 
 
-test('home S-rank challenge replays a cleared stage and leaves stars unchanged',async({page})=>{
- await page.setViewportSize({width:390,height:844});
+for(const width of [320,390])test('home S-rank challenge replays a cleared stage and leaves stars unchanged '+width+'px',async({page},testInfo)=>{
+ await page.setViewportSize({width,height:844});
  await page.goto('/adventure.html');
  await expect(page.locator('#chapter-one-rank-hub')).toBeHidden();
  await page.locator('#play-next').click();
@@ -690,6 +690,12 @@ test('home S-rank challenge replays a cleared stage and leaves stars unchanged',
  await expect(hub).toBeVisible();
  await expect(page.locator('#chapter-one-rank-count')).toHaveText('0 / 50');
  await expect(page.locator('#chapter-one-rank-clears')).toHaveText('クリア 1 / 50');
+ const bounds=await hub.boundingBox();
+ expect(bounds).not.toBeNull();
+ expect(bounds.x).toBeGreaterThanOrEqual(-1);
+ expect(bounds.x+bounds.width).toBeLessThanOrEqual(width+1);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await testInfo.attach('chapter-one-home-rank-'+width,{body:await hub.screenshot({animations:'disabled'}),contentType:'image/png'});
  const retry=page.locator('#chapter-one-rank-replay');
  await expect(retry).toHaveText('ステージ1を再挑戦');
  await retry.click();
