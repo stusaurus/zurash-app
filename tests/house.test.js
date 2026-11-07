@@ -60,3 +60,18 @@ test('old migrated repair records stay credited; guided order skips already repa
  assert.equal(nextRepairMission(s).doneCount,15);
  assert.equal(Object.keys(s.progress.completed).length,Object.keys(spent.progress.completed).length);
 });
+
+test('a pre-existing pending repair is represented accurately even if an earlier step is unfinished',()=>{
+ let s=playAll(newHome());
+ const oldTask=TASKS[7];
+ s.progress.town[oldTask.id]=oldTask.cost;
+ s.home.pending=oldTask.id;
+ const inProgress=nextRepairMission(s);
+ assert.equal(inProgress.state,'building');
+ assert.equal(inProgress.task.id,oldTask.id);
+ s=finishRepair(s);
+ const next=nextRepairMission(s);
+ assert.equal(next.task.id,TASKS[0].id);
+ assert.equal(next.state,'ready');
+ assert.equal(s.home.done[oldTask.id],true);
+});
