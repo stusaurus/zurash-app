@@ -991,3 +991,17 @@ html.fun-tap-first .fun-board .cell.prepared-target:focus-visible{
  .home-screen:has(.house-room-celebration) .home-bottom{grid-row:6}
 }
 @media(max-width:360px){.house-expansion-meter{gap:8px;padding:9px 14px}.house-expansion-dots i{width:11px;height:11px}}
+
+.house-area-unlocked{margin:0;padding:12px 18px;background:linear-gradient(90deg,#fff2bf,#e7f9dc);color:#5d6431;border-bottom:2px solid #cdb674;font-size:13px;font-weight:850;line-height:1.5}
+@media(prefers-reduced-motion:no-preference){.house-area-unlocked{animation:house-area-reveal .45s ease-out both}@keyframes house-area-reveal{from{opacity:.45;transform:translateY(-7px)}to{opacity:1;transform:none}}}
+@media(min-width:720px){
+ .home-screen .house-area-unlocked{grid-column:2;grid-row:2}
+ .home-screen:has(.house-area-unlocked) .house-expansion-meter{grid-row:3}
+ .home-screen:has(.house-area-unlocked) .house-mission{grid-row:4}
+ .home-screen:has(.house-area-unlocked) .restoration-sheet{grid-row:5}
+ .home-screen:has(.house-area-unlocked) .home-bottom{grid-row:6}
+ .home-screen:has(.house-area-unlocked) .house-world{grid-row:1/8}
+ .home-screen:has(.house-area-unlocked) .house-room-celebration{grid-row:5}
+ .home-screen:has(.house-area-unlocked):has(.house-room-celebration) .restoration-sheet{grid-row:6}
+ .home-screen:has(.house-area-unlocked):has(.house-room-celebration) .home-bottom{grid-row:7}
+}
