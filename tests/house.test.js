@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {readChapter} from '../scripts/chapter-one-verify.js';
-import {newHome,beginRepair,finishRepair,decorate,homeComplete,budget,TASKS,available,nextRepairMission,loadHome,saveHome,HOME_KEY,OLD_KEY} from '../src/puzzle/house.js';
+import {newHome,beginRepair,finishRepair,decorate,homeComplete,budget,TASKS,available,HOUSE_CHAPTERS,houseChapterProgress,nextRepairMission,loadHome,saveHome,HOME_KEY,OLD_KEY} from '../src/puzzle/house.js';
 import {enterChapterStage,clearChapterStage} from '../src/puzzle/campaign.js';
 import {balance} from '../src/puzzle/progress.js';
 const f=await readChapter();
@@ -74,4 +74,19 @@ test('a pre-existing pending repair is represented accurately even if an earlier
  assert.equal(next.task.id,TASKS[0].id);
  assert.equal(next.state,'ready');
  assert.equal(s.home.done[oldTask.id],true);
+});
+
+test('five chapter milestones are derived only from credited repairs, including legacy out-of-order saves',()=>{
+ const s=playAll(newHome());
+ const chapters=houseChapterProgress(s);
+ assert.deepEqual(chapters.map(x=>x.id),['entry','living','kitchen','bedroom','garden']);
+ assert.deepEqual(chapters.map(x=>x.doneCount),[0,0,0,0,0]);
+ assert.deepEqual(chapters.map(x=>x.complete),[false,false,false,false,false]);
+ for(const task of TASKS.slice(0,3)){s.progress.town[task.id]=task.cost;s.home.done[task.id]=true;}
+ assert.deepEqual(houseChapterProgress(s).map(x=>x.doneCount),[3,0,0,0,0]);
+ assert.equal(houseChapterProgress(s)[0].complete,true);
+ s.progress.town[TASKS[6].id]=TASKS[6].cost;s.home.done[TASKS[6].id]=true;
+ assert.deepEqual(houseChapterProgress(s).map(x=>x.doneCount),[3,0,1,0,0]);
+ assert.equal(HOUSE_CHAPTERS.length,5);
+ assert.equal(s.version,2);
 });
