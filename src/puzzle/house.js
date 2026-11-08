@@ -20,6 +20,40 @@ export function houseChapterProgress(s){
 const labels=[['玄関の扉を直す','外壁を塗る','玄関灯をつける'],['床を張り替える','ソファを置く','本棚を整える'],['調理台を直す','食卓を置く','コンロを整える'],['ベッドを直す','壁紙を選ぶ','読書灯をつける'],['小道を直す','花壇を作る','ガーデン席を作る']];
 const legacy={living:'ice-crane',kitchen:'ice-workshop',garden:'crystal-gate'};
 export const TASKS=AREAS.flatMap(([area],i)=>labels[i].map((label,j)=>({id:j===0&&legacy[area]?legacy[area]:`home-${area}-${j}`,area,label,cost:[3,2,3][j],at:[1,4,8,10,14,18,20,24,28,30,34,38,40,45,50][i*3+j],slot:j,requires:j?[j===1&&(legacy[area])?legacy[area]:`home-${area}-${j-1}`]:[]})));
+// Home areas grow with the puzzle campaign and finished rooms.
+// Derived only from v2 saves: no migration, no extra purchase or lost legacy room.
+export const HOUSE_EXPANSIONS=[
+ {area:'entry',stage:0},
+ {area:'living',stage:10},
+ {area:'kitchen',stage:20},
+ {area:'bedroom',stage:30},
+ {area:'garden',stage:40},
+];
+export function accessibleHouseAreas(s){
+ const earned=clears(s);
+ const preservedIndex=HOUSE_EXPANSIONS.reduce((max,expansion,i)=>{
+  const hasHistoricWork=TASKS.some(task=>task.area===expansion.area&&
+   (s.home.done[task.id]||s.home.pending===task.id));
+  return hasHistoricWork?Math.max(max,i):max;
+ },0);
+ const unlocked=['exterior'];
+ for(const [i,expansion] of HOUSE_EXPANSIONS.entries()){
+  const previous=HOUSE_EXPANSIONS[i-1]?.area;
+  const finishedPrevious=!previous||TASKS.filter(t=>t.area===previous).every(t=>s.home.done[t.id]);
+  if(i<=preservedIndex||(finishedPrevious&&earned>=expansion.stage)){
+   unlocked.push(expansion.area);
+  }else break;
+ }
+ return unlocked;
+}
+export function nextHouseExpansion(s){
+ const visible=accessibleHouseAreas(s);
+ const next=HOUSE_EXPANSIONS.find(exp=>!visible.includes(exp.area));
+ if(!next)return null;
+ const index=HOUSE_EXPANSIONS.indexOf(next),previous=HOUSE_EXPANSIONS[index-1]?.area;
+ const previousDone=previous?TASKS.filter(t=>t.area===previous).every(t=>s.home.done[t.id]):true;
+ return {area:next.area,stage:next.stage,previousDone,missingStages:Math.max(0,next.stage-clears(s))};
+}
 export function newHome(progress=newProgress()){validateProgress(progress);return {version:2,progress:structuredClone(progress),home:{done:Object.fromEntries(TASKS.filter(t=>Object.hasOwn(progress.town,t.id)).map(t=>[t.id,true])),styles:{},reached:Math.max(1,Math.min(50,Object.keys(progress.completed).length),...Object.keys(progress.town).map(id=>({"ice-workshop":10,"ice-crane":20,"crystal-gate":30}[id]??0))),pending:null,completionSeen:false},legacy:{town:structuredClone(progress.town)}};}
 export function validateHome(s){
  if(s?.version!==2||!s.home||!s.legacy)throw Error('Invalid home save');validateProgress(s.progress);
