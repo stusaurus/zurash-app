@@ -913,3 +913,61 @@ html.fun-tap-first .fun-board .cell.prepared-target:focus-visible{
 .stage-grid button .stage-rank[data-rank="A"]{background:#b6e1fa;color:#245879}
 .stage-grid button .stage-rank[data-rank="B"]{background:#c8ead1;color:#255e3e}
 .stage-grid button .stage-rank[data-rank="unqualified"]{background:#e0e7ee;color:#466070;font-size:8px}
+
+/* Guided restoration: one next job, no open-ended construction wall of choices. */
+.house-mission{background:linear-gradient(150deg,#fffdf0,#e7f4e9);border-top:1px solid #d6e2d1;
+ padding:15px 18px 17px;color:#385449}
+.house-mission-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.house-mission-top .eyebrow{color:#567964;font-size:10px;letter-spacing:.05em}
+.house-mission-top strong{font-size:13px;color:#53745c;font-variant-numeric:tabular-nums}
+.house-mission-meter{height:7px;overflow:hidden;background:#d5e1d4;border-radius:99px;margin:9px 0 12px}
+.house-mission-meter>span{display:block;height:100%;background:linear-gradient(90deg,#83b77a,#e5b55b);border-radius:99px;transition:width .25s ease}
+.house-mission h2{font-size:clamp(15px,3.7vw,19px);line-height:1.4;color:#315543}
+.house-mission p{font-size:12px;line-height:1.65;margin:7px 0 12px;color:#597467}
+.house-mission #house-mission-next{width:100%;min-height:50px;border-radius:14px;background:linear-gradient(#72a16e,#487d52);box-shadow:0 3px 0 #375d3b}
+.house-mission .house-mission-meta{display:block;margin:9px 0 0;text-align:right;font-size:10px;color:#698072}
+.home-bottom #repair-menu{font-size:11px;opacity:.88}
+@media(min-width:720px){
+ .home-screen .house-world{grid-row:1/5}
+ .home-screen .house-mission{grid-column:2;grid-row:2}
+ .home-screen .restoration-sheet{grid-column:2;grid-row:3}
+ .home-screen .home-bottom{grid-column:2;grid-row:4}
+}
+@media(prefers-reduced-motion:reduce){.house-mission-meter>span{transition:none}}
+
+/* Five room arcs: a close 0/3 goal, one clear action and a short reveal. */
+.house-mission-totals{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end;font-variant-numeric:tabular-nums}
+.house-mission-totals b{font-size:16px;color:#285b4b}
+.house-mission-totals small{font-size:10px;color:#5c8066}
+.house-mission-totals #house-mission-progress{font-size:11px;border-left:1px solid #b5d0b8;padding-left:7px}
+.house-mission-story{font-size:12px;line-height:1.6;color:#406d57;background:#e8f2e2;border-radius:10px;padding:8px 10px;margin:0 0 9px}
+.house-room-celebration{grid-column:2;background:linear-gradient(145deg,#fff9e5,#dcefe7);padding:17px 18px 20px;border-top:2px solid #e8bf6d;color:#315748}
+.house-room-celebration .eyebrow{color:#926d24;letter-spacing:.04em}
+.house-room-celebration h2{font-size:19px;line-height:1.45;color:#345947}
+.house-room-celebration p{font-size:12px;line-height:1.65;margin:8px 0 12px}
+.house-room-comparison{display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);gap:6px;align-items:center;text-align:center;margin-bottom:11px}
+.house-room-comparison figure{margin:0;min-width:0;padding:7px;background:#fffaf0;border-radius:12px;border:1px solid #dfd5b7}
+.house-room-comparison img{width:100%;height:78px;object-fit:contain;display:block}
+.house-room-comparison figcaption{font-size:10px;color:#5a6959;margin-top:3px}
+.house-room-comparison>span{font-size:20px;color:#8d7c53}
+.house-room-celebration button{min-height:50px;width:100%;border-radius:14px;background:linear-gradient(#d7a84c,#ab7839);border-color:#9c7545}
+@media(min-width:720px){
+ .home-screen .house-world{grid-row:1/6}
+ .home-screen .house-room-celebration{grid-column:2;grid-row:3}
+ .home-screen:has(.house-room-celebration) .restoration-sheet{grid-row:4}
+ .home-screen:has(.house-room-celebration) .home-bottom{grid-row:5}
+}
+@media(max-width:360px){
+ .house-mission-totals{gap:4px}
+ .house-mission-totals small{font-size:9px}
+ .house-room-comparison img{height:66px}
+}
+@media(prefers-reduced-motion:no-preference){
+ .house-room-celebration{animation:house-room-pop .55s ease-out both}
+ @keyframes house-room-pop{from{opacity:.4;transform:translateY(12px)}to{opacity:1;transform:none}}
+}
+
+/* Only one strong primary action while a room is ready to repair. */
+.home-screen[data-mission-state='ready'] .home-bottom #play-next{background:#e7f0e4;color:#385849;border-color:#c1d2c0;box-shadow:0 2px 0 #bdcdbb}
+.home-screen[data-mission-state='ready'] .home-bottom #play-next small{color:#53715a}
+.house-mission .house-mission-story{font-size:12px;color:#416a53;margin:0 0 10px}
