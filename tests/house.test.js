@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {readChapter} from '../scripts/chapter-one-verify.js';
-import {newHome,beginRepair,finishRepair,decorate,homeComplete,budget,TASKS,available,HOUSE_CHAPTERS,houseChapterProgress,nextRepairMission,loadHome,saveHome,HOME_KEY,OLD_KEY} from '../src/puzzle/house.js';
+import {newHome,validateHome,beginRepair,finishRepair,decorate,homeComplete,budget,TASKS,available,HOUSE_CHAPTERS,houseChapterProgress,HOUSE_EXPANSIONS,accessibleHouseAreas,nextHouseExpansion,nextRepairMission,loadHome,saveHome,HOME_KEY,OLD_KEY} from '../src/puzzle/house.js';
 import {enterChapterStage,clearChapterStage} from '../src/puzzle/campaign.js';
 import {balance} from '../src/puzzle/progress.js';
 const f=await readChapter();
@@ -89,4 +89,49 @@ test('five chapter milestones are derived only from credited repairs, including 
  assert.deepEqual(houseChapterProgress(s).map(x=>x.doneCount),[3,0,1,0,0]);
  assert.equal(HOUSE_CHAPTERS.length,5);
  assert.equal(s.version,2);
+});
+
+test('new house starts with only exterior and entry; future rooms do not appear just for stage clears',()=>{
+ const s=playAll(newHome());
+ assert.deepEqual(accessibleHouseAreas(newHome()),['exterior','entry']);
+ assert.deepEqual(accessibleHouseAreas(s),['exterior','entry']);
+ assert.equal(nextHouseExpansion(s).area,'living');
+ assert.equal(nextHouseExpansion(s).previousDone,false);
+ assert.equal(HOUSE_EXPANSIONS.length,5);
+ assert.deepEqual(HOUSE_EXPANSIONS.map(x=>x.stage),[0,10,20,30,40]);
+});
+test('room completion plus cleared stage unlocks one next area, not the whole house',()=>{
+ let s=newHome();
+ for(let i=0;i<8;i++)s.progress=clearChapterStage(f.campaign,f.chapter,f.stages[i],s.progress,f.proofs.stages[i].actions,{preview:true,houseMode:true}).progress;
+ for(const t of TASKS.slice(0,3))s=finishRepair(beginRepair(s,t.id));
+ assert.deepEqual(accessibleHouseAreas(s),['exterior','entry']);
+ assert.deepEqual(nextHouseExpansion(s),{area:'living',stage:10,previousDone:true,missingStages:2});
+ for(let i=8;i<10;i++)s.progress=clearChapterStage(f.campaign,f.chapter,f.stages[i],s.progress,f.proofs.stages[i].actions,{preview:true,houseMode:true}).progress;
+ assert.deepEqual(accessibleHouseAreas(s),['exterior','entry','living']);
+ assert.equal(nextHouseExpansion(s).area,'kitchen');
+ assert.equal(nextHouseExpansion(s).previousDone,false);
+ assert.equal(s.version,2);
+});
+test('every room unlocks in sequence while preserving the 40-of-50 star budget',()=>{
+ let s=playAll(newHome());
+ assert.deepEqual(accessibleHouseAreas(s),['exterior','entry']);
+ for(let i=0;i<5;i++){
+  const tasks=TASKS.slice(i*3,i*3+3);
+  for(const task of tasks)s=finishRepair(beginRepair(s,task.id));
+  assert.deepEqual(accessibleHouseAreas(s),['exterior',...HOUSE_EXPANSIONS.slice(0,Math.min(5,i+2)).map(x=>x.area)]);
+ }
+ assert.equal(nextHouseExpansion(s),null);
+ assert.equal(balance(s.progress),10);
+ assert.equal(homeComplete(s),true);
+});
+test('legacy out-of-order work and pending repairs never disappear behind a newly locked room',()=>{
+ let s=playAll(newHome());
+ const old=TASKS.find(t=>t.area==='kitchen');
+ s.progress.town[old.id]=old.cost;s.home.done[old.id]=true;
+ assert.deepEqual(accessibleHouseAreas(s),['exterior','entry','living','kitchen']);
+ const oldPending=TASKS.find(t=>t.area==='garden');
+ s.progress.town[oldPending.id]=oldPending.cost;s.home.pending=oldPending.id;
+ assert.deepEqual(accessibleHouseAreas(s),['exterior','entry','living','kitchen','bedroom','garden']);
+ assert.equal(nextHouseExpansion(s),null);
+ assert.ok(validateHome(s));
 });
