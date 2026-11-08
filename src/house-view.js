@@ -76,7 +76,15 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  <p class="home-copy">${area()==='entry'?'扉・外壁・玄関灯の修復は、家の外と中に反映されます。': 'ひとつ直すたび、ここが好きになる。'} 3つ直すと、もよう替えを選べるよ。完成後の変更は無料です。</p>
  <div id="repair-tasks">${shownTasks.map(t=>`<article class="repair ${done[t.id]?'finished':''} ${selected===t.id?'selected':''}" id="repair-${t.id}"><div class="repair-line"><div><b>${done[t.id]?'<span class="repair-check">✓</span> ':''}${t.label}</b><small>${done[t.id]?'完成 · デザインをタップして変更':s.home.pending===t.id?'建設中…':available(s,t)?balance(s.progress)<t.cost?'パズルで星を集めよう':'星を使って修復できます':`${t.at}面クリア後${t.requires.length?'・前の修復が必要':''}`}</small></div>${!done[t.id]?`<button data-repair="${t.id}" ${!available(s,t)||s.home.pending||balance(s.progress)<t.cost?'disabled':''}>★ ${t.cost}<span>直す</span></button>`:''}</div>${menuOpen?repairDetail(s,current,t):''}${done[t.id]&&menuOpen&&roomFinished?`<div class="swatches" aria-label="${t.label}のデザイン">${designOptions(t).map((choice,i)=>`<button data-style="${t.id}" data-choice="${i}" aria-label="${choice.name}：${choice.material}" aria-pressed="${(s.home.styles[t.id]??0)===i}">${thumbnail(t,i)}<b>${choice.name}</b><small>${choice.material}</small><span class="choice-tick" aria-hidden="true">✓</span></button>`).join('')}</div>`:''}</article>`).join('')}</div></section>`;
  const token=++frame,world=element.querySelector('.house-world');world.dataset.artReady='false';ready(world.innerHTML).then(()=>{if(frame===token&&world.isConnected)world.dataset.artReady='true';}).catch(error=>{if(frame===token&&world.isConnected){world.dataset.artReady='error';console.error('House art load failed',error);}});
+ const celebrationNext=element.querySelector('#house-room-celebration-next');
+ if(celebrationNext)celebrationNext.onclick=()=>{
+  roomCelebration=null;
+  const nextRoom=nextRepairMission(getSave()).task?.area;
+  if(nextRoom&&nextRoom!==current)void navigate(nextRoom);
+  else render();
+ };
  const missionButton=element.querySelector('#house-mission-next');
+ missionButton.hidden=Boolean(completedTask);
  missionButton.onclick=async()=>{
   if(!mission.task||mission.state==='building'||mission.state==='complete')return;
   if(mission.state!=='ready'){onPlay();return;}
@@ -102,8 +110,14 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
   if(timer)clearTimeout(timer);
   if(getSave().home.pending)timer=setTimeout(()=>{
    try{
-    setSave(finishRepair(getSave()));
-    if(guidedMode){guidedMode=false;menuOpen=false;selected=null;}
+    const pendingId=getSave().home.pending;
+    const finished=finishRepair(getSave());
+    setSave(finished);
+    const task=TASKS.find(t=>t.id===pendingId);
+    if(task?.slot===2&&TASKS.filter(t=>t.area===task.area).every(t=>finished.home.done[t.id])){
+     roomCelebration={area:task.area,taskId:task.id};
+     guidedMode=false;menuOpen=false;selected=null;
+    }else if(guidedMode){guidedMode=false;menuOpen=false;selected=null;}
     render();
    }catch(e){onError(e);}
   },matchMedia('(prefers-reduced-motion: reduce)').matches?0:1000);
