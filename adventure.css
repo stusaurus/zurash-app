@@ -934,3 +934,35 @@ html.fun-tap-first .fun-board .cell.prepared-target:focus-visible{
  .home-screen .home-bottom{grid-column:2;grid-row:4}
 }
 @media(prefers-reduced-motion:reduce){.house-mission-meter>span{transition:none}}
+
+/* Five room arcs: a close 0/3 goal, one clear action and a short reveal. */
+.house-mission-totals{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end;font-variant-numeric:tabular-nums}
+.house-mission-totals b{font-size:16px;color:#285b4b}
+.house-mission-totals small{font-size:10px;color:#5c8066}
+.house-mission-totals #house-mission-progress{font-size:11px;border-left:1px solid #b5d0b8;padding-left:7px}
+.house-mission-story{font-size:12px;line-height:1.6;color:#406d57;background:#e8f2e2;border-radius:10px;padding:8px 10px;margin:0 0 9px}
+.house-room-celebration{grid-column:2;background:linear-gradient(145deg,#fff9e5,#dcefe7);padding:17px 18px 20px;border-top:2px solid #e8bf6d;color:#315748}
+.house-room-celebration .eyebrow{color:#926d24;letter-spacing:.04em}
+.house-room-celebration h2{font-size:19px;line-height:1.45;color:#345947}
+.house-room-celebration p{font-size:12px;line-height:1.65;margin:8px 0 12px}
+.house-room-comparison{display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);gap:6px;align-items:center;text-align:center;margin-bottom:11px}
+.house-room-comparison figure{margin:0;min-width:0;padding:7px;background:#fffaf0;border-radius:12px;border:1px solid #dfd5b7}
+.house-room-comparison img{width:100%;height:78px;object-fit:contain;display:block}
+.house-room-comparison figcaption{font-size:10px;color:#5a6959;margin-top:3px}
+.house-room-comparison>span{font-size:20px;color:#8d7c53}
+.house-room-celebration button{min-height:50px;width:100%;border-radius:14px;background:linear-gradient(#d7a84c,#ab7839);border-color:#9c7545}
+@media(min-width:720px){
+ .home-screen .house-world{grid-row:1/6}
+ .home-screen .house-room-celebration{grid-column:2;grid-row:3}
+ .home-screen:has(.house-room-celebration) .restoration-sheet{grid-row:4}
+ .home-screen:has(.house-room-celebration) .home-bottom{grid-row:5}
+}
+@media(max-width:360px){
+ .house-mission-totals{gap:4px}
+ .house-mission-totals small{font-size:9px}
+ .house-room-comparison img{height:66px}
+}
+@media(prefers-reduced-motion:no-preference){
+ .house-room-celebration{animation:house-room-pop .55s ease-out both}
+ @keyframes house-room-pop{from{opacity:.4;transform:translateY(12px)}to{opacity:1;transform:none}}
+}
