@@ -788,3 +788,55 @@ for(const width of [320,390])test('five-room story first chapter celebration and
  await expect(page.locator('#house-room-celebration-title')).toHaveCount(0);
  await expect(page.locator('#house-mission-rooms')).toHaveText('1 / 5 部屋完成');
 });
+
+for(const width of [320,390])test('house expansion reveals each new area only after room completion and its stage gate '+width+'px',async({page},info)=>{
+ await page.setViewportSize({width,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ const original=newHome();
+ for(let n=1;n<=10;n++)original.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+ original.home.reached=10;
+ await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:original});
+ await page.goto('/adventure.html');
+ await expect(page.locator('#home-screen')).toBeVisible();
+ await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 1 / 5');
+ await expect(page.locator('.room-tabs button')).toHaveCount(2);
+ await expect(page.locator('[data-area="living"]')).toHaveCount(0);
+ await expect(page.locator('[data-scene-to="kitchen"]')).toHaveCount(0);
+ // Even 10 cleared stages cannot reveal another room before restoring the entrance.
+ for(const task of TASKS.slice(0,3)){
+  await page.locator('#house-mission-next').click();
+  await page.locator(`[data-repair="${task.id}"]`).click();
+  await expect(page.locator(`[data-object="${task.id}"]`)).toHaveAttribute('data-state','complete');
+ }
+ await expect(page.locator('#house-room-celebration-title')).toContainText('玄関が完成');
+ await expect(page.locator('[data-area="living"]')).toHaveCount(1);
+ await expect(page.locator('[data-area="kitchen"]')).toHaveCount(0);
+ await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 2 / 5');
+ await expect(page.locator('#house-room-celebration-next')).toHaveText('新しいエリアへ！');
+ await page.locator('#house-room-celebration-next').click();
+ await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','living');
+ await expect(page.locator('[data-scene-to="kitchen"]')).toHaveCount(0);
+ await expect(page.locator('#house-mission-title')).toContainText('床を張り替える');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await info.attach('area-2-open-'+width,{body:await page.locator('.room-tabs').screenshot({animations:'disabled'}),contentType:'image/png'});
+ await page.reload();
+ await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 2 / 5');
+ await expect(page.locator('[data-area="living"]')).toBeVisible();
+ await expect(page.locator('[data-area="kitchen"]')).toHaveCount(0);
+});
+
+test('house expansion respects legacy restored kitchen without silently closing it',async({page})=>{
+ const legacy=newHome();
+ for(let n=1;n<=50;n++)legacy.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+ legacy.home.reached=50;
+ const kitchen=TASKS.find(t=>t.area==='kitchen');
+ legacy.home.done[kitchen.id]=true;legacy.progress.town[kitchen.id]=kitchen.cost;
+ await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:legacy});
+ await page.goto('/adventure.html');
+ await expect(page.locator('[data-area="kitchen"]')).toBeVisible();
+ await expect(page.locator('[data-area="bedroom"]')).toHaveCount(0);
+ await page.locator('[data-area="kitchen"]').click();
+ await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','kitchen');
+ await page.reload();
+ await expect(page.locator('[data-area="kitchen"]')).toBeVisible();
+});
