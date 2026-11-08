@@ -104,7 +104,7 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  element.querySelectorAll('[data-style]').forEach(b=>b.onclick=()=>{try{selected=b.dataset.style;setSave(decorate(getSave(),selected,Number(b.dataset.choice)));const top=window.scrollY;render();element.querySelector(`[data-style="${selected}"][data-choice="${b.dataset.choice}"]`)?.focus({preventScroll:true});window.scrollTo(0,top);}catch(e){onError(e);}});
  element.querySelectorAll('[data-object],[data-edit-object]').forEach(b=>b.onclick=e=>{e.stopPropagation();openMenu(b.dataset.editObject??b.dataset.object);});
  element.querySelector('.restoration-sheet').onkeydown=e=>{if(e.key==='Escape'){e.preventDefault();menuOpen=false;guidedMode=false;render();element.querySelector('#repair-menu').focus();}};
- if(homeComplete(s)&&!s.home.completionSeen){const n=structuredClone(s);n.home.completionSeen=true;setSave(n);onComplete();}
+ if(homeComplete(s)&&!s.home.completionSeen&&!roomCelebration){const n=structuredClone(s);n.home.completionSeen=true;setSave(n);onComplete();}
  }
  function resume(){
   if(timer)clearTimeout(timer);
@@ -119,6 +119,9 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
      guidedMode=false;menuOpen=false;selected=null;
     }else if(guidedMode){guidedMode=false;menuOpen=false;selected=null;}
     render();
+    if(roomCelebration&&!homeComplete(finished)){
+     element.querySelector('.house-room-celebration')?.scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+    }
    }catch(e){onError(e);}
   },matchMedia('(prefers-reduced-motion: reduce)').matches?0:1000);
  }
