@@ -18,6 +18,16 @@ function repairDetail(save,scene,task){
  return `<figure class="repair-preview" id="preview-${task.id}"><svg class="repair-detail" viewBox="0 0 160 142" style="--detail-ratio:${160/142}" role="img" aria-label="${task.label}の現在の見た目"><image href="${assetPath(save,task.id)}" x="0" y="0" width="160" height="142" preserveAspectRatio="xMidYMid meet"/></svg><figcaption>${caption}</figcaption></figure>`;
 }
 
+function roomCompletionHtml(chapter,task,save,hasNext){
+ const before=assetPath({home:{done:{},styles:{}}},task.id),after=assetPath(save,task.id);
+ return `<section class='house-room-celebration' role='status' aria-label='部屋の修復完成'>
+  <span class='eyebrow'>✧ ROOM COMPLETE · ${chapter.doneCount}/3</span>
+  <h2 id='house-room-celebration-title'>🎉 ${chapter.name}が完成！</h2>
+  <p>${chapter.finish}</p>
+  <div class='house-room-comparison'><figure><img src='${before}' alt='修復前の${task.label}'><figcaption>まえ</figcaption></figure><span aria-hidden='true'>→</span><figure><img src='${after}' alt='修復後の${task.label}'><figcaption>あと</figcaption></figure></div>
+  <button id='house-room-celebration-next' class='primary' type='button'>${hasNext?'つぎの部屋を見る':'家をながめる'}</button>
+ </section>`;
+}
 export function createHouseView({element,getSave,setSave,onPlay,onComplete,onError}){
  let current='exterior',timer,selected=null,lastScene=null,menuOpen=false,guidedMode=false,roomCelebration=null,navigation=0,frame=0;
  async function ready(art){const paths=[...new Set([...art.matchAll(/href="([^"]+)"/g)].map(m=>m[1]))];await Promise.all(paths.map(path=>new Promise((resolve,reject)=>{const image=new Image();image.onload=resolve;image.onerror=()=>reject(new Error(`画像を読み込めません: ${path}`));image.src=path;if(image.complete){if(image.naturalWidth>0)resolve();else reject(new Error(`画像を読み込めません: ${path}`));}})));}
@@ -52,17 +62,19 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  <span class="scene-counter">${TASKS.filter(t=>done[t.id]).length}<small> / 15 修復</small></span></div>
  <nav class="room-tabs" aria-label="家のシーン">${SCENES.map(([id,name])=>`<button ${id==='exterior'?'data-scene-to="exterior"':`data-area="${id}"`} aria-pressed="${current===id}"><span aria-hidden="true">${icons[id]}</span>${name}</button>`).join('')}</nav>
  <section class="house-mission" aria-label="次の家づくりミッション">
-  <div class="house-mission-top"><span class="eyebrow">🏠 家づくりミッション</span><strong id="house-mission-progress">${mission.doneCount} / ${mission.total}</strong></div>
+  <div class='house-mission-top'><span class='eyebrow'>🏠 第${HOUSE_CHAPTERS.findIndex(ch=>ch.id===activeChapter.id)+1}話 · ${activeChapter.name}</span><span class='house-mission-totals'><b id='house-mission-room-progress'>${activeChapter.doneCount} / 3</b><small id='house-mission-rooms'>${roomsComplete} / 5 部屋完成</small><strong id='house-mission-progress'>${mission.doneCount} / ${mission.total}</strong></span></div>
   <div class="house-mission-meter" role="progressbar" aria-label="修復達成数" aria-valuemin="0" aria-valuemax="15" aria-valuenow="${mission.doneCount}"><span style="width:${mission.doneCount/15*100}%"></span></div>
+  <p class='house-mission-story'>${activeChapter.goal}。${activeChapter.doneCount===0?activeChapter.intro:''}</p>
   <h2 id="house-mission-title">${mission.task?`つぎは「${mission.task.label}」`:'トリケンの家、完成！'}</h2>
   <p id="house-mission-copy" role="status">${missionDescription}</p>
   <button id="house-mission-next" class="primary" type="button" ${mission.state==='building'||mission.state==='complete'?'disabled':''}>${missionAction}</button>
   ${mission.task?`<small class="house-mission-meta">修復 ${missionNumber}/15 · ${missionRoom}</small>`:''}
  </section>
+ ${completedTask?roomCompletionHtml(completedChapter,completedTask,s,Boolean(mission.task)):''}
  <div class="home-bottom"><button id="repair-menu" aria-expanded="${menuOpen}" aria-controls="home-repairs"><span aria-hidden="true">✧</span> 修復一覧・もよう替え<small>${count} / 50 クリア · ${tasks.filter(t=>done[t.id]).length}/3 修復</small></button><button class="primary" id="play-next"><small>★ 星を集めに</small>${count===50?'もう一度パズルへ':'ステージ '+Math.min(50,count+1)+' へ'} <span aria-hidden="true">›</span></button></div>
  <section id="home-repairs" class="restoration-sheet" aria-labelledby="repair-title" ${menuOpen?'':'hidden'}><div class="repair-heading"><div><span class="eyebrow">${current==='exterior'?'WELCOME HOME':'MAKE YOURSELF AT HOME'}</span><h2 id="repair-title">${current==='exterior'?'玄関から、家をあたたかく。':`${sceneName}を整えよう`}</h2></div><button id="close-repairs" aria-label="修復メニューを閉じて家を眺める">家を眺める ×</button></div>
- <p class="home-copy">${area()==='entry'?'扉・外壁・玄関灯の修復は、家の外と中に反映されます。': 'ひとつ直すたび、ここが好きになる。'} 完成後の模様替えは無料です。</p>
- <div id="repair-tasks">${shownTasks.map(t=>`<article class="repair ${done[t.id]?'finished':''} ${selected===t.id?'selected':''}" id="repair-${t.id}"><div class="repair-line"><div><b>${done[t.id]?'<span class="repair-check">✓</span> ':''}${t.label}</b><small>${done[t.id]?'完成 · デザインをタップして変更':s.home.pending===t.id?'建設中…':available(s,t)?balance(s.progress)<t.cost?'パズルで星を集めよう':'星を使って修復できます':`${t.at}面クリア後${t.requires.length?'・前の修復が必要':''}`}</small></div>${!done[t.id]?`<button data-repair="${t.id}" ${!available(s,t)||s.home.pending||balance(s.progress)<t.cost?'disabled':''}>★ ${t.cost}<span>直す</span></button>`:''}</div>${menuOpen?repairDetail(s,current,t):''}${done[t.id]&&menuOpen?`<div class="swatches" aria-label="${t.label}のデザイン">${designOptions(t).map((choice,i)=>`<button data-style="${t.id}" data-choice="${i}" aria-label="${choice.name}：${choice.material}" aria-pressed="${(s.home.styles[t.id]??0)===i}">${thumbnail(t,i)}<b>${choice.name}</b><small>${choice.material}</small><span class="choice-tick" aria-hidden="true">✓</span></button>`).join('')}</div>`:''}</article>`).join('')}</div></section>`;
+ <p class="home-copy">${area()==='entry'?'扉・外壁・玄関灯の修復は、家の外と中に反映されます。': 'ひとつ直すたび、ここが好きになる。'} 3つ直すと、もよう替えを選べるよ。完成後の変更は無料です。</p>
+ <div id="repair-tasks">${shownTasks.map(t=>`<article class="repair ${done[t.id]?'finished':''} ${selected===t.id?'selected':''}" id="repair-${t.id}"><div class="repair-line"><div><b>${done[t.id]?'<span class="repair-check">✓</span> ':''}${t.label}</b><small>${done[t.id]?'完成 · デザインをタップして変更':s.home.pending===t.id?'建設中…':available(s,t)?balance(s.progress)<t.cost?'パズルで星を集めよう':'星を使って修復できます':`${t.at}面クリア後${t.requires.length?'・前の修復が必要':''}`}</small></div>${!done[t.id]?`<button data-repair="${t.id}" ${!available(s,t)||s.home.pending||balance(s.progress)<t.cost?'disabled':''}>★ ${t.cost}<span>直す</span></button>`:''}</div>${menuOpen?repairDetail(s,current,t):''}${done[t.id]&&menuOpen&&roomFinished?`<div class="swatches" aria-label="${t.label}のデザイン">${designOptions(t).map((choice,i)=>`<button data-style="${t.id}" data-choice="${i}" aria-label="${choice.name}：${choice.material}" aria-pressed="${(s.home.styles[t.id]??0)===i}">${thumbnail(t,i)}<b>${choice.name}</b><small>${choice.material}</small><span class="choice-tick" aria-hidden="true">✓</span></button>`).join('')}</div>`:''}</article>`).join('')}</div></section>`;
  const token=++frame,world=element.querySelector('.house-world');world.dataset.artReady='false';ready(world.innerHTML).then(()=>{if(frame===token&&world.isConnected)world.dataset.artReady='true';}).catch(error=>{if(frame===token&&world.isConnected){world.dataset.artReady='error';console.error('House art load failed',error);}});
  const missionButton=element.querySelector('#house-mission-next');
  missionButton.onclick=async()=>{
