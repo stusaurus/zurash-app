@@ -966,3 +966,8 @@ html.fun-tap-first .fun-board .cell.prepared-target:focus-visible{
  .house-room-celebration{animation:house-room-pop .55s ease-out both}
  @keyframes house-room-pop{from{opacity:.4;transform:translateY(12px)}to{opacity:1;transform:none}}
 }
+
+/* Only one strong primary action while a room is ready to repair. */
+.home-screen[data-mission-state='ready'] .home-bottom #play-next{background:#e7f0e4;color:#385849;border-color:#c1d2c0;box-shadow:0 2px 0 #bdcdbb}
+.home-screen[data-mission-state='ready'] .home-bottom #play-next small{color:#53715a}
+.house-mission .house-mission-story{font-size:12px;color:#416a53;margin:0 0 10px}
