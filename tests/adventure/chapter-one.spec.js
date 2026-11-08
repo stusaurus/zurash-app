@@ -31,8 +31,9 @@ test('scene controls, pending resume and designs',async({page})=>{
   await page.locator('#close-repairs').click();
   await expect(page.locator('#home-repairs')).toBeHidden();
   await page.getByRole('button',{name:'玄関へ',exact:true}).click();
-  await page.getByRole('button',{name:'キッチンへ',exact:true}).click();
-  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','kitchen');
+  await expect(page.getByRole('button',{name:'キッチンへ',exact:true})).toHaveCount(0);
+  await expect(page.locator('[data-area="living"]')).toHaveCount(0);
+  await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 1 / 5');
   await page.locator('[data-area="entry"]').click();await openRepairs(page);
   for(const t of TASKS.slice(0,3)){
     await page.locator(`[data-repair="${t.id}"]`).click();
@@ -42,6 +43,8 @@ test('scene controls, pending resume and designs',async({page})=>{
     await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','complete');
     if(t===TASKS[2]){
       await expect(page.locator('#house-room-celebration-title')).toContainText('玄関が完成');
+      await expect(page.locator('[data-area="living"]')).toHaveCount(1);
+      await expect(page.locator('[data-area="kitchen"]')).toHaveCount(0);
       await openRepairs(page);
       for(const task of TASKS.slice(0,3))await expect(page.locator(`[data-style="${task.id}"][data-choice="0"]`)).toBeVisible();
     }else await expect(page.locator(`[data-style="${t.id}"]`)).toHaveCount(0);
@@ -149,8 +152,8 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   }
   await page.getByRole('button',{name:'玄関へ',exact:true}).click();
   await expect(page.locator('[data-scene-art="entry"]')).toBeVisible();
-  await page.getByRole('button',{name:'キッチンへ',exact:true}).click();
-  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','kitchen');
+  await expect(page.getByRole('button',{name:'キッチンへ',exact:true})).toHaveCount(0);
+  await expect(page.locator('[data-area="living"]')).toHaveCount(0);
   await page.locator('[data-area="entry"]').click();await openRepairs(page);
   if(info.project.name==='chromium'&&width===390){
     await page.screenshot({animations:'disabled',path:info.outputPath('entry-before-390.png'),fullPage:true});
@@ -764,10 +767,14 @@ for(const width of [320,390])test('five-room story first chapter celebration and
  const box=await page.locator('.house-room-celebration').boundingBox();
  expect(box).not.toBeNull();expect(box.x).toBeGreaterThanOrEqual(-1);expect(box.x+box.width).toBeLessThanOrEqual(width+1);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await expect(page.locator('[data-area="living"]')).toHaveCount(0);
+ await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 1 / 5');
+ await expect(page.locator('#house-room-celebration-next')).toHaveText('パズルでエリアをひらく');
  await page.locator('#house-room-celebration-next').click();
- await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','living');
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','9');
+ await page.locator('#return-home').click();
  await expect(page.locator('#house-room-celebration-title')).toHaveCount(0);
- await expect(page.locator('#house-mission-title')).toContainText('床を張り替える');
+ await expect(page.locator('#house-mission-title')).toContainText('つぎのエリアを見つけよう');
  await expect(page.locator('#house-mission-copy')).toContainText('ステージ10まであと2面');
  await page.locator('[data-area="entry"]').click();await openRepairs(page);
  await expect(page.locator('[data-style="home-entry-0"][data-choice="2"]')).toBeVisible();
