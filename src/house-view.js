@@ -29,15 +29,18 @@ function roomCompletionHtml(chapter,task,save,nextAction){
  </section>`;
 }
 export function createHouseView({element,getSave,setSave,onPlay,onComplete,onError}){
- let current='exterior',timer,selected=null,lastScene=null,menuOpen=false,guidedMode=false,roomCelebration=null,navigation=0,frame=0;
+ let current='exterior',timer,selected=null,lastScene=null,menuOpen=false,guidedMode=false,roomCelebration=null,previousAreas=null,justOpenedArea=null,navigation=0,frame=0;
  async function ready(art){const paths=[...new Set([...art.matchAll(/href="([^"]+)"/g)].map(m=>m[1]))];await Promise.all(paths.map(path=>new Promise((resolve,reject)=>{const image=new Image();image.onload=resolve;image.onerror=()=>reject(new Error(`画像を読み込めません: ${path}`));image.src=path;if(image.complete){if(image.naturalWidth>0)resolve();else reject(new Error(`画像を読み込めません: ${path}`));}})));}
  const area=()=>current==='exterior'?'entry':current;
- async function navigate(id){if(id===current)return;if(!accessibleHouseAreas(getSave()).includes(id))return;const ticket=++navigation;const world=element.querySelector('.house-world');world?.setAttribute('aria-busy','true');try{await ready(renderHouseScene(getSave(),id));}catch(error){if(ticket===navigation){world?.setAttribute('aria-busy','false');onError(error);}return;}if(ticket!==navigation)return;current=id;selected=null;menuOpen=false;guidedMode=false;roomCelebration=null;render();element.querySelector('#scene-heading')?.focus({preventScroll:true});element.scrollIntoView({block:'start',behavior:'instant'});}
+ async function navigate(id){if(id===current)return;if(!accessibleHouseAreas(getSave()).includes(id))return;const ticket=++navigation;const world=element.querySelector('.house-world');world?.setAttribute('aria-busy','true');try{await ready(renderHouseScene(getSave(),id));}catch(error){if(ticket===navigation){world?.setAttribute('aria-busy','false');onError(error);}return;}if(ticket!==navigation)return;current=id;selected=null;menuOpen=false;guidedMode=false;roomCelebration=null;justOpenedArea=null;render();element.querySelector('#scene-heading')?.focus({preventScroll:true});element.scrollIntoView({block:'start',behavior:'instant'});}
  function openMenu(id=null,asGuided=false){selected=id;menuOpen=true;guidedMode=asGuided;render();const target=element.querySelector(id?`#repair-${id}`:'.restoration-sheet');target?.scrollIntoView({block:'nearest',behavior:'instant'});(element.querySelector(id?`[data-repair="${id}"]:not(:disabled), [data-style="${id}"]`:'#close-repairs')??element.querySelector('#close-repairs'))?.focus({preventScroll:true});}
  function render(){
  const s=getSave(),done=s.home.done,count=clears(s),sceneName=SCENES.find(([id])=>id===current)[1],tasks=TASKS.filter(t=>t.area===area()),mission=nextRepairMission(s),entered=lastScene!==current;
  const chapters=houseChapterProgress(s),activeChapter=chapters.find(ch=>ch.id===mission.task?.area)??chapters.at(-1),roomsComplete=chapters.filter(ch=>ch.complete).length;
  const visibleAreas=accessibleHouseAreas(s),expansion=nextHouseExpansion(s);
+ const newArea=previousAreas?visibleAreas.find(id=>!previousAreas.includes(id)):null;
+ if(newArea)justOpenedArea=newArea;
+ previousAreas=visibleAreas;
  const missionRoom=mission.task?AREAS.find(([id])=>id===mission.task.area)?.[1]:null;
  const missionNumber=mission.task?TASKS.findIndex(t=>t.id===mission.task.id)+1:15;
  const hiddenGoal=Boolean(mission.task&&!visibleAreas.includes(mission.task.area));
@@ -63,6 +66,7 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  ${s.home.pending?'<div class="repair-status" role="status"><i></i> トリケンと修復中…</div>':''}
  <span class="scene-counter">${TASKS.filter(t=>done[t.id]).length}<small> / 15 修復</small></span></div>
  <nav class="room-tabs" aria-label="家のシーン">${SCENES.filter(([id])=>visibleAreas.includes(id)).map(([id,name])=>`<button ${id==='exterior'?'data-scene-to="exterior"':`data-area="${id}"`} aria-pressed="${current===id}"><span aria-hidden="true">${icons[id]}</span>${name}</button>`).join('')}</nav>
+ ${justOpenedArea?`<p id="house-area-unlocked" class="house-area-unlocked" role="status">✨ 新しいエリア「${SCENES.find(([id])=>id===justOpenedArea)?.[1]}」がひらいた！</p>`:''}
  <div class="house-expansion-meter" aria-label="家のエリア拡張">
   <span id="house-area-count">ひろがったエリア ${visibleAreas.length-1} / 5</span>
   <span class="house-expansion-dots" aria-hidden="true">${HOUSE_EXPANSIONS.map(e=>visibleAreas.includes(e.area)?'<i class="unlocked"></i>':'<i></i>').join('')}</span>
