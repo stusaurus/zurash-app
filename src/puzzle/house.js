@@ -2,6 +2,21 @@ import {newProgress,validateProgress,balance,buildTown} from './progress.js';
 export const HOME_KEY='zurash-app:home-preview:ice-town:v2';
 export const OLD_KEY='zurash-app:chapter-preview:ice-town:v1';
 export const AREAS=[['entry','玄関・外壁'],['living','リビング'],['kitchen','キッチン・ダイニング'],['bedroom','寝室'],['garden','庭']];
+// Five short story arcs. Display text is derived from existing saves, not persisted.
+export const HOUSE_CHAPTERS=[
+ {id:'entry',name:'玄関',goal:'みんなが安心して入れる家にする',intro:'玄関の扉がきしんでいるよ。まずは家の入り口を直そう！',finish:'玄関の灯りがともった！ これでみんなを迎えられるね。'},
+ {id:'living',name:'リビング',goal:'みんなが集まれる場所を作る',intro:'床が傷んでいて、ゆっくりくつろげないみたい。',finish:'くつろげるリビングの完成！ お話するのが楽しみだね。'},
+ {id:'kitchen',name:'キッチン',goal:'あたたかいごはんを作れるようにする',intro:'古い台所を直して、おいしいごはんを作ろう。',finish:'ごはんの準備ができた！ みんなで食卓を囲もう。'},
+ {id:'bedroom',name:'寝室',goal:'ぐっすり休める部屋にする',intro:'夜も安心して眠れる寝室にしよう。',finish:'やさしい灯りの寝室が完成！ おやすみなさい。'},
+ {id:'garden',name:'庭',goal:'外でも楽しく過ごせる場所にする',intro:'外の小道を直して、庭にも笑顔を広げよう。',finish:'庭まできれいになった！ トリケンの家、完成だね！'},
+];
+export function houseChapterProgress(s){
+ return HOUSE_CHAPTERS.map(chapter=>{
+  const tasks=TASKS.filter(task=>task.area===chapter.id);
+  const doneCount=tasks.filter(task=>s.home.done[task.id]).length;
+  return {...chapter,doneCount,total:tasks.length,complete:doneCount===tasks.length};
+ });
+}
 const labels=[['玄関の扉を直す','外壁を塗る','玄関灯をつける'],['床を張り替える','ソファを置く','本棚を整える'],['調理台を直す','食卓を置く','コンロを整える'],['ベッドを直す','壁紙を選ぶ','読書灯をつける'],['小道を直す','花壇を作る','ガーデン席を作る']];
 const legacy={living:'ice-crane',kitchen:'ice-workshop',garden:'crystal-gate'};
 export const TASKS=AREAS.flatMap(([area],i)=>labels[i].map((label,j)=>({id:j===0&&legacy[area]?legacy[area]:`home-${area}-${j}`,area,label,cost:[3,2,3][j],at:[1,4,8,10,14,18,20,24,28,30,34,38,40,45,50][i*3+j],slot:j,requires:j?[j===1&&(legacy[area])?legacy[area]:`home-${area}-${j-1}`]:[]})));
