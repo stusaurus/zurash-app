@@ -695,7 +695,7 @@ test('Chapter 1 introduces S rank after clearing stage 1, and replay never doubl
 for(const width of [320,390])test('guided house repairs follow one mission at a time '+width+'px',async({page},testInfo)=>{
  const save=newHome();save.home.reached=5;
  for(let n=1;n<=5;n++)save.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
- await page.addInitScript(({key,s})=>localStorage.setItem(key,JSON.stringify(s)),{key:HOME_KEY,s:save});
+ await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:save});
  await page.setViewportSize({width,height:844});
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/adventure.html');
@@ -736,7 +736,7 @@ for(const width of [320,390])test('guided house repairs follow one mission at a 
 for(const width of [320,390])test('five-room story first chapter celebration and styling after 3 repairs '+width+'px',async({page},info)=>{
  const save=newHome();save.home.reached=8;
  for(let n=1;n<=8;n++)save.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
- await page.addInitScript(({key,s})=>localStorage.setItem(key,JSON.stringify(s)),{key:HOME_KEY,s:save});
+ await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:save});
  await page.setViewportSize({width,height:844});
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/adventure.html');
