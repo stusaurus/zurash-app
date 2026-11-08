@@ -809,6 +809,7 @@ for(const width of [320,390])test('house expansion reveals each new area only af
   await expect(page.locator(`[data-object="${task.id}"]`)).toHaveAttribute('data-state','complete');
  }
  await expect(page.locator('#house-room-celebration-title')).toContainText('玄関が完成');
+ await expect(page.locator('#house-area-unlocked')).toContainText('リビング');
  await expect(page.locator('[data-area="living"]')).toHaveCount(1);
  await expect(page.locator('[data-area="kitchen"]')).toHaveCount(0);
  await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 2 / 5');
