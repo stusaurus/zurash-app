@@ -1,5 +1,6 @@
 // Draft artwork renderer only. House economy, identifiers and v2 save stay untouched.
 import {TASKS} from './puzzle/house.js';
+import {renderExteriorGrowth} from './house-expansion-art.js';
 export const ART_VERSION='v7.1';
 const base='./assets/house/v7/';
 const bg=name=>`${base}backgrounds/${name}-fixed-v1.webp`;
@@ -64,9 +65,9 @@ function construction(s,scene){if(!s.home.pending)return '';const t=TASKS.find(t
 export function renderLayeredScene(s,scene){
  const area=scene==='exterior'?'entry':scene,ts=TASKS.filter(t=>t.area===area),n=ts.filter(t=>s.home.done[t.id]).length;
  let art=defs;
- if(scene==='exterior')art+=whole(bg('forest'))+building(s);
+ if(scene==='exterior')art+=whole(bg('forest'))+building(s)+renderExteriorGrowth(s);
  else if(scene==='entry')art+=whole(bg('entry-shell'))+surface(s,'home-entry-1',[73,91,356,215],'hall-wall')+item(s,ts[0],scene)+item(s,ts[2],scene);
- else if(scene==='garden')art+=whole(bg('garden-shell'))+`<g pointer-events="none" transform="translate(-32 -44) scale(.57)">${building(s)}</g>`+ts.map(t=>item(s,t,scene)).join('');
+ else if(scene==='garden')art+=whole(bg('garden-shell'))+`<g pointer-events="none" transform="translate(-32 -44) scale(.57)">${building(s)}${renderExteriorGrowth(s)}</g>`+ts.map(t=>item(s,t,scene)).join('');
  else{
   art+=whole(bg(`${scene}-shell`));
   if(scene==='living')art+=surface(s,ts[0].id,ART_PLACEMENTS.living[0],'living-floor')+item(s,ts[2],scene)+item(s,ts[1],scene);
