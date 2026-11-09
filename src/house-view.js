@@ -18,13 +18,37 @@ function repairDetail(save,scene,task){
  return `<figure class="repair-preview" id="preview-${task.id}"><svg class="repair-detail" viewBox="0 0 160 142" style="--detail-ratio:${160/142}" role="img" aria-label="${task.label}の現在の見た目"><image href="${assetPath(save,task.id)}" x="0" y="0" width="160" height="142" preserveAspectRatio="xMidYMid meet"/></svg><figcaption>${caption}</figcaption></figure>`;
 }
 
+// The whole room is the reward, not only the third repaired object.
+// SVG definitions are namespaced because both pictures coexist with the live
+// house SVG. Strip noninteractive data attributes so global UI selectors
+// keep targeting the real house, never the miniature comparison.
+function completedRoomSnapshot(save,chapter,phase){
+ const snapshot=structuredClone(save);
+ if(phase==='before')for(const task of TASKS.filter(t=>t.area===chapter.id)){
+  delete snapshot.home.done[task.id];
+  delete snapshot.home.styles[task.id];
+ }
+ const prefix=`compare-${chapter.id}-${phase}`;
+ return renderHouseScene(snapshot,chapter.id)
+  .replace(/\sid="([^"]+)"/g,(_,id)=>` id="${prefix}-${id}"`)
+  .replace(/url\(#([^)]*)\)/g,(_,id)=>`url(#${prefix}-${id})`)
+  .replace(/\s(?:href|xlink:href)="#([^"]+)"/g,(_,id)=>` href="#${prefix}-${id}"`)
+  .replace(/\sdata-[\w-]+="[^"]*"/g,'')
+  .replace('<svg ','<svg aria-hidden="true" focusable="false" ');
+}
 function roomCompletionHtml(chapter,task,save,nextAction){
- const before=assetPath({home:{done:{},styles:{}}},task.id),after=assetPath(save,task.id);
+ const before=completedRoomSnapshot(save,chapter,'before');
+ const after=completedRoomSnapshot(save,chapter,'after');
  return `<section class='house-room-celebration' role='status' aria-label='部屋の修復完成'>
   <span class='eyebrow'>✧ ROOM COMPLETE · ${chapter.doneCount}/3</span>
   <h2 id='house-room-celebration-title'>🎉 ${chapter.name}が完成！</h2>
   <p>${chapter.finish}</p>
-  <div class='house-room-comparison'><figure><img src='${before}' alt='修復前の${task.label}'><figcaption>まえ</figcaption></figure><span aria-hidden='true'>→</span><figure><img src='${after}' alt='修復後の${task.label}'><figcaption>あと</figcaption></figure></div>
+  <div class='house-room-comparison' aria-label='${chapter.name}全体の修復前後'>
+   <figure class='house-room-snapshot' data-phase='before'><div class='house-room-snapshot-art'>${before}</div><figcaption>修復まえ</figcaption></figure>
+   <span aria-hidden='true'>→</span>
+   <figure class='house-room-snapshot' data-phase='after'><div class='house-room-snapshot-art'>${after}</div><figcaption>完成！</figcaption></figure>
+  </div>
+  <p class='house-room-reveal-note'>3つの修復で、部屋全体がこんなに変わったよ。</p>
   <button id='house-room-celebration-next' class='primary' type='button'>${nextAction==='open'?'家がひろがった！ 外から見よう':nextAction==='locked'?'パズルでエリアをひらく':'家をながめる'}</button>
  </section>`;
 }
