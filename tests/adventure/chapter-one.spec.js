@@ -31,8 +31,9 @@ test('scene controls, pending resume and designs',async({page})=>{
   await page.locator('#close-repairs').click();
   await expect(page.locator('#home-repairs')).toBeHidden();
   await page.getByRole('button',{name:'玄関へ',exact:true}).click();
-  await page.getByRole('button',{name:'キッチンへ',exact:true}).click();
-  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','kitchen');
+  await expect(page.getByRole('button',{name:'キッチンへ',exact:true})).toHaveCount(0);
+  await expect(page.locator('[data-area="living"]')).toHaveCount(0);
+  await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 1 / 5');
   await page.locator('[data-area="entry"]').click();await openRepairs(page);
   for(const t of TASKS.slice(0,3)){
     await page.locator(`[data-repair="${t.id}"]`).click();
@@ -42,6 +43,8 @@ test('scene controls, pending resume and designs',async({page})=>{
     await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','complete');
     if(t===TASKS[2]){
       await expect(page.locator('#house-room-celebration-title')).toContainText('玄関が完成');
+      await expect(page.locator('[data-area="living"]')).toHaveCount(1);
+      await expect(page.locator('[data-area="kitchen"]')).toHaveCount(0);
       await openRepairs(page);
       for(const task of TASKS.slice(0,3))await expect(page.locator(`[data-style="${task.id}"][data-choice="0"]`)).toBeVisible();
     }else await expect(page.locator(`[data-style="${t.id}"]`)).toHaveCount(0);
@@ -149,8 +152,8 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   }
   await page.getByRole('button',{name:'玄関へ',exact:true}).click();
   await expect(page.locator('[data-scene-art="entry"]')).toBeVisible();
-  await page.getByRole('button',{name:'キッチンへ',exact:true}).click();
-  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','kitchen');
+  await expect(page.getByRole('button',{name:'キッチンへ',exact:true})).toHaveCount(0);
+  await expect(page.locator('[data-area="living"]')).toHaveCount(0);
   await page.locator('[data-area="entry"]').click();await openRepairs(page);
   if(info.project.name==='chromium'&&width===390){
     await page.screenshot({animations:'disabled',path:info.outputPath('entry-before-390.png'),fullPage:true});
@@ -764,10 +767,14 @@ for(const width of [320,390])test('five-room story first chapter celebration and
  const box=await page.locator('.house-room-celebration').boundingBox();
  expect(box).not.toBeNull();expect(box.x).toBeGreaterThanOrEqual(-1);expect(box.x+box.width).toBeLessThanOrEqual(width+1);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await expect(page.locator('[data-area="living"]')).toHaveCount(0);
+ await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 1 / 5');
+ await expect(page.locator('#house-room-celebration-next')).toHaveText('パズルでエリアをひらく');
  await page.locator('#house-room-celebration-next').click();
- await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','living');
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','9');
+ await page.locator('#return-home').click();
  await expect(page.locator('#house-room-celebration-title')).toHaveCount(0);
- await expect(page.locator('#house-mission-title')).toContainText('床を張り替える');
+ await expect(page.locator('#house-mission-title')).toContainText('つぎのエリアを見つけよう');
  await expect(page.locator('#house-mission-copy')).toContainText('ステージ10まであと2面');
  await page.locator('[data-area="entry"]').click();await openRepairs(page);
  await expect(page.locator('[data-style="home-entry-0"][data-choice="2"]')).toBeVisible();
@@ -780,4 +787,117 @@ for(const width of [320,390])test('five-room story first chapter celebration and
  await page.reload();
  await expect(page.locator('#house-room-celebration-title')).toHaveCount(0);
  await expect(page.locator('#house-mission-rooms')).toHaveText('1 / 5 部屋完成');
+});
+
+for(const width of [320,390])test('house expansion reveals each new area only after room completion and its stage gate '+width+'px',async({page},info)=>{
+ await page.setViewportSize({width,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ const original=newHome();
+ for(let n=1;n<=10;n++)original.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+ original.home.reached=10;
+ await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:original});
+ await page.goto('/adventure.html');
+ await expect(page.locator('#home-screen')).toBeVisible();
+ await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 1 / 5');
+ await expect(page.locator('.room-tabs button')).toHaveCount(2);
+ await expect(page.locator('[data-area="living"]')).toHaveCount(0);
+ await expect(page.locator('[data-scene-to="kitchen"]')).toHaveCount(0);
+ // Even 10 cleared stages cannot reveal another room before restoring the entrance.
+ for(const task of TASKS.slice(0,3)){
+  await page.locator('#house-mission-next').click();
+  await page.locator(`[data-repair="${task.id}"]`).click();
+  await expect(page.locator(`[data-object="${task.id}"]`)).toHaveAttribute('data-state','complete');
+ }
+ await expect(page.locator('#house-room-celebration-title')).toContainText('玄関が完成');
+ await expect(page.locator('#house-area-unlocked')).toContainText('リビング');
+ await expect(page.locator('[data-area="living"]')).toHaveCount(1);
+ await expect(page.locator('[data-area="kitchen"]')).toHaveCount(0);
+ await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 2 / 5');
+ await expect(page.locator('#house-room-celebration-next')).toHaveText('家がひろがった！ 外から見よう');
+ await page.locator('#house-room-celebration-next').click();
+ await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
+ await expect(page.locator('.house-world')).toHaveAttribute('data-growth-reveal','living');
+ await expect(page.locator('[data-house-growth-area="living"]')).toHaveCount(1);
+ await expect(page.locator('[data-house-growth-area="kitchen"]')).toHaveCount(0);
+ await expect(page.locator('#house-growth-enter')).toBeVisible();
+ await info.attach('house-living-extension-'+width,{body:await page.locator('.house-world').screenshot({animations:'disabled'}),contentType:'image/png'});
+ await page.locator('#house-growth-enter').click();
+ await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','living');
+ await expect(page.locator('[data-scene-to="kitchen"]')).toHaveCount(0);
+ await expect(page.locator('#house-mission-title')).toContainText('床を張り替える');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await info.attach('area-2-open-'+width,{body:await page.locator('.room-tabs').screenshot({animations:'disabled'}),contentType:'image/png'});
+ await page.reload();
+ await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 2 / 5');
+ await expect(page.locator('[data-area="living"]')).toBeVisible();
+ await expect(page.locator('[data-area="kitchen"]')).toHaveCount(0);
+});
+
+test('house expansion respects legacy restored kitchen without silently closing it',async({page})=>{
+ const legacy=newHome();
+ for(let n=1;n<=50;n++)legacy.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+ legacy.home.reached=50;
+ const kitchen=TASKS.find(t=>t.area==='kitchen');
+ legacy.home.done[kitchen.id]=true;legacy.progress.town[kitchen.id]=kitchen.cost;
+ await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:legacy});
+ await page.goto('/adventure.html');
+ await expect(page.locator('[data-area="kitchen"]')).toBeVisible();
+ await expect(page.locator('[data-area="bedroom"]')).toHaveCount(0);
+ await page.locator('[data-area="kitchen"]').click();
+ await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','kitchen');
+ await page.reload();
+ await expect(page.locator('[data-area="kitchen"]')).toBeVisible();
+});
+
+for(const width of [320,390])test('house scenes show no arcade mascot but puzzles retain the player at '+width+'px',async({page},info)=>{
+ const save=newHome();save.home.reached=50;save.home.completionSeen=true;
+ for(let n=1;n<=50;n++)save.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+ for(const task of TASKS){save.progress.town[task.id]=task.cost;save.home.done[task.id]=true;}
+ await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:save});
+ await page.setViewportSize({width,height:844});
+ await page.goto('/adventure.html');
+ for(const scene of ['exterior','entry','living','kitchen','bedroom','garden']){
+  if(scene!=='exterior')await page.locator(`[data-area="${scene}"]`).click();
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene',scene);
+  await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','true');
+  await expect(page.locator('.house-world [data-art-layer="triken"]')).toHaveCount(0);
+  await expect(page.locator('.house-world image[href*="triken"]')).toHaveCount(0);
+  if(['exterior','entry','living'].includes(scene))await info.attach(`house-mascot-free-${scene}-${width}`,{body:await page.locator('.house-world').screenshot({animations:'disabled'}),contentType:'image/png'});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ }
+ await page.locator('#play-next').click();
+ await expect(page.locator('.game-panel')).toBeVisible();
+ await expect(page.locator('#board .cell img[src*="triken"]')).toHaveCount(1);
+});
+
+for(const width of [320,390])test('house painted exterior grows in four visible architectural steps '+width+'px',async({page},info)=>{
+ await page.setViewportSize({width,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ const save=newHome();save.home.reached=50;save.home.completionSeen=true;
+ for(let n=1;n<=50;n++)save.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+ await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:save});
+ await page.goto('/adventure.html');
+ const names=['living','kitchen','bedroom','garden'];
+ for(let step=0;step<=4;step++){
+  if(step){
+   for(const t of TASKS.slice((step-1)*3,step*3)){save.progress.town[t.id]=t.cost;save.home.done[t.id]=true;}
+   await page.evaluate(({key,s})=>localStorage.setItem(key,JSON.stringify(s)),{key:HOME_KEY,s:save});
+   await page.reload();
+  }
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
+  await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','true');
+  await expect(page.locator('.house-world [data-art-layer="house-growth"]')).toHaveAttribute('data-growth-count',String(step));
+  await expect(page.locator('[data-house-growth-area]')).toHaveCount(step);
+  await expect(page.locator('[data-house-sealed-area]')).toHaveCount(4-step);
+  for(const [i,area] of names.entries()){
+   await expect(page.locator(`[data-house-growth-area="${area}"]`)).toHaveCount(i<step?1:0);
+   await expect(page.locator(`[data-house-sealed-area="${area}"]`)).toHaveCount(i>=step?1:0);
+  }
+  await expect(page.locator('.house-world [data-art-layer="triken"]')).toHaveCount(0);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await info.attach(`exterior-growth-step-${step}-${width}`,{body:await page.locator('.house-world').screenshot({animations:'disabled',type:'jpeg',quality:80}),contentType:'image/jpeg'});
+ }
+ const stored=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),HOME_KEY);
+ expect(Object.keys(stored.home.done)).toHaveLength(12);
+ expect(stored.version).toBe(2);
 });

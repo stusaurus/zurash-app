@@ -1,5 +1,6 @@
 // Draft artwork renderer only. House economy, identifiers and v2 save stay untouched.
 import {TASKS} from './puzzle/house.js';
+import {renderExteriorGrowth} from './house-expansion-art.js';
 export const ART_VERSION='v7.1';
 const base='./assets/house/v7/';
 const bg=name=>`${base}backgrounds/${name}-fixed-v1.webp`;
@@ -64,9 +65,9 @@ function construction(s,scene){if(!s.home.pending)return '';const t=TASKS.find(t
 export function renderLayeredScene(s,scene){
  const area=scene==='exterior'?'entry':scene,ts=TASKS.filter(t=>t.area===area),n=ts.filter(t=>s.home.done[t.id]).length;
  let art=defs;
- if(scene==='exterior')art+=whole(bg('forest'))+building(s);
+ if(scene==='exterior')art+=whole(bg('forest'))+building(s)+renderExteriorGrowth(s);
  else if(scene==='entry')art+=whole(bg('entry-shell'))+surface(s,'home-entry-1',[73,91,356,215],'hall-wall')+item(s,ts[0],scene)+item(s,ts[2],scene);
- else if(scene==='garden')art+=whole(bg('garden-shell'))+`<g pointer-events="none" transform="translate(-32 -44) scale(.57)">${building(s)}</g>`+ts.map(t=>item(s,t,scene)).join('');
+ else if(scene==='garden')art+=whole(bg('garden-shell'))+`<g pointer-events="none" transform="translate(-32 -44) scale(.57)">${building(s)}${renderExteriorGrowth(s)}</g>`+ts.map(t=>item(s,t,scene)).join('');
  else{
   art+=whole(bg(`${scene}-shell`));
   if(scene==='living')art+=surface(s,ts[0].id,ART_PLACEMENTS.living[0],'living-floor')+item(s,ts[2],scene)+item(s,ts[1],scene);
@@ -77,8 +78,8 @@ export function renderLayeredScene(s,scene){
  art+=`<rect data-art-layer="atmosphere" width="480" height="540" fill="#162b55" opacity="${(.24*(3-n)/3).toFixed(3)}" pointer-events="none"/>`;
  if(s.home.done[ts[2].id])art+='<ellipse data-art-layer="light" cx="275" cy="270" rx="190" ry="225" fill="url(#art-amber)" pointer-events="none"/>';
  art+=construction(s,scene);
- const r=scene==='exterior'?[288,403,83,83]:scene==='entry'?[335,391,91,91]:scene==='garden'?[124,423,85,85]:[360,421,83,83];
- art+=`<g data-art-layer="triken" pointer-events="none"><ellipse cx="${r[0]+r[2]/2}" cy="${r[1]+r[3]-3}" rx="30" ry="7" fill="#172b4e" opacity=".25"/>${image('./assets/triken-orange-80.png',r)}</g>`;
+ // House scenes show the restored architecture itself; the arcade player sprite
+ // remains in puzzle gameplay but is not composited into illustrated rooms.
  const wall=s.home.done['home-entry-1']?layeredDesignOptions(TASKS[1])[s.home.styles['home-entry-1']??0].motif:'unrepaired';
  return `<svg class="illustrated-scene" viewBox="0 0 480 540" role="img" aria-label="トリケンの家・${scene}" data-scene-art="${scene}" data-art-version="${ART_VERSION}" data-wall-design="${wall}">${art}</svg>`;
 }

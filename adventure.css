@@ -971,3 +971,55 @@ html.fun-tap-first .fun-board .cell.prepared-target:focus-visible{
 .home-screen[data-mission-state='ready'] .home-bottom #play-next{background:#e7f0e4;color:#385849;border-color:#c1d2c0;box-shadow:0 2px 0 #bdcdbb}
 .home-screen[data-mission-state='ready'] .home-bottom #play-next small{color:#53715a}
 .house-mission .house-mission-story{font-size:12px;color:#416a53;margin:0 0 10px}
+
+/* Progressive discovery: only the unlocked rooms enter navigation. */
+.house-expansion-meter{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 18px;background:#e4ede2;border-bottom:1px solid #d2e1d2;color:#456951;font-size:11px;font-weight:800}
+.house-expansion-dots{display:inline-flex;gap:6px;align-items:center}
+.house-expansion-dots i{width:12px;height:12px;display:block;border-radius:50%;background:#c5d1c3;border:1px dashed #92aa98}
+.house-expansion-dots i.unlocked{background:#e5ba66;border:1px solid #c69851;box-shadow:0 0 0 2px #fff6d5}
+.house-expansion-meter small{font-size:10px;line-height:1.35;color:#667c68}
+.house-expansion-meter #house-next-expansion{flex-basis:100%}
+.house-expansion-meter #house-area-count{white-space:nowrap;font-variant-numeric:tabular-nums}
+@media(min-width:720px){
+ .home-screen .house-expansion-meter{grid-column:2;grid-row:2}
+ .home-screen .house-mission{grid-column:2;grid-row:3}
+ .home-screen .restoration-sheet{grid-column:2;grid-row:4}
+ .home-screen .home-bottom{grid-column:2;grid-row:5}
+ .home-screen .house-world{grid-row:1/7}
+ .home-screen .house-room-celebration{grid-column:2;grid-row:4}
+ .home-screen:has(.house-room-celebration) .restoration-sheet{grid-row:5}
+ .home-screen:has(.house-room-celebration) .home-bottom{grid-row:6}
+}
+@media(max-width:360px){.house-expansion-meter{gap:8px;padding:9px 14px}.house-expansion-dots i{width:11px;height:11px}}
+
+.house-area-unlocked{margin:0;padding:12px 18px;background:linear-gradient(90deg,#fff2bf,#e7f9dc);color:#5d6431;border-bottom:2px solid #cdb674;font-size:13px;font-weight:850;line-height:1.5}
+@media(prefers-reduced-motion:no-preference){.house-area-unlocked{animation:house-area-reveal .45s ease-out both}@keyframes house-area-reveal{from{opacity:.45;transform:translateY(-7px)}to{opacity:1;transform:none}}}
+@media(min-width:720px){
+ .home-screen .house-area-unlocked{grid-column:2;grid-row:2}
+ .home-screen:has(.house-area-unlocked) .house-expansion-meter{grid-row:3}
+ .home-screen:has(.house-area-unlocked) .house-mission{grid-row:4}
+ .home-screen:has(.house-area-unlocked) .restoration-sheet{grid-row:5}
+ .home-screen:has(.house-area-unlocked) .home-bottom{grid-row:6}
+ .home-screen:has(.house-area-unlocked) .house-world{grid-row:1/8}
+ .home-screen:has(.house-area-unlocked) .house-room-celebration{grid-row:5}
+ .home-screen:has(.house-area-unlocked):has(.house-room-celebration) .restoration-sheet{grid-row:6}
+ .home-screen:has(.house-area-unlocked):has(.house-room-celebration) .home-bottom{grid-row:7}
+}
+
+/* Physical exterior growth, drawn over the approved house shell.
+   Motion is only used at the moment an area first opens. */
+.house-area-unlocked{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.house-area-unlocked span{min-width:0;flex:1}
+.house-area-unlocked button{border:1px solid #bd9250;border-radius:13px;min-height:44px;min-width:125px;padding:9px 12px;background:linear-gradient(#f4d995,#e4b86a);color:#5b482e;font-size:12px;font-weight:800;box-shadow:0 2px 0 #a88252}
+.house-area-unlocked button:focus-visible{outline:3px solid #335b8a;outline-offset:2px}
+@media(prefers-reduced-motion:no-preference){
+ .house-world[data-growth-reveal] [data-house-growth-area]{transform-box:fill-box;transform-origin:50% 85%}
+ .house-world[data-growth-reveal='living'] [data-house-growth-area='living'],
+ .house-world[data-growth-reveal='kitchen'] [data-house-growth-area='kitchen'],
+ .house-world[data-growth-reveal='bedroom'] [data-house-growth-area='bedroom'],
+ .house-world[data-growth-reveal='garden'] [data-house-growth-area='garden']{
+  animation:house-growth-appear .95s cubic-bezier(.22,.84,.21,1) both;
+ }
+ @keyframes house-growth-appear{0%{opacity:.15;transform:translateY(16px) scale(.86);filter:brightness(1.35)}65%{opacity:1;transform:translateY(-3px) scale(1.015);filter:brightness(1.13)}100%{opacity:1;transform:translateY(0) scale(1);filter:brightness(1)}}
+}
+@media(max-width:360px){.house-area-unlocked{padding:10px 12px}.house-area-unlocked button{min-width:110px}}
