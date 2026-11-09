@@ -30,10 +30,10 @@ function completedRoomSnapshot(save,chapter,phase){
  }
  const prefix=`compare-${chapter.id}-${phase}`;
  return renderHouseScene(snapshot,chapter.id)
-  .replace(/\\sid="([^"]+)"/g,(_,id)=>` id="${prefix}-${id}"`)
-  .replace(/url\\(#([^)]*)\\)/g,(_,id)=>`url(#${prefix}-${id})`)
-  .replace(/\\s(?:href|xlink:href)="#([^"]+)"/g,(_,id)=>` href="#${prefix}-${id}"`)
-  .replace(/\\sdata-[\\w-]+="[^"]*"/g,'')
+  .replace(/\sid="([^"]+)"/g,(_,id)=>` id="${prefix}-${id}"`)
+  .replace(/url\(#([^)]*)\)/g,(_,id)=>`url(#${prefix}-${id})`)
+  .replace(/\s(?:href|xlink:href)="#([^"]+)"/g,(_,id)=>` href="#${prefix}-${id}"`)
+  .replace(/\sdata-[\w-]+="[^"]*"/g,'')
   .replace('<svg ','<svg aria-hidden="true" focusable="false" ');
 }
 function roomCompletionHtml(chapter,task,save,nextAction){
