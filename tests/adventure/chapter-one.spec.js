@@ -869,3 +869,33 @@ for(const width of [320,390])test('house scenes show no arcade mascot but puzzle
  await expect(page.locator('.game-panel')).toBeVisible();
  await expect(page.locator('#board .cell img[src*="triken"]')).toHaveCount(1);
 });
+
+for(const width of [320,390])test('house painted exterior grows in four visible architectural steps '+width+'px',async({page},info)=>{
+ await page.setViewportSize({width,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ const save=newHome();save.home.reached=50;save.home.completionSeen=true;
+ for(let n=1;n<=50;n++)save.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+ await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:save});
+ await page.goto('/adventure.html');
+ const names=['living','kitchen','bedroom','garden'];
+ for(let step=0;step<=4;step++){
+  if(step){
+   for(const t of TASKS.slice((step-1)*3,step*3)){save.progress.town[t.id]=t.cost;save.home.done[t.id]=true;}
+   await page.evaluate(({key,s})=>localStorage.setItem(key,JSON.stringify(s)),{key:HOME_KEY,s:save});
+   await page.reload();
+  }
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
+  await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','true');
+  await expect(page.locator('.house-world [data-art-layer="house-growth"]')).toHaveAttribute('data-growth-count',String(step));
+  await expect(page.locator('[data-house-growth-area]')).toHaveCount(step);
+  for(const [i,area] of names.entries()){
+   await expect(page.locator(`[data-house-growth-area="${area}"]`)).toHaveCount(i<step?1:0);
+  }
+  await expect(page.locator('.house-world [data-art-layer="triken"]')).toHaveCount(0);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await info.attach(`exterior-growth-step-${step}-${width}`,{body:await page.locator('.house-world').screenshot({animations:'disabled',type:'jpeg',quality:80}),contentType:'image/jpeg'});
+ }
+ const stored=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),HOME_KEY);
+ expect(Object.keys(stored.home.done)).toHaveLength(12);
+ expect(stored.version).toBe(2);
+});
