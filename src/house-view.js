@@ -29,7 +29,7 @@ function completedRoomSnapshot(save,chapter,phase){
   delete snapshot.home.styles[task.id];
  }
  const prefix=`compare-${chapter.id}-${phase}`;
- return renderHouseScene(snapshot,chapter.id)
+ return renderHouseScene(snapshot,chapter.id==='entry'?'exterior':chapter.id)
   .replace(/\sid="([^"]+)"/g,(_,id)=>` id="${prefix}-${id}"`)
   .replace(/url\(#([^)]*)\)/g,(_,id)=>`url(#${prefix}-${id})`)
   .replace(/\s(?:href|xlink:href)="#([^"]+)"/g,(_,id)=>` href="#${prefix}-${id}"`)
@@ -49,7 +49,7 @@ function roomCompletionHtml(chapter,task,save,nextAction){
    <figure class='house-room-snapshot' data-phase='after'><div class='house-room-snapshot-art'>${after}</div><figcaption>完成！</figcaption></figure>
   </div>
   <p class='house-room-reveal-note'>3つの修復で、部屋全体がこんなに変わったよ。</p>
-  <button id='house-room-celebration-next' class='primary' type='button'>${nextAction==='open'?'家がひろがった！ 外から見よう':nextAction==='locked'?'パズルでエリアをひらく':'家をながめる'}</button>
+  <button id='house-room-celebration-next' class='primary' type='button'>${nextAction==='enter'?'玄関から家に入る':nextAction==='open'?'家がひろがった！ 外から見よう':nextAction==='locked'?'パズルでエリアをひらく':'家をながめる'}</button>
  </section>`;
 }
 export function createHouseView({element,getSave,setSave,onPlay,onComplete,onError}){
@@ -97,7 +97,7 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
   ${expansion&&expansion.previousDone&&expansion.missingStages>0?`<small id="house-next-expansion">あと${expansion.missingStages}面で新しいエリアがひらく！</small>`:''}
  </div>
  <section class="house-mission" aria-label="次の家づくりミッション">
-  <div class='house-mission-top'><span class='eyebrow'>🏠 第${HOUSE_CHAPTERS.findIndex(ch=>ch.id===activeChapter.id)+1}話 · ${hiddenGoal?'???':activeChapter.name}</span><span class='house-mission-totals'><b id='house-mission-room-progress'>${activeChapter.doneCount} / 3</b><small id='house-mission-rooms'>${roomsComplete} / 5 部屋完成</small><strong id='house-mission-progress'>${mission.doneCount} / ${mission.total}</strong></span></div>
+  <div class='house-mission-top'><span class='eyebrow'>🏠 第${HOUSE_CHAPTERS.findIndex(ch=>ch.id===activeChapter.id)+1}話 · ${hiddenGoal?'???':activeChapter.name}</span><span class='house-mission-totals'><b id='house-mission-room-progress'>${activeChapter.doneCount} / 3</b><small id='house-mission-rooms'>${roomsComplete} / 5 エリア完成</small><strong id='house-mission-progress'>${mission.doneCount} / ${mission.total}</strong></span></div>
   <div class="house-mission-meter" role="progressbar" aria-label="修復達成数" aria-valuemin="0" aria-valuemax="15" aria-valuenow="${mission.doneCount}"><span style="width:${mission.doneCount/15*100}%"></span></div>
   <p class='house-mission-story'>${hiddenGoal?'この先に、まだ見ぬエリアがあるよ。':`${activeChapter.goal}。${activeChapter.doneCount===0?activeChapter.intro:''}`}</p>
   <h2 id="house-mission-title">${hiddenGoal?'つぎのエリアを見つけよう！':mission.task?`つぎは「${mission.task.label}」`:'トリケンの家、完成！'}</h2>
@@ -105,7 +105,7 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
   <button id="house-mission-next" class="primary" type="button" ${mission.state==='building'||mission.state==='complete'?'disabled':''}>${missionAction}</button>
   ${mission.task?`<small class="house-mission-meta">修復 ${missionNumber}/15 · ${hiddenGoal?'未発見エリア':missionRoom}</small>`:''}
  </section>
- ${completedTask?roomCompletionHtml(completedChapter,completedTask,s,!mission.task?null:visibleAreas.includes(mission.task.area)?'open':'locked'):''}
+ ${completedTask?roomCompletionHtml(completedChapter,completedTask,s,completedChapter.id==='entry'?'enter':!mission.task?null:visibleAreas.includes(mission.task.area)?'open':'locked'):''}
  <div class="home-bottom"><button id="repair-menu" aria-expanded="${menuOpen}" aria-controls="home-repairs"><span aria-hidden="true">✧</span> 修復一覧・もよう替え<small>${count} / 50 クリア · ${tasks.filter(t=>done[t.id]).length}/3 修復</small></button><button class="primary" id="play-next"><small>★ 星を集めに</small>${count===50?'もう一度パズルへ':'ステージ '+Math.min(50,count+1)+' へ'} <span aria-hidden="true">›</span></button></div>
  <section id="home-repairs" class="restoration-sheet" aria-labelledby="repair-title" ${menuOpen?'':'hidden'}><div class="repair-heading"><div><span class="eyebrow">${current==='exterior'?'WELCOME HOME':'MAKE YOURSELF AT HOME'}</span><h2 id="repair-title">${current==='exterior'?'玄関から、家をあたたかく。':`${sceneName}を整えよう`}</h2></div><button id="close-repairs" aria-label="修復メニューを閉じて家を眺める">家を眺める ×</button></div>
  <p class="home-copy">${area()==='entry'?'扉・外壁・玄関灯の修復は、家の外と中に反映されます。': 'ひとつ直すたび、ここが好きになる。'} 3つ直すと、もよう替えを選べるよ。完成後の変更は無料です。</p>
@@ -113,6 +113,11 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  const token=++frame,world=element.querySelector('.house-world');world.dataset.artReady='false';ready(world.innerHTML).then(()=>{if(frame===token&&world.isConnected)world.dataset.artReady='true';}).catch(error=>{if(frame===token&&world.isConnected){world.dataset.artReady='error';console.error('House art load failed',error);}});
  const celebrationNext=element.querySelector('#house-room-celebration-next');
  if(celebrationNext)celebrationNext.onclick=()=>{
+  if(completedChapter?.id==='entry'){
+   roomCelebration=null;
+   void navigate('entry');
+   return;
+  }
   roomCelebration=null;
   const nextRoom=nextRepairMission(getSave()).task?.area;
   if(nextRoom&&accessibleHouseAreas(getSave()).includes(nextRoom)&&nextRoom!==current)void navigate(justOpenedArea===nextRoom?'exterior':nextRoom);
@@ -126,10 +131,13 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  missionButton.onclick=async()=>{
   if(!mission.task||mission.state==='building'||mission.state==='complete')return;
   if(mission.state!=='ready'){onPlay();return;}
-  await navigate(mission.task.area);
+  // Entry's three repair jobs belong outside. The door itself unlocks only
+  // after all three are done; guide repairs without going through that door.
+  const target=mission.task.area==='entry'&&!accessibleHouseAreas(getSave()).includes('entry')?'exterior':mission.task.area;
+  await navigate(target);
   // A failed image load or interrupted room switch must not open the wrong
   // repair screen. Navigate safely before displaying the guided repair.
-  if(!element.isConnected||current!==mission.task.area)return;
+  if(!element.isConnected||current!==target)return;
   // Navigation can change the view; independently recheck the save after it.
   const now=nextRepairMission(getSave());
   if(now.state==='ready'&&now.task?.id===mission.task.id)openMenu(mission.task.id,true);
