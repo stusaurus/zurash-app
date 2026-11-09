@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'src/house-view.js'
+      - 'src/house-layered-art.js'
+      - 'src/house-scenes.js'
       - 'src/puzzle/house.js'
       - 'adventure.css'
       - 'tests/house.test.js'
@@ -13,6 +15,8 @@ on:
     branches: [main]
     paths:
       - 'src/house-view.js'
+      - 'src/house-layered-art.js'
+      - 'src/house-scenes.js'
       - 'src/puzzle/house.js'
       - 'adventure.css'
       - 'tests/house.test.js'
@@ -40,7 +44,7 @@ jobs:
           node --test tests/house.test.js
       - run: npx playwright install --with-deps chromium webkit
       - name: Follow guided repairs on Chromium and WebKit, 320px and 390px
-        run: npx playwright test -c playwright.chapter.config.js --grep "guided house repairs follow|five-room story first chapter celebration|house expansion" --workers=2
+        run: npx playwright test -c playwright.chapter.config.js --grep "guided house repairs follow|five-room story first chapter celebration|house expansion|house scenes show no arcade mascot" --workers=2
       - name: Save screenshots and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
