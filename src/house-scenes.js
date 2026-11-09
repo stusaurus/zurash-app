@@ -93,7 +93,6 @@ function exterior(s){
  if(s.home.pending?.startsWith('home-entry'))art+=scaffold();
  if(!done['home-entry-0'])art+=P('M139 434l11-8 25 8-7 6Zm-22-5 4-9 10 6-1 8Z','#9e967c');
  art+=exteriorFinish(s);
- art+=`<g data-art-layer="triken"><ellipse cx="300" cy="437" rx="34" ry="8" fill="#294864" opacity=".34" filter="url(#ground-shadow)"/><image href="${HOUSE_ASSETS.character}" x="253" y="350" width="91" height="91"/></g>`;
  art+=P('M12 482q25-20 45-7m340-22q30-12 57-3','none','stroke="#93b4a0" stroke-width="3"');
  return art;
 }
@@ -126,7 +125,6 @@ function entry(s){
  if(!wallDone)art+=P('M77 161l35 9-9 31-28-8m280 81l-19-22 26-23 18 16M303 309l29 10-7 26-30-16','none','stroke="#909c8b" stroke-width="6"');
  if(s.home.pending?.startsWith('home-entry'))art+=`<g transform="translate(8 -6)">${scaffold()}</g>`;
  art+=hallAtmosphere(s);
- art+=`<g data-art-layer="triken"><ellipse cx="354" cy="479" rx="35" ry="9" fill="#443328" opacity=".32" filter="url(#ground-shadow)"/><image href="${HOUSE_ASSETS.character}" x="303" y="382" width="102" height="102"/></g>`;
  art+=P('M0 520q237-45 480 0v20H0Z','#c8b08b','opacity=".3"');
  return art;
 }
