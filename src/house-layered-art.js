@@ -77,8 +77,8 @@ export function renderLayeredScene(s,scene){
  art+=`<rect data-art-layer="atmosphere" width="480" height="540" fill="#162b55" opacity="${(.24*(3-n)/3).toFixed(3)}" pointer-events="none"/>`;
  if(s.home.done[ts[2].id])art+='<ellipse data-art-layer="light" cx="275" cy="270" rx="190" ry="225" fill="url(#art-amber)" pointer-events="none"/>';
  art+=construction(s,scene);
- const r=scene==='exterior'?[288,403,83,83]:scene==='entry'?[335,391,91,91]:scene==='garden'?[124,423,85,85]:[360,421,83,83];
- art+=`<g data-art-layer="triken" pointer-events="none"><ellipse cx="${r[0]+r[2]/2}" cy="${r[1]+r[3]-3}" rx="30" ry="7" fill="#172b4e" opacity=".25"/>${image('./assets/triken-orange-80.png',r)}</g>`;
+ // House scenes show the restored architecture itself; the arcade player sprite
+ // remains in puzzle gameplay but is not composited into illustrated rooms.
  const wall=s.home.done['home-entry-1']?layeredDesignOptions(TASKS[1])[s.home.styles['home-entry-1']??0].motif:'unrepaired';
  return `<svg class="illustrated-scene" viewBox="0 0 480 540" role="img" aria-label="トリケンの家・${scene}" data-scene-art="${scene}" data-art-version="${ART_VERSION}" data-wall-design="${wall}">${art}</svg>`;
 }
