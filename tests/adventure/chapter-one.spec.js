@@ -169,6 +169,8 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
     await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','complete');
     if(t.slot===2){
       await expect(page.locator('#house-room-celebration-title')).toContainText('完成');
+      await expect(page.locator('.house-room-snapshot[data-phase="before"] svg')).toBeVisible();
+      await expect(page.locator('.house-room-snapshot[data-phase="after"] svg')).toBeVisible();
       if(t===TASKS.at(-1)){
         await page.locator('#house-room-celebration-next').click();
       }else{
@@ -760,9 +762,15 @@ for(const width of [320,390])test('five-room story first chapter celebration and
  await expect(page.locator('#house-room-celebration-title')).toContainText('玄関が完成');
  await expect(page.locator('#house-mission-rooms')).toHaveText('1 / 5 部屋完成');
  await expect(page.locator('#house-mission-progress')).toHaveText('3 / 15');
- const before=page.locator('.house-room-comparison img').first(),after=page.locator('.house-room-comparison img').last();
+ const before=page.locator('.house-room-snapshot[data-phase="before"] svg'),after=page.locator('.house-room-snapshot[data-phase="after"] svg');
  await expect(before).toBeVisible();await expect(after).toBeVisible();
- expect(await before.getAttribute('src')).not.toBe(await after.getAttribute('src'));
+ await expect(before).toHaveAttribute('aria-hidden','true');await expect(after).toHaveAttribute('aria-hidden','true');
+ // All three repair objects contribute to this picture, not only the final one.
+ const snapshotImages=async locator=>locator.locator('image').evaluateAll(images=>images.map(e=>e.getAttribute('href')));
+ expect(await snapshotImages(before)).not.toEqual(await snapshotImages(after));
+ await expect(page.locator('.house-room-comparison [data-object]')).toHaveCount(0);
+ const ids=await page.locator('[id]').evaluateAll(es=>es.map(e=>e.id));
+ expect(new Set(ids).size).toBe(ids.length);
  await info.attach('completed-room-entry-'+width,{body:await page.locator('.house-room-celebration').screenshot({animations:'disabled'}),contentType:'image/png'});
  const box=await page.locator('.house-room-celebration').boundingBox();
  expect(box).not.toBeNull();expect(box.x).toBeGreaterThanOrEqual(-1);expect(box.x+box.width).toBeLessThanOrEqual(width+1);
