@@ -888,8 +888,10 @@ for(const width of [320,390])test('house painted exterior grows in four visible 
   await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','true');
   await expect(page.locator('.house-world [data-art-layer="house-growth"]')).toHaveAttribute('data-growth-count',String(step));
   await expect(page.locator('[data-house-growth-area]')).toHaveCount(step);
+  await expect(page.locator('[data-house-sealed-area]')).toHaveCount(4-step);
   for(const [i,area] of names.entries()){
    await expect(page.locator(`[data-house-growth-area="${area}"]`)).toHaveCount(i<step?1:0);
+   await expect(page.locator(`[data-house-sealed-area="${area}"]`)).toHaveCount(i>=step?1:0);
   }
   await expect(page.locator('.house-world [data-art-layer="triken"]')).toHaveCount(0);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
