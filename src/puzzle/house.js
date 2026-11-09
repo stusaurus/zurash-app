@@ -32,10 +32,12 @@ export const HOUSE_EXPANSIONS=[
 export function accessibleHouseAreas(s){
  const earned=clears(s);
  const preservedIndex=HOUSE_EXPANSIONS.reduce((max,expansion,i)=>{
-  const hasHistoricWork=TASKS.some(task=>task.area===expansion.area&&
+  // An unfinished entry job belongs outside. Only legacy progress in a
+  // later room preserves access through that room (without unlocking others).
+  const hasHistoricWork=i>0&&TASKS.some(task=>task.area===expansion.area&&
    (s.home.done[task.id]||s.home.pending===task.id));
   return hasHistoricWork?Math.max(max,i):max;
- },0);
+ },-1);
  const unlocked=['exterior'];
  for(const [i,expansion] of HOUSE_EXPANSIONS.entries()){
   const previous=HOUSE_EXPANSIONS[i-1]?.area;
