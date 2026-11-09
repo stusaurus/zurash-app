@@ -54,7 +54,7 @@ export function nextHouseExpansion(s){
  const next=HOUSE_EXPANSIONS.find(exp=>!visible.includes(exp.area));
  if(!next)return null;
  const index=HOUSE_EXPANSIONS.indexOf(next),previous=HOUSE_EXPANSIONS[index-1]?.area;
- const previousDone=previous?TASKS.filter(t=>t.area===previous).every(t=>s.home.done[t.id]):true;
+ const previousDone=TASKS.filter(t=>t.area=== (previous??'entry')).every(t=>s.home.done[t.id]);
  return {area:next.area,stage:next.stage,previousDone,missingStages:Math.max(0,next.stage-clears(s))};
 }
 export function newHome(progress=newProgress()){validateProgress(progress);return {version:2,progress:structuredClone(progress),home:{done:Object.fromEntries(TASKS.filter(t=>Object.hasOwn(progress.town,t.id)).map(t=>[t.id,true])),styles:{},reached:Math.max(1,Math.min(50,Object.keys(progress.completed).length),...Object.keys(progress.town).map(id=>({"ice-workshop":10,"ice-crane":20,"crystal-gate":30}[id]??0))),pending:null,completionSeen:false},legacy:{town:structuredClone(progress.town)}};}
