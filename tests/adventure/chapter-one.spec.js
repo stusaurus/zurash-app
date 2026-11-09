@@ -813,8 +813,15 @@ for(const width of [320,390])test('house expansion reveals each new area only af
  await expect(page.locator('[data-area="living"]')).toHaveCount(1);
  await expect(page.locator('[data-area="kitchen"]')).toHaveCount(0);
  await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 2 / 5');
- await expect(page.locator('#house-room-celebration-next')).toHaveText('新しいエリアへ！');
+ await expect(page.locator('#house-room-celebration-next')).toHaveText('家がひろがった！ 外から見よう');
  await page.locator('#house-room-celebration-next').click();
+ await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
+ await expect(page.locator('.house-world')).toHaveAttribute('data-growth-reveal','living');
+ await expect(page.locator('[data-house-growth-area="living"]')).toHaveCount(1);
+ await expect(page.locator('[data-house-growth-area="kitchen"]')).toHaveCount(0);
+ await expect(page.locator('#house-growth-enter')).toBeVisible();
+ await info.attach('house-living-extension-'+width,{body:await page.locator('.house-world').screenshot({animations:'disabled'}),contentType:'image/png'});
+ await page.locator('#house-growth-enter').click();
  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','living');
  await expect(page.locator('[data-scene-to="kitchen"]')).toHaveCount(0);
  await expect(page.locator('#house-mission-title')).toContainText('床を張り替える');
