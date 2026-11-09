@@ -152,21 +152,27 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   for(const b of await page.locator('.scene-hotspot,.object-target').all()){
     const box=await b.boundingBox();expect(box.width).toBeGreaterThanOrEqual(44);expect(box.height).toBeGreaterThanOrEqual(44);
   }
-  await page.getByRole('button',{name:'玄関へ',exact:true}).click();
-  await expect(page.locator('[data-scene-art="entry"]')).toBeVisible();
-  await expect(page.getByRole('button',{name:'キッチンへ',exact:true})).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'玄関へ',exact:true})).toHaveCount(0);
+  await expect(page.locator('[data-area="entry"]')).toHaveCount(0);
   await expect(page.locator('[data-area="living"]')).toHaveCount(0);
-  await page.locator('[data-area="entry"]').click();await openRepairs(page);
+  await expect(page.locator('[data-scene-art="exterior"]')).toBeVisible();
+  await openRepairs(page);
   if(info.project.name==='chromium'&&width===390){
     await page.screenshot({animations:'disabled',path:info.outputPath('entry-before-390.png'),fullPage:true});
   }
   for(const t of TASKS){
-    await page.locator(`[data-area="${t.area}"]`).click();await expect(page.locator('#home-screen')).toHaveAttribute('data-scene',t.area);await openRepairs(page);await page.locator(`[data-repair="${t.id}"]`).click();
+    const targetScene=t.area==='entry'?'exterior':t.area;
+    if(await page.locator('#home-screen').getAttribute('data-scene')!==targetScene){
+      await page.locator(targetScene==='exterior'?'[data-scene-to="exterior"]':`[data-area="${targetScene}"]`).click();
+    }
+    await expect(page.locator('#home-screen')).toHaveAttribute('data-scene',targetScene);
+    await openRepairs(page);await page.locator(`[data-repair="${t.id}"]`).click();
     if(t===TASKS[0]){
       await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','building');
       await expect(page.locator('#home-balance')).toHaveText('47');
       await page.reload(); // Paid construction resumes without a second debit.
-      await page.locator('[data-area="entry"]').click();await openRepairs(page);
+      await expect(page.locator('[data-area="entry"]')).toHaveCount(0);
+      await openRepairs(page);
     }
     await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','complete');
     if(t.slot===2){
