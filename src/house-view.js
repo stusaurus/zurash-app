@@ -53,7 +53,7 @@ function roomCompletionHtml(chapter,task,save,nextAction){
  </section>`;
 }
 export function createHouseView({element,getSave,setSave,onPlay,onComplete,onError}){
- let current='exterior',timer,selected=null,lastScene=null,menuOpen=false,guidedMode=false,roomCelebration=null,previousAreas=null,justOpenedArea=null,navigation=0,frame=0;
+ let current='exterior',timer,selected=null,lastScene=null,menuOpen=false,guidedMode=false,roomCelebration=null,previousAreas=null,justOpenedArea=null,recentlyCompleted=null,navigation=0,frame=0;
  async function ready(art){const paths=[...new Set([...art.matchAll(/href="([^"]+)"/g)].map(m=>m[1]))];await Promise.all(paths.map(path=>new Promise((resolve,reject)=>{const image=new Image();image.onload=resolve;image.onerror=()=>reject(new Error(`画像を読み込めません: ${path}`));image.src=path;if(image.complete){if(image.naturalWidth>0)resolve();else reject(new Error(`画像を読み込めません: ${path}`));}})));}
  const area=()=>current==='exterior'?'entry':current;
  async function navigate(id){if(id===current)return;if(!accessibleHouseAreas(getSave()).includes(id))return;const ticket=++navigation;const world=element.querySelector('.house-world');world?.setAttribute('aria-busy','true');try{await ready(renderHouseScene(getSave(),id));}catch(error){if(ticket===navigation){world?.setAttribute('aria-busy','false');onError(error);}return;}if(ticket!==navigation)return;current=id;selected=null;menuOpen=false;guidedMode=false;roomCelebration=null;if(id!=='exterior')justOpenedArea=null;render();element.querySelector('#scene-heading')?.focus({preventScroll:true});element.scrollIntoView({block:'start',behavior:'instant'});}
@@ -83,6 +83,11 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  const roomFinished=tasks.every(t=>done[t.id]);
  const completedChapter=roomCelebration&&chapters.find(ch=>ch.id===roomCelebration.area&&ch.complete);
  const completedTask=completedChapter&&TASKS.find(t=>t.id===roomCelebration.taskId);
+ // Transient feedback is consumed once per actual completed repair. The
+ // saved house and artwork are never modified to store this visual effect.
+ const freshRepair=recentlyCompleted&&TASKS.find(t=>t.id===recentlyCompleted&&done[t.id]);
+ const repairMarker=freshRepair&&objectTargets[current]?.find(target=>target.id===freshRepair.id);
+ recentlyCompleted=null;
  lastScene=current;
  element.dataset.scene=current;element.dataset.repairMenu=String(menuOpen);element.dataset.missionState=mission.state;
  element.innerHTML=`<div class="home-bar"><div><span class="eyebrow">CHAPTER 01 · トリケンの家</span><h1 id="scene-heading" tabindex="-1">${sceneName}</h1></div><strong aria-label="家づくりの星">★ <span id="home-balance">${balance(s.progress)}</span></strong></div>
@@ -91,6 +96,7 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  ${(SCENE_LINKS[current]??[]).filter(link=>visibleAreas.includes(link.to)).map(link=>`<button class="scene-hotspot" data-scene-to="${link.to}" style="--x:${link.x}%;--y:${link.y}%" aria-label="${link.label}"><span aria-hidden="true">${icons[link.to]}</span><b>${link.label}</b></button>`).join('')}
  ${(objectTargets[current]??[]).filter(target=>roomFinished||mission.task?.id===target.id).map(target=>{const t=TASKS.find(t=>t.id===target.id);return `<button class="object-target" data-edit-object="${t.id}" style="--x:${target.x}%;--y:${target.y}%" aria-label="${t.label}：修復・デザイン変更"><span aria-hidden="true">${done[t.id]?'✎':'＋'}</span></button>`;}).join('')}
  ${s.home.pending?'<div class="repair-status" role="status"><i></i> 家を修復中…</div>':''}
+ ${repairMarker?`<div class="house-repair-reveal" data-task-id="${freshRepair.id}" style="--x:${repairMarker.x}%;--y:${repairMarker.y}%" aria-hidden="true"><span aria-hidden="true">✧</span><b>できた！</b></div>`:''}
  <span class="scene-counter">${TASKS.filter(t=>done[t.id]).length}<small> / 15 修復</small></span></div>
  <nav class="room-tabs" aria-label="家のシーン">${SCENES.filter(([id])=>visibleAreas.includes(id)).map(([id,name])=>`<button ${id==='exterior'?'data-scene-to="exterior"':`data-area="${id}"`} aria-pressed="${current===id}"><span aria-hidden="true">${icons[id]}</span>${name}</button>`).join('')}</nav>
  ${justOpenedArea?`<div id="house-area-unlocked" class="house-area-unlocked" role="status"><span>✨ 新しいエリア「${SCENES.find(([id])=>id===justOpenedArea)?.[1]}」がひらいた！</span>${current==='exterior'&&!completedTask?'<button id="house-growth-enter" type="button">新しい部屋へ ›</button>':''}</div>`:''}
@@ -162,6 +168,7 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
     const pendingId=getSave().home.pending;
     const finished=finishRepair(getSave());
     setSave(finished);
+    recentlyCompleted=pendingId;
     const task=TASKS.find(t=>t.id===pendingId);
     if(task?.slot===2&&TASKS.filter(t=>t.area===task.area).every(t=>finished.home.done[t.id])){
      roomCelebration={area:task.area,taskId:task.id};
