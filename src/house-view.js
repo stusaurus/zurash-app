@@ -39,7 +39,7 @@ function completedRoomSnapshot(save,chapter,phase){
 function roomCompletionHtml(chapter,task,save,nextAction){
  const before=completedRoomSnapshot(save,chapter,'before');
  const after=completedRoomSnapshot(save,chapter,'after');
- return `<section class='house-room-celebration' role='status' aria-label='部屋の修復完成'>
+ return `<section class='house-room-celebration' role='status' aria-label='エリアの修復完成'>
   <span class='eyebrow'>✧ ROOM COMPLETE · ${chapter.doneCount}/3</span>
   <h2 id='house-room-celebration-title'>🎉 ${chapter.name}が完成！</h2>
   <p>${chapter.finish}</p>
@@ -48,7 +48,7 @@ function roomCompletionHtml(chapter,task,save,nextAction){
    <span aria-hidden='true'>→</span>
    <figure class='house-room-snapshot' data-phase='after'><div class='house-room-snapshot-art'>${after}</div><figcaption>完成！</figcaption></figure>
   </div>
-  <p class='house-room-reveal-note'>3つの修復で、部屋全体がこんなに変わったよ。</p>
+  <p class='house-room-reveal-note'>${chapter.id==='entry'?'外から見た家がこんなにきれいになった！':'3つの修復で、部屋全体がこんなに変わったよ。'}</p>
   <button id='house-room-celebration-next' class='primary' type='button'>${nextAction==='enter'?'玄関から家に入る':nextAction==='open'?'家がひろがった！ 外から見よう':nextAction==='locked'?'パズルでエリアをひらく':'家をながめる'}</button>
  </section>`;
 }
@@ -90,7 +90,7 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  ${s.home.pending?'<div class="repair-status" role="status"><i></i> 家を修復中…</div>':''}
  <span class="scene-counter">${TASKS.filter(t=>done[t.id]).length}<small> / 15 修復</small></span></div>
  <nav class="room-tabs" aria-label="家のシーン">${SCENES.filter(([id])=>visibleAreas.includes(id)).map(([id,name])=>`<button ${id==='exterior'?'data-scene-to="exterior"':`data-area="${id}"`} aria-pressed="${current===id}"><span aria-hidden="true">${icons[id]}</span>${name}</button>`).join('')}</nav>
- ${justOpenedArea?`<div id="house-area-unlocked" class="house-area-unlocked" role="status"><span>✨ 新しいエリア「${SCENES.find(([id])=>id===justOpenedArea)?.[1]}」がひらいた！</span>${current==='exterior'?'<button id="house-growth-enter" type="button">新しい部屋へ ›</button>':''}</div>`:''}
+ ${justOpenedArea?`<div id="house-area-unlocked" class="house-area-unlocked" role="status"><span>✨ 新しいエリア「${SCENES.find(([id])=>id===justOpenedArea)?.[1]}」がひらいた！</span>${current==='exterior'&&!completedTask?'<button id="house-growth-enter" type="button">新しい部屋へ ›</button>':''}</div>`:''}
  <div class="house-expansion-meter" aria-label="家のエリア拡張">
   <span id="house-area-count">ひろがったエリア ${visibleAreas.length-1} / 5</span>
   <span class="house-expansion-dots" aria-hidden="true">${HOUSE_EXPANSIONS.map(e=>visibleAreas.includes(e.area)?'<i class="unlocked"></i>':'<i></i>').join('')}</span>
