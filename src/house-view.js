@@ -45,7 +45,7 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  const missionNumber=mission.task?TASKS.findIndex(t=>t.id===mission.task.id)+1:15;
  const hiddenGoal=Boolean(mission.task&&!visibleAreas.includes(mission.task.area));
  const missionDescription=mission.state==='complete'?'15個の修復が完成！ この家での冒険を続けよう。':
-   mission.state==='building'?'トリケンが修復中。完成すると家の景色が変わるよ。':
+   mission.state==='building'?'修復中。完成すると家の景色が変わるよ。':
    mission.state==='stages'?`ステージ${mission.task.at}まであと${mission.missingStages}面。パズルをクリアして修復を解放しよう。`:
    mission.state==='stars'?`必要な星は${mission.task.cost}個。あと${mission.missingStars}個集めると修復できるよ。`:
    mission.state==='ready'?`星${mission.task.cost}個を使って、家の${missionRoom}を修復しよう。`:
@@ -63,7 +63,7 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  ${current!=='exterior'?'<button class="scene-back" data-scene-to="exterior" aria-label="外観に戻る">‹ 家の外へ</button>':''}
  ${(SCENE_LINKS[current]??[]).filter(link=>visibleAreas.includes(link.to)).map(link=>`<button class="scene-hotspot" data-scene-to="${link.to}" style="--x:${link.x}%;--y:${link.y}%" aria-label="${link.label}"><span aria-hidden="true">${icons[link.to]}</span><b>${link.label}</b></button>`).join('')}
  ${(objectTargets[current]??[]).filter(target=>roomFinished||mission.task?.id===target.id).map(target=>{const t=TASKS.find(t=>t.id===target.id);return `<button class="object-target" data-edit-object="${t.id}" style="--x:${target.x}%;--y:${target.y}%" aria-label="${t.label}：修復・デザイン変更"><span aria-hidden="true">${done[t.id]?'✎':'＋'}</span></button>`;}).join('')}
- ${s.home.pending?'<div class="repair-status" role="status"><i></i> トリケンと修復中…</div>':''}
+ ${s.home.pending?'<div class="repair-status" role="status"><i></i> 家を修復中…</div>':''}
  <span class="scene-counter">${TASKS.filter(t=>done[t.id]).length}<small> / 15 修復</small></span></div>
  <nav class="room-tabs" aria-label="家のシーン">${SCENES.filter(([id])=>visibleAreas.includes(id)).map(([id,name])=>`<button ${id==='exterior'?'data-scene-to="exterior"':`data-area="${id}"`} aria-pressed="${current===id}"><span aria-hidden="true">${icons[id]}</span>${name}</button>`).join('')}</nav>
  ${justOpenedArea?`<p id="house-area-unlocked" class="house-area-unlocked" role="status">✨ 新しいエリア「${SCENES.find(([id])=>id===justOpenedArea)?.[1]}」がひらいた！</p>`:''}
