@@ -67,7 +67,10 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  previousAreas=visibleAreas;
  const missionRoom=mission.task?AREAS.find(([id])=>id===mission.task.area)?.[1]:null;
  const missionNumber=mission.task?TASKS.findIndex(t=>t.id===mission.task.id)+1:15;
- const hiddenGoal=Boolean(mission.task&&!visibleAreas.includes(mission.task.area));
+ // The locked hall is still today's *exterior* repair location. Hide future
+ // rooms, not the three visible jobs on the front wall/door/lamp.
+ const exteriorJob=mission.task?.area==='entry'&&current==='exterior';
+ const hiddenGoal=Boolean(mission.task&&!exteriorJob&&!visibleAreas.includes(mission.task.area));
  const missionDescription=mission.state==='complete'?'15個の修復が完成！ この家での冒険を続けよう。':
    mission.state==='building'?'修復中。完成すると家の景色が変わるよ。':
    mission.state==='stages'?`ステージ${mission.task.at}まであと${mission.missingStages}面。パズルをクリアして修復を解放しよう。`:
