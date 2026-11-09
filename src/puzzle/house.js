@@ -4,7 +4,7 @@ export const OLD_KEY='zurash-app:chapter-preview:ice-town:v1';
 export const AREAS=[['entry','玄関・外壁'],['living','リビング'],['kitchen','キッチン・ダイニング'],['bedroom','寝室'],['garden','庭']];
 // Five short story arcs. Display text is derived from existing saves, not persisted.
 export const HOUSE_CHAPTERS=[
- {id:'entry',name:'玄関',goal:'みんなが安心して入れる家にする',intro:'玄関の扉がきしんでいるよ。まずは家の入り口を直そう！',finish:'玄関の灯りがともった！ これでみんなを迎えられるね。'},
+ {id:'entry',name:'外まわり',goal:'家の外を直して、玄関を開ける',intro:'まずは外から。扉・壁・玄関灯を直すと中に入れるよ。',finish:'家の外がきれいになった！ さあ、玄関から中へ入ろう。'},
  {id:'living',name:'リビング',goal:'みんなが集まれる場所を作る',intro:'床が傷んでいて、ゆっくりくつろげないみたい。',finish:'くつろげるリビングの完成！ お話するのが楽しみだね。'},
  {id:'kitchen',name:'キッチン',goal:'あたたかいごはんを作れるようにする',intro:'古い台所を直して、おいしいごはんを作ろう。',finish:'ごはんの準備ができた！ みんなで食卓を囲もう。'},
  {id:'bedroom',name:'寝室',goal:'ぐっすり休める部屋にする',intro:'夜も安心して眠れる寝室にしよう。',finish:'やさしい灯りの寝室が完成！ おやすみなさい。'},
@@ -39,7 +39,10 @@ export function accessibleHouseAreas(s){
  const unlocked=['exterior'];
  for(const [i,expansion] of HOUSE_EXPANSIONS.entries()){
   const previous=HOUSE_EXPANSIONS[i-1]?.area;
-  const finishedPrevious=!previous||TASKS.filter(t=>t.area===previous).every(t=>s.home.done[t.id]);
+  // Entry becomes explorable only after all three outside repairs, not at start.
+  const finishedPrevious=previous
+   ?TASKS.filter(t=>t.area===previous).every(t=>s.home.done[t.id])
+   :TASKS.filter(t=>t.area==='entry').every(t=>s.home.done[t.id]);
   if(i<=preservedIndex||(finishedPrevious&&earned>=expansion.stage)){
    unlocked.push(expansion.area);
   }else break;
