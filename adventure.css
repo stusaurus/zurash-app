@@ -1035,3 +1035,17 @@ html.fun-tap-first .fun-board .cell.prepared-target:focus-visible{
 .house-room-comparison .house-room-snapshot[data-phase="after"] figcaption{color:#956521}
 .house-room-celebration .house-room-reveal-note{font-size:11px;line-height:1.45;color:#69816d;margin:-2px 0 11px;text-align:center}
 @media(max-width:360px){.house-room-comparison{grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);gap:4px}.house-room-comparison .house-room-snapshot{padding:3px}.house-room-comparison .house-room-snapshot figcaption{font-size:10px}}
+
+/* One repair, one visible result. Noninteractive feedback sits on the changed
+   object, fades quickly, and never becomes a new persistent game UI. */
+.house-repair-reveal{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);z-index:3;pointer-events:none;width:90px;height:90px;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff9d9;text-shadow:0 2px 5px #364963a8;font-size:17px}
+.house-repair-reveal::before{content:'';position:absolute;inset:8px;border-radius:50%;border:2px solid #fff2b7;box-shadow:0 0 0 6px #ffe8a547,0 0 25px 9px #ffe59d96;background:radial-gradient(circle,#fbe8b747 0%,#fbe8b700 67%);z-index:-1}
+.house-repair-reveal span{font-size:30px;line-height:1;filter:drop-shadow(0 2px 4px #9a7c4c8c)}
+.house-repair-reveal b{margin-top:2px;padding:3px 9px;border-radius:99px;background:#2e5868db;border:1px solid #fff1c8a6;white-space:nowrap;font-size:11px;font-weight:850}
+@media(prefers-reduced-motion:no-preference){
+ .house-repair-reveal{animation:house-repair-success 1.35s ease-out both}
+ .house-repair-reveal::before{animation:house-repair-ring .85s ease-out both}
+ @keyframes house-repair-success{0%{opacity:0;transform:translate(-50%,-50%) scale(.72)}19%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}75%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.1)}}
+ @keyframes house-repair-ring{0%{opacity:0;transform:scale(.4)}35%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.36)}}
+}
+@media(max-width:360px){.house-repair-reveal{width:76px;height:76px}.house-repair-reveal span{font-size:26px}}
