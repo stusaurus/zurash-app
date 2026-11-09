@@ -723,13 +723,21 @@ for(const width of [320,390])test('guided house repairs follow one mission at a 
  await expect(page.locator('#home-repairs')).toBeVisible();
  await expect(page.locator('#repair-tasks .repair')).toHaveCount(1);
  await page.locator('[data-repair="home-entry-0"]').click();
+ const firstReveal=page.locator('.house-repair-reveal');
+ await expect(firstReveal).toHaveAttribute('data-task-id','home-entry-0');
+ await expect(firstReveal).toContainText('できた！');
+ await expect(firstReveal).toHaveCSS('pointer-events','none');
+ await expect(firstReveal).toHaveCSS('animation-name','none');
+ await testInfo.attach('outside-door-repaired-'+width,{body:await page.locator('.house-world').screenshot({animations:'disabled'}),contentType:'image/png'});
  await expect(page.locator('#house-mission-progress')).toHaveText('1 / 15');
  await expect(page.locator('#house-mission-title')).toContainText('外壁を塗る');
  await expect(page.locator('#home-repairs')).toBeHidden();
  await expect(page.locator('#home-balance')).toHaveText('2');
  await page.locator('#house-mission-next').click();
+ await expect(page.locator('.house-repair-reveal')).toHaveCount(0); // not replayed by ordinary UI work
  await expect(page.locator('#repair-tasks .repair')).toHaveCount(1);
  await page.locator('[data-repair="home-entry-1"]').click();
+ await expect(page.locator('.house-repair-reveal')).toHaveAttribute('data-task-id','home-entry-1');
  await expect(page.locator('#house-mission-progress')).toHaveText('2 / 15');
  await expect(page.locator('#house-mission-copy')).toContainText('ステージ8まであと3面');
  await expect(page.locator('#home-balance')).toHaveText('0');
@@ -920,4 +928,25 @@ for(const width of [320,390])test('house painted exterior grows in four visible 
  const stored=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),HOME_KEY);
  expect(Object.keys(stored.home.done)).toHaveLength(12);
  expect(stored.version).toBe(2);
+});
+
+test('repair success accent animates only for the new repair and does not steal taps',async({page})=>{
+ const save=newHome();save.home.reached=5;
+ for(let n=1;n<=5;n++)save.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+ await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:save});
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/adventure.html');
+ await expect(page.locator('.house-repair-reveal')).toHaveCount(0);
+ await page.locator('#house-mission-next').click();
+ await page.locator('[data-repair="home-entry-0"]').click();
+ const burst=page.locator('.house-repair-reveal');
+ await expect(burst).toHaveAttribute('data-task-id','home-entry-0');
+ await expect(burst).toHaveCSS('animation-name','house-repair-success');
+ await expect(burst).toHaveCSS('pointer-events','none');
+ await page.locator('#house-mission-next').click();
+ await expect(burst).toHaveCount(0);
+ await expect(page.locator('#home-repairs')).toBeVisible();
+ await page.reload();
+ await expect(page.locator('.house-repair-reveal')).toHaveCount(0);
+ await expect(page.locator('[data-object="home-entry-0"]')).toHaveAttribute('data-state','complete');
 });
