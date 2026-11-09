@@ -25,14 +25,14 @@ function roomCompletionHtml(chapter,task,save,nextAction){
   <h2 id='house-room-celebration-title'>🎉 ${chapter.name}が完成！</h2>
   <p>${chapter.finish}</p>
   <div class='house-room-comparison'><figure><img src='${before}' alt='修復前の${task.label}'><figcaption>まえ</figcaption></figure><span aria-hidden='true'>→</span><figure><img src='${after}' alt='修復後の${task.label}'><figcaption>あと</figcaption></figure></div>
-  <button id='house-room-celebration-next' class='primary' type='button'>${nextAction==='open'?'新しいエリアへ！':nextAction==='locked'?'パズルでエリアをひらく':'家をながめる'}</button>
+  <button id='house-room-celebration-next' class='primary' type='button'>${nextAction==='open'?'家がひろがった！ 外から見よう':nextAction==='locked'?'パズルでエリアをひらく':'家をながめる'}</button>
  </section>`;
 }
 export function createHouseView({element,getSave,setSave,onPlay,onComplete,onError}){
  let current='exterior',timer,selected=null,lastScene=null,menuOpen=false,guidedMode=false,roomCelebration=null,previousAreas=null,justOpenedArea=null,navigation=0,frame=0;
  async function ready(art){const paths=[...new Set([...art.matchAll(/href="([^"]+)"/g)].map(m=>m[1]))];await Promise.all(paths.map(path=>new Promise((resolve,reject)=>{const image=new Image();image.onload=resolve;image.onerror=()=>reject(new Error(`画像を読み込めません: ${path}`));image.src=path;if(image.complete){if(image.naturalWidth>0)resolve();else reject(new Error(`画像を読み込めません: ${path}`));}})));}
  const area=()=>current==='exterior'?'entry':current;
- async function navigate(id){if(id===current)return;if(!accessibleHouseAreas(getSave()).includes(id))return;const ticket=++navigation;const world=element.querySelector('.house-world');world?.setAttribute('aria-busy','true');try{await ready(renderHouseScene(getSave(),id));}catch(error){if(ticket===navigation){world?.setAttribute('aria-busy','false');onError(error);}return;}if(ticket!==navigation)return;current=id;selected=null;menuOpen=false;guidedMode=false;roomCelebration=null;justOpenedArea=null;render();element.querySelector('#scene-heading')?.focus({preventScroll:true});element.scrollIntoView({block:'start',behavior:'instant'});}
+ async function navigate(id){if(id===current)return;if(!accessibleHouseAreas(getSave()).includes(id))return;const ticket=++navigation;const world=element.querySelector('.house-world');world?.setAttribute('aria-busy','true');try{await ready(renderHouseScene(getSave(),id));}catch(error){if(ticket===navigation){world?.setAttribute('aria-busy','false');onError(error);}return;}if(ticket!==navigation)return;current=id;selected=null;menuOpen=false;guidedMode=false;roomCelebration=null;if(id!=='exterior')justOpenedArea=null;render();element.querySelector('#scene-heading')?.focus({preventScroll:true});element.scrollIntoView({block:'start',behavior:'instant'});}
  function openMenu(id=null,asGuided=false){selected=id;menuOpen=true;guidedMode=asGuided;render();const target=element.querySelector(id?`#repair-${id}`:'.restoration-sheet');target?.scrollIntoView({block:'nearest',behavior:'instant'});(element.querySelector(id?`[data-repair="${id}"]:not(:disabled), [data-style="${id}"]`:'#close-repairs')??element.querySelector('#close-repairs'))?.focus({preventScroll:true});}
  function render(){
  const s=getSave(),done=s.home.done,count=clears(s),sceneName=SCENES.find(([id])=>id===current)[1],tasks=TASKS.filter(t=>t.area===area()),mission=nextRepairMission(s),entered=lastScene!==current;
@@ -59,14 +59,14 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  lastScene=current;
  element.dataset.scene=current;element.dataset.repairMenu=String(menuOpen);element.dataset.missionState=mission.state;
  element.innerHTML=`<div class="home-bar"><div><span class="eyebrow">CHAPTER 01 · トリケンの家</span><h1 id="scene-heading" tabindex="-1">${sceneName}</h1></div><strong aria-label="家づくりの星">★ <span id="home-balance">${balance(s.progress)}</span></strong></div>
- <div class="house-world ${entered?'scene-enter':''}">${renderHouseScene(s,current)}
+ <div class="house-world ${entered?'scene-enter':''}" ${current==='exterior'&&justOpenedArea?`data-growth-reveal="${justOpenedArea}"`:''}>${renderHouseScene(s,current)}
  ${current!=='exterior'?'<button class="scene-back" data-scene-to="exterior" aria-label="外観に戻る">‹ 家の外へ</button>':''}
  ${(SCENE_LINKS[current]??[]).filter(link=>visibleAreas.includes(link.to)).map(link=>`<button class="scene-hotspot" data-scene-to="${link.to}" style="--x:${link.x}%;--y:${link.y}%" aria-label="${link.label}"><span aria-hidden="true">${icons[link.to]}</span><b>${link.label}</b></button>`).join('')}
  ${(objectTargets[current]??[]).filter(target=>roomFinished||mission.task?.id===target.id).map(target=>{const t=TASKS.find(t=>t.id===target.id);return `<button class="object-target" data-edit-object="${t.id}" style="--x:${target.x}%;--y:${target.y}%" aria-label="${t.label}：修復・デザイン変更"><span aria-hidden="true">${done[t.id]?'✎':'＋'}</span></button>`;}).join('')}
  ${s.home.pending?'<div class="repair-status" role="status"><i></i> 家を修復中…</div>':''}
  <span class="scene-counter">${TASKS.filter(t=>done[t.id]).length}<small> / 15 修復</small></span></div>
  <nav class="room-tabs" aria-label="家のシーン">${SCENES.filter(([id])=>visibleAreas.includes(id)).map(([id,name])=>`<button ${id==='exterior'?'data-scene-to="exterior"':`data-area="${id}"`} aria-pressed="${current===id}"><span aria-hidden="true">${icons[id]}</span>${name}</button>`).join('')}</nav>
- ${justOpenedArea?`<p id="house-area-unlocked" class="house-area-unlocked" role="status">✨ 新しいエリア「${SCENES.find(([id])=>id===justOpenedArea)?.[1]}」がひらいた！</p>`:''}
+ ${justOpenedArea?`<div id="house-area-unlocked" class="house-area-unlocked" role="status"><span>✨ 新しいエリア「${SCENES.find(([id])=>id===justOpenedArea)?.[1]}」がひらいた！</span>${current==='exterior'?'<button id="house-growth-enter" type="button">新しい部屋へ ›</button>':''}</div>`:''}
  <div class="house-expansion-meter" aria-label="家のエリア拡張">
   <span id="house-area-count">ひろがったエリア ${visibleAreas.length-1} / 5</span>
   <span class="house-expansion-dots" aria-hidden="true">${HOUSE_EXPANSIONS.map(e=>visibleAreas.includes(e.area)?'<i class="unlocked"></i>':'<i></i>').join('')}</span>
@@ -91,10 +91,12 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  if(celebrationNext)celebrationNext.onclick=()=>{
   roomCelebration=null;
   const nextRoom=nextRepairMission(getSave()).task?.area;
-  if(nextRoom&&accessibleHouseAreas(getSave()).includes(nextRoom)&&nextRoom!==current)void navigate(nextRoom);
+  if(nextRoom&&accessibleHouseAreas(getSave()).includes(nextRoom)&&nextRoom!==current)void navigate(justOpenedArea===nextRoom?'exterior':nextRoom);
   else if(nextRoom&&!accessibleHouseAreas(getSave()).includes(nextRoom)){render();onPlay();}
   else render();
  };
+ const growthEnter=element.querySelector('#house-growth-enter');
+ if(growthEnter)growthEnter.onclick=()=>{const destination=justOpenedArea; if(destination&&accessibleHouseAreas(getSave()).includes(destination))void navigate(destination);};
  const missionButton=element.querySelector('#house-mission-next');
  missionButton.hidden=Boolean(completedTask);
  missionButton.onclick=async()=>{
