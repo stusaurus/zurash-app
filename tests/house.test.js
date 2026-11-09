@@ -3,6 +3,8 @@ import {readChapter} from '../scripts/chapter-one-verify.js';
 import {newHome,validateHome,beginRepair,finishRepair,decorate,homeComplete,budget,TASKS,available,HOUSE_CHAPTERS,houseChapterProgress,HOUSE_EXPANSIONS,accessibleHouseAreas,nextHouseExpansion,nextRepairMission,loadHome,saveHome,HOME_KEY,OLD_KEY} from '../src/puzzle/house.js';
 import {enterChapterStage,clearChapterStage} from '../src/puzzle/campaign.js';
 import {balance} from '../src/puzzle/progress.js';
+import {renderExteriorGrowth,EXTERIOR_GROWTH_ORDER} from '../src/house-expansion-art.js';
+import {renderLayeredScene} from '../src/house-layered-art.js';
 const f=await readChapter();
 function playAll(s){for(let i=0;i<50;i++){const e=enterChapterStage(f.campaign,f.chapter,f.stages[i],s.progress,{preview:true,houseMode:true});s.progress=clearChapterStage(f.campaign,f.chapter,f.stages[i],e.progress,f.proofs.stages[i].actions,{preview:true,houseMode:true}).progress;}return s;}
 test('50 unchanged puzzles remain playable without repairing; house costs 40 of 50 earned stars',()=>{let s=playAll(newHome());assert.equal(balance(s.progress),50);assert.equal(budget,40);for(const t of TASKS){assert.ok(available(s,t));s=beginRepair(s,t.id);assert.equal(s.home.pending,t.id);s=finishRepair(s);}assert.ok(homeComplete(s));assert.equal(balance(s.progress),10);assert.equal(Object.keys(s.home.done).length,15);});
@@ -134,4 +136,38 @@ test('legacy out-of-order work and pending repairs never disappear behind a newl
  assert.deepEqual(accessibleHouseAreas(s),['exterior','entry','living','kitchen','bedroom','garden']);
  assert.equal(nextHouseExpansion(s),null);
  assert.ok(validateHome(s));
+});
+
+test('approved painted exterior gains architectural pieces only when a room opens',()=>{
+ let s=playAll(newHome());
+ assert.deepEqual(EXTERIOR_GROWTH_ORDER,['living','kitchen','bedroom','garden']);
+ assert.equal(renderExteriorGrowth(s).match(/data-house-growth-area=/g),null);
+ assert.match(renderLayeredScene(s,'exterior'),/data-growth-count="0"/);
+ for(let i=0;i<5;i++){
+  for(const task of TASKS.slice(i*3,i*3+3))s=finishRepair(beginRepair(s,task.id));
+  const art=renderExteriorGrowth(s);
+  const expected=EXTERIOR_GROWTH_ORDER.slice(0,Math.min(i+1,4));
+  for(const area of EXTERIOR_GROWTH_ORDER){
+   assert.equal(art.includes('data-house-growth-area="'+area+'"'),expected.includes(area),area+' visibility');
+  }
+  assert.match(art,new RegExp('data-growth-count="'+expected.length+'"'));
+  assert.doesNotMatch(art,/triken-orange-80|data-art-layer="triken"/);
+ }
+ assert.match(renderLayeredScene(s,'exterior'),/data-house-growth-area="garden"/);
+ assert.match(renderLayeredScene(s,'garden'),/data-house-growth-area="garden"/);
+ assert.doesNotMatch(renderLayeredScene(s,'living'),/data-house-growth-area=/);
+ assert.equal(s.version,2);
+ assert.equal(balance(s.progress),10);
+});
+test('existing future-room repairs reveal architectural progress without spending new stars',()=>{
+ let s=playAll(newHome());
+ const kitchen=TASKS.find(task=>task.area==='kitchen');
+ s.progress.town[kitchen.id]=kitchen.cost;
+ s.home.done[kitchen.id]=true;
+ const before=structuredClone(s);
+ const exterior=renderExteriorGrowth(s);
+ assert.match(exterior,/data-house-growth-area="living"/);
+ assert.match(exterior,/data-house-growth-area="kitchen"/);
+ assert.doesNotMatch(exterior,/data-house-growth-area="bedroom"/);
+ assert.deepEqual(s,before);
 });
