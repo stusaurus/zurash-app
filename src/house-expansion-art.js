@@ -1,71 +1,79 @@
 import {accessibleHouseAreas} from './puzzle/house.js';
 
-// Small, additive architectural reveals over the approved painted house shell.
-// These overlays do not replace the original image or change the v2 save.
-// Placement is in the same 480x540 coordinates as house-layered-art.js.
+// Progressive reveal using the already approved painted exterior.
+// Dormant rooms are encased in translucent snow; completing a room and reaching
+// the milestone clears that snow to reveal the original, matching artwork.
+// No alternate image sets, star charges, or changes to v2 persistence.
 export const EXTERIOR_GROWTH_ORDER=Object.freeze(['living','kitchen','bedroom','garden']);
 
-const defs=String.raw`<defs>
- <linearGradient id="growth-timber" x2=".14" y2="1"><stop stop-color="#e9bd7b"/><stop offset=".45" stop-color="#b9854c"/><stop offset="1" stop-color="#73523a"/></linearGradient>
- <linearGradient id="growth-roof" x2=".2" y2="1"><stop stop-color="#8fb3bd"/><stop offset=".4" stop-color="#496d80"/><stop offset="1" stop-color="#263b58"/></linearGradient>
- <linearGradient id="growth-glass" x2=".1" y2="1"><stop stop-color="#fff5bd"/><stop offset=".6" stop-color="#e3ac64"/><stop offset="1" stop-color="#9f6b42"/></linearGradient>
- <linearGradient id="growth-snow" x2="0" y2="1"><stop stop-color="#fffdf1"/><stop offset=".65" stop-color="#edf6fa"/><stop offset="1" stop-color="#b8d4df"/></linearGradient>
- <radialGradient id="growth-warmth"><stop stop-color="#ffd27e" stop-opacity=".46"/><stop offset="1" stop-color="#ffcd79" stop-opacity="0"/></radialGradient>
- <filter id="growth-shadow" x="-35%" y="-35%" width="170%" height="170%"><feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#283e53" flood-opacity=".38"/></filter>
+const defs=`<defs>
+ <linearGradient id="growth-frost" x2=".3" y2="1">
+  <stop stop-color="#fffef7" stop-opacity=".94"/>
+  <stop offset=".34" stop-color="#d5ecf5" stop-opacity=".9"/>
+  <stop offset=".83" stop-color="#a7d5e4" stop-opacity=".79"/>
+  <stop offset="1" stop-color="#e8f5f9" stop-opacity=".94"/>
+ </linearGradient>
+ <linearGradient id="growth-snow-rim" x2=".1" y2="1">
+  <stop stop-color="#fffdf5"/><stop offset=".6" stop-color="#dceef4"/><stop offset="1" stop-color="#a7ccd9"/>
+ </linearGradient>
+ <radialGradient id="growth-thaw">
+  <stop stop-color="#ffd183" stop-opacity=".4"/>
+  <stop offset=".54" stop-color="#ffd08d" stop-opacity=".2"/>
+  <stop offset="1" stop-color="#ffd08d" stop-opacity="0"/>
+ </radialGradient>
  </defs>`;
-
-const modules={
- living:String.raw`<g data-house-growth-area="living" filter="url(#growth-shadow)">
-  <path d="M25 314 69 284 144 302 144 397 26 403Z" fill="url(#growth-timber)" stroke="#7d593d" stroke-width="3"/>
-  <path d="M23 316 67 284 67 401 24 406Z" fill="#926b49" opacity=".62"/>
-  <path d="M29 322H136M33 395H140M70 290v111M139 310v89" fill="none" stroke="#f3cc8b" stroke-width="4" opacity=".72"/>
-  <path d="M19 312 65 271 148 294 147 312 67 289 21 328Z" fill="url(#growth-roof)" stroke="#5e6472" stroke-width="3"/>
-  <path d="M20 306Q45 275 64 270L145 292l6 10-84-20-47 36Z" fill="url(#growth-snow)" stroke="#d5e7ed" stroke-width="3"/>
-  <path d="M22 314q7 12 6 20m25-34q5 14 1 22m64-21q-4 15-1 29" fill="none" stroke="#e7f7fb" stroke-width="5" stroke-linecap="round"/>
-  <ellipse cx="105" cy="356" rx="42" ry="59" fill="url(#growth-warmth)"/>
-  <rect x="79" y="328" width="43" height="61" rx="7" fill="#704b37" stroke="#e9ba7a" stroke-width="5"/>
-  <rect x="85" y="335" width="31" height="47" rx="3" fill="url(#growth-glass)" stroke="#fff0c0" stroke-width="2"/>
-  <path d="M101 335v47M85 356h31" stroke="#85613e" stroke-width="4"/>
-  <path d="M79 390h45" stroke="#f4d6a1" stroke-width="7" stroke-linecap="round"/>
-  <path d="M30 399Q76 390 141 399" stroke="url(#growth-snow)" stroke-width="11" stroke-linecap="round" fill="none"/>
+const sealed={
+ living:`<g data-house-sealed-area="living" pointer-events="none">
+  <path d="M20 305Q48 271 75 280L153 295Q162 339 149 404Q77 422 18 405Z" fill="url(#growth-frost)"/>
+  <path d="M20 307q52-46 132-10m-128 106q66 18 122-3" stroke="url(#growth-snow-rim)" stroke-width="13" stroke-linecap="round" fill="none"/>
+  <path d="M41 326q31-18 52 3t48-6M49 365q23-17 44 3t37-7" stroke="#e7f8fb" stroke-opacity=".8" stroke-width="5" fill="none"/>
+  <path d="M78 311v58m-22-35 42 19m-41 8 40-28" stroke="#b4dce7" stroke-opacity=".8" stroke-width="2" fill="none"/>
  </g>`,
- kitchen:String.raw`<g data-house-growth-area="kitchen" filter="url(#growth-shadow)">
-  <path d="M382 290 441 251 480 264v136l-96 4Z" fill="url(#growth-timber)" stroke="#7d563d" stroke-width="4"/>
-  <path d="M439 255v147M384 303l56-42M392 397l85-1" fill="none" stroke="#eec78a" stroke-width="4" opacity=".8"/>
-  <path d="M380 291 438 242 481 254v19l-41-15-60 49Z" fill="url(#growth-roof)" stroke="#5b6678" stroke-width="3"/>
-  <path d="M379 288q30-23 59-49l43 13v15l-43-17-55 49Z" fill="url(#growth-snow)" stroke="#d2e7ef" stroke-width="3"/>
-  <path d="M388 300q3 14-1 22m58-62q3 18-3 31" stroke="#f1fcfd" stroke-width="5" stroke-linecap="round" fill="none"/>
-  <ellipse cx="439" cy="350" rx="48" ry="64" fill="url(#growth-warmth)"/>
-  <path d="M406 318h52v64h-52Z" fill="#654936" stroke="#e1b985" stroke-width="6"/>
-  <path d="M411 322h43v55h-43Z" fill="url(#growth-glass)"/>
-  <path d="M433 322v56m-22-29h43" stroke="#8e6744" stroke-width="4"/>
-  <path d="M400 386h64M384 401q45-10 95 0" stroke="url(#growth-snow)" stroke-width="8" fill="none" stroke-linecap="round"/>
+ kitchen:`<g data-house-sealed-area="kitchen" pointer-events="none">
+  <path d="M380 268q29-29 61-38l39 17v162q-51 13-94-6Z" fill="url(#growth-frost)"/>
+  <path d="M381 273q47-43 96-21m-89 150q41 12 91-3" stroke="url(#growth-snow-rim)" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M405 304q23 18 52-7M398 341q34-15 70 3M405 380q30 10 61-5" stroke="#f3fdff" stroke-opacity=".85" stroke-width="5" fill="none"/>
+  <path d="M431 320v59m-19-43 37 19m-39 8 40-37" stroke="#abd8e4" stroke-opacity=".75" stroke-width="2" fill="none"/>
  </g>`,
- bedroom:String.raw`<g data-house-growth-area="bedroom" filter="url(#growth-shadow)">
-  <path d="M300 193 329 130 368 131 392 194v19h-91Z" fill="url(#growth-timber)" stroke="#71543f" stroke-width="4"/>
-  <path d="M300 192 324 137q17-24 30-6l39 62-11 8-31-57-20-3-21 64Z" fill="url(#growth-roof)" stroke="#485e71" stroke-width="4"/>
-  <path d="M296 187 321 136q14-24 31-16l42 66-5 14-39-60q-9-10-22 3l-23 58Z" fill="url(#growth-snow)" stroke="#eaf8fb" stroke-width="4"/>
-  <path d="M308 192q4 15 0 25m75-23q-5 15-1 24" fill="none" stroke="#e7f7fb" stroke-width="6" stroke-linecap="round"/>
-  <ellipse cx="345" cy="178" rx="32" ry="40" fill="url(#growth-warmth)"/>
-  <circle cx="346" cy="172" r="22" fill="#7a533b" stroke="#e0b680" stroke-width="6"/>
-  <circle cx="346" cy="172" r="16" fill="url(#growth-glass)" stroke="#fbe7ac" stroke-width="2"/>
-  <path d="M346 156v32m-16-16h32" stroke="#8f6946" stroke-width="4"/>
-  <path d="M300 211q45-8 91 0" stroke="url(#growth-snow)" stroke-width="10" stroke-linecap="round"/>
+ bedroom:`<g data-house-sealed-area="bedroom" pointer-events="none">
+  <path d="M282 173Q308 112 353 111Q379 127 408 199L401 227Q337 218 285 205Z" fill="url(#growth-frost)"/>
+  <path d="M288 175q52-82 91-25l24 45m-114 10q45 13 110 11" stroke="url(#growth-snow-rim)" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M321 168q22-20 40 8m-61 17q29-20 69 2" stroke="#f3fcfe" stroke-opacity=".83" stroke-width="5" fill="none"/>
+  <path d="M341 151v51m-24-31 48 13m-47 7 46-30" stroke="#abd2df" stroke-opacity=".75" stroke-width="2" fill="none"/>
  </g>`,
- garden:String.raw`<g data-house-growth-area="garden" filter="url(#growth-shadow)">
-  <path d="M395 433q29-50 82-36" stroke="#4c685c" stroke-width="16" fill="none" stroke-linecap="round"/>
-  <path d="M402 438v-56q26-29 64 0v58" fill="none" stroke="#835f45" stroke-width="10" stroke-linejoin="round"/>
-  <path d="M399 383q30-38 70-1" stroke="url(#growth-snow)" stroke-width="10" fill="none" stroke-linecap="round"/>
-  <path d="M404 405q16-23 24 0t37-5" stroke="#64937c" stroke-width="5" fill="none"/>
-  <circle cx="413" cy="393" r="5" fill="#fbe5a5"/><circle cx="451" cy="395" r="5" fill="#ffe8a9"/>
-  <path d="M395 445q32-13 81-5M412 469q23-9 58-3" fill="none" stroke="url(#growth-snow)" stroke-width="13" stroke-linecap="round"/>
-  <path d="M417 450l-5 15m46-23 6 19" stroke="#87a1b0" stroke-width="3"/>
-  <path d="M408 397q-12-18-19-8m56 4q16-22 27-18" stroke="#8db2a0" stroke-width="6" fill="none" stroke-linecap="round"/>
+ garden:`<g data-house-sealed-area="garden" pointer-events="none">
+  <path d="M386 367Q431 340 481 355V510Q430 505 385 471Z" fill="url(#growth-frost)"/>
+  <path d="M389 366q48-26 89-7m-90 105q43 39 93 26" stroke="url(#growth-snow-rim)" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M407 386q18 23 46 3m-55 40q34-19 73 9m-51 31 38-20" stroke="#f3fcff" stroke-opacity=".85" stroke-width="5" fill="none"/>
+  <path d="M443 381v81m-24-56 47 22m-47 12 46-40" stroke="#b2d9e3" stroke-opacity=".74" stroke-width="2" fill="none"/>
+ </g>`,
+};
+const revealed={
+ living:`<g data-house-growth-area="living" pointer-events="none">
+  <ellipse cx="93" cy="341" rx="78" ry="75" fill="url(#growth-thaw)"/>
+  <path d="M39 312q55-25 105-4" stroke="#ffe5ab" stroke-width="4" opacity=".56" fill="none" stroke-linecap="round"/>
+  <path d="M52 400q45 9 89-3" stroke="#ffe6bb" stroke-width="3" opacity=".55" fill="none"/>
+ </g>`,
+ kitchen:`<g data-house-growth-area="kitchen" pointer-events="none">
+  <ellipse cx="433" cy="344" rx="68" ry="88" fill="url(#growth-thaw)"/>
+  <path d="M387 298q44-38 91-27" stroke="#ffe6b2" stroke-width="4" opacity=".58" fill="none" stroke-linecap="round"/>
+  <path d="M393 396q36 8 84 0" stroke="#ffe5ae" stroke-width="3" opacity=".55" fill="none"/>
+ </g>`,
+ bedroom:`<g data-house-growth-area="bedroom" pointer-events="none">
+  <ellipse cx="340" cy="177" rx="74" ry="65" fill="url(#growth-thaw)"/>
+  <path d="M337 130l4 12 11 4-11 4-4 12-4-12-11-4 11-4Z" fill="#fff4be" opacity=".82"/>
+  <circle cx="382" cy="181" r="3" fill="#fff6c8" opacity=".9"/>
+ </g>`,
+ garden:`<g data-house-growth-area="garden" pointer-events="none">
+  <ellipse cx="439" cy="430" rx="71" ry="76" fill="url(#growth-thaw)"/>
+  <path d="M403 443q28-16 65-6" stroke="#fff1c1" opacity=".65" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M438 396l3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" fill="#fff1b7" opacity=".86"/>
  </g>`,
 };
 
 export function renderExteriorGrowth(save){
- const visible=new Set(accessibleHouseAreas(save));
- const parts=EXTERIOR_GROWTH_ORDER.filter(area=>visible.has(area)).map(area=>modules[area]).join('');
- return `<g data-art-layer="house-growth" pointer-events="none" data-growth-count="${EXTERIOR_GROWTH_ORDER.filter(area=>visible.has(area)).length}">${defs}${parts}</g>`;
+ const opened=new Set(accessibleHouseAreas(save));
+ const revealedAreas=EXTERIOR_GROWTH_ORDER.filter(area=>opened.has(area));
+ const layers=EXTERIOR_GROWTH_ORDER.map(area=>opened.has(area)?revealed[area]:sealed[area]).join('');
+ return `<g data-art-layer="house-growth" pointer-events="none" data-growth-count="${revealedAreas.length}">${defs}${layers}</g>`;
 }
