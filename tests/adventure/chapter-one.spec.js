@@ -841,3 +841,24 @@ test('house expansion respects legacy restored kitchen without silently closing 
  await page.reload();
  await expect(page.locator('[data-area="kitchen"]')).toBeVisible();
 });
+
+for(const width of [320,390])test('house scenes show no arcade mascot but puzzles retain the player at '+width+'px',async({page},info)=>{
+ const save=newHome();save.home.reached=50;save.home.completionSeen=true;
+ for(let n=1;n<=50;n++)save.progress.completed[`pz-${100000+n}`]={reward:1,bestTurns:1,revision:1};
+ for(const task of TASKS){save.progress.town[task.id]=task.cost;save.home.done[task.id]=true;}
+ await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:save});
+ await page.setViewportSize({width,height:844});
+ await page.goto('/adventure.html');
+ for(const scene of ['exterior','entry','living','kitchen','bedroom','garden']){
+  if(scene!=='exterior')await page.locator(`[data-area="${scene}"]`).click();
+  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene',scene);
+  await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','true');
+  await expect(page.locator('.house-world [data-art-layer="triken"]')).toHaveCount(0);
+  await expect(page.locator('.house-world image[href*="triken"]')).toHaveCount(0);
+  if(['exterior','entry','living'].includes(scene))await info.attach(`house-mascot-free-${scene}-${width}`,{body:await page.locator('.house-world').screenshot({animations:'disabled'}),contentType:'image/png'});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ }
+ await page.locator('#play-next').click();
+ await expect(page.locator('.game-panel')).toBeVisible();
+ await expect(page.locator('#board .cell img[src*="triken"]')).toHaveCount(1);
+});
