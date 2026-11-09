@@ -30,21 +30,23 @@ test('scene controls, pending resume and designs',async({page})=>{
   }
   await page.locator('#close-repairs').click();
   await expect(page.locator('#home-repairs')).toBeHidden();
-  await page.getByRole('button',{name:'玄関へ',exact:true}).click();
-  await expect(page.getByRole('button',{name:'キッチンへ',exact:true})).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'玄関へ',exact:true})).toHaveCount(0);
+  await expect(page.locator('[data-area="entry"]')).toHaveCount(0);
   await expect(page.locator('[data-area="living"]')).toHaveCount(0);
-  await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 1 / 5');
-  await page.locator('[data-area="entry"]').click();await openRepairs(page);
+  await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 0 / 5');
+  await openRepairs(page);
   for(const t of TASKS.slice(0,3)){
     await page.locator(`[data-repair="${t.id}"]`).click();
     await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','building');
     await expect(page.locator(`#preview-${t.id} figcaption`)).toHaveText('修復中…');
-    if(t===TASKS[0]){await page.reload();await page.locator('[data-area="entry"]').click();await openRepairs(page);}
+    if(t===TASKS[0]){await page.reload();await expect(page.locator('[data-area="entry"]')).toHaveCount(0);await openRepairs(page);}
     await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','complete');
     if(t===TASKS[2]){
-      await expect(page.locator('#house-room-celebration-title')).toContainText('玄関が完成');
+      await expect(page.locator('#house-room-celebration-title')).toContainText('外まわりが完成');
+      await expect(page.locator('[data-area="entry"]')).toHaveCount(1);
       await expect(page.locator('[data-area="living"]')).toHaveCount(1);
       await expect(page.locator('[data-area="kitchen"]')).toHaveCount(0);
+      await page.locator('[data-area="entry"]').click();
       await openRepairs(page);
       for(const task of TASKS.slice(0,3))await expect(page.locator(`[data-style="${task.id}"][data-choice="0"]`)).toBeVisible();
     }else await expect(page.locator(`[data-style="${t.id}"]`)).toHaveCount(0);
