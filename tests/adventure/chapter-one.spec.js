@@ -30,21 +30,23 @@ test('scene controls, pending resume and designs',async({page})=>{
   }
   await page.locator('#close-repairs').click();
   await expect(page.locator('#home-repairs')).toBeHidden();
-  await page.getByRole('button',{name:'玄関へ',exact:true}).click();
-  await expect(page.getByRole('button',{name:'キッチンへ',exact:true})).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'玄関へ',exact:true})).toHaveCount(0);
+  await expect(page.locator('[data-area="entry"]')).toHaveCount(0);
   await expect(page.locator('[data-area="living"]')).toHaveCount(0);
-  await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 1 / 5');
-  await page.locator('[data-area="entry"]').click();await openRepairs(page);
+  await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 0 / 5');
+  await openRepairs(page);
   for(const t of TASKS.slice(0,3)){
     await page.locator(`[data-repair="${t.id}"]`).click();
     await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','building');
     await expect(page.locator(`#preview-${t.id} figcaption`)).toHaveText('修復中…');
-    if(t===TASKS[0]){await page.reload();await page.locator('[data-area="entry"]').click();await openRepairs(page);}
+    if(t===TASKS[0]){await page.reload();await expect(page.locator('[data-area="entry"]')).toHaveCount(0);await openRepairs(page);}
     await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','complete');
     if(t===TASKS[2]){
-      await expect(page.locator('#house-room-celebration-title')).toContainText('玄関が完成');
+      await expect(page.locator('#house-room-celebration-title')).toContainText('外まわりが完成');
+      await expect(page.locator('[data-area="entry"]')).toHaveCount(1);
       await expect(page.locator('[data-area="living"]')).toHaveCount(1);
       await expect(page.locator('[data-area="kitchen"]')).toHaveCount(0);
+      await page.locator('[data-area="entry"]').click();
       await openRepairs(page);
       for(const task of TASKS.slice(0,3))await expect(page.locator(`[data-style="${task.id}"][data-choice="0"]`)).toBeVisible();
     }else await expect(page.locator(`[data-style="${t.id}"]`)).toHaveCount(0);
@@ -150,21 +152,27 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   for(const b of await page.locator('.scene-hotspot,.object-target').all()){
     const box=await b.boundingBox();expect(box.width).toBeGreaterThanOrEqual(44);expect(box.height).toBeGreaterThanOrEqual(44);
   }
-  await page.getByRole('button',{name:'玄関へ',exact:true}).click();
-  await expect(page.locator('[data-scene-art="entry"]')).toBeVisible();
-  await expect(page.getByRole('button',{name:'キッチンへ',exact:true})).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'玄関へ',exact:true})).toHaveCount(0);
+  await expect(page.locator('[data-area="entry"]')).toHaveCount(0);
   await expect(page.locator('[data-area="living"]')).toHaveCount(0);
-  await page.locator('[data-area="entry"]').click();await openRepairs(page);
+  await expect(page.locator('[data-scene-art="exterior"]')).toBeVisible();
+  await openRepairs(page);
   if(info.project.name==='chromium'&&width===390){
     await page.screenshot({animations:'disabled',path:info.outputPath('entry-before-390.png'),fullPage:true});
   }
   for(const t of TASKS){
-    await page.locator(`[data-area="${t.area}"]`).click();await expect(page.locator('#home-screen')).toHaveAttribute('data-scene',t.area);await openRepairs(page);await page.locator(`[data-repair="${t.id}"]`).click();
+    const targetScene=t.area==='entry'?'exterior':t.area;
+    if(await page.locator('#home-screen').getAttribute('data-scene')!==targetScene){
+      await page.locator(targetScene==='exterior'?'[data-scene-to="exterior"]':`[data-area="${targetScene}"]`).click();
+    }
+    await expect(page.locator('#home-screen')).toHaveAttribute('data-scene',targetScene);
+    await openRepairs(page);await page.locator(`[data-repair="${t.id}"]`).click();
     if(t===TASKS[0]){
       await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','building');
       await expect(page.locator('#home-balance')).toHaveText('47');
       await page.reload(); // Paid construction resumes without a second debit.
-      await page.locator('[data-area="entry"]').click();await openRepairs(page);
+      await expect(page.locator('[data-area="entry"]')).toHaveCount(0);
+      await openRepairs(page);
     }
     await expect(page.locator(`[data-object="${t.id}"]`)).toHaveAttribute('data-state','complete');
     if(t.slot===2){
@@ -710,7 +718,8 @@ for(const width of [320,390])test('guided house repairs follow one mission at a 
  await expect(page.locator('#house-mission-next')).toHaveText('この場所を直す');
  await testInfo.attach('house-mission-before-'+width,{body:await page.locator('.house-mission').screenshot({animations:'disabled'}),contentType:'image/png'});
  await page.locator('#house-mission-next').click();
- await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','entry');
+ await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
+  await expect(page.locator('[data-area="entry"]')).toHaveCount(0);
  await expect(page.locator('#home-repairs')).toBeVisible();
  await expect(page.locator('#repair-tasks .repair')).toHaveCount(1);
  await page.locator('[data-repair="home-entry-0"]').click();
@@ -746,11 +755,11 @@ for(const width of [320,390])test('five-room story first chapter celebration and
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/adventure.html');
  await expect(page.locator('#house-mission-room-progress')).toHaveText('0 / 3');
- await expect(page.locator('#house-mission-rooms')).toHaveText('0 / 5 部屋完成');
+ await expect(page.locator('#house-mission-rooms')).toHaveText('0 / 5 エリア完成');
  for(let i=0;i<3;i++){
    const task=TASKS[i];
    await page.locator('#house-mission-next').click();
-   await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','entry');
+   await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
    await expect(page.locator('#home-repairs')).toBeVisible();
    await page.locator(`[data-repair="${task.id}"]`).click();
    await expect(page.locator(`[data-object="${task.id}"]`)).toHaveAttribute('data-state','complete');
@@ -759,8 +768,8 @@ for(const width of [320,390])test('five-room story first chapter celebration and
      await expect(page.locator('#house-mission-room-progress')).toHaveText(`${i+1} / 3`);
    }
  }
- await expect(page.locator('#house-room-celebration-title')).toContainText('玄関が完成');
- await expect(page.locator('#house-mission-rooms')).toHaveText('1 / 5 部屋完成');
+ await expect(page.locator('#house-room-celebration-title')).toContainText('外まわりが完成');
+ await expect(page.locator('#house-mission-rooms')).toHaveText('1 / 5 エリア完成');
  await expect(page.locator('#house-mission-progress')).toHaveText('3 / 15');
  const before=page.locator('.house-room-snapshot[data-phase="before"] svg'),after=page.locator('.house-room-snapshot[data-phase="after"] svg');
  await expect(before).toBeVisible();await expect(after).toBeVisible();
@@ -777,8 +786,10 @@ for(const width of [320,390])test('five-room story first chapter celebration and
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await expect(page.locator('[data-area="living"]')).toHaveCount(0);
  await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 1 / 5');
- await expect(page.locator('#house-room-celebration-next')).toHaveText('パズルでエリアをひらく');
+ await expect(page.locator('#house-room-celebration-next')).toHaveText('玄関から家に入る');
  await page.locator('#house-room-celebration-next').click();
+ await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','entry');
+ await page.locator('#house-mission-next').click();
  await expect(page.locator('#board')).toHaveAttribute('data-stage','9');
  await page.locator('#return-home').click();
  await expect(page.locator('#house-room-celebration-title')).toHaveCount(0);
@@ -794,7 +805,7 @@ for(const width of [320,390])test('five-room story first chapter celebration and
  expect(Object.keys(persisted.progress.completed)).toHaveLength(8);
  await page.reload();
  await expect(page.locator('#house-room-celebration-title')).toHaveCount(0);
- await expect(page.locator('#house-mission-rooms')).toHaveText('1 / 5 部屋完成');
+ await expect(page.locator('#house-mission-rooms')).toHaveText('1 / 5 エリア完成');
 });
 
 for(const width of [320,390])test('house expansion reveals each new area only after room completion and its stage gate '+width+'px',async({page},info)=>{
@@ -806,8 +817,8 @@ for(const width of [320,390])test('house expansion reveals each new area only af
  await page.addInitScript(({key,s})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(s));},{key:HOME_KEY,s:original});
  await page.goto('/adventure.html');
  await expect(page.locator('#home-screen')).toBeVisible();
- await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 1 / 5');
- await expect(page.locator('.room-tabs button')).toHaveCount(2);
+ await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 0 / 5');
+ await expect(page.locator('.room-tabs button')).toHaveCount(1);
  await expect(page.locator('[data-area="living"]')).toHaveCount(0);
  await expect(page.locator('[data-scene-to="kitchen"]')).toHaveCount(0);
  // Even 10 cleared stages cannot reveal another room before restoring the entrance.
@@ -816,20 +827,21 @@ for(const width of [320,390])test('house expansion reveals each new area only af
   await page.locator(`[data-repair="${task.id}"]`).click();
   await expect(page.locator(`[data-object="${task.id}"]`)).toHaveAttribute('data-state','complete');
  }
- await expect(page.locator('#house-room-celebration-title')).toContainText('玄関が完成');
- await expect(page.locator('#house-area-unlocked')).toContainText('リビング');
+ await expect(page.locator('#house-room-celebration-title')).toContainText('外まわりが完成');
+ await expect(page.locator('#house-area-unlocked')).toContainText('玄関');
+ await expect(page.locator('[data-area="entry"]')).toBeVisible();
  await expect(page.locator('[data-area="living"]')).toHaveCount(1);
  await expect(page.locator('[data-area="kitchen"]')).toHaveCount(0);
  await expect(page.locator('#house-area-count')).toHaveText('ひろがったエリア 2 / 5');
- await expect(page.locator('#house-room-celebration-next')).toHaveText('家がひろがった！ 外から見よう');
+ await expect(page.locator('#house-room-celebration-next')).toHaveText('玄関から家に入る');
  await page.locator('#house-room-celebration-next').click();
+ await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','entry');
+ await page.getByRole('button',{name:'外観に戻る',exact:true}).click();
  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
- await expect(page.locator('.house-world')).toHaveAttribute('data-growth-reveal','living');
  await expect(page.locator('[data-house-growth-area="living"]')).toHaveCount(1);
  await expect(page.locator('[data-house-growth-area="kitchen"]')).toHaveCount(0);
- await expect(page.locator('#house-growth-enter')).toBeVisible();
  await info.attach('house-living-extension-'+width,{body:await page.locator('.house-world').screenshot({animations:'disabled'}),contentType:'image/png'});
- await page.locator('#house-growth-enter').click();
+ await page.locator('[data-area="living"]').click();
  await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','living');
  await expect(page.locator('[data-scene-to="kitchen"]')).toHaveCount(0);
  await expect(page.locator('#house-mission-title')).toContainText('床を張り替える');

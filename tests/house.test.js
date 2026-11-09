@@ -93,16 +93,17 @@ test('five chapter milestones are derived only from credited repairs, including 
  assert.equal(s.version,2);
 });
 
-test('new house starts with only exterior and entry; future rooms do not appear just for stage clears',()=>{
+test('outside-only opening locks interior door even after fifty puzzle clears',()=>{
  const s=playAll(newHome());
- assert.deepEqual(accessibleHouseAreas(newHome()),['exterior','entry']);
- assert.deepEqual(accessibleHouseAreas(s),['exterior','entry']);
- assert.equal(nextHouseExpansion(s).area,'living');
+ assert.deepEqual(accessibleHouseAreas(newHome()),['exterior']);
+ assert.deepEqual(accessibleHouseAreas(s),['exterior']);
+ assert.equal(nextHouseExpansion(s).area,'entry');
  assert.equal(nextHouseExpansion(s).previousDone,false);
+ assert.equal(nextHouseExpansion(s).missingStages,0);
  assert.equal(HOUSE_EXPANSIONS.length,5);
  assert.deepEqual(HOUSE_EXPANSIONS.map(x=>x.stage),[0,10,20,30,40]);
 });
-test('room completion plus cleared stage unlocks one next area, not the whole house',()=>{
+test('the three exterior tasks open the front door, but the living room waits until stage ten',()=>{
  let s=newHome();
  for(let i=0;i<8;i++)s.progress=clearChapterStage(f.campaign,f.chapter,f.stages[i],s.progress,f.proofs.stages[i].actions,{preview:true,houseMode:true}).progress;
  for(const t of TASKS.slice(0,3))s=finishRepair(beginRepair(s,t.id));
@@ -116,7 +117,7 @@ test('room completion plus cleared stage unlocks one next area, not the whole ho
 });
 test('every room unlocks in sequence while preserving the 40-of-50 star budget',()=>{
  let s=playAll(newHome());
- assert.deepEqual(accessibleHouseAreas(s),['exterior','entry']);
+ assert.deepEqual(accessibleHouseAreas(s),['exterior']);
  for(let i=0;i<5;i++){
   const tasks=TASKS.slice(i*3,i*3+3);
   for(const task of tasks)s=finishRepair(beginRepair(s,task.id));
@@ -170,4 +171,20 @@ test('existing future-room repairs reveal architectural progress without spendin
  assert.match(exterior,/data-house-growth-area="kitchen"/);
  assert.doesNotMatch(exterior,/data-house-growth-area="bedroom"/);
  assert.deepEqual(s,before);
+});
+
+test('outside repairs open the front door one time and keep the home save version',()=>{
+ let s=playAll(newHome());
+ for(const t of TASKS.slice(0,2)){
+  s=finishRepair(beginRepair(s,t.id));
+  assert.deepEqual(accessibleHouseAreas(s),['exterior']);
+  assert.equal(nextHouseExpansion(s).area,'entry');
+ }
+ s=finishRepair(beginRepair(s,TASKS[2].id));
+ assert.deepEqual(accessibleHouseAreas(s).slice(0,2),['exterior','entry']);
+ assert.equal(s.version,2);
+ assert.equal(s.home.pending,null);
+ assert.equal(s.home.done['home-entry-2'],true);
+ const loaded=JSON.parse(JSON.stringify(s));
+ assert.deepEqual(accessibleHouseAreas(loaded),accessibleHouseAreas(s));
 });

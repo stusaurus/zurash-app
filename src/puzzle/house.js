@@ -4,7 +4,7 @@ export const OLD_KEY='zurash-app:chapter-preview:ice-town:v1';
 export const AREAS=[['entry','玄関・外壁'],['living','リビング'],['kitchen','キッチン・ダイニング'],['bedroom','寝室'],['garden','庭']];
 // Five short story arcs. Display text is derived from existing saves, not persisted.
 export const HOUSE_CHAPTERS=[
- {id:'entry',name:'玄関',goal:'みんなが安心して入れる家にする',intro:'玄関の扉がきしんでいるよ。まずは家の入り口を直そう！',finish:'玄関の灯りがともった！ これでみんなを迎えられるね。'},
+ {id:'entry',name:'外まわり',goal:'家の外を直して、玄関を開ける',intro:'まずは外から。扉・壁・玄関灯を直すと中に入れるよ。',finish:'家の外がきれいになった！ さあ、玄関から中へ入ろう。'},
  {id:'living',name:'リビング',goal:'みんなが集まれる場所を作る',intro:'床が傷んでいて、ゆっくりくつろげないみたい。',finish:'くつろげるリビングの完成！ お話するのが楽しみだね。'},
  {id:'kitchen',name:'キッチン',goal:'あたたかいごはんを作れるようにする',intro:'古い台所を直して、おいしいごはんを作ろう。',finish:'ごはんの準備ができた！ みんなで食卓を囲もう。'},
  {id:'bedroom',name:'寝室',goal:'ぐっすり休める部屋にする',intro:'夜も安心して眠れる寝室にしよう。',finish:'やさしい灯りの寝室が完成！ おやすみなさい。'},
@@ -32,14 +32,19 @@ export const HOUSE_EXPANSIONS=[
 export function accessibleHouseAreas(s){
  const earned=clears(s);
  const preservedIndex=HOUSE_EXPANSIONS.reduce((max,expansion,i)=>{
-  const hasHistoricWork=TASKS.some(task=>task.area===expansion.area&&
+  // An unfinished entry job belongs outside. Only legacy progress in a
+  // later room preserves access through that room (without unlocking others).
+  const hasHistoricWork=i>0&&TASKS.some(task=>task.area===expansion.area&&
    (s.home.done[task.id]||s.home.pending===task.id));
   return hasHistoricWork?Math.max(max,i):max;
- },0);
+ },-1);
  const unlocked=['exterior'];
  for(const [i,expansion] of HOUSE_EXPANSIONS.entries()){
   const previous=HOUSE_EXPANSIONS[i-1]?.area;
-  const finishedPrevious=!previous||TASKS.filter(t=>t.area===previous).every(t=>s.home.done[t.id]);
+  // Entry becomes explorable only after all three outside repairs, not at start.
+  const finishedPrevious=previous
+   ?TASKS.filter(t=>t.area===previous).every(t=>s.home.done[t.id])
+   :TASKS.filter(t=>t.area==='entry').every(t=>s.home.done[t.id]);
   if(i<=preservedIndex||(finishedPrevious&&earned>=expansion.stage)){
    unlocked.push(expansion.area);
   }else break;
@@ -51,7 +56,7 @@ export function nextHouseExpansion(s){
  const next=HOUSE_EXPANSIONS.find(exp=>!visible.includes(exp.area));
  if(!next)return null;
  const index=HOUSE_EXPANSIONS.indexOf(next),previous=HOUSE_EXPANSIONS[index-1]?.area;
- const previousDone=previous?TASKS.filter(t=>t.area===previous).every(t=>s.home.done[t.id]):true;
+ const previousDone=TASKS.filter(t=>t.area=== (previous??'entry')).every(t=>s.home.done[t.id]);
  return {area:next.area,stage:next.stage,previousDone,missingStages:Math.max(0,next.stage-clears(s))};
 }
 export function newHome(progress=newProgress()){validateProgress(progress);return {version:2,progress:structuredClone(progress),home:{done:Object.fromEntries(TASKS.filter(t=>Object.hasOwn(progress.town,t.id)).map(t=>[t.id,true])),styles:{},reached:Math.max(1,Math.min(50,Object.keys(progress.completed).length),...Object.keys(progress.town).map(id=>({"ice-workshop":10,"ice-crane":20,"crystal-gate":30}[id]??0))),pending:null,completionSeen:false},legacy:{town:structuredClone(progress.town)}};}
