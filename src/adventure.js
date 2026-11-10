@@ -215,16 +215,25 @@ function move(dir){
     }
   }
   if(solved(state)) {
+    // Collecting all stars is a finished attempt, not a campaign clear unless
+    // the exact independently certified minimum was achieved.
+    const grade=chapterChallenges?gradeChapterOneClear(chapterChallenges,stage,trace.length):null;
+    if(grade?.rank!=='S'){
+      const hint=grade?`最短は${grade.minimumTurns}手。あと${grade.extraTurns}手減らせばクリア！`:'最短手数を確認できません。通信を確認してください。';
+      showNotice('RETRY','まだクリアではありません',
+        `${trace.length}手で星を全部集めた！ ${hint} 家づくりの星と次のステージは解放されません。`,
+        'もう一度挑戦',()=>openStage(stage.chapter.number),null,grade);
+      return;
+    }
     const already=Object.hasOwn(progress.completed,stage.id);
-    progress=clearChapterStage(campaign,chapter,stage,progress,trace,{preview,houseMode:true}).progress;persist();render();
+    progress=clearChapterStage(campaign,chapter,stage,progress,trace,{preview,houseMode:true,minimumTurns:grade.minimumTurns}).progress;persist();render();
     const last=stage.chapter.number===chapter.firstStage+chapter.count-1;
-    const grade=gradeChapterOneClear(chapterChallenges,stage,trace.length);
     const nextHome=nextRepairMission(homeSave);
     const homeCue=nextHome.state==='ready'?
       ` 家に帰ると「${nextHome.task.label}」を直せるよ！`:
       nextHome.state==='stars'?` 次の家づくりまで星あと${nextHome.missingStars}個。`:
       nextHome.state==='stages'?` 次の修復はステージ${nextHome.task.at}で解放されるよ。`:'';
-    const noticeCopy=`${trace.length}手で星を全部集めた！ ${already?'このステージの家づくりの星は獲得済みです。':'家づくりの星を1個獲得しました。'}${saveError?' 今回の記録は端末に保存できていません。':homeCue}`;
+    const noticeCopy=`最短${trace.length}手で完全クリア！ ${already?'このステージの家づくりの星は獲得済みです。':'家づくりの星を1個獲得しました。'}${saveError?' 今回の記録は端末に保存できていません。':homeCue}`;
     showNotice(last?'CHAPTER CLEAR':'STAGE CLEAR',last?'50ステージクリア！':'クリア！',noticeCopy,nextHome.state==='ready'?'家を直す':'家に帰る',()=>showHome(),()=>openStage(stage.chapter.number),grade);
   }else if(!saveError)tell('次の準備と、滑る方向を選ぼう。');
 }
