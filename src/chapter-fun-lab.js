@@ -560,7 +560,7 @@ function setStage(n,{resume=false,preserveReviewOpen=false,invited=false}={}){
  // One-shot invitation flag. A reload after entry resumes practice normally.
  if(saveOptions.practice)query.searchParams.delete('replay');
  history.replaceState(null,'',query.pathname+query.search);
- $('fun-result').hidden=true;$('fun-next').hidden=false;$('fun-again').hidden=true;$('fun-feedback').hidden=true;
+ $('fun-result').hidden=true;$('fun-next').hidden=false;if($('fun-again'))$('fun-again').hidden=true;$('fun-feedback').hidden=true;
  $('fun-feedback').replaceChildren();
  if(challengeMode){$('fun-hint').textContent='ヒント 1/4';$('fun-hint').dataset.hintStep='0';}
  showSelection();render();updateReviewForm();
@@ -569,7 +569,7 @@ function setStage(n,{resume=false,preserveReviewOpen=false,invited=false}={}){
  // Keep deliberate A/B review sessions open while resetting the inputs to the
  // newly selected stage. Ordinary progression, retry and reload start closed.
  if($('playtest-review'))$('playtest-review').open=keepReviewOpen;
- if(adventureMode&&solved(state)){showExpeditionReward();const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.rank==='S'?'Sランク合格！':'未クリア：あと'+grade.extraTurns+'手';$('fun-rank').dataset.rank=grade.rank;$('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ クリア条件：最短'+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';$('fun-finish').textContent=trace.length+'手で星を全部集めた！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回';$('fun-next').textContent=nextButtonLabel();}
+ if(adventureMode&&solved(state)){showExpeditionReward();const grade=evaluateChallenge(stage,trace.length);$('fun-result').hidden=false;$('fun-rank').textContent=grade.rank==='S'?'Sランク合格！':'未クリア：あと'+grade.extraTurns+'手';$('fun-rank').dataset.rank=grade.rank;$('fun-benchmark').textContent='今回 '+grade.turns+'手 ／ クリア条件：最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';$('fun-finish').textContent=trace.length+'手で星を全部集めた！ 壁移動'+trace.filter(a=>['wall','glove'].includes(a.prep.type)).length+'回';$('fun-next').textContent=nextButtonLabel();if($('fun-again'))$('fun-again').hidden=false;}
  if(solved(state)){
   const result=evaluateChallenge(stage,trace.length);
   if(result)$('fun-next-objective').textContent=result.rank==='S'?'最短手数で完全攻略！':adventureMode?'あと'+result.extraTurns+'手を減らして最短クリアを目指そう！':result.passed?'Sランクまであと'+result.extraTurns+'手！ 別の止まり方を探そう。':'Bランク合格まであと'+(result.turns-result.passThrough)+'手！';
@@ -817,7 +817,7 @@ async function takeStep(action){
     showSelection();
     $('fun-rank').textContent=adventureMode&&grade.rank!=='S'?'未クリア：あと'+grade.extraTurns+'手':grade.passed?grade.rank+'ランク合格！':'星は全部獲得！ 合格は次の挑戦';
     $('fun-rank').dataset.rank=grade.rank;
-    $('fun-benchmark').textContent=adventureMode?'今回 '+grade.turns+'手 ／ クリア条件：最短'+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）':'今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';
+    $('fun-benchmark').textContent=adventureMode?'今回 '+grade.turns+'手 ／ クリア条件：最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）':'今回 '+grade.turns+'手 ／ 合格 '+grade.passThrough+'手以内 ／ 最短 '+grade.minimumTurns+'手（＋'+grade.extraTurns+'手）';
     $('fun-next-objective').textContent=
       grade.rank==='S'?'最短手数で完全攻略！':
       adventureMode?'あと'+grade.extraTurns+'手を減らせばクリア！':
