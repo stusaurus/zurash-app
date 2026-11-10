@@ -35,7 +35,7 @@ function showNotice(kicker,title,text,label,action,secondary=null,grade=null) {
   rankPanel.hidden=!grade;
   if(grade){
     rankPanel.dataset.rank=grade.rank;
-    $('notice-rank-label').textContent=chapterOneRankLabel(grade);
+    $('notice-rank-label').textContent=grade.rank==='S'?'S':'未クリア';
     $('notice-rank-detail').textContent=grade.rank==='S'
       ? `最短${grade.minimumTurns}手でクリア！`
       : `最短は${grade.minimumTurns}手。もう一度挑戦してみよう！`;
