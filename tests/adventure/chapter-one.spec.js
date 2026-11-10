@@ -961,6 +961,7 @@ test('Chapter 1: collecting every star with extra moves never awards a star or u
  // to the start without collecting a star, then right finishes in 3 vs 1.
  for(const dir of [2,0,1])await perform(page,{prep:{type:'none'},dir});
  await expect(page.locator('#notice-title')).toHaveText('まだクリアではありません');
+ await expect(page.locator('#notice-rank-label')).toHaveText('未クリア');
  await expect(page.locator('#notice-text')).toContainText('あと2手');
  await expect(page.locator('#balance')).toHaveText('0');
  const save=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),HOME_KEY);
