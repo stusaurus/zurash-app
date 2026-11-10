@@ -54,6 +54,6 @@ export function enterChapterStage(campaign,chapter,stage,progress,{preview=false
 }
 export function clearChapterStage(campaign,chapter,stage,progress,actions,options={}) {
   const entered=enterChapterStage(campaign,chapter,stage,progress,options);
-  return {progress:completePuzzle(entered.progress,stage,actions,{allowCandidates:options.preview===true}),events:entered.events};
+  return {progress:completePuzzle(entered.progress,stage,actions,{allowCandidates:options.preview===true,minimumTurns:options.minimumTurns}),events:entered.events};
 }
 export const chapterSaveKey=(chapter,preview)=>`zurash-app:${preview?'chapter-preview':'adventure'}:${chapter.campaignId??chapter.id}:v1`;
