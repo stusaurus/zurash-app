@@ -653,9 +653,13 @@ function render(){
  if(target){
   target.hidden=!goal;
   if(goal){
-   $('fun-pass-target').textContent=goal.passThrough+'手以内';
-   const rest=goal.passThrough-trace.length;
-   $('fun-remaining').textContent=rest>=0?'合格ラインまで残り '+rest+'手':'合格ラインを '+Math.abs(rest)+'手超過';
+   $('fun-pass-target').textContent=adventureMode?'最短 '+goal.minimumTurns+'手':goal.passThrough+'手以内';
+   if(adventureMode){
+    target.querySelector('.fun-goal-label').textContent='🎯 最短クリアチャレンジ';
+    target.querySelector('small').textContent='最短手数で星を全部集めるとクリア！';
+   }
+   const rest=(adventureMode?goal.minimumTurns:goal.passThrough)-trace.length;
+   $('fun-remaining').textContent=adventureMode?(rest>=0?'最短まであと '+rest+'手':'最短を '+Math.abs(rest)+'手オーバー。今回は報酬なし'):rest>=0?'合格ラインまで残り '+rest+'手':'合格ラインを '+Math.abs(rest)+'手超過';
    $('fun-remaining').dataset.over=String(rest<0);
    const best=sessionBestTurns.get(stage.id);
    $('fun-best').textContent=best===undefined?'':(adventureMode?(saveOptions.practice?'自由試遊のベスト ':'自己ベスト '):'今回の試遊での自己ベスト ')+best+'手';
