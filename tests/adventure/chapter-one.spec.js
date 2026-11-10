@@ -950,3 +950,27 @@ test('repair success accent animates only for the new repair and does not steal 
  await expect(page.locator('.house-repair-reveal')).toHaveCount(0);
  await expect(page.locator('[data-object="home-entry-0"]')).toHaveAttribute('data-state','complete');
 });
+
+test('Chapter 1: collecting every star with extra moves never awards a star or unlocks stage 2',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.goto('/adventure.html');
+ await page.locator('#play-next').click();
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','1');
+ // Stage 1 is a 4x4 empty board with the goal on cell 3. Down/up returns
+ // to the start without collecting a star, then right finishes in 3 vs 1.
+ for(const dir of [2,0,1])await perform(page,{prep:{type:'none'},dir});
+ await expect(page.locator('#notice-title')).toHaveText('まだクリアではありません');
+ await expect(page.locator('#notice-text')).toContainText('あと2手');
+ await expect(page.locator('#balance')).toHaveText('0');
+ const save=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),HOME_KEY);
+ expect(save.progress.completed['pz-100001']).toBeUndefined();
+ await page.locator('#notice-primary').click();
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','1');
+ await page.locator('#board .cell.arrival:has(.star)').click();
+ await expect(page.locator('#notice-title')).toHaveText('クリア！');
+ await expect(page.locator('#balance')).toHaveText('1');
+ await page.locator('#notice-primary').click();
+ await page.locator('#play-next').click();
+ await expect(page.locator('#board')).toHaveAttribute('data-stage','2');
+});
