@@ -135,7 +135,7 @@ function updateClearPresentation(grade,recordContext=null){
   result.insertBefore(teaser,result.querySelector('.fun-result-buttons'));
  }
  let record=$('clear-personal-record');
- if(grade&&recordContext){
+ if(grade&&recordContext&&(!adventureMode||grade.rank==='S')){
   // Early research puzzles do not have a certified benchmark. Never make the
   // shared completion screen depend on that optional element.
   if(!record){
@@ -230,6 +230,7 @@ function updateClearPresentation(grade,recordContext=null){
  const nextStage=entries[number]??null;
  const view=clearPresentation({stage,nextStage,rank:grade?.rank??'clear',adventureMode,comparisonMode});
  const retryOnly=adventureMode&&grade&&grade.rank!=='S';
+ share.hidden=Boolean(retryOnly);
  result.dataset.clearRank=retryOnly?'retry':view.rank;
  $('clear-hero-grade').textContent=retryOnly?'↻':view.rank==='unqualified'?'★':view.rank==='clear'?'✓':view.rank;
  $('clear-hero-label').textContent=retryOnly?'あと'+grade.extraTurns+'手！':view.label;
@@ -388,10 +389,10 @@ function showSelection(){
    const badge=document.createElement('span');
    badge.className='fun-rank-mark';
    badge.dataset.rank=rank;
-   badge.textContent=rank==='unqualified'?'☆':rank;
+   badge.textContent=adventureMode&&rank!=='S'?'↻':rank==='unqualified'?'☆':rank;
    badge.setAttribute('aria-hidden','true');
    button.append(badge);
-   label+=' 自己ベスト'+best+'手 '+(rank==='unqualified'?'合格前':rank+'ランク');
+   label+=' 自己ベスト'+best+'手 '+(adventureMode&&rank!=='S'?'未クリア':rank==='unqualified'?'合格前':rank+'ランク');
    if(!adventureMode||rank==='S')completed++;
    if(rank==='S')fullRank++;
   }
