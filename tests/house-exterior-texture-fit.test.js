@@ -19,8 +19,8 @@ test('repaired and unrepaired exterior wall use clipped material without duplica
   assert.match(svg,/clip-path="url\(#east-wall\)"/);
   const wall=assetPath(save,'home-entry-1');
   assert.equal(svg.split('href="'+wall+'"').length-1,2);
-  assert.match(svg,/x="38" y="211" width="346" height="236"\\s+preserveAspectRatio="xMidYMid slice"/);
-  assert.match(svg,/x="-25" y="-28" width="185" height="208"\\s+preserveAspectRatio="xMidYMid slice"/);
+  assert.match(svg,/x="38" y="211" width="346" height="236"\s+preserveAspectRatio="xMidYMid slice"/);
+  assert.match(svg,/x="-25" y="-28" width="185" height="208"\s+preserveAspectRatio="xMidYMid slice"/);
   assert.equal((svg.match(/data-object="home-entry-1"/g)||[]).length,1);
   assert.equal((svg.match(/data-object="home-entry-0"/g)||[]).length,1);
   assert.equal((svg.match(/data-object="home-entry-2"/g)||[]).length,1);
