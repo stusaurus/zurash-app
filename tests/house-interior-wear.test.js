@@ -32,3 +32,21 @@ test('unrelated repairs do not remove the remaining damaged wall or floor',()=>{
   assert.match(renderLayeredScene(save,'bedroom'),/data-house-interior-wear="bedroom"/);
   assert.equal(save.version,2);
 });
+
+test('repaired wallpaper obtains a timber junction and cabinet stays grounded',()=>{
+  const save=newHome();
+  assert.equal(renderRepairedFinish(save,'bedroom'),'');
+  assert.equal(renderRepairedFinish(save,'kitchen'),'');
+  save.home.done['home-bedroom-1']=true;
+  const trim=renderLayeredScene(save,'bedroom');
+  assert.match(trim,/data-repaired-detail="bedroom-wall"/);
+  assert.match(trim,/house-repair-oak-trim/);
+  assert.match(trim,/pointer-events="none" aria-hidden="true"/);
+  assert.doesNotMatch(trim,/data-house-interior-wear="bedroom"/);
+  save.home.done['ice-workshop']=true;
+  const counter=renderLayeredScene(save,'kitchen');
+  assert.match(counter,/data-repaired-detail="kitchen-counter-contact"/);
+  assert.doesNotMatch(counter,/data-house-interior-wear="kitchen"/);
+  assert.doesNotMatch(renderLayeredScene(save,'living'),/data-repaired-detail=/);
+  assert.equal(save.version,2);
+});

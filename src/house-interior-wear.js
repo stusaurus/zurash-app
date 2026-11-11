@@ -38,3 +38,33 @@ export function renderInteriorWear(save, scene) {
   if (!repair || save.home.done[repair]) return '';
   return '<g data-house-interior-wear="' + scene + '" data-wear-repair="' + repair + '" pointer-events="none" aria-hidden="true">' + ART[scene] + '</g>';
 }
+
+/** Tiny repair-finish accents that integrate the existing raster art into the cabin.
+ * The wallpaper is deliberately framed as timber-bordered panels instead of
+ * hiding or stretching the already-approved wallpaper variants.
+ */
+export function renderRepairedFinish(save, scene) {
+  if (scene === 'bedroom' && save.home.done['home-bedroom-1']) {
+    return `<g data-repaired-detail="bedroom-wall" pointer-events="none" aria-hidden="true" opacity=".94">
+      <defs><linearGradient id="house-repair-oak-trim" x1="0" y1="0" x2=".9" y2="1">
+        <stop stop-color="#6a4939"/><stop offset=".5" stop-color="#b28457"/><stop offset="1" stop-color="#674435"/>
+      </linearGradient></defs>
+      <path d="M170 216h223l1 13H171Z" fill="#362e30" opacity=".6"/>
+      <path d="M170 216h223v9H170Z" fill="url(#house-repair-oak-trim)"/>
+      <path d="M173 218H390" stroke="#f1cd90" opacity=".5" stroke-width="1.5"/>
+      <path d="M170 222v75h6v-75m213 0v75h6v-75" fill="url(#house-repair-oak-trim)" stroke="#593c35" stroke-width="1"/>
+      <path d="M174 231v61M392 232v61" stroke="#e9bb7d" stroke-width="1.5" opacity=".6"/>
+      <path d="M111 295h325v7H111Z" fill="#623d32" opacity=".8"/>
+      <path d="M113 296h322" stroke="#c39760" stroke-width="2" opacity=".7"/>
+    </g>`;
+  }
+  if (scene === 'kitchen' && save.home.done['ice-workshop']) {
+    // The restored counter should sit on the timber floor, not appear pasted on.
+    // This shadow is rendered behind the cabinet sprite, not over the furniture.
+    return `<g data-repaired-detail="kitchen-counter-contact" pointer-events="none" aria-hidden="true">
+      <ellipse cx="212" cy="390" rx="113" ry="12" fill="#352e36" opacity=".16"/>
+      <ellipse cx="212" cy="389" rx="94" ry="7" fill="#51403a" opacity=".10"/>
+    </g>`;
+  }
+  return '';
+}
