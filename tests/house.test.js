@@ -188,3 +188,18 @@ test('outside repairs open the front door one time and keep the home save versio
  const loaded=JSON.parse(JSON.stringify(s));
  assert.deepEqual(accessibleHouseAreas(loaded),accessibleHouseAreas(s));
 });
+
+test('repair style is paid atomically, persists during pending resume, and cannot double charge',()=>{
+ const base=playAll(newHome()),original=structuredClone(base),id=TASKS[0].id;
+ const pending=beginRepair(base,id,2);
+ assert.deepEqual(base,original);
+ assert.equal(pending.home.styles[id],2);
+ assert.equal(balance(pending.progress),47);
+ const finished=finishRepair(validateHome(JSON.parse(JSON.stringify(pending))));
+ assert.equal(finished.home.styles[id],2);
+ assert.deepEqual(beginRepair(finished,id,1),finished);
+ assert.deepEqual(finishRepair(finished),finished);
+ assert.equal(balance(decorate(finished,id,1).progress),47);
+ assert.throws(()=>beginRepair(base,id,3),/decoration/);
+ assert.equal(beginRepair(base,id).home.styles[id],undefined);
+});
