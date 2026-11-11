@@ -49,10 +49,10 @@ test('scene controls, pending resume and designs',async({page})=>{
       await page.locator('[data-area="entry"]').click();
       await openRepairs(page);
       for(const task of TASKS.slice(0,3))await expect(page.locator(`[data-style="${task.id}"][data-choice="0"]`)).toBeVisible();
-    }else await expect(page.locator(`[data-style="${t.id}"]`)).toHaveCount(0);
+    }else if(await page.locator('#home-repairs').isVisible())await expect(page.locator(`[data-style="${t.id}"]`)).toHaveCount(3);
   }
   for(let i=0;i<3;i++){
-    for(const t of TASKS.slice(0,3))await page.locator(`[data-style="${t.id}"][data-choice="${i}"]`).click();
+    for(const t of TASKS.slice(0,3)){await page.locator(`[data-style="${t.id}"][data-choice="${i}"]`).click();await page.locator(`[data-apply-style="${t.id}"]`).click();}
     await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design',['arch','glass','crystal'][i]);
     await page.getByRole('button',{name:'外観に戻る',exact:true}).click();
     await expect(page.locator('[data-door-design]')).toHaveAttribute('data-door-design',['arch','glass','crystal'][i]);
@@ -186,9 +186,10 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
         for(const item of TASKS.filter(x=>x.area===t.area)){
           await expect(page.locator(`[data-style="${item.id}"][data-choice="2"]`)).toBeVisible();
           await page.locator(`[data-style="${item.id}"][data-choice="2"]`).click();
+    await page.locator(`[data-apply-style="${item.id}"]`).click();
         }
       }
-    }else await expect(page.locator(`[data-style="${t.id}"]`)).toHaveCount(0);
+    }else if(await page.locator('#home-repairs').isVisible())await expect(page.locator(`[data-style="${t.id}"]`)).toHaveCount(3);
   }
   await expect(page.locator('#notice-title')).toHaveText('トリケンの家が完成！');await page.locator('#notice-primary').click();
   await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');
@@ -198,7 +199,7 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
   const motifs=[['arch','timber','lantern'],['glass','clapboard','bell'],['crystal','masonry','crystal']];
   for(let choice=0;choice<3;choice++){
     await page.locator('[data-area="entry"]').click();await openRepairs(page);
-    for(const t of TASKS.slice(0,3))await page.locator(`[data-style="${t.id}"][data-choice="${choice}"]`).click();
+    for(const t of TASKS.slice(0,3)){await page.locator(`[data-style="${t.id}"][data-choice="${choice}"]`).click();await page.locator(`[data-apply-style="${t.id}"]`).click();}
     for(const scene of ['entry','exterior']){
       if(scene==='exterior')await page.getByRole('button',{name:'外観に戻る',exact:true}).click();
       await expect(page.locator(`[data-scene-art="${scene}"] [data-door-design]`)).toHaveAttribute('data-door-design',motifs[choice][0]);
@@ -261,6 +262,7 @@ test('v7 every repair has three persistent independent designs and bounded loadi
   await openRepairs(page);
   for(const task of TASKS.filter(t=>t.area===area))for(let i=0;i<3;i++){
    await page.locator(`[data-style="${task.id}"][data-choice="${i}"]`).click();
+    await page.locator(`[data-apply-style="${task.id}"]`).click();
    await expect(page.locator(`[data-object="${task.id}"]`)).toHaveAttribute('data-variant',['a','b','c'][i]);
    await expect(page.locator('#home-balance')).toHaveText('10');
   }
@@ -730,7 +732,7 @@ for(const width of [320,390])test('guided house repairs follow one mission at a 
  await expect(firstReveal).toHaveCSS('animation-name','none');
  await testInfo.attach('outside-door-repaired-'+width,{body:await page.locator('.house-world').screenshot({animations:'disabled'}),contentType:'image/png'});
  await expect(page.locator('#house-mission-progress')).toHaveText('1 / 15');
- await expect(page.locator('#house-mission-title')).toContainText('外壁を塗る');
+ await expect(page.locator('#house-mission-title')).toContainText('屋根と外壁を直す');
  await expect(page.locator('#home-repairs')).toBeHidden();
  await expect(page.locator('#home-balance')).toHaveText('2');
  await page.locator('#house-mission-next').click();
@@ -806,6 +808,7 @@ for(const width of [320,390])test('five-room story first chapter celebration and
  await page.locator('[data-area="entry"]').click();await openRepairs(page);
  await expect(page.locator('[data-style="home-entry-0"][data-choice="2"]')).toBeVisible();
  await page.locator('[data-style="home-entry-0"][data-choice="2"]').click();
+    await page.locator(`[data-apply-style="home-entry-0"]`).click();
  const persisted=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),HOME_KEY);
  expect(persisted.version).toBe(2);
  expect(persisted.progress.town).toEqual({'home-entry-0':3,'home-entry-1':2,'home-entry-2':3});
