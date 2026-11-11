@@ -187,7 +187,8 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
         await page.locator('#house-room-celebration-next').click();
         await expect(page.locator('.house-room-celebration')).toHaveCount(0);
         if(await page.locator('#home-screen').getAttribute('data-scene')!==targetScene){
-          await page.locator(targetScene==='exterior'?'[data-scene-to="exterior"]':`[data-area="${targetScene}"]`).click();
+          // Scene hotspot and back button may both target the exterior.
+          await page.locator(targetScene==='exterior'?'.scene-back':`[data-area="${targetScene}"]`).click();
         }
         await expect(page.locator('#home-screen')).toHaveAttribute('data-scene',targetScene);
         await openRepairs(page);
