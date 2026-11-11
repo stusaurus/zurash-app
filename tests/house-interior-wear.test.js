@@ -50,3 +50,17 @@ test('repaired wallpaper obtains a timber junction and cabinet stays grounded',(
   assert.doesNotMatch(renderLayeredScene(save,'living'),/data-repaired-detail=/);
   assert.equal(save.version,2);
 });
+
+test('wallpaper trim follows the chosen saved design without changing the save',()=>{
+  const save=newHome();
+  save.home.done['home-bedroom-1']=true;
+  const palette=['#d9b784','#8fb9d5','#d0afe5'];
+  for(let style=0;style<3;style++){
+    save.home.styles['home-bedroom-1']=style;
+    const original=structuredClone(save);
+    const art=renderLayeredScene(save,'bedroom');
+    assert.match(art,new RegExp('data-repaired-style="'+style+'"'));
+    assert.ok(art.includes('stroke="'+palette[style]+'"'));
+    assert.deepEqual(save,original);
+  }
+});
