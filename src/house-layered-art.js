@@ -28,7 +28,17 @@ export const ART_PLACEMENTS={
 const image=(path,r,extra='')=>`<image href="${path}" x="${r[0]}" y="${r[1]}" width="${r[2]}" height="${r[3]}" ${extra.includes('preserveAspectRatio')?'':'preserveAspectRatio="xMidYMid meet"'} ${extra}/>`;
 const whole=path=>image(path,[0,0,480,540],'preserveAspectRatio="none"');
 function group(s,id,art){return `<g data-object="${id}" data-state="${s.home.pending===id?'building':s.home.done[id]?'complete':'before'}" data-variant="${s.home.done[id]?variants[1+(s.home.styles[id]??0)]:'before'}" class="scene-object ${s.home.pending===id?'building-now':''}">${art}</g>`;}
-function surface(s,id,rect,clip){const state=s.home.done[id]?variants[1+(s.home.styles[id]??0)]:'before',path=clip==='hall-wall'?bg(`entry-wall-${state}`):assetPath(s,id);return group(s,id,`<g clip-path="url(#${clip})">${image(path,rect,'preserveAspectRatio="none"')}</g>`);}
+function surface(s,id,rect,clip){
+ const state=s.home.done[id]?variants[1+(s.home.styles[id]??0)]:'before';
+ const path=clip==='hall-wall'?bg(`entry-wall-${state}`):assetPath(s,id);
+ // The wall asset includes its own wooden picture-frame and snow border.
+ // Use its centre as a material: the building shell owns the actual beams.
+ // The existing clip keeps doors/windows and structural edges unchanged.
+ const wall=clip==='front-wall';
+ const fitted=wall?[38,211,346,236]:rect;
+ const fit=wall?'preserveAspectRatio="xMidYMid slice" data-wall-texture-crop="front"':'preserveAspectRatio="none"';
+ return group(s,id,`<g clip-path="url(#${clip})">${image(path,fitted,fit)}</g>`);
+}
 function item(s,t,scene){let extra='';if(t.id==='home-entry-0')extra=`data-door-design="${s.home.done[t.id]?layeredDesignOptions(t)[s.home.styles[t.id]??0].motif:'unrepaired'}" data-face="${scene==='entry'?'inside':'outside'}"`;if(t.id==='home-entry-2')extra=`data-light-design="${s.home.done[t.id]?layeredDesignOptions(t)[s.home.styles[t.id]??0].motif:'unrepaired'}"`;
  const r=ART_PLACEMENTS[scene][t.slot],a=renderFurnitureContact(s,scene,t.id,r)+image(assetPath(s,t.id),r,extra);
  // Door is the same saved design viewed from the reverse side.
@@ -37,7 +47,7 @@ function item(s,t,scene){let extra='';if(t.id==='home-entry-0')extra=`data-door-
 function building(s){
  let art=image(s.home.done['home-entry-1']?bg('house-shell'):`${base}backgrounds/house-shell-before-v2.webp`,[0,0,480,540]);
  art+=surface(s,'home-entry-1',[66,243,290,159],'front-wall');
- art+=`<g transform="matrix(.59 -.34 0 1 371 252)"><g clip-path="url(#east-wall)">${image(assetPath(s,'home-entry-1'),[0,0,135,152],'preserveAspectRatio="none"')}</g></g>`;
+ art+=`<g transform="matrix(.59 -.34 0 1 371 252)"><g clip-path="url(#east-wall)">${image(assetPath(s,'home-entry-1'),[-25,-28,185,208],'preserveAspectRatio="xMidYMid slice" data-wall-texture-crop="east"')}</g></g>`;
  return art+item(s,TASKS[0],'exterior')+item(s,TASKS[2],'exterior');
 }
 const defs=`<defs>
