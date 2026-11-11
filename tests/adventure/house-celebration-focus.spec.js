@@ -25,6 +25,7 @@ for(const width of [320,390])test('house celebration focuses the before after re
  await expect(page.locator('.house-room-snapshot[data-phase="before"] svg')).toBeVisible();
  await expect(page.locator('.house-room-snapshot[data-phase="after"] svg')).toBeVisible();
  await expect(page.locator('#house-room-celebration-next')).toHaveText('玄関から家に入る');
+ await expect(page.locator('#house-room-celebration-next')).toHaveCSS('color','rgb(35, 24, 15)');
  await expect(page.locator('footer')).toBeHidden();
  await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await info.attach('room-complete-'+width+'px',{body:await milestone.screenshot({animations:'disabled'}),contentType:'image/png'});
