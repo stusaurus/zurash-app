@@ -46,6 +46,7 @@ test('house evolution all 15 repairs render complete interiors in all three styl
     for(const style of [0,1,2]){
       await showRoom(page,scene,true,{allFinished:true,style});
       await expect(page.locator('[data-house-interior-wear]')).toHaveCount(0);
+      await expect(page.locator('[data-furniture-contact]')).toHaveCount(({living:1,kitchen:1,bedroom:2})[scene]);
       const variants=await page.locator('#room-visual [data-object]').evaluateAll(es=>es.filter(e=>e.hasAttribute('data-variant')).map(e=>e.getAttribute('data-variant')));
       expect(variants).toHaveLength(3);
       expect(variants).toEqual([String.fromCharCode(97+style),String.fromCharCode(97+style),String.fromCharCode(97+style)]);

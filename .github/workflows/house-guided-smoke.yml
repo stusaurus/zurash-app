@@ -6,6 +6,7 @@ on:
       - 'src/house-view.js'
       - 'src/house-layered-art.js'
       - 'src/house-interior-wear.js'
+      - 'src/house-furniture-contact.js'
       - 'src/house-expansion-art.js'
       - 'src/house-scenes.js'
       - 'src/puzzle/house.js'
@@ -14,6 +15,7 @@ on:
       - 'tests/adventure/house-evolution.spec.js'
       - 'tests/adventure/house-interior-wear.spec.js'
       - 'tests/house-interior-wear.test.js'
+      - 'tests/house-furniture-contact.test.js'
       - 'adventure.css'
       - 'tests/house.test.js'
       - 'tests/adventure/chapter-one.spec.js'
@@ -24,6 +26,7 @@ on:
       - 'src/house-view.js'
       - 'src/house-layered-art.js'
       - 'src/house-interior-wear.js'
+      - 'src/house-furniture-contact.js'
       - 'src/house-expansion-art.js'
       - 'src/house-scenes.js'
       - 'src/puzzle/house.js'
@@ -32,6 +35,7 @@ on:
       - 'tests/adventure/house-evolution.spec.js'
       - 'tests/adventure/house-interior-wear.spec.js'
       - 'tests/house-interior-wear.test.js'
+      - 'tests/house-furniture-contact.test.js'
       - 'adventure.css'
       - 'tests/house.test.js'
       - 'tests/adventure/chapter-one.spec.js'
@@ -56,8 +60,9 @@ jobs:
           node --check src/house-view.js
           node --check src/house-expansion-art.js
           node --check src/house-interior-wear.js
+          node --check src/house-furniture-contact.js
           node --check src/puzzle/house.js
-          node --test tests/house.test.js tests/house-interior-wear.test.js
+          node --test tests/house.test.js tests/house-interior-wear.test.js tests/house-furniture-contact.test.js
       - run: npx playwright install --with-deps chromium webkit
       - name: Follow guided repairs on Chromium and WebKit, 320px and 390px
         run: npx playwright test -c playwright.chapter.config.js --grep "guided house repairs follow|five-room story first chapter celebration|house expansion|house scenes show no arcade mascot|house painted exterior grows|repair success accent|house evolution" --workers=2

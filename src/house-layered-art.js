@@ -2,6 +2,7 @@ import {HOUSE_DESIGNS} from './puzzle/house-designs.js';
 // Draft artwork renderer only. House economy, identifiers and v2 save stay untouched.
 import {TASKS} from './puzzle/house.js';
 import {renderInteriorWear,renderRepairedFinish} from './house-interior-wear.js';
+import {renderFurnitureContact} from './house-furniture-contact.js';
 import {renderExteriorGrowth} from './house-expansion-art.js';
 export const ART_VERSION='v7.1';
 const base='./assets/house/v7/';
@@ -29,7 +30,7 @@ const whole=path=>image(path,[0,0,480,540],'preserveAspectRatio="none"');
 function group(s,id,art){return `<g data-object="${id}" data-state="${s.home.pending===id?'building':s.home.done[id]?'complete':'before'}" data-variant="${s.home.done[id]?variants[1+(s.home.styles[id]??0)]:'before'}" class="scene-object ${s.home.pending===id?'building-now':''}">${art}</g>`;}
 function surface(s,id,rect,clip){const state=s.home.done[id]?variants[1+(s.home.styles[id]??0)]:'before',path=clip==='hall-wall'?bg(`entry-wall-${state}`):assetPath(s,id);return group(s,id,`<g clip-path="url(#${clip})">${image(path,rect,'preserveAspectRatio="none"')}</g>`);}
 function item(s,t,scene){let extra='';if(t.id==='home-entry-0')extra=`data-door-design="${s.home.done[t.id]?layeredDesignOptions(t)[s.home.styles[t.id]??0].motif:'unrepaired'}" data-face="${scene==='entry'?'inside':'outside'}"`;if(t.id==='home-entry-2')extra=`data-light-design="${s.home.done[t.id]?layeredDesignOptions(t)[s.home.styles[t.id]??0].motif:'unrepaired'}"`;
- const r=ART_PLACEMENTS[scene][t.slot],a=image(assetPath(s,t.id),r,extra);
+ const r=ART_PLACEMENTS[scene][t.slot],a=renderFurnitureContact(s,scene,t.id,r)+image(assetPath(s,t.id),r,extra);
  // Door is the same saved design viewed from the reverse side.
  return group(s,t.id,scene==='entry'&&t.id==='home-entry-0'?`<g transform="translate(${2*r[0]+r[2]} 0) scale(-1 1)">${a}</g>`:a);
 }
@@ -41,6 +42,7 @@ function building(s){
 }
 const defs=`<defs>
  <radialGradient id="art-amber"><stop stop-color="#ffc66c" stop-opacity=".45"/><stop offset="1" stop-color="#ffb957" stop-opacity="0"/></radialGradient>
+ <filter id="house-floor-shadow-blur" x="-50%" y="-250%" width="200%" height="600%"><feGaussianBlur stdDeviation="3.2"/></filter>
  <clipPath id="front-wall"><path d="M72 249H348V395H72Z M75 268H170V378H75Z M162 259H275V410H162Z" fill-rule="evenodd" clip-rule="evenodd"/></clipPath>
  <clipPath id="east-wall"><path d="M0 0H135V152H0Z M31 20H110V113H31Z" fill-rule="evenodd" clip-rule="evenodd"/></clipPath>
  <clipPath id="hall-wall"><path d="M77 94h84v133H77Z M313 246h111v58H313Z M78 229h82v15H78Z"/></clipPath>
