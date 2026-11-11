@@ -45,17 +45,26 @@ export function renderInteriorWear(save, scene) {
  */
 export function renderRepairedFinish(save, scene) {
   if (scene === 'bedroom' && save.home.done['home-bedroom-1']) {
-    return `<g data-repaired-detail="bedroom-wall" pointer-events="none" aria-hidden="true" opacity=".94">
+    // Preserve the three approved motifs; each gains a matching understated inset.
+    const selected = save.home.styles['home-bedroom-1'] ?? 0;
+    const accent = ['#d9b784','#8fb9d5','#d0afe5'][selected] ?? '#d9b784';
+    return `<g data-repaired-detail="bedroom-wall" data-repaired-style="${selected}" pointer-events="none" aria-hidden="true" opacity=".94">
       <defs><linearGradient id="house-repair-oak-trim" x1="0" y1="0" x2=".9" y2="1">
         <stop stop-color="#6a4939"/><stop offset=".5" stop-color="#b28457"/><stop offset="1" stop-color="#674435"/>
       </linearGradient></defs>
+      <!-- Upper beams align the new finish with the existing timber architecture.
+           All elements stay outside the central window and are display-only. -->
+      <path d="M108 82h66v9h-66Z M390 82h45v9h-45Z" fill="url(#house-repair-oak-trim)" stroke="#53382f" stroke-width="1"/>
+      <path d="M112 84h59M394 84h39" stroke="${accent}" stroke-width="1.5" opacity=".74"/>
+      <path d="M167 89h7v128h-7Z M390 89h7v128h-7Z" fill="url(#house-repair-oak-trim)" opacity=".91"/>
+      <path d="M170 94v119M393 94v119" stroke="${accent}" stroke-width="1.4" opacity=".5"/>
       <path d="M170 216h223l1 13H171Z" fill="#362e30" opacity=".6"/>
       <path d="M170 216h223v9H170Z" fill="url(#house-repair-oak-trim)"/>
-      <path d="M173 218H390" stroke="#f1cd90" opacity=".5" stroke-width="1.5"/>
+      <path d="M173 218H390" stroke="${accent}" opacity=".67" stroke-width="1.5"/>
       <path d="M170 222v75h6v-75m213 0v75h6v-75" fill="url(#house-repair-oak-trim)" stroke="#593c35" stroke-width="1"/>
-      <path d="M174 231v61M392 232v61" stroke="#e9bb7d" stroke-width="1.5" opacity=".6"/>
+      <path d="M174 231v61M392 232v61" stroke="${accent}" stroke-width="1.5" opacity=".65"/>
       <path d="M111 295h325v7H111Z" fill="#623d32" opacity=".8"/>
-      <path d="M113 296h322" stroke="#c39760" stroke-width="2" opacity=".7"/>
+      <path d="M113 296h322" stroke="${accent}" stroke-width="1.6" opacity=".59"/>
     </g>`;
   }
   if (scene === 'kitchen' && save.home.done['ice-workshop']) {
