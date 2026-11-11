@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {newHome,TASKS} from '../src/puzzle/house.js';
-import {INTERIOR_WEAR_REPAIRS,renderInteriorWear} from '../src/house-interior-wear.js';
+import {INTERIOR_WEAR_REPAIRS,renderInteriorWear,renderRepairedFinish} from '../src/house-interior-wear.js';
 import {renderLayeredScene} from '../src/house-layered-art.js';
 
 test('interior wear is attached to exactly one existing repair per room',()=>{
