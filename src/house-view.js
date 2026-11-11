@@ -30,13 +30,13 @@ function isolatedScene(save,scene,prefix){
   .replace(/\sdata-[\w-]+="[^"]*"/g,'')
   .replace('<svg ','<svg aria-hidden="true" focusable="false" ');
 }
-function completedRoomSnapshot(save,chapter,phase){
+function completedRoomSnapshot(save,chapter,phase,view='card'){
  const snapshot=structuredClone(save);
  if(phase==='before')for(const task of TASKS.filter(t=>t.area===chapter.id)){
   delete snapshot.home.done[task.id];
   delete snapshot.home.styles[task.id];
  }
- const prefix=`compare-${chapter.id}-${phase}`;
+ const prefix=`compare-${chapter.id}-${phase}-${view}`;
  return isolatedScene(snapshot,chapter.id==='entry'?'exterior':chapter.id,prefix);
 }
 function roomCompletionHtml(chapter,task,save,nextAction){
@@ -52,11 +52,21 @@ function roomCompletionHtml(chapter,task,save,nextAction){
   <h2 id='house-room-celebration-title'>🎉 ${chapter.name}が完成！</h2>
   <p class='house-room-reveal-note'>${message}</p>
   <div class='house-room-comparison' aria-label='${chapter.name}全体の修復前後'>
-   <figure class='house-room-snapshot' data-phase='before'><div class='house-room-snapshot-art'>${before}</div><figcaption>修復まえ</figcaption></figure>
+   <figure class='house-room-snapshot' data-phase='before'><button class='house-room-snapshot-open' type='button' data-comparison-open='before' aria-label='修復前の家を拡大して比較'><div class='house-room-snapshot-art'>${before}</div><span class='house-room-zoom-label' aria-hidden='true'>拡大</span></button><figcaption>修復まえ</figcaption></figure>
    <span class='house-room-arrow' aria-hidden='true'>→</span>
-   <figure class='house-room-snapshot' data-phase='after'><div class='house-room-snapshot-art'>${after}</div><figcaption>完成！</figcaption></figure>
+   <figure class='house-room-snapshot' data-phase='after'><button class='house-room-snapshot-open' type='button' data-comparison-open='after' aria-label='完成した家を拡大して比較'><div class='house-room-snapshot-art'>${after}</div><span class='house-room-zoom-label' aria-hidden='true'>拡大</span></button><figcaption>完成！</figcaption></figure>
   </div>
   <button id='house-room-celebration-next' class='primary' type='button'>${nextAction==='enter'?'玄関から家に入る':nextAction==='open'?'次の部屋を見に行く':nextAction==='locked'?'パズルでエリアをひらく':'家をながめる'}</button>
+  <dialog id='house-room-detail-dialog' aria-label='${chapter.name}の修復前後を拡大して比較'>
+   <div class='house-room-detail-panel'>
+    <header class='house-room-detail-header'><strong>${chapter.name}のビフォーアフター</strong><button type='button' data-detail-close aria-label='拡大比較を閉じる'>閉じる ×</button></header>
+    <div class='house-room-detail-art' aria-label='拡大した家の画像'></div>
+    <div class='house-room-detail-switch' role='group' aria-label='比較する家の状態'>
+      <button type='button' data-detail-phase='before' aria-pressed='false'>修復まえ</button>
+      <button type='button' data-detail-phase='after' aria-pressed='false'>完成！</button>
+    </div>
+   </div>
+  </dialog>
  </section>`;
 }
 export function createHouseView({element,getSave,setSave,onPlay,onComplete,onError}){
@@ -139,6 +149,22 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
  <p class="home-copy">${area()==='entry'?'扉・外壁・玄関灯の修復は、家の外と中に反映されます。': 'ひとつ直すたび、ここが好きになる。'} 3つから好きなデザインを選んで直そう。完成後の変更は無料です。</p>
  <div id="repair-tasks">${shownTasks.map(t=>`<article class="repair ${done[t.id]?'finished':''} ${selected===t.id?'selected':''}" id="repair-${t.id}"><div class="repair-line"><div><b>${done[t.id]?'<span class="repair-check">✓</span> ':''}${t.label}</b><small>${done[t.id]?'完成 · もよう替えできます':s.home.pending===t.id?'建設中…':available(s,t)?balance(s.progress)<t.cost?'パズルで星を集めよう':'星を使って修復できます':`${t.at}面クリア後${t.requires.length?'・前の修復が必要':''}`}</small></div>${!done[t.id]?`<button data-repair="${t.id}" ${!available(s,t)||s.home.pending||balance(s.progress)<t.cost?'disabled':''}>★ ${t.cost}<span>直す</span></button>`:''}</div>${menuOpen?repairDetail(selected===t.id&&Object.hasOwn(previewStyles,t.id)?display:s,current,t):''}${selected===t.id&&Object.hasOwn(previewStyles,t.id)?`<figure class="design-house-preview">${isolatedScene(display,current,'design-preview')}<figcaption>プレビュー · まだ保存していません</figcaption></figure>`:''}${menuOpen&&!s.home.pending&&(done[t.id]||mission.task?.id===t.id)?`<div class="swatches" aria-label="${t.label}のデザイン">${designOptions(t).map((choice,i)=>`<button data-style="${t.id}" data-choice="${i}" aria-label="${choice.name}：${choice.material}" aria-pressed="${(previewStyles[t.id]??s.home.styles[t.id]??0)===i}">${thumbnail(t,i)}<b>${choice.name}</b><small>${choice.material}</small><span class="choice-tick" aria-hidden="true">✓</span></button>`).join('')}</div><p class="design-preview-note">家で見ためを確認してから、${done[t.id]?'「このデザインにする」':'「直す」'}を押そう。</p>${done[t.id]?`<button data-apply-style="${t.id}" type="button">このデザインにする</button>`:''}`:''}</article>`).join('')}</div></section>`;
  const token=++frame,world=element.querySelector('.house-world');world.dataset.artReady='false';ready(world.innerHTML).then(()=>{if(frame===token&&world.isConnected)world.dataset.artReady='true';}).catch(error=>{if(frame===token&&world.isConnected){world.dataset.artReady='error';console.error('House art load failed',error);}});
+ const detailDialog=element.querySelector('#house-room-detail-dialog');
+ if(detailDialog&&completedChapter){
+  const detailArt=detailDialog.querySelector('.house-room-detail-art');
+  const selectDetailPhase=phase=>{
+   detailArt.innerHTML=completedRoomSnapshot(getSave(),completedChapter,phase,'detail');
+   detailDialog.dataset.phase=phase;
+   detailDialog.querySelectorAll('[data-detail-phase]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.detailPhase===phase)));
+  };
+  element.querySelectorAll('[data-comparison-open]').forEach(b=>b.onclick=()=>{
+   selectDetailPhase(b.dataset.comparisonOpen);
+   detailDialog.showModal();
+  });
+  detailDialog.querySelectorAll('[data-detail-phase]').forEach(b=>b.onclick=()=>selectDetailPhase(b.dataset.detailPhase));
+  detailDialog.querySelector('[data-detail-close]').onclick=()=>detailDialog.close();
+  detailDialog.onclick=e=>{if(e.target===detailDialog)detailDialog.close();};
+ }
  const celebrationNext=element.querySelector('#house-room-celebration-next');
  if(celebrationNext)celebrationNext.onclick=()=>{
   if(completedChapter?.id==='entry'){
