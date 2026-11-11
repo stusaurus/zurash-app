@@ -39,7 +39,7 @@ for(const width of [320,390])test('house evolution interior wear before and afte
   }
 });
 
-test('all 15 repairs render complete interiors in all three styles at 390px',async({page},info)=>{
+test('house evolution all 15 repairs render complete interiors in all three styles at 390px',async({page},info)=>{
   await page.setViewportSize({width:390,height:950});
   await page.goto('/adventure.html');
   for(const scene of rooms){
