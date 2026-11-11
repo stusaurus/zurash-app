@@ -1089,19 +1089,19 @@ body:has(#home-screen:not([hidden]) .house-room-celebration) .adventure>footer{d
 .house-room-celebration h2{font-size:clamp(23px,6vw,30px);line-height:1.25;letter-spacing:.015em;margin:0;color:#2e5545}
 .house-room-celebration .house-room-reveal-note{font-size:13px;line-height:1.6;margin:9px 0 15px;color:#4b6756}
 .house-room-comparison{grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);gap:8px;margin:0 0 17px;align-items:center}
-.house-room-comparison figure{padding:6px 6px 10px;border-radius:16px;overflow:hidden;border:1px solid #c8d1c6;background:#f7f6ef;box-shadow:0 2px 6px #33453213}
-.house-room-comparison figure[data-phase='after']{border:2px solid #d9ad52;background:#fff9e7;box-shadow:0 3px 13px #ad843b29}
+.house-room-comparison .house-room-snapshot{padding:6px 6px 10px;border-radius:16px;overflow:hidden;border:1px solid #c8d1c6;background:#f7f6ef;box-shadow:0 2px 6px #33453213}
+.house-room-comparison .house-room-snapshot[data-phase='after']{border:2px solid #d9ad52;background:#fff9e7;box-shadow:0 3px 13px #ad843b29}
 .house-room-snapshot-art svg{display:block;width:100%;height:auto;max-width:100%}
-.house-room-comparison figcaption{font-size:12px;font-weight:800;line-height:1.3;margin-top:7px;color:#526958}
-.house-room-comparison figure[data-phase='after'] figcaption{color:#82602b}
+.house-room-comparison .house-room-snapshot figcaption{font-size:12px;font-weight:800;line-height:1.3;margin-top:7px;color:#526958}
+.house-room-comparison .house-room-snapshot[data-phase='after'] figcaption{color:#82602b}
 .house-room-comparison .house-room-arrow{font-size:24px;font-weight:800;color:#a08048}
 .house-room-celebration #house-room-celebration-next{font-size:17px;font-weight:900;line-height:1.4;min-height:58px;padding:12px 14px;border-radius:18px;box-shadow:0 3px 0 #956c36}
 .house-room-celebration #house-room-celebration-next:focus-visible{outline:3px solid #285d89;outline-offset:3px}
 @media(max-width:360px){
  .home-screen:has(.house-room-celebration) .house-room-celebration{padding:18px 13px 20px}
  .house-room-comparison{grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr);gap:5px}
- .house-room-comparison figure{padding:5px 4px 8px}
- .house-room-comparison figcaption{font-size:11px}
+ .house-room-comparison .house-room-snapshot{padding:5px 4px 8px}
+ .house-room-comparison .house-room-snapshot figcaption{font-size:11px}
 }
 @media(min-width:720px){
  .home-screen:has(.house-room-celebration) .house-room-celebration{grid-column:2;grid-row:3}
