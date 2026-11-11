@@ -1095,7 +1095,7 @@ body:has(#home-screen:not([hidden]) .house-room-celebration) .adventure>footer{d
 .house-room-comparison .house-room-snapshot figcaption{font-size:12px;font-weight:800;line-height:1.3;margin-top:7px;color:#526958}
 .house-room-comparison .house-room-snapshot[data-phase='after'] figcaption{color:#82602b}
 .house-room-comparison .house-room-arrow{font-size:24px;font-weight:800;color:#a08048}
-.house-room-celebration #house-room-celebration-next{font-size:17px;font-weight:900;line-height:1.4;min-height:58px;padding:12px 14px;border-radius:18px;box-shadow:0 3px 0 #956c36}
+.house-room-celebration #house-room-celebration-next{font-size:17px;font-weight:900;line-height:1.4;min-height:58px;color:#23180f;padding:12px 14px;border-radius:18px;box-shadow:0 3px 0 #956c36}
 .house-room-celebration #house-room-celebration-next:focus-visible{outline:3px solid #285d89;outline-offset:3px}
 @media(max-width:360px){
  .home-screen:has(.house-room-celebration) .house-room-celebration{padding:18px 13px 20px}
