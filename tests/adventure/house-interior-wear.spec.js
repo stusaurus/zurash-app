@@ -1,13 +1,14 @@
 import {test,expect} from '@playwright/test';
 
 const rooms=['living','kitchen','bedroom'];
-async function showRoom(page,scene,repaired){
-  await page.evaluate(async({scene,repaired})=>{
-    const [{newHome},{renderLayeredScene},{INTERIOR_WEAR_REPAIRS}]=await Promise.all([
+async function showRoom(page,scene,repaired,{allFinished=false,style=2}={}){
+  await page.evaluate(async({scene,repaired,allFinished,style})=>{
+    const [{newHome,TASKS},{renderLayeredScene},{INTERIOR_WEAR_REPAIRS}]=await Promise.all([
       import('./src/puzzle/house.js'),import('./src/house-layered-art.js'),import('./src/house-interior-wear.js')
     ]);
     const save=newHome();
-    if(repaired)save.home.done[INTERIOR_WEAR_REPAIRS[scene]]=true;
+    if(allFinished){for(const task of TASKS){save.home.done[task.id]=true;save.home.styles[task.id]=style;}}
+    else if(repaired)save.home.done[INTERIOR_WEAR_REPAIRS[scene]]=true;
     const host=document.createElement('main');
     host.id='room-visual';
     host.style.cssText='width:min(100%,390px);margin:0 auto';
@@ -18,9 +19,9 @@ async function showRoom(page,scene,repaired){
     const paths=[...host.querySelectorAll('image[href]')].map(x=>x.getAttribute('href'));
     await Promise.all(paths.map(async path=>{
       const img=new Image();img.src=new URL(path,location.href).href;
-      await img.decode().catch(()=>{});
+      await img.decode();
     }));
-  },{scene,repaired});
+  },{scene,repaired,allFinished,style});
 }
 
 for(const width of [320,390])test('house evolution interior wear before and after '+width+'px',async({page},info)=>{
@@ -34,6 +35,24 @@ for(const width of [320,390])test('house evolution interior wear before and afte
       await info.attach(scene+(repaired?'-after':'-before')+'-'+width,
         {body:await page.locator('#room-visual').screenshot({animations:'disabled'}),contentType:'image/png'});
       expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    }
+  }
+});
+
+test('all 15 repairs render complete interiors in all three styles at 390px',async({page},info)=>{
+  await page.setViewportSize({width:390,height:950});
+  await page.goto('/adventure.html');
+  for(const scene of rooms){
+    for(const style of [0,1,2]){
+      await showRoom(page,scene,true,{allFinished:true,style});
+      await expect(page.locator('[data-house-interior-wear]')).toHaveCount(0);
+      const variants=await page.locator('#room-visual [data-object]').evaluateAll(es=>es.filter(e=>e.hasAttribute('data-variant')).map(e=>e.getAttribute('data-variant')));
+      expect(variants).toHaveLength(3);
+      expect(variants).toEqual([String.fromCharCode(97+style),String.fromCharCode(97+style),String.fromCharCode(97+style)]);
+      if(scene==='bedroom')await expect(page.locator('[data-repaired-detail="bedroom-wall"]')).toHaveCount(1);
+      if(scene==='kitchen')await expect(page.locator('[data-repaired-detail="kitchen-counter-contact"]')).toHaveCount(1);
+      await info.attach('finished-'+scene+'-style-'+String.fromCharCode(97+style),
+        {body:await page.locator('#room-visual').screenshot({animations:'disabled'}),contentType:'image/png'});
     }
   }
 });
