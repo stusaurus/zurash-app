@@ -182,6 +182,14 @@ for(const width of [320,390,1440])test(`all 50 stages, unlock events and reload 
       if(t===TASKS.at(-1)){
         await page.locator('#house-room-celebration-next').click();
       }else{
+        // The completed room hides ordinary controls until its reward is acknowledged.
+        await expect(page.locator('#repair-menu')).toBeHidden();
+        await page.locator('#house-room-celebration-next').click();
+        await expect(page.locator('.house-room-celebration')).toHaveCount(0);
+        if(await page.locator('#home-screen').getAttribute('data-scene')!==targetScene){
+          await page.locator(targetScene==='exterior'?'[data-scene-to="exterior"]':`[data-area="${targetScene}"]`).click();
+        }
+        await expect(page.locator('#home-screen')).toHaveAttribute('data-scene',targetScene);
         await openRepairs(page);
         for(const item of TASKS.filter(x=>x.area===t.area)){
           await expect(page.locator(`[data-style="${item.id}"][data-choice="2"]`)).toBeVisible();
