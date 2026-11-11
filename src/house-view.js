@@ -42,17 +42,21 @@ function completedRoomSnapshot(save,chapter,phase){
 function roomCompletionHtml(chapter,task,save,nextAction){
  const before=completedRoomSnapshot(save,chapter,'before');
  const after=completedRoomSnapshot(save,chapter,'after');
+ const message=chapter.id==='entry'
+  ?'ボロボロだった家が、こんなにあたたかい姿に。'
+  :chapter.id==='garden'
+   ?'最後の一か所まで、ていねいに直せたね。'
+   :'3か所の修復で、部屋が生まれかわった！';
  return `<section class='house-room-celebration' role='status' aria-label='エリアの修復完成'>
-  <span class='eyebrow'>✧ ROOM COMPLETE · ${chapter.doneCount}/3</span>
+  <span class='eyebrow'>✦ 3か所の修復が完了</span>
   <h2 id='house-room-celebration-title'>🎉 ${chapter.name}が完成！</h2>
-  <p>${chapter.finish}</p>
+  <p class='house-room-reveal-note'>${message}</p>
   <div class='house-room-comparison' aria-label='${chapter.name}全体の修復前後'>
    <figure class='house-room-snapshot' data-phase='before'><div class='house-room-snapshot-art'>${before}</div><figcaption>修復まえ</figcaption></figure>
-   <span aria-hidden='true'>→</span>
+   <span class='house-room-arrow' aria-hidden='true'>→</span>
    <figure class='house-room-snapshot' data-phase='after'><div class='house-room-snapshot-art'>${after}</div><figcaption>完成！</figcaption></figure>
   </div>
-  <p class='house-room-reveal-note'>${chapter.id==='entry'?'外から見た家がこんなにきれいになった！':'3つの修復で、部屋全体がこんなに変わったよ。'}</p>
-  <button id='house-room-celebration-next' class='primary' type='button'>${nextAction==='enter'?'玄関から家に入る':nextAction==='open'?'家がひろがった！ 外から見よう':nextAction==='locked'?'パズルでエリアをひらく':'家をながめる'}</button>
+  <button id='house-room-celebration-next' class='primary' type='button'>${nextAction==='enter'?'玄関から家に入る':nextAction==='open'?'次の部屋を見に行く':nextAction==='locked'?'パズルでエリアをひらく':'家をながめる'}</button>
  </section>`;
 }
 export function createHouseView({element,getSave,setSave,onPlay,onComplete,onError}){
@@ -206,7 +210,7 @@ export function createHouseView({element,getSave,setSave,onPlay,onComplete,onErr
     }else if(guidedMode){guidedMode=false;menuOpen=false;selected=null;}
     render();
     if(roomCelebration&&!homeComplete(finished)){
-     element.querySelector('.house-room-celebration')?.scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+     element.querySelector('.house-room-celebration')?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
     }
    }catch(e){onError(e);}
   },matchMedia('(prefers-reduced-motion: reduce)').matches?0:1000);
