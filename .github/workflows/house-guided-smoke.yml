@@ -12,6 +12,8 @@ on:
       - 'src/puzzle/house.js'
       - 'src/puzzle/house-designs.js'
       - 'assets/house/**'
+      - 'tests/house-exterior-texture-fit.test.js'
+      - 'tests/adventure/house-exterior-texture-fit.spec.js'
       - 'tests/adventure/house-celebration-focus.spec.js'
       - 'tests/adventure/house-evolution.spec.js'
       - 'tests/adventure/house-interior-wear.spec.js'
@@ -33,6 +35,8 @@ on:
       - 'src/puzzle/house.js'
       - 'src/puzzle/house-designs.js'
       - 'assets/house/**'
+      - 'tests/house-exterior-texture-fit.test.js'
+      - 'tests/adventure/house-exterior-texture-fit.spec.js'
       - 'tests/adventure/house-celebration-focus.spec.js'
       - 'tests/adventure/house-evolution.spec.js'
       - 'tests/adventure/house-interior-wear.spec.js'
@@ -64,10 +68,10 @@ jobs:
           node --check src/house-interior-wear.js
           node --check src/house-furniture-contact.js
           node --check src/puzzle/house.js
-          node --test tests/house.test.js tests/house-interior-wear.test.js tests/house-furniture-contact.test.js
+          node --test tests/house.test.js tests/house-interior-wear.test.js tests/house-furniture-contact.test.js tests/house-exterior-texture-fit.test.js
       - run: npx playwright install --with-deps chromium webkit
       - name: Follow guided repairs on Chromium and WebKit, 320px and 390px
-        run: npx playwright test -c playwright.chapter.config.js --grep "guided house repairs follow|five-room story first chapter celebration|house expansion|house scenes show no arcade mascot|house painted exterior grows|repair success accent|house evolution|house celebration focuses" --workers=2
+        run: npx playwright test -c playwright.chapter.config.js --grep "guided house repairs follow|five-room story first chapter celebration|house expansion|house scenes show no arcade mascot|house painted exterior grows|repair success accent|house evolution|house celebration focuses|house evolution exterior wall material" --workers=2
       - name: Save screenshots and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
