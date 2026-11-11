@@ -29,8 +29,14 @@ export function checkpointTwo(save,entries,stage,actions,options={}){
  const result=replayChapterTwo(stage,actions),next=structuredClone(save);
  next.active={id:stage.id,revision:stage.revision,actions:structuredClone(actions)};
  if(solved(result.state)){
-  const old=next.completed[stage.id];
-  if(!old||actions.length<old.bestTurns)next.completed[stage.id]={revision:stage.revision,bestTurns:actions.length,proof:structuredClone(actions)};
+  // A completed route is eligible for campaign progress only at the certified
+  // minimum. Longer successful routes remain in the active trace for retry.
+  if(!Number.isSafeInteger(stage.challenge?.minimumTurns)||stage.challenge.minimumTurns<1)
+   throw Error('Certified minimum required');
+  if(actions.length===stage.challenge.minimumTurns){
+   const old=next.completed[stage.id];
+   if(!old||actions.length<old.bestTurns)next.completed[stage.id]={revision:stage.revision,bestTurns:actions.length,proof:structuredClone(actions)};
+  }
  }
  return next;
 }

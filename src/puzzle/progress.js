@@ -19,8 +19,12 @@ export function recordClear(s,stage,turns,{allowCandidates=false}={}) {
   n.completed[stage.id]={reward:1,bestTurns:old?.revision===stage.revision?Math.min(old.bestTurns,turns):turns,revision:stage.revision};
   return validateProgress(n);
 }
-export function completePuzzle(s,stage,actions,options) {
+export function completePuzzle(s,stage,actions,options={}) {
   if(!replay(stage,actions).cleared)throw Error('Puzzle not cleared');
+  // Chapter 1 stores certified minima in a separate signed-off catalog. Require
+  // the exact minimum when a campaign submits its verified threshold.
+  if(options.minimumTurns!==undefined&&(!Number.isSafeInteger(options.minimumTurns)||
+      options.minimumTurns<1||actions.length!==options.minimumTurns))throw Error('Shortest route required');
   return recordClear(s,stage,actions.length,options);
 }
 export function buildTown(s,projectId,cost) {

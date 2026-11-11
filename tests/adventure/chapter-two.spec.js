@@ -158,3 +158,36 @@ test('chapter two adventure: a human review is optional, local-only, persistent 
  const stage=stages.find(s=>s.chapter.number===54);
  expect(data.reviews[stage.id]).toMatchObject({enjoyment:'poor',difficulty:'hard',note:'54面は壁移動が少なくて、滑走が長く感じた。'});
 });
+
+test('Chapter 2: a longer star-collecting route does not clear, earn crystals or unlock; shortest retry does',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.goto('/chapter-two.html?trial=1');
+ // Stage 51 starts at cell 0 with a fixed obstacle at cell 8: down/up is a
+ // legal, no-star detour returning to the exact initial board state.
+ const detour=[{prep:{type:'none'},dir:2},{prep:{type:'none'},dir:0},...stages[0].proof];
+ for(const step of detour)await act(page,step);
+ await expect(page.locator('#fun-result')).toBeVisible();
+ await expect(page.locator('#fun-rank')).toContainText('未クリア');
+ await expect(page.locator('#fun-next')).toBeHidden();
+ await expect(page.locator('#fun-again')).toBeVisible();
+ await expect(page.locator('#clear-share-copy')).toBeHidden();
+ await expect(page.locator('#clear-personal-record')).toBeHidden();
+ await expect(page.locator('#expedition-reward')).toContainText('報酬なし');
+ await expect(page.locator('[data-stage-choice="2"]')).toBeDisabled();
+ const missed=await page.evaluate(()=>JSON.parse(localStorage.getItem('zurash-app:chapter-two-preview:v1')));
+ expect(missed.active.actions).toHaveLength(stages[0].proof.length+2);
+ expect(missed.completed).toEqual({});
+ await page.reload();
+ await expect(page.locator('#fun-rank')).toContainText('未クリア');
+ await expect(page.locator('#fun-next')).toBeHidden();
+ await expect(page.locator('#fun-again')).toBeVisible();
+ await page.locator('#fun-again').click();
+ for(const step of stages[0].proof)await act(page,step);
+ await expect(page.locator('#fun-rank')).toHaveText('Sランク合格！');
+ await expect(page.locator('#fun-next')).toBeVisible();
+ await expect(page.locator('#expedition-reward')).toContainText('結晶 +1');
+ await expect(page.locator('[data-stage-choice="2"]')).toBeEnabled();
+ const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('zurash-app:chapter-two-preview:v1')));
+ expect(saved.completed[stages[0].id].bestTurns).toBe(stages[0].challenge.minimumTurns);
+});

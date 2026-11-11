@@ -27,7 +27,9 @@ permissions:
 jobs:
   package-and-smoke:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    # Playwright installs and the CPU benchmark can exceed 20 minutes on a busy runner.
+    # Keep the full packaged Chromium/WebKit smoke suite rather than cancelling it.
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
