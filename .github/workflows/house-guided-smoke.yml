@@ -5,12 +5,15 @@ on:
     paths:
       - 'src/house-view.js'
       - 'src/house-layered-art.js'
+      - 'src/house-interior-wear.js'
       - 'src/house-expansion-art.js'
       - 'src/house-scenes.js'
       - 'src/puzzle/house.js'
       - 'src/puzzle/house-designs.js'
       - 'assets/house/**'
       - 'tests/adventure/house-evolution.spec.js'
+      - 'tests/adventure/house-interior-wear.spec.js'
+      - 'tests/house-interior-wear.test.js'
       - 'adventure.css'
       - 'tests/house.test.js'
       - 'tests/adventure/chapter-one.spec.js'
@@ -20,12 +23,15 @@ on:
     paths:
       - 'src/house-view.js'
       - 'src/house-layered-art.js'
+      - 'src/house-interior-wear.js'
       - 'src/house-expansion-art.js'
       - 'src/house-scenes.js'
       - 'src/puzzle/house.js'
       - 'src/puzzle/house-designs.js'
       - 'assets/house/**'
       - 'tests/adventure/house-evolution.spec.js'
+      - 'tests/adventure/house-interior-wear.spec.js'
+      - 'tests/house-interior-wear.test.js'
       - 'adventure.css'
       - 'tests/house.test.js'
       - 'tests/adventure/chapter-one.spec.js'
@@ -49,8 +55,9 @@ jobs:
         run: |
           node --check src/house-view.js
           node --check src/house-expansion-art.js
+          node --check src/house-interior-wear.js
           node --check src/puzzle/house.js
-          node --test tests/house.test.js
+          node --test tests/house.test.js tests/house-interior-wear.test.js
       - run: npx playwright install --with-deps chromium webkit
       - name: Follow guided repairs on Chromium and WebKit, 320px and 390px
         run: npx playwright test -c playwright.chapter.config.js --grep "guided house repairs follow|five-room story first chapter celebration|house expansion|house scenes show no arcade mascot|house painted exterior grows|repair success accent|house evolution" --workers=2
