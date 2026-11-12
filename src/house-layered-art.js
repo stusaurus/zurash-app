@@ -14,6 +14,7 @@ export function assetPath(s,id){
  const task=TASKS.find(t=>t.id===id),state=s.home.done[id]?variants[1+(s.home.styles[id]??0)]:'before';
  if(id==='home-entry-0')return `./assets/house/exterior/door/prototypes/door_${(({before:'before',a:'natural',b:'iceblue',c:'crystal'})[state]??state)}_03.png`;
  if(id==='home-living-2'&&state==='before')return `${base}living/home-living-2-before-v2.webp`;
+ if(id==='home-entry-1'&&state==='a')return './assets/house/v8-surface-study/wall-a-v1.webp';
  if(id==='home-bedroom-1'&&state==='b')return bg('entry-wall-b');
  return `${base}${task.area==='entry'?'exterior':task.area}/${id}-${state}-v1.webp`;
 }
@@ -37,13 +38,16 @@ function item(s,t,scene){let extra='';if(t.id==='home-entry-0')extra=`data-door-
 }
 function building(s){
  let art=image(s.home.done['home-entry-1']?bg('house-shell'):`${base}backgrounds/house-shell-before-v2.webp`,[0,0,480,540]);
- art+=surface(s,'home-entry-1',[66,243,290,159],'front-wall');
- art+=`<g transform="matrix(.59 -.34 0 1 371 252)"><g clip-path="url(#east-wall)">${image(assetPath(s,'home-entry-1'),[0,0,135,152],'preserveAspectRatio="none"')}</g></g>`;
+ const restoredA=s.home.done['home-entry-1']&&(s.home.styles['home-entry-1']??0)===0;
+ art+=surface(s,'home-entry-1',[66,243,290,159],restoredA?'front-finish-study':'front-wall');
+ art+=`<g transform="matrix(.59 -.34 0 1 371 252)"><g clip-path="url(#${restoredA?'east-finish-study':'east-wall'})">${image(assetPath(s,'home-entry-1'),[0,0,135,152],'preserveAspectRatio="none"')}${restoredA?'<rect width="135" height="152" fill="#4b3f49" opacity=".12"/>':''}</g></g>`;
  return art+item(s,TASKS[0],'exterior')+item(s,TASKS[2],'exterior');
 }
 const defs=`<defs>
  <radialGradient id="art-amber"><stop stop-color="#ffc66c" stop-opacity=".45"/><stop offset="1" stop-color="#ffb957" stop-opacity="0"/></radialGradient>
  <filter id="house-floor-shadow-blur" x="-50%" y="-250%" width="200%" height="600%"><feGaussianBlur stdDeviation="3.2"/></filter>
+ <clipPath id="front-finish-study"><path d="M279 266H335V388H279Z M72 382H158V388H72Z" fill-rule="evenodd" clip-rule="evenodd"/></clipPath>
+ <clipPath id="east-finish-study"><path d="M8 12H125V142H8Z M24 16H116V122H24Z" fill-rule="evenodd" clip-rule="evenodd"/></clipPath>
  <clipPath id="front-wall"><path d="M72 249H348V395H72Z M75 268H170V378H75Z M162 259H275V410H162Z" fill-rule="evenodd" clip-rule="evenodd"/></clipPath>
  <clipPath id="east-wall"><path d="M0 0H135V152H0Z M31 20H110V113H31Z" fill-rule="evenodd" clip-rule="evenodd"/></clipPath>
  <clipPath id="hall-wall"><path d="M77 94h84v133H77Z M313 246h111v58H313Z M78 229h82v15H78Z"/></clipPath>
