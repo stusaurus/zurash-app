@@ -1,0 +1,43 @@
+name: House art visual review gallery
+
+on:
+  pull_request:
+    paths:
+      - 'src/house-layered-art.js'
+      - 'src/house-scenes.js'
+      - 'src/house-interior-wear.js'
+      - 'src/house-furniture-contact.js'
+      - 'src/house-expansion-art.js'
+      - 'assets/house/**'
+      - 'tests/adventure/house-art-audit.spec.js'
+      - 'playwright.chapter.config.js'
+      - '.github/workflows/house-art-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  art-gallery:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Capture all 15 repairs and every approved room design
+        run: npx playwright test -c playwright.chapter.config.js --project=chromium --grep "house visual audit" --workers=1
+      - name: Upload visually inspectable report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: house-art-review-gallery
+          path: |
+            playwright-chapter-report/
+            test-results/
+          retention-days: 30
+          if-no-files-found: error
