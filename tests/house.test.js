@@ -203,3 +203,32 @@ test('repair style is paid atomically, persists during pending resume, and canno
  assert.throws(()=>beginRepair(base,id,3),/decoration/);
  assert.equal(beginRepair(base,id).home.styles[id],undefined);
 });
+
+test('only real light repairs alter ambient brightness',()=>{
+ const s=newHome(),unchanged=structuredClone(s);
+ const ambient=scene=>{
+  const art=renderLayeredScene(s,scene);
+  const match=art.match(/data-art-layer="atmosphere"[^>]*opacity="([^"]+)"/);
+  assert.ok(match,'atmosphere in '+scene);
+  return {opacity:Number(match[1]),glow:art.includes('data-art-layer="light"')};
+ };
+ for(const scene of ['living','kitchen','garden']){
+  assert.deepEqual(ambient(scene),{opacity:0,glow:false});
+ }
+ for(const scene of ['exterior','entry','bedroom']){
+  assert.deepEqual(ambient(scene),{opacity:.24,glow:false});
+ }
+ s.home.done['home-living-2']=true;
+ s.home.done['home-kitchen-2']=true;
+ s.home.done['home-garden-2']=true;
+ for(const scene of ['living','kitchen','garden']){
+  assert.deepEqual(ambient(scene),{opacity:0,glow:false});
+ }
+ s.home.done['home-entry-2']=true;
+ s.home.done['home-bedroom-2']=true;
+ for(const scene of ['exterior','entry','bedroom']){
+  assert.deepEqual(ambient(scene),{opacity:0,glow:true});
+ }
+ assert.equal(s.version,unchanged.version);
+ assert.deepEqual(s.progress,unchanged.progress);
+});
