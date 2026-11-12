@@ -14,6 +14,7 @@ on:
       - 'assets/house/**'
       - 'tests/adventure/house-celebration-focus.spec.js'
       - 'tests/adventure/house-evolution.spec.js'
+      - 'tests/adventure/house-bookshelf-quality.spec.js'
       - 'tests/adventure/house-interior-wear.spec.js'
       - 'tests/house-interior-wear.test.js'
       - 'tests/house-furniture-contact.test.js'
@@ -35,6 +36,7 @@ on:
       - 'assets/house/**'
       - 'tests/adventure/house-celebration-focus.spec.js'
       - 'tests/adventure/house-evolution.spec.js'
+      - 'tests/adventure/house-bookshelf-quality.spec.js'
       - 'tests/adventure/house-interior-wear.spec.js'
       - 'tests/house-interior-wear.test.js'
       - 'tests/house-furniture-contact.test.js'
@@ -67,7 +69,7 @@ jobs:
           node --test tests/house.test.js tests/house-interior-wear.test.js tests/house-furniture-contact.test.js
       - run: npx playwright install --with-deps chromium webkit
       - name: Follow guided repairs on Chromium and WebKit, 320px and 390px
-        run: npx playwright test -c playwright.chapter.config.js --grep "guided house repairs follow|five-room story first chapter celebration|house expansion|house scenes show no arcade mascot|house painted exterior grows|repair success accent|house evolution|house celebration focuses" --workers=2
+        run: npx playwright test -c playwright.chapter.config.js --grep "guided house repairs follow|five-room story first chapter celebration|house expansion|house scenes show no arcade mascot|house painted exterior grows|repair success accent|house evolution|house celebration focuses|bookshelf art" --workers=2
       - name: Save screenshots and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
