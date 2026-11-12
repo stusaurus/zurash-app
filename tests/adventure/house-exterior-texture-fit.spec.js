@@ -37,5 +37,19 @@ for(const width of [320,390])test('house evolution exterior wall material uses t
    body:await page.locator('#exterior-review').screenshot({animations:'disabled'}),
    contentType:'image/png'
   });
+  // Reference only: reproduce the previous renderer in the same browser.
+  // This runs AFTER the cropped screenshot; no production source is modified.
+  await page.evaluate(()=>{
+   const front=document.querySelector('[data-wall-texture-crop="front"]');
+   const east=document.querySelector('[data-wall-texture-crop="east"]');
+   for(const [el,rect] of [[front,[66,243,290,159]],[east,[0,0,135,152]]]){
+    ['x','y','width','height'].forEach((attr,i)=>el.setAttribute(attr,String(rect[i])));
+    el.setAttribute('preserveAspectRatio','none');
+   }
+  });
+  await info.attach('legacy-wall-'+design+'-'+width,{
+   body:await page.locator('#exterior-review').screenshot({animations:'disabled'}),
+   contentType:'image/png'
+  });
  }
 });
