@@ -65,3 +65,33 @@ test('house evolution selected design survives interrupted construction without 
  await expect(page.locator('#home-balance')).toHaveText('5');
  await page.reload();await expect(page.locator('#home-balance')).toHaveText('5');
 });
+
+test('house evolution lighting follows actual lamps, not bookshelf or furniture',async({page},info)=>{
+ await page.setViewportSize({width:390,height:850});
+ await page.goto('/adventure.html');
+ for(const area of ['living','kitchen','garden']){
+  for(const phase of ['before-final','completed']){
+   const save=newHome();
+   const tasks=TASKS.filter(t=>t.area===area);
+   for(const task of tasks.slice(0,phase==='completed'?3:2))save.home.done[task.id]=true;
+   await page.evaluate(async({scene,save})=>{
+    const {renderLayeredScene}=await import('./src/house-layered-art.js');
+    const host=document.createElement('main');host.id='lighting-review';
+    host.style.cssText='width:min(100%,390px);margin:0 auto';
+    host.innerHTML=renderLayeredScene(save,scene);
+    document.body.replaceChildren(host);document.body.style.cssText='margin:0;background:#173044';
+    host.querySelector('svg').style.cssText='display:block;width:100%;height:auto';
+    const paths=[...new Set([...host.querySelectorAll('image[href]')].map(x=>x.getAttribute('href')))];
+    await Promise.all(paths.map(async path=>{const image=new Image();image.src=new URL(path,location.href).href;await image.decode();}));
+   },{scene:area,save});
+   await expect(page.locator('[data-art-layer="atmosphere"]')).toHaveAttribute('opacity','0.000');
+   await expect(page.locator('[data-art-layer="light"]')).toHaveCount(0);
+   await info.attach('lighting-'+area+'-'+phase,{body:await page.locator('#lighting-review').screenshot({animations:'disabled'}),contentType:'image/png'});
+   // Recreate the pre-change global dimming for side-by-side art direction.
+   if(phase==='before-final'){
+    await page.locator('[data-art-layer="atmosphere"]').evaluate(el=>el.setAttribute('opacity','0.240'));
+    await info.attach('legacy-dark-'+area+'-'+phase,{body:await page.locator('#lighting-review').screenshot({animations:'disabled'}),contentType:'image/png'});
+   }
+  }
+ }
+});

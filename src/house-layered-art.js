@@ -62,9 +62,13 @@ export function renderLayeredScene(s,scene){
   if(scene==='kitchen')art+=renderInteriorWear(s,scene)+renderRepairedFinish(s,scene)+item(s,ts[0],scene)+item(s,ts[2],scene)+item(s,ts[1],scene);
   if(scene==='bedroom')art+=surface(s,ts[1].id,ART_PLACEMENTS.bedroom[1],'bed-wall')+renderInteriorWear(s,scene)+renderRepairedFinish(s,scene)+item(s,ts[0],scene)+item(s,ts[2],scene);
  }
- // Only the lighting repair changes room-wide brightness; other jobs keep the atmosphere.
- art+=`<rect data-art-layer="atmosphere" width="480" height="540" fill="#162b55" opacity="${(s.home.done[ts[2].id]?0:.24).toFixed(3)}" pointer-events="none"/>`;
- if(s.home.done[ts[2].id])art+='<ellipse data-art-layer="light" cx="275" cy="270" rx="190" ry="225" fill="url(#art-amber)" pointer-events="none"/>';
+ // Only actual light fixtures change the room's illumination.
+ // A bookshelf, stove or garden seat should not relight the entire scene.
+ // These rooms already contain a lit fireplace, hanging lamp or natural sky.
+ const fixture=scene==='exterior'||scene==='entry'?'home-entry-2':scene==='bedroom'?'home-bedroom-2':null;
+ const lightOn=fixture?Boolean(s.home.done[fixture]):true;
+ art+=`<rect data-art-layer="atmosphere" width="480" height="540" fill="#162b55" opacity="${(lightOn?0:.24).toFixed(3)}" pointer-events="none"/>`;
+ if(fixture&&lightOn)art+='<ellipse data-art-layer="light" cx="275" cy="270" rx="190" ry="225" fill="url(#art-amber)" pointer-events="none"/>';
  art+=construction(s,scene);
  // House scenes show the restored architecture itself; the arcade player sprite
  // remains in puzzle gameplay but is not composited into illustrated rooms.
