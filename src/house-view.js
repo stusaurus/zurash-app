@@ -12,6 +12,8 @@ const objectTargets=Object.fromEntries(Object.entries(ART_PLACEMENTS).map(([scen
 objectTargets.exterior[1]={id:'home-entry-1',x:67,y:64};
 objectTargets.entry[1]={id:'home-entry-1',x:79,y:51};
 objectTargets.living[0]={id:'ice-crane',x:79,y:94};
+// Keep the 44px repair control beside the small shelf, where it cannot hide damage.
+objectTargets.living[2]={id:'home-living-2',x:89,y:66};
 objectTargets.bedroom[1]={id:'home-bedroom-1',x:85,y:29};
 function repairDetail(save,scene,task){
  const caption=save.home.pending===task.id?'修復中…':save.home.done[task.id]?designOptions(task)[save.home.styles[task.id]??0].name:'修復前';
