@@ -37,25 +37,34 @@ async function showArt(page,scene,save){
 async function capture(page,info,label){
  const png=await page.locator('#house-art-audit').screenshot({animations:'disabled'});
  await info.attach(label,{body:png,contentType:'image/png'});
+ return png;
 }
 
-test('house visual audit all six scenes and approved design variations',async({page},info)=>{
- await page.setViewportSize({width:390,height:850});
+// Keep the same camera for every before/after comparison.
+// 320px checks the narrowest supported viewport; 390px covers common iPhone layouts.
+for(const width of [320,390]){
+test('house visual audit all six scenes and approved design variations at '+width+'px',async({page},info)=>{
+ await page.setViewportSize({width,height:850});
  await page.goto('/adventure.html');
  for(const scene of scenes){
   await showArt(page,scene,fresh());
-  await capture(page,info,scene+'-unrepaired');
+  const unrepaired=await capture(page,info,width+'-'+scene+'-unrepaired');
+  const variants=[];
   for(const style of [0,1,2]){
    const save=completed(style),initial=structuredClone(save);
    await showArt(page,scene,save);
-   await capture(page,info,scene+'-finished-'+String.fromCharCode(65+style));
+   const finished=await capture(page,info,width+'-'+scene+'-finished-'+String.fromCharCode(65+style));
+   // A renderer state change without any visible change must fail QA.
+   expect(finished.equals(unrepaired),scene+' style '+style+' visually matches unrepaired at '+width+'px').toBe(false);
+   for(const previous of variants)expect(finished.equals(previous),scene+' has duplicate finished designs at '+width+'px').toBe(false);
+   variants.push(finished);
    expect(save).toEqual(initial);
   }
  }
 });
 
-test('house visual audit all fifteen repairs before and after',async({page},info)=>{
- await page.setViewportSize({width:390,height:850});
+test('house visual audit all fifteen repairs before and after at '+width+'px',async({page},info)=>{
+ await page.setViewportSize({width,height:850});
  await page.goto('/adventure.html');
  const save=fresh();
  for(const [index,task] of TASKS.entries()){
@@ -63,13 +72,17 @@ test('house visual audit all fifteen repairs before and after',async({page},info
   const prior=structuredClone(save);
   await showArt(page,scene,save);
   await expect(page.locator('[data-object="'+task.id+'"]')).toHaveAttribute('data-state','before');
-  await capture(page,info,String(index+1).padStart(2,'0')+'-'+task.id+'-before');
+  const before=await capture(page,info,width+'-'+String(index+1).padStart(2,'0')+'-'+task.id+'-before');
   expect(save).toEqual(prior);
   save.home.done[task.id]=true;
   save.home.styles[task.id]=0;
   await showArt(page,scene,save);
   await expect(page.locator('[data-object="'+task.id+'"]')).toHaveAttribute('data-state','complete');
-  await capture(page,info,String(index+1).padStart(2,'0')+'-'+task.id+'-after');
+  const after=await capture(page,info,width+'-'+String(index+1).padStart(2,'0')+'-'+task.id+'-after');
+  // PNG equality is a minimal visibility gate, not an aesthetic-quality score.
+  expect(after.equals(before),'Repair '+task.id+' has identical before/after art at '+width+'px').toBe(false);
  }
  expect(TASKS).toHaveLength(15);
 });
+
+}
