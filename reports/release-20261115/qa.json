@@ -1,0 +1,68 @@
+{
+  "revision": "342d1c57045f317786a9a260c83243f19a7aef54",
+  "files": [
+    {
+      "file": "src/house-layered-art.js",
+      "sha256": "fc3f51539eaeebad25635b95273a709faa03132624c1ab7f7b7cdf9be5290299"
+    },
+    {
+      "file": "src/house-view.js",
+      "sha256": "dcc1b820b921aff46111f32f1b50a71091864ee54605b669c34938bc8d508ca8"
+    },
+    {
+      "file": "src/puzzle/house.js",
+      "sha256": "19b857887f72fec248bfedfe1762542e1ac389720a494908aeeb7b0f6a1414bc"
+    },
+    {
+      "file": "src/puzzle/chapter-two-progress.js",
+      "sha256": "30db569576552d5a7986b4da48cc8626fee44f9fd2af103fbfd29c5455692d71"
+    },
+    {
+      "file": "data/chapters/chapter-01/challenges-v1.json",
+      "sha256": "122a784f2d218ec35f743b074fd2a59e85abedd9f43e20193bb9466fb4b6dc0a"
+    },
+    {
+      "file": "assets/house/v7/living/home-living-2-before-v2.webp",
+      "sha256": "a117e022edd3ca297bc1cf947db097a53f2fbd60e85f2b556927643c5f9c80bb"
+    }
+  ],
+  "scenarios": [
+    {
+      "engine": "chromium",
+      "width": 320,
+      "passed": true,
+      "saveFixture": true
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "passed": true,
+      "saveFixture": true
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "passed": true,
+      "saveFixture": true
+    },
+    {
+      "engine": "webkit",
+      "width": 320,
+      "passed": true,
+      "saveFixture": true
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "passed": true,
+      "saveFixture": true
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "passed": true,
+      "saveFixture": true
+    }
+  ],
+  "physicalIphone": false
+}
