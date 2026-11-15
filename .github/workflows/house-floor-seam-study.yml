@@ -1,0 +1,39 @@
+name: House floor art seam study
+
+on:
+  pull_request:
+    paths:
+      - 'tests/adventure/house-floor-seam-study.spec.js'
+      - 'playwright.chapter.config.js'
+      - '.github/workflows/house-floor-seam-study.yml'
+      - 'src/house-layered-art.js'
+      - 'assets/house/v7/living/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare-floor:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Compare current art with two candidate floor treatments
+        run: npx playwright test -c playwright.chapter.config.js --grep "house floor seams art study" --workers=2
+      - name: Upload baseline and candidate images
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: living-floor-seam-prototypes
+          path: |
+            playwright-chapter-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: error
