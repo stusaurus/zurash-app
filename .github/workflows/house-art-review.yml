@@ -10,6 +10,7 @@ on:
       - 'src/house-expansion-art.js'
       - 'assets/house/**'
       - 'tests/adventure/house-art-audit.spec.js'
+      - 'scripts/house-art-review.py'
       - 'playwright.chapter.config.js'
       - '.github/workflows/house-art-review.yml'
   workflow_dispatch:
@@ -31,6 +32,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Capture all 15 repairs and every approved room design
         run: npx playwright test -c playwright.chapter.config.js --project=chromium --grep "house visual audit" --workers=1
+      - name: Build named gallery (art approval remains manual)
+        run: python3 scripts/house-art-review.py playwright-chapter-report house-art-gallery
       - name: Upload visually inspectable report
         if: always()
         uses: actions/upload-artifact@v4
@@ -39,5 +42,6 @@ jobs:
           path: |
             playwright-chapter-report/
             test-results/
+            house-art-gallery/
           retention-days: 30
           if-no-files-found: error
