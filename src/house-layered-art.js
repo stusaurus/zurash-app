@@ -16,6 +16,7 @@ export function assetPath(s,id){
  // Approved game-space projection candidate: 1182×1330 room source mapped to 480×540,
  // then cropped to the existing 480×216 floor slot. Keep before/A/C unchanged.
  if(id==='ice-crane'&&state==='b')return `${base}living/ice-crane-b-v2.webp`;
+ if(id==='ice-crane'&&state==='c')return `${base}living/ice-crane-c-v2.webp`;
  if(id==='home-living-2'&&state==='before')return `${base}living/home-living-2-before-v2.webp`;
  if(id==='home-bedroom-1'&&state==='b')return bg('entry-wall-b');
  return `${base}${task.area==='entry'?'exterior':task.area}/${id}-${state}-v1.webp`;
