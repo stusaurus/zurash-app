@@ -11,6 +11,7 @@ on:
       - 'assets/house/**'
       - 'tests/adventure/house-art-audit.spec.js'
       - 'scripts/house-art-review.py'
+      - 'tests/test_house_art_review.py'
       - 'playwright.chapter.config.js'
       - '.github/workflows/house-art-review.yml'
   workflow_dispatch:
@@ -29,9 +30,11 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify complete viewport coverage
+        run: python3 -m unittest discover -s tests -p test_house_art_review.py
       - name: Capture all 15 repairs and every approved room design
-        run: npx playwright test -c playwright.chapter.config.js --project=chromium --grep "house visual audit" --workers=1
+        run: npx playwright test -c playwright.chapter.config.js --project=chromium --project=webkit --grep "house visual audit" --workers=1
       - name: Build named gallery (art approval remains manual)
         run: python3 scripts/house-art-review.py playwright-chapter-report house-art-gallery
       - name: Upload visually inspectable report

@@ -13,7 +13,7 @@ for(const width of [320,390,1440])test(`bookshelf art in the playable room, desi
  await page.setViewportSize({width,height:900});await page.emulateMedia({reducedMotion:'reduce'});
  const save=priorRepairs(),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(({key,save})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(save));},{key:HOME_KEY,save});
- const open=async()=>{await page.goto('/adventure.html');await page.locator('[data-area="living"]').click();await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','true');};
+ const open=async()=>{await page.goto('/adventure.html');await page.locator('[data-area="living"]').click();await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','living');await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','true');};
  const shot=async label=>{
   await expect(page.locator('.house-world')).toHaveAttribute('data-art-ready','true');
   const body=await page.locator('.house-world').screenshot({animations:'disabled'});
@@ -41,7 +41,7 @@ for(const width of [320,390,1440])test(`bookshelf art in the playable room, desi
  await page.locator(`[data-repair="${id}"]`).click();
  await expect(page.locator(`.house-world [data-object="${id}"]`)).toHaveAttribute('data-state','complete');
  await expect(page.locator('#home-balance')).toHaveText('34');
- await page.locator('#house-room-celebration-next').click();await page.locator('[data-area="living"]').click();
+ await page.locator('#house-room-celebration-next').click();await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','exterior');await page.locator('[data-area="living"]').click();await expect(page.locator('#home-screen')).toHaveAttribute('data-scene','living');
  for(const choice of [0,1,2]){
   if(await page.locator('#home-repairs').isHidden())await page.locator('#repair-menu').click();
   await page.locator(`[data-style="${id}"][data-choice="${choice}"]`).click();
