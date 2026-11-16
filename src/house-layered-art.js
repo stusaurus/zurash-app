@@ -13,6 +13,9 @@ export const layeredDesignOptions=t=>HOUSE_DESIGNS[t.id].map(([name,material,mot
 export function assetPath(s,id){
  const task=TASKS.find(t=>t.id===id),state=s.home.done[id]?variants[1+(s.home.styles[id]??0)]:'before';
  if(id==='home-entry-0')return `./assets/house/exterior/door/prototypes/door_${(({before:'before',a:'natural',b:'iceblue',c:'crystal'})[state]??state)}_03.png`;
+ // Approved game-space projection candidate: 1182×1330 room source mapped to 480×540,
+ // then cropped to the existing 480×216 floor slot. Keep before/A/C unchanged.
+ if(id==='ice-crane'&&state==='b')return `${base}living/ice-crane-b-v2.webp`;
  if(id==='home-living-2'&&state==='before')return `${base}living/home-living-2-before-v2.webp`;
  if(id==='home-bedroom-1'&&state==='b')return bg('entry-wall-b');
  return `${base}${task.area==='entry'?'exterior':task.area}/${id}-${state}-v1.webp`;
